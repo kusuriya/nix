@@ -13,17 +13,12 @@
     blender
     obsidian
     parsec-bin
-    fortune
-    htop
     _1password-gui
     _1password
     unzip
     unrar
     p7zip
     gnupg
-    wget
-    curl
-    netcat
     rclone
     rsync
     slack
@@ -58,7 +53,13 @@
     mpv
     hyprpaper
     pavucontrol
-
+    hyprshot
+    hypridle
+    hyprlock
+    hyprpicker
+    eww
+    hyprnotify
+    clipman
   ];
   home.file = {
     # ".screenrc".source = dotfiles/screenrc;
@@ -126,4 +127,5 @@
     json.enable = false;
     manpages.enable = false;
   };
+  systemd.user.startServices = "sd-switch";
 }
