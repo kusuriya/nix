@@ -256,6 +256,7 @@
   
   environment.systemPackages = with pkgs; [
    wget
+   git
    curl
    distrobox
    neovim
