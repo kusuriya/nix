@@ -126,4 +126,5 @@
     json.enable = false;
     manpages.enable = false;
   };
+  systemd.user.startServices = "sd-switch";
 }
