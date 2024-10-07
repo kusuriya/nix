@@ -11,4 +11,5 @@
       kusuriya = import ../home-manager/home.nix;
     };
   };
+  system.stateVersion = "23.05";
 }

@@ -8,11 +8,10 @@
 }: {
   # You can import other NixOS modules here
   imports = [
-    hardware.nixosModules.framework-13-7040-amd
     ./home-manager.nix
     ./hardware-configuration.nix
+    ./oom.nix
   ];
-
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -44,6 +43,7 @@
   # This will additionally add your inputs to the system's legacy channels
   # Making legacy nix commands consistent as well, awesome!
   nix.nixPath = ["/etc/nix/path"];
+  programs.nix-ld.enable = true;
   environment.etc =
     lib.mapAttrs'
     (name: value: {
@@ -58,12 +58,13 @@
       auto-optimise-store = true;
       allowed-users = [ "kusuriya" "root" ];
       trusted-users = [ "kusuriya" "root" ];
+
     };
     gc = {
       automatic = true;
       dates = "weekly";
-      # Keep the last 3 generations
-      options = "--delete-older-than +3";
+      # Keep the last week
+      options = "--delete-older-than 7d";
     };
   };
 
@@ -72,9 +73,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 7;
 
-  boot.initrd.luks.devices."luks-cdf83528-1527-4f69-8214-e0e660a077d0".device = "/dev/disk/by-uuid/cdf83528-1527-4f69-8214-e0e660a077d0";
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  networking.hostName = "framey";
+  networking.hostName = "beast";
   networking.networkmanager.enable = true;
   time.timeZone = "America/Los_Angeles";
   i18n = {
@@ -92,51 +92,74 @@
     };
   };
   
+  services.desktopManager.cosmic.enable = true;
+  services.flatpak.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-kde
+    ];
+  };
+
   services.xserver = { 
     enable = true;
     displayManager.gdm.enable = true;
-    desktopManager.gnome = {
-      enable = true;
-      extraGSettingsOverridePackages = [ pkgs.gnome.mutter ];
-       extraGSettingsOverrides = ''
-         [org.gnome.mutter]
-         experimental-features=['scale-monitor-framebuffer']
-       '';
-    };
-    libinput = {
-    enable = true;
-    touchpad = { 
-      tapping = true;
-      disableWhileTyping = true;
-      clickMethod = "clickfinger";
-      };
-    };
+    #displayManager.sddm.wayland.enable = true;
+    #displayManager.defaultSession = "plasma";
+    #desktopManager.plasma6.enable = true;
     xkb = {
       layout = "us";
       variant = "";
     };    
   };
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    nssmdns6 = true;
+    wideArea = true;
+    openFirewall = true;
+    ipv6 = true;
+    ipv4 = true;
+    browseDomains = [
+      "lan.corrupted.io"
+      "corrupted.io"
+      "local"
+      "sneaky.dev"
+    ];
+  };
+
   hardware = {
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
     pulseaudio.enable = false;
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport32Bit = true;
-      driSupport = true;
+      #driSupport32Bit = true;
+      #driSupport = true;
     };
-  };
 
-  sound.enable = true;
+  };
+  #sound.enable = true;
   security.rtkit.enable = true;
 
   users.users.kusuriya = {
     isNormalUser = true;
     description = "kusuriya";
-    extraGroups = [ "networkmanager" "wheel" "dialout" "audio"];
+    extraGroups = [ "cdrom" "networkmanager" "wheel" "dialout" "audio" "video" "system" "libvirtd" "render"];
+    shell = pkgs.fish;
+
   };
   
   services = { 
+    libinput = {                                                                                                                                                                
+      enable = true;                                                                                                                                                                  touchpad = {                                                                                                                                                              
+        tapping = true;                                                                                                                                                         
+        disableWhileTyping = true;                                                                                                                                              
+        clickMethod = "clickfinger";                                                                                                                                            
+      };                                                                                                                                                                        
+    };
     tailscale = {
       enable = true;
       useRoutingFeatures = "client";
@@ -144,24 +167,44 @@
     };
 
     fwupd.enable = true;
+    #fwupd.package = (import (builtins.fetchTarball {
+    #  url = "https://github.com/NixOS/nixpkgs/archive/bb2009ca185d97813e75736c2b8d1d8bb81bde05.tar.gz";
+    #  sha256 = "sha256:003qcrsq5g5lggfrpq31gcvj82lb065xvr7bpfa8ddsw8x4dnysk";
+    #}) {
+    #  inherit (pkgs) system;
+    #}).fwupd;
     fstrim.enable = true;
     thermald.enable = true;
     gvfs.enable = true;
     hardware.bolt.enable = true;
     udev.packages = [ pkgs.via ];
-    printing.enable = true;
+    printing = {
+      enable = true;
+      drivers = [
+        pkgs.gutenprint
+        pkgs.gutenprintBin
+        pkgs.cnijfilter2
+      ];
+    };
     fprintd.enable = false;
     pipewire = {
       enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
-      #jack.enable = true;
+      jack.enable = true;
+      wireplumber.enable = true;
       #media-session.enable = true;
     };
   };
-
+  security.polkit.enable = true;
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs = {
+    fish.enable = true;
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+    };
     _1password-gui = {
       enable = true;
       polkitPolicyOwners = [ "kusuriya" ];
@@ -217,8 +260,41 @@
    distrobox
    neovim
    linux-firmware
+   glib
+   glib-networking
+   appimage-run
+   kdePackages.kdeconnect-kde
+   btrfs-progs
+   btrfs-snap
+   timeshift
+
+   ];
+  boot.binfmt.registrations.appimage = {
+    wrapInterpreterInShell = false;
+    interpreter = "${pkgs.appimage-run}/bin/appimage-run";
+    recognitionType = "magic";
+    offset = 0;
+    mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
+    magicOrExtension = ''\x7fELF....AI\x02'';
+  };
+
+
+ virtualisation = {
+   containers.enable = true;
+   podman = {
+     enable = true;
+     dockerCompat = true;
+     defaultNetwork.settings.dns_enabled = true;
+   };
+ };
+ programs.kdeconnect = {
+    enable = true;
+  };
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "jitsi-meet"
   ];
   
-  networking.firewall.enable = true;
-  system.stateVersion = "23.11"; # Did you read the comment?
+  networking.firewall.enable = false;
+  system.stateVersion = "23.05"; # Did you read the comment?
 }

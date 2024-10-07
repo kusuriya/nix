@@ -1,68 +1,129 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
+{ config, pkgs, inputs, lib, osConfig, ... }:
 {
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}: {
-  # You can import other home-manager modules here
   imports = [
-    # If you want to use modules your own flake exports (from modules/home-manager):
-    # outputs.homeManagerModules.example
-
-    # Or modules exported from other flakes (such as nix-colors):
-    # inputs.nix-colors.homeManagerModules.default
-
-    # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
   ];
+  nixpkgs.config.allowUnfree = true;
+  home.username = "kusuriya";
+  home.homeDirectory = "/home/kusuriya";
+  home.stateVersion = "23.05";
+  home.packages = with pkgs; [
+    neovim
+    networkmanagerapplet
+    handbrake
+    blender
+    obsidian
+    parsec-bin
+    fortune
+    htop
+    _1password-gui
+    _1password
+    unzip
+    unrar
+    p7zip
+    gnupg
+    wget
+    curl
+    netcat
+    rclone
+    rsync
+    slack
+    zoom-us
+    yt-dlp
+    plantuml
+    mosh
+    nix-prefetch-git
+    jq
+    inkscape
+    cider
+    libreoffice
+    coreutils
+    wl-clipboard
+    discord
+    signal-desktop
+    gparted
+    transmission_4-qt
+    (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
+    vscode
+    distrobox
+    microsoft-edge
+    tailscale-systray
+    via
+    kitty
+    telegram-desktop
+    freecad
+    calibre
+    alacritty
+    wofi
+    waybar
+    mpv
+    hyprpaper
+    pavucontrol
 
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
+  ];
+  home.file = {
+    # ".screenrc".source = dotfiles/screenrc;
+  };
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    MOZ_ENABLE_WAYLAND = "1";
+    MOZ_USE_XINPUT2 = "1";
+    XDG_BIN_HOME = "\${HOME}/.local/bin";
+    NIXOS_OZONE_WL = "1";
+  };
 
-      # You can also add overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = _: true;
+  programs = {
+    home-manager.enable = true;
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    fish = {
+      enable = true;
+      plugins = [
+        { name = "fzf"; src = pkgs.fishPlugins.fzf-fish; }
+      ];
+    };
+    zsh = {
+      enable = true;
+      history = {
+        size = 10000;
+        path = ".config/zsh/history";
+	expireDuplicatesFirst = true;
+	#ignoreAllDups = true;
+      };
+      enableAutosuggestions = true;
+      enableCompletion = true;
+      enableVteIntegration = true;
+      autocd = true;
+      dotDir = ".config/zsh";
+      shellAliases = {
+        vi = "nvim";
+	vim = "nvim";
+	ll = "ls -c -l";
+	ls = "ls -c";
+	update = "sudo nixos-rebuild switch --flake /etc/nixos";
+      };
+      oh-my-zsh = {
+        enable = true;
+	plugins = [
+	  "git"
+	];
+        theme = "gentoo";
+      };
+    };
+    git = {
+      enable = true;
+      userName = "Jason Barbier";
+      userEmail = "jason@corrupted.io";
+    };
+    firefox = {
+      enable = true;
+      package = pkgs.firefox-wayland;
     };
   };
-
-  home = {
-    username = "kusuriya";
-    homeDirectory = "/home/kusuriya";
+  manual = {
+    html.enable = false;
+    json.enable = false;
+    manpages.enable = false;
   };
-
-  # Add stuff for your user as you see fit:
-  # programs.neovim.enable = true;
-  # home.packages = with pkgs; [ steam ];
-
-  # Enable home-manager and git
-  programs.home-manager.enable = true;
-  programs.git.enable = true;
-
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
-
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.11";
 }
