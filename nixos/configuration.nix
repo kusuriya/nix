@@ -11,8 +11,8 @@
     ./home-manager.nix
     ./hardware-configuration.nix
     ./oom.nix
-    inputs.hardware.common-cpu-amd
-    inputs.hardware.common-ssd
+    inputs.hardware.nixosModules.common-cpu-amd
+    inputs.hardware.nixosModules.common-ssd
   ];
   nixpkgs = {
     # You can add overlays here
