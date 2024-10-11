@@ -1,4 +1,3 @@
-{config,pkgs,lib,...}:
 let
   gpuIDs = [
     "10de:2503" # Graphics
