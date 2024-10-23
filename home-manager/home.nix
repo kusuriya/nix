@@ -37,6 +37,7 @@
     discord
     signal-desktop
     gparted
+    socat
     transmission_4-qt
     (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
     vscode

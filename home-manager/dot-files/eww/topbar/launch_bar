@@ -1,7 +1,7 @@
 #!/bin/bash
 
 EWW=`which eww`
-CFG="$HOME/.config/eww"
+CFG="$HOME/.config/eww/topbar"
 
 ## Run eww daemon if not running already
 if [[ ! `pidof eww` ]]; then
@@ -15,6 +15,7 @@ run_eww() {
 		   screen \
 		   apps \
 		   weather \
+		   spotify \
 		   audio \
 		   profile\
 		   more
