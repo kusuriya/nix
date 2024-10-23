@@ -14,18 +14,27 @@ in { pkgs, lib, config, ... }: {
         "vfio_pci"
         "vfio"
         "vfio_iommu_type1"
+        "vfio_virqfd"
+
+        "nvidia"
+        "nvidia_modeset"
+        "nvidia_uvm"
+        "nvidia_drm"
       ];
 
       kernelParams = [
         # enable IOMMU
         "amd_iommu=on"
+	"pcie_aspm=off"
       ] ++ lib.optional cfg.enable
         # isolate the GPU
         ("vfio-pci.ids=" + lib.concatStringsSep "," gpuIDs);
     };
 
+    hardware.opengl.enable = true;
+    virtualisation.spiceUSBRedirection.enable = true;
     systemd.tmpfiles.rules = [
-      "f /dev/shm/looking-glass 0777 kusuriya kvm -"
+      "f /dev/shm/looking-glass 0660 alex qemu-libvirtd -"
     ];
   };
 }

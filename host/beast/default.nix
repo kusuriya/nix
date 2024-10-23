@@ -4,7 +4,6 @@
   lib,
   config,
   pkgs,
-  modulesPath,
   ...
 }: {
   # You can import other NixOS modules here
@@ -12,7 +11,6 @@
     ./home-manager.nix
     ./hardware-configuration.nix
     ./oom.nix
-    ./vfio.nix
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
@@ -41,18 +39,30 @@
     };
   };
 
-  nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-    in {
+  # This will add each flake input as a registry
+  # To make nix3 commands consistent with your flake
+  nix.registry = (lib.mapAttrs (_: flake: {inherit flake;})) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+
+  # This will additionally add your inputs to the system's legacy channels
+  # Making legacy nix commands consistent as well, awesome!
+  nix.nixPath = ["/etc/nix/path"];
+  programs.nix-ld.enable = true;
+  environment.etc =
+    lib.mapAttrs'
+    (name: value: {
+      name = "nix/path/${name}";
+      value.source = value.flake;
+    })
+    config.nix.registry;
+
+  nix = {
     settings = {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
       allowed-users = [ "kusuriya" "root" ];
       trusted-users = [ "kusuriya" "root" ];
-      nix-path = config.nix.nixPath;
+
     };
-    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
     gc = {
       automatic = true;
       dates = "weekly";
@@ -140,7 +150,7 @@
   users.users.kusuriya = {
     isNormalUser = true;
     description = "kusuriya";
-    extraGroups = [ "cdrom" "networkmanager" "wheel" "dialout" "audio" "video" "system" "libvirtd" "kvm" "render"];
+    extraGroups = [ "cdrom" "networkmanager" "wheel" "dialout" "audio" "video" "system" "libvirtd" "render"];
     shell = pkgs.fish;
 
   };
@@ -175,15 +185,11 @@
     pipewire = {
       enable = true;
       alsa.enable = true;
+      alsa.support32Bit = true;
       pulse.enable = true;
       jack.enable = true;
       wireplumber.enable = true;
       #media-session.enable = true;
-      extraConfig.pipewire."92-rates" = {
-        "context.properties" = {
-          "default.clock.rate" = 44100;
-        };
-      };
     };
   };
   security.polkit.enable = true;
@@ -198,12 +204,7 @@
       enable = true;
       polkitPolicyOwners = [ "kusuriya" ];
     };
-    neovim = {
-      enable = true;
-      viAlias = true;
-      vimAlias = true;
-      withRuby = true;
-    };
+
     tmux = {
       enable = true;
       extraConfig = ''
@@ -248,39 +249,22 @@
     nerdfonts
   ];
   
-  environment = {
-    systemPackages = with pkgs; [
-     wget
-     git
-     curl
-     distrobox
-     neovim
-     linux-firmware
-     glib
-     glib-networking
-     appimage-run
-     kdePackages.kdeconnect-kde
-     btrfs-progs
-     btrfs-snap
-     timeshift
-     swtpm
-     unstable.OVMFFull
-     looking-glass-client
-     dnsmasq
+  environment.systemPackages = with pkgs; [
+   wget
+   git
+   curl
+   distrobox
+   neovim
+   linux-firmware
+   glib
+   glib-networking
+   appimage-run
+   kdePackages.kdeconnect-kde
+   btrfs-progs
+   btrfs-snap
+   timeshift
 
-     ];
-     etc = {
-      "ovmf/edk2-x86_64-secure-code.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
-      };
-
-      "ovmf/edk2-i386-vars.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-i386-vars.fd";
-        mode = "0644";
-        user = "libvirtd";
-      };
-    };
-  };
+   ];
   boot.binfmt.registrations.appimage = {
     wrapInterpreterInShell = false;
     interpreter = "${pkgs.appimage-run}/bin/appimage-run";
@@ -298,27 +282,12 @@
      dockerCompat = true;
      defaultNetwork.settings.dns_enabled = true;
    };
-   libvirtd = {
-     enable = true;
-     qemu = {
-       package = pkgs.qemu_kvm;
-       runAsRoot = false;
-       swtpm.enable = true;
-       ovmf = {
-         enable = true;
-         packages = [ pkgs.unstable.OVMFFull.fd ];
-       };
-     };
-   };
+   libvirtd.enable = true;
  };
-
-
  programs.kdeconnect = {
     enable = true;
   };
 
   networking.firewall.enable = false;
-  system.stateVersion = "23.05"; # Did you read the comment
-  vfio.enable = true;
+  system.stateVersion = "23.05"; # Did you read the comment?
 }
-

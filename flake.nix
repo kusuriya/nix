@@ -43,6 +43,7 @@
 
     overlays = import ./overlays {inherit inputs;};
     nixosModules = import ./modules/nixos;
+    vfioModules = import ./modules/vfio;
     homeManagerModules = import ./modules/home-manager;
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'

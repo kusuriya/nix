@@ -7,7 +7,8 @@
   home.homeDirectory = "/home/kusuriya";
   home.stateVersion = "23.05";
   home.packages = with pkgs; [
-    neovim
+    gnome-boxes
+    virt-manager
     networkmanagerapplet
     handbrake
     blender
@@ -39,11 +40,10 @@
     transmission_4-qt
     (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
     vscode
+    via
     distrobox
     microsoft-edge
     tailscale-systray
-    via
-    kitty
     telegram-desktop
     freecad
     calibre
@@ -59,7 +59,11 @@
     hyprpicker
     eww
     hyprnotify
+    chromium
     clipman
+    wineWowPackages.staging
+    winetricks
+    cascadia-code
   ];
   home.file = {
     # ".screenrc".source = dotfiles/screenrc;
@@ -92,7 +96,6 @@
 	expireDuplicatesFirst = true;
 	#ignoreAllDups = true;
       };
-      enableAutosuggestions = true;
       enableCompletion = true;
       enableVteIntegration = true;
       autocd = true;
@@ -120,6 +123,12 @@
     firefox = {
       enable = true;
       package = pkgs.firefox-wayland;
+    };
+    eww = {
+      enable = true;
+      enableFishIntegration = true;
+      enableZshIntegration = true;
+      configDir = ./dot-files/eww;
     };
   };
   manual = {
