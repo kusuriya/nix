@@ -69,9 +69,9 @@
 	      substituters = [ "https://cosmic.cachix.org/" ];
               trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
 	    };
-	    nixos-comsic.nixosModules.default
-	    ./host/framey/configuration.nix
-	  }
+	   }
+           nixos-cosmic.nixosModules.default
+	   ./host/framey/configuration.nix
         ];
       };
     };
