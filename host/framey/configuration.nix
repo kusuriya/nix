@@ -12,7 +12,6 @@
     ./home-manager.nix
     ./hardware-configuration.nix
     ./oom.nix
-    ./vfio.nix
     inputs.hardware.nixosModules.framework-13-7040-amd
     inputs.hardware.nixosModules.common-pc-ssd
   ];
@@ -268,18 +267,6 @@
      dnsmasq
 
      ];
-     etc = {
-      "ovmf/edk2-x86_64-secure-code.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
-      };
-
-      "ovmf/edk2-i386-vars.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-i386-vars.fd";
-        mode = "0644";
-        user = "libvirtd";
-      };
-    };
-  };
   boot.binfmt.registrations.appimage = {
     wrapInterpreterInShell = false;
     interpreter = "${pkgs.appimage-run}/bin/appimage-run";
@@ -297,18 +284,6 @@
      dockerCompat = true;
      defaultNetwork.settings.dns_enabled = true;
    };
-   libvirtd = {
-     enable = true;
-     qemu = {
-       package = pkgs.qemu_kvm;
-       runAsRoot = false;
-       swtpm.enable = true;
-       ovmf = {
-         enable = true;
-         packages = [ pkgs.unstable.OVMFFull.fd ];
-       };
-     };
-   };
  };
 
 
@@ -318,6 +293,5 @@
 
   networking.firewall.enable = false;
   system.stateVersion = "23.05"; # Did you read the comment
-  vfio.enable = true;
 }
 
