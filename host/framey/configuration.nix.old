@@ -4,7 +4,6 @@
   lib,
   config,
   pkgs,
-  modulesPath,
   ...
 }: {
   # You can import other NixOS modules here
@@ -12,9 +11,7 @@
     ./home-manager.nix
     ./hardware-configuration.nix
     ./oom.nix
-    ./vfio.nix
     inputs.hardware.nixosModules.framework-13-7040-amd
-    inputs.hardware.nixosModules.common-pc-ssd
   ];
   nixpkgs = {
     # You can add overlays here
@@ -40,18 +37,30 @@
     };
   };
 
-  nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-    in {
+  # This will add each flake input as a registry
+  # To make nix3 commands consistent with your flake
+  nix.registry = (lib.mapAttrs (_: flake: {inherit flake;})) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+
+  # This will additionally add your inputs to the system's legacy channels
+  # Making legacy nix commands consistent as well, awesome!
+  nix.nixPath = ["/etc/nix/path"];
+  programs.nix-ld.enable = true;
+  environment.etc =
+    lib.mapAttrs'
+    (name: value: {
+      name = "nix/path/${name}";
+      value.source = value.flake;
+    })
+    config.nix.registry;
+
+  nix = {
     settings = {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
       allowed-users = [ "kusuriya" "root" ];
       trusted-users = [ "kusuriya" "root" ];
-      nix-path = config.nix.nixPath;
+
     };
-    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
     gc = {
       automatic = true;
       dates = "weekly";
@@ -65,8 +74,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 7;
 
+  boot.initrd.luks.devices."luks-cdf83528-1527-4f69-8214-e0e660a077d0".device = "/dev/disk/by-uuid/cdf83528-1527-4f69-8214-e0e660a077d0";
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  networking.hostName = "beast";
+  networking.hostName = "framey";
   networking.networkmanager.enable = true;
   time.timeZone = "America/Los_Angeles";
   i18n = {
@@ -84,20 +94,14 @@
     };
   };
   
-  services.desktopManager.cosmic.enable = true;
+  services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.enable = true;
   services.flatpak.enable = true;
-  xdg.portal = {
-    enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-hyprland
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-kde
-    ];
-  };
+  xdg.portal.enable = true;
 
   services.xserver = { 
     enable = true;
-    displayManager.gdm.enable = true;
+    #displayManager.sddm.enable = true;
     #displayManager.sddm.wayland.enable = true;
     #displayManager.defaultSession = "plasma";
     #desktopManager.plasma6.enable = true;
@@ -105,6 +109,7 @@
       layout = "us";
       variant = "";
     };    
+    videoDrivers = [ "amdgpu" ];
   };
   services.avahi = {
     enable = true;
@@ -139,17 +144,16 @@
   users.users.kusuriya = {
     isNormalUser = true;
     description = "kusuriya";
-    extraGroups = [ "cdrom" "networkmanager" "wheel" "dialout" "audio" "video" "system" "libvirtd" "kvm" "render"];
-    shell = pkgs.fish;
-
+    extraGroups = [ "cdrom" "networkmanager" "wheel" "dialout" "audio" "video" "system" "libvirtd" "render"];
   };
   
   services = { 
-    libinput = { 
-      enable = true;
-      touchpad = {
-        tapping = true;                                                                                                     disableWhileTyping = true;                                                                                          clickMethod = "clickfinger";                                                    
-      };
+    libinput = {                                                                                                                                                                
+      enable = true;                                                                                                                                                                  touchpad = {                                                                                                                                                              
+        tapping = true;                                                                                                                                                         
+        disableWhileTyping = true;                                                                                                                                              
+        clickMethod = "clickfinger";                                                                                                                                            
+      };                                                                                                                                                                        
     };
     tailscale = {
       enable = true;
@@ -158,6 +162,12 @@
     };
 
     fwupd.enable = true;
+    #fwupd.package = (import (builtins.fetchTarball {
+    #  url = "https://github.com/NixOS/nixpkgs/archive/bb2009ca185d97813e75736c2b8d1d8bb81bde05.tar.gz";
+    #  sha256 = "sha256:003qcrsq5g5lggfrpq31gcvj82lb065xvr7bpfa8ddsw8x4dnysk";
+    #}) {
+    #  inherit (pkgs) system;
+    #}).fwupd;
     fstrim.enable = true;
     thermald.enable = true;
     gvfs.enable = true;
@@ -171,38 +181,26 @@
         pkgs.cnijfilter2
       ];
     };
+    fprintd.enable = false;
     pipewire = {
       enable = true;
       alsa.enable = true;
+      alsa.support32Bit = true;
       pulse.enable = true;
       jack.enable = true;
       wireplumber.enable = true;
       #media-session.enable = true;
-      extraConfig.pipewire."92-rates" = {
-        "context.properties" = {
-          "default.clock.rate" = 44100;
-        };
-      };
     };
   };
   security.polkit.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs = {
-    fish.enable = true;
-    hyprland = {
-      enable = true;
-      xwayland.enable = true;
-    };
+    hyprland.enable = true;
     _1password-gui = {
       enable = true;
       polkitPolicyOwners = [ "kusuriya" ];
     };
-    neovim = {
-      enable = true;
-      viAlias = true;
-      vimAlias = true;
-      withRuby = true;
-    };
+
     tmux = {
       enable = true;
       extraConfig = ''
@@ -247,39 +245,21 @@
     nerdfonts
   ];
   
-  environment = {
-    systemPackages = with pkgs; [
-     wget
-     git
-     curl
-     distrobox
-     neovim
-     linux-firmware
-     glib
-     glib-networking
-     appimage-run
-     kdePackages.kdeconnect-kde
-     btrfs-progs
-     btrfs-snap
-     timeshift
-     swtpm
-     unstable.OVMFFull
-     looking-glass-client
-     dnsmasq
+  environment.systemPackages = with pkgs; [
+   wget
+   curl
+   distrobox
+   neovim
+   linux-firmware
+   glib
+   glib-networking
+   appimage-run
+   kdePackages.kdeconnect-kde
+   btrfs-progs
+   btrfs-snap
+   timeshift
 
-     ];
-     etc = {
-      "ovmf/edk2-x86_64-secure-code.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
-      };
-
-      "ovmf/edk2-i386-vars.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-i386-vars.fd";
-        mode = "0644";
-        user = "libvirtd";
-      };
-    };
-  };
+   ];
   boot.binfmt.registrations.appimage = {
     wrapInterpreterInShell = false;
     interpreter = "${pkgs.appimage-run}/bin/appimage-run";
@@ -297,27 +277,15 @@
      dockerCompat = true;
      defaultNetwork.settings.dns_enabled = true;
    };
-   libvirtd = {
-     enable = true;
-     qemu = {
-       package = pkgs.qemu_kvm;
-       runAsRoot = false;
-       swtpm.enable = true;
-       ovmf = {
-         enable = true;
-         packages = [ pkgs.unstable.OVMFFull.fd ];
-       };
-     };
-   };
  };
-
-
  programs.kdeconnect = {
     enable = true;
   };
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "jitsi-meet"
+  ];
+  
   networking.firewall.enable = false;
-  system.stateVersion = "23.05"; # Did you read the comment
-  vfio.enable = true;
+  system.stateVersion = "23.05"; # Did you read the comment?
 }
-
