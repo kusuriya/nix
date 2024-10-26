@@ -65,7 +65,7 @@
   boot.loader.systemd-boot.configurationLimit = 7;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  networking.hostName = "beast";
+  networking.hostName = "framey";
   networking.networkmanager.enable = true;
   time.timeZone = "America/Los_Angeles";
   i18n = {
