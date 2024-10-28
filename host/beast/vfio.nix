@@ -31,10 +31,9 @@ in { pkgs, lib, config, ... }: {
         ("vfio-pci.ids=" + lib.concatStringsSep "," gpuIDs);
     };
 
-    hardware.opengl.enable = true;
     virtualisation.spiceUSBRedirection.enable = true;
     systemd.tmpfiles.rules = [
-      "f /dev/shm/looking-glass 0660 alex qemu-libvirtd -"
+      "f /dev/shm/looking-glass 0660 kusuriya qemu-libvirtd -"
     ];
   };
 }
