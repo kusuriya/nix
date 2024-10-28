@@ -65,11 +65,15 @@
     wineWowPackages.staging
     winetricks
     cascadia-code
+    tokyo-night-gtk
+    pamixer
+    dunst
+    appimage-run
   ];
   home.file = {
     # ".screenrc".source = dotfiles/screenrc;
-    ".config/hyprland" = {
-      source = config.lib.file.mkOutOfStoreSymlink ./dot-files/hyprland;
+    ".config/hypr" = {
+      source = config.lib.file.mkOutOfStoreSymlink ./dot-files/hypr;
       recursive = true;
     };
   };
@@ -134,6 +138,15 @@
       enableFishIntegration = true;
       enableZshIntegration = true;
       configDir = ./dot-files/eww;
+    };
+  };
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+
+    "org/gnome/shell/extensions/user-theme" = {
+      name = "Tokyonight-Dark-B-LB";
     };
   };
   manual = {
