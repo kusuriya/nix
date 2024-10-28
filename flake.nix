@@ -58,7 +58,7 @@
             };
           }
           nixos-cosmic.nixosModules.default
-          ./nixos/configuration.nix
+          ./host/beast/configuration.nix
         ];
       };
       framey = nixpkgs.lib.nixosSystem {
