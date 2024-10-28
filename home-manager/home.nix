@@ -68,6 +68,10 @@
   ];
   home.file = {
     # ".screenrc".source = dotfiles/screenrc;
+    ".config/hyprland" = {
+      source = config.lib.file.mkOutOfStoreSymlink ./dot-files/hyprland;
+      recursive = true;
+    };
   };
   home.sessionVariables = {
     EDITOR = "nvim";
