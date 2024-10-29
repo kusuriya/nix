@@ -65,13 +65,6 @@
     wineWowPackages.staging
     winetricks
     cascadia-code
-    obs-studio
-    obs-studio-plugins.wlrobs
-    obs-studio-plugins.input-overlay
-    obs-studio-plugins.looking-glass-obs
-    obs-studio-plugins.obs-composite-blur
-    obs-studio-plugins.obs-backgroundremoval
-    obs-studio-plugins.obs-pipewire-audio-capture
     tokyo-night-gtk
     pamixer
     dunst
@@ -93,6 +86,17 @@
   };
 
   programs = {
+    obs-studio = {
+      enable = true;
+      plugins = with pkgs.obs-studio-plugins; [
+        wlrobs
+	input-overlay
+	looking-glass-obs
+	obs-pipewire-audio-capture
+	obs-backgroundremoval
+	obs-composite-blur
+      ];
+    };
     home-manager.enable = true;
     fzf = {
       enable = true;
