@@ -82,7 +82,7 @@
       LC_TIME = "en_US.UTF-8";
     };
   };
-  
+  services.power-profiles-daemon.enable 
   services.desktopManager.cosmic.enable = true;
   services.flatpak.enable = true;
   xdg.portal = {
@@ -293,7 +293,6 @@
   };
 
   networking.firewall.enable = false;
-  services.power-profiles-daemon.enable = true
   system.stateVersion = "23.05"; # Did you read the comment
 }
 
