@@ -69,6 +69,7 @@
     pamixer
     dunst
     appimage-run
+    burpsuite
   ];
   home.file = {
     # ".screenrc".source = dotfiles/screenrc;
