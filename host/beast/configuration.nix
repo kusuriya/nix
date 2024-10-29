@@ -239,15 +239,21 @@
     dconf.enable = true;
   };
   
-  fonts.packages = with pkgs; [
-    dejavu_fonts
-    emacs-all-the-icons-fonts
-    jetbrains-mono
-    font-awesome
-    noto-fonts
-    noto-fonts-emoji
-    nerdfonts
-  ];
+  fonts = {
+    packages = with pkgs; [
+      dejavu_fonts
+      emacs-all-the-icons-fonts
+      jetbrains-mono
+      font-awesome
+      noto-fonts
+      noto-fonts-emoji
+      nerdfonts
+    ];
+    fontconfig = {
+      enable = true;
+      antialias = true;
+    }
+  };
   
   environment = {
     systemPackages = with pkgs; [

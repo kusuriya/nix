@@ -91,13 +91,6 @@
     XDG_BIN_HOME = "\${HOME}/.local/bin";
     NIXOS_OZONE_WL = "1";
   };
-  fonts = {
-    fontconfig = {
-      antialias = true;
-      cache32bit = true;
-      enable = true;
-    };
-  };
   programs = {
     obs-studio = {
       enable = true;
