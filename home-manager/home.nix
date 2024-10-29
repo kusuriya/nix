@@ -66,6 +66,12 @@
     winetricks
     cascadia-code
     obs-studio
+    obs-studio-plugins.wlrobs
+    obs-studio-plugins.input-overlay
+    obs-studio-plugins.looking-glass-obs
+    obs-studio-plugins.obs-composite-blur
+    obs-studio-plugins.obs-backgroundremoval
+    obs-studio-plugins.obs-pipewire-audio-capture
     tokyo-night-gtk
     pamixer
     dunst
