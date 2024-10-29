@@ -69,12 +69,18 @@
     pamixer
     dunst
     appimage-run
+    #Sec Stuff
     burpsuite
+    nmap
   ];
   home.file = {
     # ".screenrc".source = dotfiles/screenrc;
     ".config/hypr" = {
       source = config.lib.file.mkOutOfStoreSymlink ./dot-files/hypr;
+      recursive = true;
+    };
+    ".config/alacritty" = {
+      source = config.lib.file.mkOutOfStoreSymlink ./dot-files/alacritty;
       recursive = true;
     };
   };
