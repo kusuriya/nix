@@ -252,7 +252,6 @@
     fontconfig = {
       enable = true;
       antialias = true;
-      cache32bit = true;
       allowType1 = true;
       allowBitmaps = true;
       hinting.autohint = true;
