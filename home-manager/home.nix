@@ -65,6 +65,7 @@
     wineWowPackages.staging
     winetricks
     cascadia-code
+    obs-studio
     tokyo-night-gtk
     pamixer
     dunst
