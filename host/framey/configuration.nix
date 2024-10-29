@@ -82,7 +82,7 @@
       LC_TIME = "en_US.UTF-8";
     };
   };
-  services.power-profiles-daemon.enable 
+  services.power-profiles-daemon.enable = true;
   services.desktopManager.cosmic.enable = true;
   services.flatpak.enable = true;
   xdg.portal = {
