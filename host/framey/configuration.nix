@@ -58,7 +58,17 @@
       options = "--delete-older-than 7d";
     };
   };
-
+  system = {
+    autoUpgrade = {
+      enable = true;
+      flake = "github:kusuriya/nix";
+      flags = "--cores 8";
+      allowReboot = true;
+      rebootWindow.lower = "00:01";
+      rebootWindow.upper = "5:00";
+      persistent = true;
+    };
+  };
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
