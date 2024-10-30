@@ -141,12 +141,9 @@
     pulseaudio.enable = false;
     graphics = {
       enable = true;
-      #driSupport32Bit = true;
-      #driSupport = true;
     };
 
   };
-  #sound.enable = true;
   security.rtkit.enable = true;
 
   users.users.kusuriya = {
@@ -206,7 +203,9 @@
     regreet =  {
       enable = true;
       settings = {
-        gtk.application_prefer_dark_theme = true;
+        GTK.application_prefer_dark_theme = true;
+
+
       };
     };
     fish.enable = true;
