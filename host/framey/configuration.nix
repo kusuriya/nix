@@ -7,7 +7,6 @@
   modulesPath,
   ...
 }: {
-  # You can import other NixOS modules here
   imports = [
     ./home-manager.nix
     ./hardware-configuration.nix
@@ -16,24 +15,11 @@
     inputs.hardware.nixosModules.common-pc-ssd
   ];
   nixpkgs = {
-    # You can add overlays here
     overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
-
-      # You can also add overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
     ];
-    # Configure your nixpkgs instance
     config = {
       allowUnfree = true;
     };
@@ -217,7 +203,12 @@
   security.polkit.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs = {
-    regreet.enable = true;
+    regreet =  {
+      enable = true;
+      settings = {
+        gtk.application_prefer_dark_theme = true;
+      };
+    };
     fish.enable = true;
     hyprland = {
       enable = true;
@@ -327,7 +318,7 @@
     enable = true;
   };
 
-  networking.firewall.enable = false;
+  networking.firewall.enable = true;
   system.stateVersion = "23.05"; # Did you read the comment
 }
 
