@@ -62,10 +62,10 @@
     autoUpgrade = {
       enable = true;
       flake = "github:kusuriya/nix";
-      flags = "--cores 8";
+      flags = [ "--cores 8" ];
       allowReboot = true;
       rebootWindow.lower = "00:01";
-      rebootWindow.upper = "5:00";
+      rebootWindow.upper = "05:00";
       persistent = true;
     };
   };
@@ -92,9 +92,23 @@
       LC_TIME = "en_US.UTF-8";
     };
   };
+  boot.plymouth.enable = true;
   services.power-profiles-daemon.enable = true;
   services.desktopManager.cosmic.enable = true;
   services.flatpak.enable = true;
+  services.dbus.enable = true;
+  services.upower.enable = true;
+  zramSwap = {
+    enable = true;
+    priority = 100;
+    memoryPercent = 10;
+    swapDevices = 1;
+    algorithm = "zstd";
+  };
+  boot.tmp = {
+    useTmpfs = true;
+    tmpfsSize = "30%";
+  };
   xdg.portal = {
     enable = true;
     extraPortals = [
@@ -106,9 +120,9 @@
 
   services.xserver = { 
     enable = true;
-    displayManager.gdm.enable = true;
+    #displayManager.sddm.enable = true;
     #displayManager.sddm.wayland.enable = true;
-    #displayManager.defaultSession = "plasma";
+    #displayManager.defaultSession = "hyprland";
     #desktopManager.plasma6.enable = true;
     xkb = {
       layout = "us";
@@ -132,6 +146,10 @@
   };
 
   hardware = {
+    logitech.wireless = {
+      enable = true;
+      enableGraphical = true;
+    };
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
     pulseaudio.enable = false;
@@ -157,7 +175,9 @@
     libinput = { 
       enable = true;
       touchpad = {
-        tapping = true;                                                                                                     disableWhileTyping = true;                                                                                          clickMethod = "clickfinger";                                                    
+        tapping = true;
+	disableWhileTyping = true;
+	clickMethod = "clickfinger";                                                    
       };
     };
     tailscale = {
@@ -197,6 +217,7 @@
   security.polkit.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs = {
+    regreet.enable = true;
     fish.enable = true;
     hyprland = {
       enable = true;
@@ -259,6 +280,10 @@
   environment = {
     systemPackages = with pkgs; [
      wget
+     greetd.tuigreet
+     greetd.wlgreet
+     greetd.regreet
+     brightnessctl
      git
      curl
      distrobox

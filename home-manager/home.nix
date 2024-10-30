@@ -69,6 +69,12 @@
     pamixer
     dunst
     appimage-run
+    swayosd
+    avizo
+    wlogout
+    clipman
+
+
     #Sec Stuff
     burpsuite
     nmap
@@ -86,10 +92,12 @@
   };
   home.sessionVariables = {
     EDITOR = "nvim";
+    BROWSER = "firefox";
     MOZ_ENABLE_WAYLAND = "1";
     MOZ_USE_XINPUT2 = "1";
     XDG_BIN_HOME = "\${HOME}/.local/bin";
     NIXOS_OZONE_WL = "1";
+
   };
   programs = {
     obs-studio = {
