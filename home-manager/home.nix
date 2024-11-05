@@ -6,16 +6,13 @@
   home.username = "kusuriya";
   home.homeDirectory = "/home/kusuriya";
   home.stateVersion = "23.05";
+  home.backupFileExtension = "backup"
   home.packages = with pkgs; [
-    gnome-boxes
+    _1password-gui
+    _1password-cli
     virt-manager
     networkmanagerapplet
-    handbrake
-    blender
-    obsidian
     parsec-bin
-    _1password-gui
-    _1password
     unzip
     unrar
     p7zip
@@ -43,7 +40,6 @@
     vscode
     via
     distrobox
-    microsoft-edge
     tailscale-systray
     telegram-desktop
     freecad
@@ -62,8 +58,6 @@
     hyprnotify
     chromium
     clipman
-    wineWowPackages.staging
-    winetricks
     cascadia-code
     tokyo-night-gtk
     pamixer
@@ -73,7 +67,9 @@
     avizo
     wlogout
     clipman
-
+    nautilus
+    zenity
+    eog
 
     #Sec Stuff
     burpsuite
@@ -93,10 +89,12 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     BROWSER = "firefox";
+    TERMINAL = "alacritty";
     MOZ_ENABLE_WAYLAND = "1";
     MOZ_USE_XINPUT2 = "1";
     XDG_BIN_HOME = "\${HOME}/.local/bin";
     NIXOS_OZONE_WL = "1";
+    WLR_RENDERER = "vulkan";
 
   };
   programs = {
@@ -157,6 +155,34 @@
     firefox = {
       enable = true;
       package = pkgs.firefox-wayland;
+      profiles = {
+        default = {
+	  id = 0;
+	  name = "kusuriya";
+	  isDefault = true;
+	  settings = {
+	    settings = {
+            # "browser.startup.homepage" = "https://duckduckgo.com";
+            "browser.search.defaultenginename" = "DuckDuckGo";
+            "browser.search.order.1" = "DuckDuckGo";
+
+            "signon.rememberSignons" = false;
+            "widget.use-xdg-desktop-portal.file-picker" = 1;
+            "browser.aboutConfig.showWarning" = false;
+            "browser.compactmode.show" = true;
+            "browser.cache.disk.enable" = false; # Be kind to hard drive
+	    
+	    "widget.disable-workspace-management" = true;
+          };
+          search = {
+            force = true;
+            default = "DuckDuckGo";
+            order = [ "DuckDuckGo" "Google" ];
+          };
+
+	  };
+	};
+      };
     };
     eww = {
       enable = true;

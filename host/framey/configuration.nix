@@ -44,6 +44,11 @@
       options = "--delete-older-than 7d";
     };
   };
+  powerManagement.enable = true;
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=30m
+    SuspendState=mem
+  '';
   system = {
     autoUpgrade = {
       enable = true;
@@ -59,6 +64,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 7;
+
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   networking.hostName = "framey";
@@ -84,6 +90,13 @@
   services.flatpak.enable = true;
   services.dbus.enable = true;
   services.upower.enable = true;
+  services.displayManager.sddm.enable = true;
+  qt = {
+    enable = true;
+    platformTheme = "qt5ct";
+    style = "kvantum";
+  };
+
   zramSwap = {
     enable = true;
     priority = 100;
@@ -114,6 +127,7 @@
       layout = "us";
       variant = "";
     };    
+    videoDrivers = [ "amdgpu" ];
   };
   services.avahi = {
     enable = true;
@@ -141,6 +155,11 @@
     pulseaudio.enable = false;
     graphics = {
       enable = true;
+      extraPackages = with pkgs; [
+        rocmPackages.clr.icd
+	clinfo
+	amdvlk
+      ];
     };
 
   };
@@ -200,14 +219,6 @@
   security.polkit.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs = {
-    regreet =  {
-      enable = true;
-      settings = {
-        GTK.application_prefer_dark_theme = true;
-
-
-      };
-    };
     fish.enable = true;
     hyprland = {
       enable = true;
@@ -270,9 +281,6 @@
   environment = {
     systemPackages = with pkgs; [
      wget
-     greetd.tuigreet
-     greetd.wlgreet
-     greetd.regreet
      brightnessctl
      git
      curl
@@ -290,6 +298,9 @@
      unstable.OVMFFull
      looking-glass-client
      dnsmasq
+     arc-kde-theme
+     libsForQt5.qt5ct
+     libsForQt5.qtstyleplugin-kvantum
 
      ];
   };
