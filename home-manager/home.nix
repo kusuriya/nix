@@ -6,7 +6,7 @@
   home.username = "kusuriya";
   home.homeDirectory = "/home/kusuriya";
   home.stateVersion = "23.05";
-  home.backupFileExtension = "backup"
+  home-manager.backupFileExtension = "backup";
   home.packages = with pkgs; [
     _1password-gui
     _1password-cli
