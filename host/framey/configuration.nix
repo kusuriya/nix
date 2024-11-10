@@ -161,6 +161,7 @@
 
   };
   security.rtkit.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
 
   users.users.kusuriya = {
     isNormalUser = true;
@@ -216,12 +217,16 @@
   security.polkit.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs = {
-    fish.enable = true;
-    hyprland = {
+    thunar = {
       enable = true;
-      xwayland.enable = true;
-      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman thunar-media-tags-plugin];
     };
+    fish.enable = true;
+    #hyprland = {
+    #  enable = true;
+    #  xwayland.enable = true;
+    #  package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    #};
     _1password-gui = {
       enable = true;
       polkitPolicyOwners = [ "kusuriya" ];
