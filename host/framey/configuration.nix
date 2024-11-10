@@ -220,6 +220,7 @@
     hyprland = {
       enable = true;
       xwayland.enable = true;
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     };
     _1password-gui = {
       enable = true;
