@@ -9,6 +9,11 @@
   home.packages = with pkgs; [
     _1password-gui
     _1password-cli
+    helvum
+    tango-icon-theme
+    papirus-icon-theme
+    gnome-icon-theme
+    adwaita-icon-theme
     virt-manager
     networkmanagerapplet
     parsec-bin
@@ -69,6 +74,18 @@
     nautilus
     zenity
     eog
+    gnome-keyring
+    gnome-control-center
+    polkit
+    polkit_gnome
+    rofi-wayland
+    rofi-bluetooth
+    kdePackages.kwallet
+    kdePackages.kwallet-pam
+    kdePackages.kwalletmanager
+    kdePackages.ksshaskpass
+
+
 
     #Sec Stuff
     burpsuite
@@ -76,14 +93,6 @@
   ];
   home.file = {
     # ".screenrc".source = dotfiles/screenrc;
-    ".config/hypr" = {
-      source = config.lib.file.mkOutOfStoreSymlink ./dot-files/hypr;
-      recursive = true;
-    };
-    ".config/alacritty" = {
-      source = config.lib.file.mkOutOfStoreSymlink ./dot-files/alacritty;
-      recursive = true;
-    };
   };
   home.sessionVariables = {
     EDITOR = "nvim";
@@ -95,6 +104,12 @@
     NIXOS_OZONE_WL = "1";
     WLR_RENDERER = "vulkan";
 
+  };
+  services = {
+    gnome-keyring = {
+      enable = true;
+      components = [ "secrets" ];
+    };
   };
   programs = {
     obs-studio = {

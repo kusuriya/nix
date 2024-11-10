@@ -86,11 +86,12 @@
   };
   boot.plymouth.enable = true;
   services.power-profiles-daemon.enable = true;
-  services.desktopManager.cosmic.enable = true;
+  #services.desktopManager.cosmic.enable = true;
   services.flatpak.enable = true;
   services.dbus.enable = true;
   services.upower.enable = true;
   services.displayManager.sddm.enable = true;
+  services.fprintd.enable = false;
   qt = {
     enable = true;
     platformTheme = "qt5ct";
@@ -119,10 +120,6 @@
 
   services.xserver = { 
     enable = true;
-    #displayManager.sddm.enable = true;
-    #displayManager.sddm.wayland.enable = true;
-    #displayManager.defaultSession = "hyprland";
-    #desktopManager.plasma6.enable = true;
     xkb = {
       layout = "us";
       variant = "";
