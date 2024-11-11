@@ -218,6 +218,11 @@
       enableZshIntegration = true;
       configDir = ./dot-files/eww;
     };
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+
+    };
   };
   dconf.settings = {
     "org/gnome/desktop/interface" = {
