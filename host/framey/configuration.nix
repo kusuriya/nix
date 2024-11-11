@@ -112,7 +112,7 @@
   };
   xdg.portal = {
     enable = true;
-    config = pkgs.xdg-desktop-portal-hyprland
+    config = pkgs.xdg-desktop-portal-hyprland;
     extraPortals = [
       #pkgs.xdg-desktop-portal-hyprland
       pkgs.xdg-desktop-portal-gtk
