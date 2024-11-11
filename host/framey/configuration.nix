@@ -92,7 +92,6 @@
   services.flatpak.enable = true;
   services.dbus.enable = true;
   services.upower.enable = true;
-  #services.displayManager.sddm.enable = true;
   services.fprintd.enable = false;
   qt = {
     enable = true;
@@ -113,6 +112,7 @@
   };
   xdg.portal = {
     enable = true;
+    config = pkgs.xdg-desktop-portal-hyprland
     extraPortals = [
       #pkgs.xdg-desktop-portal-hyprland
       pkgs.xdg-desktop-portal-gtk
