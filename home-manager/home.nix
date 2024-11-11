@@ -115,6 +115,20 @@
       enable = true;
       components = [ "secrets" ];
     };
+    dunst = {
+      enable = true;
+      settings = {
+        global = {
+	  width = 300;
+	  height = 350;
+	  offset = "30x50";
+	  origin = "bottom-right";
+	  font = "Cascadia Code 14";
+	  frame_color = "#1a1b26";
+	  background_color = "#7a2f7a";
+	};
+      };
+    };
   };
   xdg.portal.config.common.default = "*";
  programs = {
@@ -221,7 +235,11 @@
     neovim = {
       enable = true;
       defaultEditor = true;
-
+      withRuby = true;
+      withPython3 = true;
+    };
+    ranger = {
+      enable = true;
     };
   };
   dconf.settings = {
