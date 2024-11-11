@@ -52,6 +52,10 @@
 	allow_tearing = true;
 	resize_on_border = true;
       };
+      cursor = {
+        hide_on_key_press = true;
+	inactive_timeout = 60;
+      };
       xwayland = {
         force_zero_scaling = true;
 	use_nearest_neighbor = false;

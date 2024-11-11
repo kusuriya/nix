@@ -119,8 +119,6 @@
       enable = true;
       settings = {
         global = {
-	  width = 300;
-	  height = 350;
 	  offset = "30x50";
 	  origin = "bottom-right";
 	  font = "Cascadia Code 14";
