@@ -90,7 +90,7 @@
   services.flatpak.enable = true;
   services.dbus.enable = true;
   services.upower.enable = true;
-  services.displayManager.sddm.enable = true;
+  #services.displayManager.sddm.enable = true;
   services.fprintd.enable = false;
   qt = {
     enable = true;
@@ -117,7 +117,16 @@
       pkgs.xdg-desktop-portal-kde
     ];
   };
-
+  services.greetd = {
+    enable = true;
+    settings = rec {
+      initial_session = {
+        command = "Hyprland";
+	user = "kusuriya";
+       };
+       default_session = initial_session;
+    };
+   };
   services.xserver = { 
     enable = true;
     xkb = {
@@ -207,11 +216,6 @@
       jack.enable = true;
       wireplumber.enable = true;
       #media-session.enable = true;
-      extraConfig.pipewire."92-rates" = {
-        "context.properties" = {
-          "default.clock.rate" = 44100;
-        };
-      };
     };
   };
   security.polkit.enable = true;

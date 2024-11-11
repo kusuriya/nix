@@ -2,9 +2,6 @@
 {
   wayland.windowManager.hyprland = {
     enable = true;
-  #  plugins = [
-  #    inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprexpo
-  #  ];
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     xwayland.enable = true;
     systemd = {
@@ -17,10 +14,10 @@
       "$fileManager" = "thunar";
       "$menu" = "wofi -i -I --show drun,run";
       monitor = [
-        "monitor=desc:HP Inc. HP X27q 6CM1210654,preferred,0x0,1"
-        "monitor=desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,0x1440,1.25"
-        "monitor=desc:BOE NE135A1M-NY1,preferred,0x-1440,2.0"
-        "monitor=,preferred,auto,auto"
+        "desc:HP Inc. HP X27q 6CM1210654,preferred,0x0,1"
+	"desc:BOE NE135A1M-NY1,preferred,auto-right,2.0"
+        "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1.25"
+        ",preferred,auto,auto"
        ];
      exec-once = [
        "waybar"
@@ -33,7 +30,7 @@
        "hyprpolkitagent"
        "wl-paste --type text --watch cliphist store"
        "wl-paste --type image --watch cliphist store"
-
+       "Thunar --daemon"
      ];
      input = {
         kb_layout = "us";
@@ -60,8 +57,11 @@
 	use_nearest_neighbor = false;
       };
       animations = { enabled = false; };
+      decoration = {
+        rounding = 4;
+      };
       dwindle = {
-        pseudotile = false;
+        pseudotile = true;
         preserve_split = true;
       };
       master = {
@@ -160,6 +160,22 @@
         "noinitialfocus, class:^(xwaylandvideobridge)$"
         "maxsize 1 1, class:^(xwaylandvideobridge)$"
         "noblur, class:^(xwaylandvideobridge)$"
+	# Firefox PIP
+	"float,class:^(firefox)$,title:^(Picture-in-Picture)$"
+	"pin,class:^(firefox)$,title:^(Picture-in-Picture)$"
+	"float,class:^(firefox)$,title:^(Firefox — Sharing Indicator)$"
+	# modals
+	"float,title:^(Open)$"
+	"float,title:^(Choose Files)$"
+	"float,title:^(Save As)$"
+	"float,class:^(google-chrome)$,title:^(Open Files)$"
+        "float,class:^(google-chrome)$,title:^(Open File)$"
+	"float,class:^(xdg-desktop-portal-gtk)$"
+	      ];
+      windowrule = [
+	# pavucontrol
+	"float,pavucontrol"
+	"size 1280 720, pavucontrol"
       ];
     };
   };

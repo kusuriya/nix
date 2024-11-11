@@ -76,7 +76,6 @@
     dunst
     appimage-run
     swayosd
-    avizo
     wlogout
     clipman
     nautilus
@@ -91,6 +90,7 @@
     wayprompt
     btop
     playerctl
+    vesktop
 
     #Sec Stuff
     burpsuite
