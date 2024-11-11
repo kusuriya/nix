@@ -7,7 +7,9 @@
     systemd = {
       enable = true;
       enableXdgAutostart = true;
+      variables [ "--all" ];
     };
+    sourceFirst = true;
     settings = {
       "$mainMod" = "SUPER";
       "$terminal" = "alacritty";
