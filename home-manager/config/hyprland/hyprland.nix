@@ -7,7 +7,7 @@
     systemd = {
       enable = true;
       enableXdgAutostart = true;
-      variables [ "--all" ];
+      variables = [ "--all" ];
     };
     sourceFirst = true;
     settings = {
