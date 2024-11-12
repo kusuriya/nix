@@ -12,6 +12,7 @@
     _1password-cli
     fractal
     cliphist
+    rose-pine-cursor
     overskride
     dissent
     helvum
