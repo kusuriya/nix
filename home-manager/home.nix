@@ -260,6 +260,38 @@
     ranger = {
       enable = true;
     };
+    tmux = {
+      enable = true;
+      extraConfig = ''
+        set -g update-environment 'DISPLAY SSH_ASKPASS SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY TERM'
+        set -g default-terminal screen-256color
+
+        set -g history-limit 100000
+        set -q -g status-utf8 on                  # expect UTF-8 (tmux < 2.2)
+        setw -q -g utf8 on
+
+        setw -g automatic-rename on   # rename window to reflect current program
+        set -g renumber-windows on    # renumber windows when a window is closed
+
+        set -g set-titles on          # set terminal title
+
+        set -g display-panes-time 800 # slightly longer pane indicators display time
+        set -g display-time 1000      # slightly longer status messages display time
+
+        set -g status-interval 5 # redraw status line every 10 seconds
+
+        set -g status-bg colour235
+        set -g status-fg yellow
+        set -g status-right-length 150
+        set -g status-right '[ #{host_short} | %a %F %R]'
+
+        set -g window-status-current-format "#[fg=colour117,bg=colour31] #I:#W "
+
+        # Mouse mode on!
+        setw -g mouse on
+      '';
+    };
+
   };
   dconf.settings = {
     "org/gnome/desktop/interface" = {

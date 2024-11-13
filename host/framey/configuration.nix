@@ -13,6 +13,9 @@
     ./oom.nix
     inputs.hardware.nixosModules.framework-13-7040-amd
     inputs.hardware.nixosModules.common-pc-ssd
+    ../../modules/kusuriya.nix
+    ../../modules/fonts.nix
+    ../../modules/containers.nix
   ];
   nixpkgs = {
     overlays = [
@@ -108,6 +111,7 @@
   };
 
   time.timeZone = "America/Los_Angeles";
+
   i18n = {
     defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {
@@ -122,6 +126,7 @@
       LC_TIME = "en_US.UTF-8";
     };
   };
+
   qt = {
     enable = true;
     platformTheme = "qt5ct";
@@ -135,6 +140,7 @@
     swapDevices = 1;
     algorithm = "zstd";
   };
+
   xdg.portal = {
     enable = true;
     config.common.default = "xdg-desktop-portal-hyprland";
@@ -161,43 +167,11 @@
     };
 
   };
+
   security = {
     rtkit.enable = true;
     polkit.enable = true;
     pam.services.login.enableGnomeKeyring = true;
-  };
-
-  environment = {
-    sessionVariables.NIXOS_OZONE_WL = "1";
-    etc = {
-      "1password/custom_allowed_browsers" = {
-        text = ''
-          vivaldi-bin
-          floorp
-          brave
-        '';
-        mode = "0755";
-      };
-    };
-  };
-
-  users.users.kusuriya = {
-    isNormalUser = true;
-    description = "kusuriya";
-    extraGroups = [
-      "cdrom"
-      "networkmanager"
-      "wheel"
-      "dialout"
-      "audio"
-      "video"
-      "system"
-      "libvirtd"
-      "kvm"
-      "render"
-    ];
-    shell = pkgs.fish;
-
   };
 
   services = {
@@ -278,69 +252,18 @@
 
   };
   programs = {
-    thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-volman
-        thunar-media-tags-plugin
-      ];
-    };
-    fish.enable = true;
-    _1password-gui = {
-      enable = true;
-      polkitPolicyOwners = [ "kusuriya" ];
-    };
     neovim = {
       enable = true;
       viAlias = true;
       vimAlias = true;
       withRuby = true;
     };
-    tmux = {
+    _1password-gui = {
       enable = true;
-      extraConfig = ''
-        set -g update-environment 'DISPLAY SSH_ASKPASS SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY TERM'
-        set -g default-terminal screen-256color
-
-        set -g history-limit 100000
-        set -q -g status-utf8 on                  # expect UTF-8 (tmux < 2.2)
-        setw -q -g utf8 on
-
-        setw -g automatic-rename on   # rename window to reflect current program
-        set -g renumber-windows on    # renumber windows when a window is closed
-
-        set -g set-titles on          # set terminal title
-
-        set -g display-panes-time 800 # slightly longer pane indicators display time
-        set -g display-time 1000      # slightly longer status messages display time
-
-        set -g status-interval 5 # redraw status line every 10 seconds
-
-        set -g status-bg colour235
-        set -g status-fg yellow
-        set -g status-right-length 150
-        set -g status-right '[ #{host_short} | %a %F %R]'
-
-        set -g window-status-current-format "#[fg=colour117,bg=colour31] #I:#W "
-
-        # Mouse mode on!
-        setw -g mouse on
-      '';
+      polkitPolicyOwners = [ "kusuriya" ];
     };
-    dconf.enable = true;
 
   };
-
-  fonts.packages = with pkgs; [
-    dejavu_fonts
-    emacs-all-the-icons-fonts
-    jetbrains-mono
-    font-awesome
-    noto-fonts
-    noto-fonts-emoji
-    nerdfonts
-  ];
 
   environment = {
     systemPackages = with pkgs; [
@@ -355,16 +278,22 @@
       libsForQt5.qtstyleplugin-kvantum
       sbctl
       pciutils
+      nix-diff
+      nix-index
+      nix-output-monitor
     ];
-  };
-  virtualisation = {
-    containers.enable = true;
-    podman = {
-      enable = true;
-      dockerCompat = true;
-      defaultNetwork.settings.dns_enabled = true;
+    sessionVariables.NIXOS_OZONE_WL = "1";
+    etc = {
+      "1password/custom_allowed_browsers" = {
+        text = ''
+          vivaldi-bin
+          floorp
+          brave
+        '';
+        mode = "0755";
+      };
     };
-    waydroid.enable = false;
+
   };
   networking.firewall.enable = true;
   system.stateVersion = "23.05"; # Did you read the comment

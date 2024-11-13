@@ -1,5 +1,6 @@
 { lib, config, pkgs, ... }:
 {
+  programs.fish.enable = true;
   users.users.kusuriya = {
     isNormalUser = true;
     description = "kusuriya";
