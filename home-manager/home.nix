@@ -1,8 +1,5 @@
 { config
 , pkgs
-, inputs
-, lib
-, osConfig
 , ...
 }:
 {
@@ -10,122 +7,124 @@
     ./config/hyprland/hyprland.nix
   ];
   nixpkgs.config.allowUnfree = true;
-  home.username = "kusuriya";
-  home.homeDirectory = "/home/kusuriya";
-  home.stateVersion = "23.05";
-  home.packages = with pkgs; [
-    _1password-gui
-    _1password-cli
-    fractal
-    cliphist
-    rose-pine-cursor
-    overskride
-    dissent
-    helvum
-    tango-icon-theme
-    papirus-icon-theme
-    gnome-icon-theme
-    adwaita-icon-theme
-    virt-manager
-    networkmanagerapplet
-    parsec-bin
-    unzip
-    unrar
-    p7zip
-    gnupg
-    rclone
-    rsync
-    slack
-    zoom-us
-    yt-dlp
-    plantuml
-    mosh
-    nix-prefetch-git
-    jq
-    inkscape
-    cider
-    libreoffice
-    coreutils
-    wl-clipboard
-    discord
-    signal-desktop
-    gparted
-    socat
-    transmission_4-qt
-    (aspellWithDicts (
-      dicts: with dicts; [
-        en
-        en-computers
-        en-science
-      ]
-    ))
-    vscode
-    via
-    distrobox
-    tailscale-systray
-    telegram-desktop
-    freecad
-    calibre
-    alacritty
-    wofi
-    waybar
-    mpv
-    hyprpaper
-    pavucontrol
-    hyprshot
-    hypridle
-    hyprlock
-    hyprpicker
-    hyprpolkitagent
-    hyprcursor
-    hyprutils
-    eww
-    hyprnotify
-    chromium
-    clipman
-    cascadia-code
-    tokyo-night-gtk
-    pamixer
-    dunst
-    appimage-run
-    swayosd
-    wlogout
-    clipman
-    nautilus
-    zenity
-    eog
-    gnome-keyring
-    gnome-control-center
-    polkit
-    polkit_gnome
-    rofi-wayland
-    rofi-bluetooth
-    wayprompt
-    btop
-    playerctl
-    vesktop
-    devenv
+  home = {
+    username = "kusuriya";
+    homeDirectory = "/home/kusuriya";
+    stateVersion = "23.05";
+    packages = with pkgs; [
+      _1password-gui
+      _1password-cli
+      fractal
+      cliphist
+      rose-pine-cursor
+      overskride
+      dissent
+      helvum
+      tango-icon-theme
+      papirus-icon-theme
+      gnome-icon-theme
+      adwaita-icon-theme
+      virt-manager
+      networkmanagerapplet
+      parsec-bin
+      unzip
+      unrar
+      p7zip
+      gnupg
+      rclone
+      rsync
+      slack
+      zoom-us
+      yt-dlp
+      plantuml
+      mosh
+      nix-prefetch-git
+      jq
+      inkscape
+      cider
+      libreoffice
+      coreutils
+      wl-clipboard
+      discord
+      signal-desktop
+      gparted
+      socat
+      transmission_4-qt
+      (aspellWithDicts (
+        dicts: with dicts; [
+          en
+          en-computers
+          en-science
+        ]
+      ))
+      vscode
+      via
+      distrobox
+      tailscale-systray
+      telegram-desktop
+      freecad
+      calibre
+      alacritty
+      wofi
+      waybar
+      mpv
+      hyprpaper
+      pavucontrol
+      hyprshot
+      hypridle
+      hyprlock
+      hyprpicker
+      hyprpolkitagent
+      hyprcursor
+      hyprutils
+      eww
+      hyprnotify
+      chromium
+      clipman
+      cascadia-code
+      tokyo-night-gtk
+      pamixer
+      dunst
+      appimage-run
+      swayosd
+      wlogout
+      clipman
+      nautilus
+      zenity
+      eog
+      gnome-keyring
+      gnome-control-center
+      polkit
+      polkit_gnome
+      rofi-wayland
+      rofi-bluetooth
+      wayprompt
+      btop
+      playerctl
+      vesktop
+      devenv
 
-    #nix
-    nixpkgs-fmt
+      #nix
+      nixpkgs-fmt
 
-    #Sec Stuff
-    burpsuite
-    nmap
-  ];
-  home.file = {
-    # ".screenrc".source = dotfiles/screenrc;
-  };
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    BROWSER = "firefox";
-    TERMINAL = "alacritty";
-    MOZ_ENABLE_WAYLAND = "1";
-    MOZ_USE_XINPUT2 = "1";
-    XDG_BIN_HOME = "\${HOME}/.local/bin";
-    NIXOS_OZONE_WL = "1";
-    WLR_RENDERER = "vulkan";
+      #Sec Stuff
+      burpsuite
+      nmap
+    ];
+    file = {
+      # ".screenrc".source = dotfiles/screenrc;
+    };
+    sessionVariables = {
+      EDITOR = "nvim";
+      BROWSER = "firefox";
+      TERMINAL = "alacritty";
+      MOZ_ENABLE_WAYLAND = "1";
+      MOZ_USE_XINPUT2 = "1";
+      XDG_BIN_HOME = "\${HOME}/.local/bin";
+      NIXOS_OZONE_WL = "1";
+      WLR_RENDERER = "vulkan";
 
+    };
   };
   services = {
     kdeconnect.enable = true;
