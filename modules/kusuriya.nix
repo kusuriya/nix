@@ -1,6 +1,6 @@
-{lib,config,...}:
+{ lib, config, pkgs, ... }:
 {
-users.users.kusuriya = {
+  users.users.kusuriya = {
     isNormalUser = true;
     description = "kusuriya";
     extraGroups = [
@@ -16,6 +16,5 @@ users.users.kusuriya = {
       "render"
     ];
     shell = pkgs.fish;
-
   };
 }
