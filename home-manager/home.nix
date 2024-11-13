@@ -1,4 +1,10 @@
-{ config, pkgs, inputs, lib, osConfig, ... }:
+{ config
+, pkgs
+, inputs
+, lib
+, osConfig
+, ...
+}:
 {
   imports = [
     ./config/hyprland/hyprland.nix
@@ -46,7 +52,13 @@
     gparted
     socat
     transmission_4-qt
-    (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
+    (aspellWithDicts (
+      dicts: with dicts; [
+        en
+        en-computers
+        en-science
+      ]
+    ))
     vscode
     via
     distrobox
@@ -92,6 +104,10 @@
     btop
     playerctl
     vesktop
+    devenv
+
+    #nix
+    nixpkgs-fmt
 
     #Sec Stuff
     burpsuite
@@ -112,6 +128,7 @@
 
   };
   services = {
+    kdeconnect.enable = true;
     gnome-keyring = {
       enable = true;
       components = [ "secrets" ];
@@ -120,28 +137,27 @@
       enable = true;
       settings = {
         global = {
-	  offset = "30x50";
-	  origin = "bottom-right";
-	  font = "Cascadia Code 14";
-	  frame_color = "#1a1b26";
-	  background_color = "#7a2f7a";
-	};
+          offset = "30x50";
+          origin = "bottom-right";
+          font = "Cascadia Code 14";
+          frame_color = "#1a1b26";
+          background_color = "#7a2f7a";
+        };
       };
     };
   };
-  xdg.portal.config.common.default = "*";
- programs = {
+  programs = {
     alacritty = {
       enable = true;
       settings = {
         env.TERM = "xterm-256color";
-	colors = {
-	  primary = {
-	    "background" = "#1a1b26";
+        colors = {
+          primary = {
+            "background" = "#1a1b26";
             "foreground" = "#a9b1d6";
-	  };
-	  normal = {
-	    "black" = "#32344a";
+          };
+          normal = {
+            "black" = "#32344a";
             "red" = "#f7768e";
             "green" = "#9ece6a";
             "yellow" = "#e0af68";
@@ -149,9 +165,9 @@
             "magenta" = "#ad8ee6";
             "cyan" = "#449dab";
             "white" = "#787c99";
-	  };
-	  bright = {
-	    "black" = "#444b6a";
+          };
+          bright = {
+            "black" = "#444b6a";
             "red" = "#ff7a93";
             "green" = "#b9f27c";
             "yellow" = "#ff9e64";
@@ -159,22 +175,22 @@
             "magenta" = "#bb9af7";
             "cyan" = "#0db9d7";
             "white" = "#acb0d0";
-	  };
-	  selection = {
-	    "background" = "#7aa2f7";
-	  };
-	};
+          };
+          selection = {
+            "background" = "#7aa2f7";
+          };
+        };
       };
     };
     obs-studio = {
       enable = true;
       plugins = with pkgs.obs-studio-plugins; [
         wlrobs
-	input-overlay
-	looking-glass-obs
-	obs-pipewire-audio-capture
-	obs-backgroundremoval
-	obs-composite-blur
+        input-overlay
+        looking-glass-obs
+        obs-pipewire-audio-capture
+        obs-backgroundremoval
+        obs-composite-blur
       ];
     };
     home-manager.enable = true;
@@ -185,7 +201,10 @@
     fish = {
       enable = true;
       plugins = [
-        { name = "fzf"; src = pkgs.fishPlugins.fzf-fish; }
+        {
+          name = "fzf";
+          src = pkgs.fishPlugins.fzf-fish;
+        }
       ];
     };
     git = {
@@ -198,31 +217,33 @@
       package = pkgs.firefox-wayland;
       profiles = {
         default = {
-	  id = 0;
-	  name = "kusuriya";
-	  isDefault = true;
-	  settings = {
-	    settings = {
-            # "browser.startup.homepage" = "https://duckduckgo.com";
-            "browser.search.defaultenginename" = "DuckDuckGo";
-            "browser.search.order.1" = "DuckDuckGo";
+          id = 0;
+          name = "kusuriya";
+          isDefault = true;
+          settings = {
+            settings = {
+              "browser.search.defaultenginename" = "DuckDuckGo";
+              "browser.search.order.1" = "DuckDuckGo";
 
-            "signon.rememberSignons" = false;
-            "widget.use-xdg-desktop-portal.file-picker" = 1;
-            "browser.aboutConfig.showWarning" = false;
-            "browser.compactmode.show" = true;
-            "browser.cache.disk.enable" = false; # Be kind to hard drive
-	    
-	    "widget.disable-workspace-management" = true;
-          };
-          search = {
-            force = true;
-            default = "DuckDuckGo";
-            order = [ "DuckDuckGo" "Google" ];
-          };
+              "signon.rememberSignons" = false;
+              "widget.use-xdg-desktop-portal.file-picker" = 1;
+              "browser.aboutConfig.showWarning" = false;
+              "browser.compactmode.show" = true;
+              "browser.cache.disk.enable" = false; # Be kind to hard drive
 
-	  };
-	};
+              "widget.disable-workspace-management" = true;
+            };
+            search = {
+              force = true;
+              default = "DuckDuckGo";
+              order = [
+                "DuckDuckGo"
+                "Google"
+              ];
+            };
+
+          };
+        };
       };
     };
     eww = {

@@ -1,12 +1,12 @@
+{ inputs
+, outputs
+, lib
+, config
+, pkgs
+, modulesPath
+, ...
+}:
 {
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  modulesPath,
-  ...
-}: {
   imports = [
     ./home-manager.nix
     ./hardware-configuration.nix
@@ -25,28 +25,37 @@
     };
   };
 
-  nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-    in {
-    settings = {
-      experimental-features = "nix-command flakes";
-      auto-optimise-store = true;
-      allowed-users = [ "kusuriya" "root" ];
-      trusted-users = [ "kusuriya" "root" ];
-      nix-path = config.nix.nixPath;
-      substituters = ["https://hyprland.cachix.org"];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+  nix =
+    let
+      flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+    in
+    {
+      settings = {
+        experimental-features = "nix-command flakes";
+        auto-optimise-store = true;
+        allowed-users = [
+          "kusuriya"
+          "root"
+        ];
+        trusted-users = [
+          "kusuriya"
+          "root"
+        ];
+        nix-path = config.nix.nixPath;
+        substituters = [ "https://hyprland.cachix.org" ];
+        trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+      };
+      registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
+      nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+      gc = {
+        automatic = true;
+        dates = "weekly";
+        # Keep the last week
+        options = "--delete-older-than 7d";
+      };
     };
-    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      # Keep the last week
-      options = "--delete-older-than 7d";
-    };
-  };
   powerManagement.enable = true;
+  systemd.watchdog.runtimeTime = "30s";
   systemd.sleep.extraConfig = ''
     HibernateDelaySec=30m
     SuspendState=mem
@@ -55,7 +64,7 @@
     autoUpgrade = {
       enable = true;
       flake = "github:kusuriya/nix";
-      flags = [ "--cores 8" ];
+      flags = [ "--cores 15" ];
       allowReboot = true;
       rebootWindow.lower = "00:01";
       rebootWindow.upper = "05:00";
@@ -66,7 +75,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 7;
-
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   networking.hostName = "framey";
@@ -114,7 +122,6 @@
     enable = true;
     config.common.default = "xdg-desktop-portal-hyprland";
     extraPortals = [
-      #pkgs.xdg-desktop-portal-hyprland
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-kde
     ];
@@ -124,17 +131,17 @@
     settings = rec {
       initial_session = {
         command = "Hyprland";
-	user = "kusuriya";
-       };
-       default_session = initial_session;
+        user = "kusuriya";
+      };
+      default_session = initial_session;
     };
-   };
-  services.xserver = { 
+  };
+  services.xserver = {
     enable = true;
     xkb = {
       layout = "us";
       variant = "";
-    };    
+    };
     videoDrivers = [ "amdgpu" ];
   };
   services.avahi = {
@@ -160,35 +167,63 @@
     };
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
-    pulseaudio.enable = false;
     graphics = {
       enable = true;
       extraPackages = with pkgs; [
         rocmPackages.clr.icd
-	clinfo
-	amdvlk
+        clinfo
+        amdvlk
       ];
     };
 
   };
-  security.rtkit.enable = true;
-  security.pam.services.login.enableGnomeKeyring = true;
+  boot.kernel.sysctl = {
+    "net.ipv4.tcp_mtu_probing" = 1;
+    "kernel.panic" = 60;
+  };
+  security = {
+    rtkit.enable = true;
+    polkit.enable = true;
+    pam.services.login.enableGnomeKeyring = true;
+  };
+
+  environment.etc = {
+    "1password/custom_allowed_browsers" = {
+      text = ''
+        vivaldi-bin
+        floorp
+        brave
+      '';
+      mode = "0755";
+    };
+  };
 
   users.users.kusuriya = {
     isNormalUser = true;
     description = "kusuriya";
-    extraGroups = [ "cdrom" "networkmanager" "wheel" "dialout" "audio" "video" "system" "libvirtd" "kvm" "render"];
+    extraGroups = [
+      "cdrom"
+      "networkmanager"
+      "wheel"
+      "dialout"
+      "audio"
+      "video"
+      "system"
+      "libvirtd"
+      "kvm"
+      "render"
+    ];
     shell = pkgs.fish;
 
   };
-  
-  services = { 
-    libinput = { 
+
+  services = {
+    libinput = {
       enable = true;
       touchpad = {
         tapping = true;
-	disableWhileTyping = true;
-	clickMethod = "clickfinger";                                                    
+        disableWhileTyping = true;
+        clickMethod = "clickfinger";
       };
     };
     tailscale = {
@@ -220,19 +255,17 @@
       #media-session.enable = true;
     };
   };
-  security.polkit.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs = {
     thunar = {
       enable = true;
-      plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman thunar-media-tags-plugin];
+      plugins = with pkgs.xfce; [
+        thunar-archive-plugin
+        thunar-volman
+        thunar-media-tags-plugin
+      ];
     };
     fish.enable = true;
-    #hyprland = {
-    #  enable = true;
-    #  xwayland.enable = true;
-    #  package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    #};
     _1password-gui = {
       enable = true;
       polkitPolicyOwners = [ "kusuriya" ];
@@ -252,31 +285,31 @@
         set -g history-limit 100000
         set -q -g status-utf8 on                  # expect UTF-8 (tmux < 2.2)
         setw -q -g utf8 on
-     
+
         setw -g automatic-rename on   # rename window to reflect current program
         set -g renumber-windows on    # renumber windows when a window is closed
-     
+
         set -g set-titles on          # set terminal title
-     
+
         set -g display-panes-time 800 # slightly longer pane indicators display time
         set -g display-time 1000      # slightly longer status messages display time
-     
+
         set -g status-interval 5 # redraw status line every 10 seconds
-     
+
         set -g status-bg colour235
         set -g status-fg yellow
         set -g status-right-length 150
         set -g status-right '[ #{host_short} | %a %F %R]'
 
         set -g window-status-current-format "#[fg=colour117,bg=colour31] #I:#W "
-     
+
         # Mouse mode on!
         setw -g mouse on
       '';
     };
     dconf.enable = true;
   };
-  
+
   fonts.packages = with pkgs; [
     dejavu_fonts
     emacs-all-the-icons-fonts
@@ -286,32 +319,21 @@
     noto-fonts-emoji
     nerdfonts
   ];
-  
+
   environment = {
     systemPackages = with pkgs; [
-     wget
-     brightnessctl
-     git
-     curl
-     distrobox
-     neovim
-     linux-firmware
-     glib
-     glib-networking
-     appimage-run
-     kdePackages.kdeconnect-kde
-     btrfs-progs
-     btrfs-snap
-     timeshift
-     swtpm
-     unstable.OVMFFull
-     looking-glass-client
-     dnsmasq
-     arc-kde-theme
-     libsForQt5.qt5ct
-     libsForQt5.qtstyleplugin-kvantum
-
-     ];
+      wget
+      brightnessctl
+      curl
+      distrobox
+      linux-firmware
+      appimage-run
+      arc-kde-theme
+      libsForQt5.qt5ct
+      libsForQt5.qtstyleplugin-kvantum
+      sbctl
+      pciutils
+    ];
   };
   boot.binfmt.registrations.appimage = {
     wrapInterpreterInShell = false;
@@ -322,22 +344,18 @@
     magicOrExtension = ''\x7fELF....AI\x02'';
   };
 
-
- virtualisation = {
-   containers.enable = true;
-   podman = {
-     enable = true;
-     dockerCompat = true;
-     defaultNetwork.settings.dns_enabled = true;
-   };
- };
-
-
- programs.kdeconnect = {
+  virtualisation = {
+    containers.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+    waydroid.enable = false;
+  };
+  programs.kdeconnect = {
     enable = true;
   };
-
   networking.firewall.enable = true;
   system.stateVersion = "23.05"; # Did you read the comment
 }
-

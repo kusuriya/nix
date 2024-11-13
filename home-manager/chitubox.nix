@@ -8,6 +8,7 @@
 , qtbase
 , pkgs
 , openssl_1_1
+,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -26,7 +27,7 @@ stdenv.mkDerivation (finalAttrs: {
     autoPatchelfHook
   ];
 
-  runtimeDependencies = [ "/nix/store/3cvbzm2qviq00h97cmc9234ikwiyw5r2-openssl-1.1.1v/lib "];
+  runtimeDependencies = [ "/nix/store/3cvbzm2qviq00h97cmc9234ikwiyw5r2-openssl-1.1.1v/lib " ];
 
   buildInputs = [
     alsa-lib
@@ -73,7 +74,6 @@ stdenv.mkDerivation (finalAttrs: {
       shortName = "ChiTuBox";
       url = "https://www.chitubox.com";
     };
-		platforms = [ "x86_64-linux" ];
+    platforms = [ "x86_64-linux" ];
   };
 })
-

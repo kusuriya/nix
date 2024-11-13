@@ -1,4 +1,10 @@
-{config, pkgs, inputs, lib, osConfig,...}:
+{ config
+, pkgs
+, inputs
+, lib
+, osConfig
+, ...
+}:
 {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -15,54 +21,62 @@
       "$terminal" = "alacritty";
       "$fileManager" = "thunar";
       "$menu" = "wofi -i -I --show drun,run";
+      source = [
+        "~/.config/hypr/rose-pine-moon.conf"
+      ];
       monitor = [
         "desc:HP Inc. HP X27q 6CM1210654,preferred,0x0,1"
-	"desc:BOE NE135A1M-NY1,preferred,auto-right,2.0"
+        "desc:BOE NE135A1M-NY1,preferred,auto-right,2.0"
         "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1.25"
         ",preferred,auto,auto"
-       ];
-     exec-once = [
-       "waybar"
-       "gnome-keyring-daemon -s -d -c secrets"
-       "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-       "dbus-update-activation-environment --all"
-       "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
-       "nm-applet &"
-       "hypridle"
-       "hyprpolkitagent"
-       "wl-paste --type text --watch cliphist store"
-       "wl-paste --type image --watch cliphist store"
-       "Thunar --daemon"
-     ];
-     input = {
+      ];
+      exec-once = [
+        "waybar"
+        "gnome-keyring-daemon -s -d -c secrets"
+        "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+        "dbus-update-activation-environment --all"
+        "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+        "nm-applet &"
+        "hypridle"
+        "hyprpolkitagent"
+        "wl-paste --type text --watch cliphist store"
+        "wl-paste --type image --watch cliphist store"
+        "Thunar --daemon"
+        "hyprctl setcursor rose-pine-hyprcursor 24"
+        "1password --silent"
+
+      ];
+      input = {
         kb_layout = "us";
         follow_mouse = "1";
-	accel_profile = "adaptive";
-	touchpad = {
-	  natural_scroll = false;
-	  disable_while_typing = true;
-	  clickfinger_behavior = true;
-	};
+        accel_profile = "adaptive";
+        touchpad = {
+          natural_scroll = false;
+          disable_while_typing = true;
+          clickfinger_behavior = true;
+        };
       };
       general = {
         gaps_in = 0;
         gaps_out = 4;
         border_size = 2;
-        "col.active_border" = "rgba(7aa2f7aa)";
-        "col.inactive_border" = "rgba(414868aa)";
+        "col.active_border" = "$pine";
+        "col.inactive_border" = "$muted";
         layout = "dwindle";
-	allow_tearing = true;
-	resize_on_border = true;
+        allow_tearing = true;
+        resize_on_border = true;
       };
       cursor = {
         hide_on_key_press = true;
-	inactive_timeout = 60;
+        inactive_timeout = 60;
       };
       xwayland = {
         force_zero_scaling = true;
-	use_nearest_neighbor = false;
+        use_nearest_neighbor = false;
       };
-      animations = { enabled = false; };
+      animations = {
+        enabled = false;
+      };
       decoration = {
         rounding = 4;
       };
@@ -78,20 +92,25 @@
       };
       misc = {
         disable_hyprland_logo = true;
+        disable_splash_rendering = true;
         mouse_move_enables_dpms = true;
         key_press_enables_dpms = false;
-	vrr = 1;
-	allow_session_lock_restore = true;
+        vrr = 0;
+        allow_session_lock_restore = true;
+        render_unfocused_fps = 60;
       };
       group = {
         drag_into_group = 2;
+        "col.border_active" = "$pine";
+        "col.border_inactive" = "$muted";
         groupbar = {
-	  enabled = true;
-	  font_size = 12;
-	  height = 24;
-	  "col.active" = "rgba(7aa2f7aa)";
-	  "col.inactive" = "rgba(414868aa)";
-	};
+          enabled = true;
+          font_size = 12;
+          text_color = "$text";
+          height = 24;
+          "col.active" = "$pine";
+          "col.inactive" = "$muted";
+        };
       };
       bind = [
         "$mainMod, K, killactive,"
@@ -114,8 +133,8 @@
         "$mainMod SHIFT, S, movetoworkspace, special:magic"
         "$mainMod ALT, RIGHT, movecurrentworkspacetomonitor, -1"
         "$mainMod ALT, LEFT, movecurrentworkspacetomonitor, +1"
-	"$mainMod SHIFT, RIGHT, workspace, m-1"
-	"$mainMod SHIFT, LEFT, workspace, m+1"
+        "$mainMod SHIFT, RIGHT, workspace, m-1"
+        "$mainMod SHIFT, LEFT, workspace, m+1"
         "$mainMod, 1, workspace, 1"
         "$mainMod, 2, workspace, 2"
         "$mainMod, 3, workspace, 3"
@@ -138,27 +157,50 @@
         "$mainMod SHIFT, 0, movetoworkspace, 10"
         "$mainMod, mouse_down, workspace, e+1"
         "$mainMod, mouse_up, workspace, e-1"
+        "CONTROL, Space, exec, 1password --quick-access"
       ];
       bindm = [
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
       ];
       bindel = [
-       ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+"
-       ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-"
-       ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-       ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-       ",XF86AudioPlay, exec, playerctl play-pause"
-       ",XF86AudioNext, exec, playerctl next"
-       ",XF86AudioPrev, exec, playerctl previous"
-       ",XF86MonBrightnessUp, exec, brightnessctl s 5%+"
-       ",XF86MonBrightnessDown, exec, brightnessctl s 5%-"
+        # Audio controls
+        ", XF86AudioRaiseVolume, exec, ${pkgs.swayosd}/bin/swayosd-client --output-volume raise"
+        ", XF86AudioLowerVolume, exec, ${pkgs.swayosd}/bin/swayosd-client --output-volume lower"
+        ", XF86AudioMute, exec, ${pkgs.swayosd}/bin/swayosd-client --output-volume mute-toggle"
+        ", XF86AudioMicMute, exec, ${pkgs.swayosd}/bin/swayosd-client --input-volume mute-toggle"
+
+        # Playback controls
+        ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
+        ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
+        ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
+        ", XF86AudioStop, exec, ${pkgs.playerctl}/bin/playerctl stop"
+
+        # Sreen brightness controls
+        ", XF86MonBrightnessUp, exec, ${pkgs.swayosd}/bin/swayosd-client --brightness raise"
+        ", XF86MonBrightnessDown, exec, ${pkgs.swayosd}/bin/swayosd-client --brightness lower"
+
       ];
-      env = [ 
-        "XCURSOR_SIZE,32"
-        "HYPRCURSOR_SIZE,32"
+      env = [
+        "XCURSOR_SIZE,24"
+        "HYPRCURSOR_THEME,rose-pine-hyprcursor"
+        "HYPRCURSOR_SIZE,24"
         "GDK_SCALE,2"
-        "MOZ_ENABLE_WAYLAND,1"
+        "XDG_CURRENT_DESKTOP,Hyprland"
+        "XDG_SESSION_DESKTOP,Hyprland"
+        "XDG_SESSION_TYPE,wayland"
+        "GDK_BACKEND,wayland,x11,*"
+        "NIXOS_OZONE_WL,1"
+        "MOZ_ENABLE_WAYLAND,1" # disable if You're having issues with firefox
+        "SDL_VIDEODRIVER,wayland"
+        "OZONE_PLATFORM,wayland"
+        "CLUTTER_BACKEND,wayland"
+        "QT_QPA_PLATFORM,wayland;xcb"
+        "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+        "QT_QPA_PLATFORMTHEME,qt6ct"
+        "QT_AUTO_SCREEN_SCALE_FACTOR,1"
+        "WLR_RENDERER_ALLOW_SOFTWARE,1"
+        "NIXPKGS_ALLOW_UNFREE,1"
       ];
       windowrulev2 = [
         "suppressevent maximize, class:.*"
@@ -168,23 +210,113 @@
         "noinitialfocus, class:^(xwaylandvideobridge)$"
         "maxsize 1 1, class:^(xwaylandvideobridge)$"
         "noblur, class:^(xwaylandvideobridge)$"
-	# Firefox PIP
-	"float,class:^(firefox)$,title:^(Picture-in-Picture)$"
-	"pin,class:^(firefox)$,title:^(Picture-in-Picture)$"
-	"float,class:^(firefox)$,title:^(Firefox — Sharing Indicator)$"
-	# modals
-	"float,title:^(Open)$"
-	"float,title:^(Choose Files)$"
-	"float,title:^(Save As)$"
-	"float,class:^(google-chrome)$,title:^(Open Files)$"
+        # Firefox PIP
+        "float,class:^(firefox)$,title:^(Picture-in-Picture)$"
+        "pin,class:^(firefox)$,title:^(Picture-in-Picture)$"
+        "float,class:^(firefox)$,title:^(Firefox — Sharing Indicator)$"
+        # modals
+        "float,title:^(Open)$"
+        "float,title:^(Choose Files)$"
+        "float,title:^(Save As)$"
+        "float,class:^(google-chrome)$,title:^(Open Files)$"
         "float,class:^(google-chrome)$,title:^(Open File)$"
-	"float,class:^(xdg-desktop-portal-gtk)$"
-	      ];
+        "float,class:^(xdg-desktop-portal-gtk)$"
+        "stayfocused, title:Quick Access — 1Password"
+        "stayfocused, class:polkit-gnome-authentication-agent-1"
+      ];
       windowrule = [
-	# pavucontrol
-	"float,pavucontrol"
-	"size 1280 720, pavucontrol"
+        # pavucontrol
+        "float,pavucontrol"
+        "size 1280 720, pavucontrol"
       ];
     };
+    extraConfig = ''
+      # Window resize
+      bind = $mainMod, R, submap, resize
+
+      submap = resize
+      binde = , l, resizeactive, 10 0
+      binde = , h, resizeactive, -10 0
+      binde = , k, resizeactive, 0 -10
+      binde = , j, resizeactive, 0 10
+      binde = , right, resizeactive, 10 0
+      binde = , left, resizeactive, -10 0
+      binde = , up, resizeactive, 0 -10
+      binde = , down, resizeactive, 0 10
+      bind = , escape, submap, reset
+      submap = reset
+    '';
+  };
+  programs = {
+    hyprlock = {
+      enable = true;
+      settings = {
+        background = {
+          monitor = "";
+          color = "rgba(5,5,5,1.0)";
+        };
+        input-field = {
+          monitor = "";
+          fade_on_empty = false;
+          rounding = "-1";
+          placeholder_text = "Password";
+          halign = "center";
+          valign = "center";
+        };
+        label = [
+          {
+            monitor = "";
+            position = "0, -300";
+            text = "cmd[update:1000] date +\"%-I:%M%p\"";
+            color = "rgba(200, 200, 200, 1.0)";
+            halign = "right";
+            valign = "bottom";
+            font_size = "55";
+            font_family = "Fira Semibold";
+          }
+        ];
+      };
+    };
+  };
+  services = {
+    hypridle = {
+      enable = true;
+      settings = {
+        general = {
+          # avoid starting multiple hyprlock instances.
+          lock_cmd = "pidof hyprlock || ${pkgs.hyprlock}/bin/hyprlock";
+          # lock before suspend.
+          before_sleep_cmd = "loginctl lock-session";
+          # to avoid having to press a key twice to turn on the display.
+          after_sleep_cmd = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+        };
+
+        listener = [
+          {
+            # 5 minutes
+            timeout = 300;
+            # set monitor backlight to minimum, avoid 0 on OLED monitor.
+            on-timeout = "${pkgs.brightnessctl}/bin/brightnessctl -s set 10";
+            # monitor backlight restore.
+            on-resume = "${pkgs.brightnessctl}/bin/brightnessctl -r";
+          }
+          {
+            # 10 minutes
+            timeout = 600;
+            # lock screen when timeout has passed
+            on-timeout = "loginctl lock-session";
+          }
+          {
+            # 11 minutes
+            timeout = 660;
+            # screen off when timeout has passed
+            on-timeout = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
+            # screen on when activity is detected after timeout has fired.
+            on-resume = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+          }
+        ];
+      };
+    };
+    swayosd.enable = true;
   };
 }

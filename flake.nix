@@ -25,59 +25,65 @@
 
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    hardware,
-    nixos-cosmic,
-    hyprland,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    # Supported systems for your flake packages, shell, etc.
-    systems = [
-      "x86_64-linux"
-      #"aarch64-darwin"
-    ];
-    forAllSystems = nixpkgs.lib.genAttrs systems;
-  in {
-    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+  outputs =
+    { self
+    , nixpkgs
+    , home-manager
+    , hardware
+    , nixos-cosmic
+    , hyprland
+    , ...
+    }@inputs:
+    let
+      inherit (self) outputs;
+      # Supported systems for your flake packages, shell, etc.
+      systems = [
+        "x86_64-linux"
+        #"aarch64-darwin"
+      ];
+      forAllSystems = nixpkgs.lib.genAttrs systems;
+    in
+    {
+      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
-    overlays = import ./overlays {inherit inputs;};
-    nixosModules = import ./modules/nixos;
-    vfioModules = import ./modules/vfio;
-    homeManagerModules = import ./modules/home-manager;
-    # NixOS configuration entrypoint
-    # Available through 'nixos-rebuild --flake .#your-hostname'
-    nixosConfigurations = {
-      beast = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-	{
-	  nix.settings = {
-              substituters = [ "https://cosmic.cachix.org/" ];
-              trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
-            };
-          }
-          nixos-cosmic.nixosModules.default
-          ./host/beast/configuration.nix
-        ];
-      };
-      framey = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-	  {
-            nix.settings = {
-	      substituters = [ "https://cosmic.cachix.org/" ];
-              trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
-	    };
-	   }
-           nixos-cosmic.nixosModules.default
-	   ./host/framey/configuration.nix
-        ];
+      overlays = import ./overlays { inherit inputs; };
+      nixosModules = import ./modules/nixos;
+      vfioModules = import ./modules/vfio;
+      homeManagerModules = import ./modules/home-manager;
+      # NixOS configuration entrypoint
+      # Available through 'nixos-rebuild --flake .#your-hostname'
+      nixosConfigurations = {
+        beast = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs outputs;
+          };
+          modules = [
+            {
+              nix.settings = {
+                substituters = [ "https://cosmic.cachix.org/" ];
+                trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
+              };
+            }
+            nixos-cosmic.nixosModules.default
+            ./host/beast/configuration.nix
+          ];
+        };
+        framey = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs outputs;
+          };
+          modules = [
+            {
+              nix.settings = {
+                substituters = [ "https://cosmic.cachix.org/" ];
+                trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
+              };
+            }
+            nixos-cosmic.nixosModules.default
+            ./host/framey/configuration.nix
+          ];
+        };
       };
     };
-  };
 }
