@@ -55,11 +55,13 @@
       };
     };
   powerManagement.enable = true;
-  systemd.watchdog.runtimeTime = "30s";
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=30m
-    SuspendState=mem
-  '';
+  systemd = {
+    watchdog.runtimeTime = "30s";
+    sleep.extraConfig = ''
+      HibernateDelaySec=30m
+      SuspendState=mem
+    '';
+  };
   system = {
     autoUpgrade = {
       enable = true;
@@ -71,14 +73,40 @@
       persistent = true;
     };
   };
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.configurationLimit = 7;
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  networking.hostName = "framey";
-  networking.networkmanager.enable = true;
+  boot =
+    {
+      loader = {
+        systemd-boot.enable = true;
+        efi.canTouchEfiVariables = true;
+        systemd-boot.configurationLimit = 7;
+      };
+      kernelPackages = pkgs.linuxPackages_latest;
+      plymouth.enable = true;
+      tmp = {
+        useTmpfs = true;
+        tmpfsSize = "30%";
+      };
+      kernel.sysctl = {
+        "net.ipv4.tcp_mtu_probing" = 1;
+        "kernel.panic" = 60;
+      };
+      binfmt.registrations.appimage = {
+        wrapInterpreterInShell = false;
+        interpreter = "${pkgs.appimage-run}/bin/appimage-run";
+        recognitionType = "magic";
+        offset = 0;
+        mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
+        magicOrExtension = ''\x7fELF....AI\x02'';
+      };
+
+    };
+
+  networking = {
+    hostName = "framey";
+    networkmanager.enable = true;
+  };
+
   time.timeZone = "America/Los_Angeles";
   i18n = {
     defaultLocale = "en_US.UTF-8";
@@ -94,13 +122,6 @@
       LC_TIME = "en_US.UTF-8";
     };
   };
-  boot.plymouth.enable = true;
-  services.power-profiles-daemon.enable = true;
-  #services.desktopManager.cosmic.enable = true;
-  services.flatpak.enable = true;
-  services.dbus.enable = true;
-  services.upower.enable = true;
-  services.fprintd.enable = false;
   qt = {
     enable = true;
     platformTheme = "qt5ct";
@@ -114,49 +135,12 @@
     swapDevices = 1;
     algorithm = "zstd";
   };
-  boot.tmp = {
-    useTmpfs = true;
-    tmpfsSize = "30%";
-  };
   xdg.portal = {
     enable = true;
     config.common.default = "xdg-desktop-portal-hyprland";
     extraPortals = [
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-kde
-    ];
-  };
-  services.greetd = {
-    enable = true;
-    settings = rec {
-      initial_session = {
-        command = "Hyprland";
-        user = "kusuriya";
-      };
-      default_session = initial_session;
-    };
-  };
-  services.xserver = {
-    enable = true;
-    xkb = {
-      layout = "us";
-      variant = "";
-    };
-    videoDrivers = [ "amdgpu" ];
-  };
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    nssmdns6 = true;
-    wideArea = true;
-    openFirewall = true;
-    ipv6 = true;
-    ipv4 = true;
-    browseDomains = [
-      "lan.corrupted.io"
-      "corrupted.io"
-      "local"
-      "sneaky.dev"
     ];
   };
 
@@ -177,24 +161,23 @@
     };
 
   };
-  boot.kernel.sysctl = {
-    "net.ipv4.tcp_mtu_probing" = 1;
-    "kernel.panic" = 60;
-  };
   security = {
     rtkit.enable = true;
     polkit.enable = true;
     pam.services.login.enableGnomeKeyring = true;
   };
 
-  environment.etc = {
-    "1password/custom_allowed_browsers" = {
-      text = ''
-        vivaldi-bin
-        floorp
-        brave
-      '';
-      mode = "0755";
+  environment = {
+    sessionVariables.NIXOS_OZONE_WL = "1";
+    etc = {
+      "1password/custom_allowed_browsers" = {
+        text = ''
+          vivaldi-bin
+          floorp
+          brave
+        '';
+        mode = "0755";
+      };
     };
   };
 
@@ -255,7 +238,6 @@
       #media-session.enable = true;
     };
   };
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs = {
     thunar = {
       enable = true;
@@ -308,6 +290,45 @@
       '';
     };
     dconf.enable = true;
+    power-profiles-daemon.enable = true;
+    flatpak.enable = true;
+    dbus.enable = true;
+    upower.enable = true;
+    fprintd.enable = false;
+    greetd = {
+      enable = true;
+      settings = rec {
+        initial_session = {
+          command = "Hyprland";
+          user = "kusuriya";
+        };
+        default_session = initial_session;
+      };
+    };
+    xserver = {
+      enable = true;
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
+      videoDrivers = [ "amdgpu" ];
+    };
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      nssmdns6 = true;
+      openFirewall = true;
+      ipv6 = true;
+      ipv4 = true;
+      browseDomains = [
+        "lan.corrupted.io"
+        "corrupted.io"
+        "local"
+        "sneaky.dev"
+      ];
+    };
+
+
   };
 
   fonts.packages = with pkgs; [
@@ -335,15 +356,6 @@
       pciutils
     ];
   };
-  boot.binfmt.registrations.appimage = {
-    wrapInterpreterInShell = false;
-    interpreter = "${pkgs.appimage-run}/bin/appimage-run";
-    recognitionType = "magic";
-    offset = 0;
-    mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
-    magicOrExtension = ''\x7fELF....AI\x02'';
-  };
-
   virtualisation = {
     containers.enable = true;
     podman = {
@@ -352,9 +364,6 @@
       defaultNetwork.settings.dns_enabled = true;
     };
     waydroid.enable = false;
-  };
-  programs.kdeconnect = {
-    enable = true;
   };
   networking.firewall.enable = true;
   system.stateVersion = "23.05"; # Did you read the comment
