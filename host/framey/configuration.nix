@@ -237,6 +237,22 @@
       wireplumber.enable = true;
       #media-session.enable = true;
     };
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      nssmdns6 = true;
+      openFirewall = true;
+      ipv6 = true;
+      ipv4 = true;
+      browseDomains = [
+        "lan.corrupted.io"
+        "corrupted.io"
+        "local"
+        "sneaky.dev"
+      ];
+    };
+
+
   };
   programs = {
     thunar = {
@@ -313,21 +329,6 @@
       };
       videoDrivers = [ "amdgpu" ];
     };
-    avahi = {
-      enable = true;
-      nssmdns4 = true;
-      nssmdns6 = true;
-      openFirewall = true;
-      ipv6 = true;
-      ipv4 = true;
-      browseDomains = [
-        "lan.corrupted.io"
-        "corrupted.io"
-        "local"
-        "sneaky.dev"
-      ];
-    };
-
 
   };
 
