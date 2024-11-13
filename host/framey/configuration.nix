@@ -251,6 +251,29 @@
         "sneaky.dev"
       ];
     };
+    power-profiles-daemon.enable = true;
+    flatpak.enable = true;
+    dbus.enable = true;
+    upower.enable = true;
+    fprintd.enable = false;
+    greetd = {
+      enable = true;
+      settings = rec {
+        initial_session = {
+          command = "Hyprland";
+          user = "kusuriya";
+        };
+        default_session = initial_session;
+      };
+    };
+    xserver = {
+      enable = true;
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
+      videoDrivers = [ "amdgpu" ];
+    };
 
 
   };
@@ -306,29 +329,6 @@
       '';
     };
     dconf.enable = true;
-    power-profiles-daemon.enable = true;
-    flatpak.enable = true;
-    dbus.enable = true;
-    upower.enable = true;
-    fprintd.enable = false;
-    greetd = {
-      enable = true;
-      settings = rec {
-        initial_session = {
-          command = "Hyprland";
-          user = "kusuriya";
-        };
-        default_session = initial_session;
-      };
-    };
-    xserver = {
-      enable = true;
-      xkb = {
-        layout = "us";
-        variant = "";
-      };
-      videoDrivers = [ "amdgpu" ];
-    };
 
   };
 
