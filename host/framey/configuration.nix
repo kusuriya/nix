@@ -11,11 +11,11 @@
     ./home-manager.nix
     ./hardware-configuration.nix
     ./oom.nix
-    inputs.hardware.nixosModules.framework-13-7040-amd
-    inputs.hardware.nixosModules.common-pc-ssd
     ../../modules/kusuriya.nix
     ../../modules/fonts.nix
     ../../modules/containers.nix
+    inputs.hardware.nixosModules.framework-13-7040-amd
+    inputs.hardware.nixosModules.common-pc-ssd
   ];
   nixpkgs = {
     overlays = [
@@ -108,6 +108,11 @@
   networking = {
     hostName = "framey";
     networkmanager.enable = true;
+    firewall.enable = true;
+    resolvconf = {
+      dnsExtensionMechanism = true;
+      enable = true;
+    };
   };
 
   time.timeZone = "America/Los_Angeles";
@@ -229,7 +234,7 @@
     flatpak.enable = true;
     dbus.enable = true;
     upower.enable = true;
-    fprintd.enable = false;
+    fprintd.enable = false; #turned off for now because I need to figure out how to make this optional.
     greetd = {
       enable = true;
       settings = rec {
@@ -267,20 +272,18 @@
 
   environment = {
     systemPackages = with pkgs; [
-      wget
+      appimage-run
       brightnessctl
       curl
       distrobox
       linux-firmware
-      appimage-run
-      arc-kde-theme
-      libsForQt5.qt5ct
-      libsForQt5.qtstyleplugin-kvantum
-      sbctl
-      pciutils
+      mosh
       nix-diff
       nix-index
       nix-output-monitor
+      nix-prefetch-git
+      pciutils
+      sbctl
     ];
     sessionVariables.NIXOS_OZONE_WL = "1";
     etc = {
@@ -295,6 +298,5 @@
     };
 
   };
-  networking.firewall.enable = true;
   system.stateVersion = "23.05"; # Did you read the comment
 }

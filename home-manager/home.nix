@@ -4,7 +4,7 @@
 }:
 {
   imports = [
-    ./config/hyprland/hyprland.nix
+    ../programs/hyprland/hyprland.nix
   ];
   nixpkgs.config.allowUnfree = true;
   home = {
@@ -14,11 +14,12 @@
     packages = with pkgs; [
       _1password-gui
       _1password-cli
-      fractal
+      arc-kde-theme
+      libsForQt5.qt5ct
+      libsForQt5.qtstyleplugin-kvantum
       cliphist
       rose-pine-cursor
       overskride
-      dissent
       helvum
       tango-icon-theme
       papirus-icon-theme
@@ -34,21 +35,14 @@
       rclone
       rsync
       slack
-      zoom-us
       yt-dlp
       plantuml
-      mosh
-      nix-prefetch-git
       jq
       inkscape
       cider
       libreoffice
       coreutils
       wl-clipboard
-      discord
-      signal-desktop
-      gparted
-      socat
       transmission_4-qt
       (aspellWithDicts (
         dicts: with dicts; [
@@ -61,23 +55,17 @@
       via
       distrobox
       tailscale-systray
-      telegram-desktop
       freecad
       calibre
       alacritty
       wofi
       waybar
       mpv
-      hyprpaper
       pavucontrol
       hyprshot
-      hypridle
-      hyprlock
-      hyprpicker
       hyprpolkitagent
       hyprcursor
       hyprutils
-      eww
       hyprnotify
       chromium
       clipman
@@ -93,7 +81,6 @@
       zenity
       eog
       gnome-keyring
-      gnome-control-center
       polkit
       polkit_gnome
       rofi-wayland
@@ -101,11 +88,20 @@
       wayprompt
       btop
       playerctl
-      vesktop
       devenv
+
+      #communication
+vesktop
+signal-desktop
+zoom-us
+discord
+telegram-desktop
+dissent
 
       #nix
       nixpkgs-fmt
+      statix
+      treefmt
 
       #Sec Stuff
       burpsuite
@@ -232,24 +228,9 @@
 
               "widget.disable-workspace-management" = true;
             };
-            search = {
-              force = true;
-              default = "DuckDuckGo";
-              order = [
-                "DuckDuckGo"
-                "Google"
-              ];
-            };
-
           };
         };
       };
-    };
-    eww = {
-      enable = true;
-      enableFishIntegration = true;
-      enableZshIntegration = true;
-      configDir = ./dot-files/eww;
     };
     neovim = {
       enable = true;

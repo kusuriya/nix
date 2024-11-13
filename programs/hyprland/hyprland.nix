@@ -44,6 +44,7 @@
         "Thunar --daemon"
         "hyprctl setcursor rose-pine-hyprcursor 24"
         "1password --silent"
+	"tailscale-systray"
 
       ];
       input = {
