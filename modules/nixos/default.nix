@@ -3,6 +3,4 @@
 {
   # List your module files here
   # my-module = import ./my-module.nix;
-  chitubox = import ./chitubox.nix;
-  vfio = import ./vfio.nix
-    }
+}
