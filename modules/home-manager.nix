@@ -11,7 +11,7 @@
     };
     users = {
       # Import your home-manager configuration
-      kusuriya = import ../../home-manager/home.nix;
+      kusuriya = import ../home-manager/home.nix;
     };
     backupFileExtension = "backup";
   };

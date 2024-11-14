@@ -8,7 +8,7 @@
 }:
 {
   imports = [
-    ./home-manager.nix
+    ../../modules/home-manager.nix
     ./hardware-configuration.nix
     ../../modules/oom.nix
     ../../modules/kusuriya.nix
