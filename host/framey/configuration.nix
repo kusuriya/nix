@@ -66,9 +66,17 @@
   system = {
     autoUpgrade = {
       enable = true;
-      flake = "github:kusuriya/nix";
-      flags = [ "--cores 15" ];
+      #flake = "github:kusuriya/nix";
+      flake = inputs.self.outPath;
+      flags = [ 
+      "--cores 15"
+      "--update-input"
+      "nixpkgs"
+      "-L"
+      ];
       allowReboot = true;
+      dates = "01:00";
+      randomizedDelaySec = "45min";
       rebootWindow.lower = "00:01";
       rebootWindow.upper = "05:00";
       persistent = true;

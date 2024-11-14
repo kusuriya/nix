@@ -42,7 +42,6 @@
         "hyprpolkitagent"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
-        "Thunar --daemon"
         "hyprctl setcursor rose-pine-hyprcursor 24"
         "1password --silent"
 	"tailscale-systray"

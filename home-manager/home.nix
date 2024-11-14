@@ -78,6 +78,7 @@
       btop
       playerctl
       devenv
+      direnv
 
       # themes
       tango-icon-theme
