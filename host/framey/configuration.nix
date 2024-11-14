@@ -10,7 +10,7 @@
   imports = [
     ./home-manager.nix
     ./hardware-configuration.nix
-    ./oom.nix
+    ../../modules/oom.nix
     ../../modules/kusuriya.nix
     ../../modules/fonts.nix
     ../../modules/containers.nix
