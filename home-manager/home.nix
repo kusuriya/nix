@@ -102,6 +102,7 @@
       #nix
       nixpkgs-fmt
       statix
+      deadnix
       treefmt
 
       #Sec Stuff
