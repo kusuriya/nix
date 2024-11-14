@@ -1,5 +1,5 @@
 {
-  description = "Desktop config";
+  description = "Kusuriya consilidated nix config";
   nixConfig = {
     extra-substituters = [
       "https://cache.nixos.org"
@@ -31,6 +31,7 @@
       url = "github:nix-community/lanzaboote/v0.4.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    catppuccin.url = "github:catppuccin/nix";
   };
 
   outputs =
@@ -40,6 +41,7 @@
     , hardware
     , hyprland
     , lanzaboote
+    , catppuccin
     , ...
     }@inputs:
     let
@@ -75,6 +77,18 @@
             inherit inputs outputs;
           };
           modules = [
+            home-manager.nixosModules.home-manager
+            catppuccin.nixosModules.catppuccin
+            {
+              home-manager.users.kusuriya = {
+                imports = [
+                  ./home-manager/home.nix
+                  catppuccin.homeManagerModules.catppuccin
+                ];
+                catppuccin = { enable = true; flavor = "macchiato"; };
+
+              };
+            }
             lanzaboote.nixosModules.lanzaboote
             ({ pkgs, lib, ... }: {
               boot.loader.systemd-boot.enable = lib.mkForce false;

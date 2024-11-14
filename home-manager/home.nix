@@ -1,11 +1,14 @@
 { config
 , pkgs
+, inputs
+, outputs
 , ...
 }:
 {
   imports = [
     ../programs/hyprland/hyprland.nix
   ];
+
   nixpkgs.config.allowUnfree = true;
   home = {
     username = "kusuriya";
@@ -50,6 +53,7 @@
       freecad
       calibre
       alacritty
+      orca-slicer
       wofi
       waybar
       mpv
@@ -139,7 +143,7 @@
           font = "Cascadia Code 12";
           frame_color = "#1a1b26";
           background_color = "#7a2f7a";
-          geometry = "500x5-5+30";
+          geometry = "550x25-5+30";
           format = "<b>%s</b>\\n%b";
           icon_position = "left";
         };
@@ -151,35 +155,6 @@
       enable = true;
       settings = {
         env.TERM = "xterm-256color";
-        colors = {
-          primary = {
-            "background" = "#1a1b26";
-            "foreground" = "#a9b1d6";
-          };
-          normal = {
-            "black" = "#32344a";
-            "red" = "#f7768e";
-            "green" = "#9ece6a";
-            "yellow" = "#e0af68";
-            "blue" = "#7aa2f7";
-            "magenta" = "#ad8ee6";
-            "cyan" = "#449dab";
-            "white" = "#787c99";
-          };
-          bright = {
-            "black" = "#444b6a";
-            "red" = "#ff7a93";
-            "green" = "#b9f27c";
-            "yellow" = "#ff9e64";
-            "blue" = "#7da6ff";
-            "magenta" = "#bb9af7";
-            "cyan" = "#0db9d7";
-            "white" = "#acb0d0";
-          };
-          selection = {
-            "background" = "#7aa2f7";
-          };
-        };
       };
     };
     obs-studio = {
@@ -214,7 +189,7 @@
     };
     firefox = {
       enable = true;
-      package = pkgs.firefox-wayland;
+      #package = pkgs.firefox-wayland;
       profiles = {
         default = {
           id = 0;
@@ -247,7 +222,7 @@
     tmux = {
       enable = true;
       extraConfig = ''
-        set -g update-environment 'DISPLAY SSH_ASKPASS SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY TERM'
+        set -g update-environment 'DISPLAY SSH_ASKPASS SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY TERM HYPRLAND_CMD HYPRLAND_INSTANCE_SIGNATURE'
         set -g default-terminal screen-256color
         set -g history-limit 100000
         set -q -g status-utf8 on                  # expect UTF-8 (tmux < 2.2)
@@ -269,16 +244,16 @@
 
   };
   dconf = {
-  enable = true;
-  settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
+    enable = true;
+    settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+      };
 
-    "org/gnome/shell/extensions/user-theme" = {
-      name = "Tokyonight-Dark-B-LB";
+      "org/gnome/shell/extensions/user-theme" = {
+        name = "Tokyonight-Dark-B-LB";
+      };
     };
-  };
   };
   manual = {
     html.enable = false;

@@ -68,11 +68,11 @@
       enable = true;
       #flake = "github:kusuriya/nix";
       flake = inputs.self.outPath;
-      flags = [ 
-      "--cores 15"
-      "--update-input"
-      "nixpkgs"
-      "-L"
+      flags = [
+        "--cores 15"
+        "--update-input"
+        "nixpkgs"
+        "-L"
       ];
       allowReboot = true;
       dates = "01:00";
@@ -272,7 +272,7 @@
       enable = true;
       polkitPolicyOwners = [ "kusuriya" ];
     };
-    dconf.enable=true;
+    dconf.enable = true;
   };
 
   environment = {
@@ -295,10 +295,10 @@
     etc = {
       "1password/custom_allowed_browsers" = {
         text = ''
-          vivaldi-bin
-          floorp
-          brave
-	  zen
+                    vivaldi-bin
+                    floorp
+                    brave
+          	  zen
         '';
         mode = "0755";
       };

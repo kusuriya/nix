@@ -8,6 +8,7 @@
 {
   wayland.windowManager.hyprland = {
     enable = true;
+    catppuccin.enable = true;
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     xwayland.enable = true;
     systemd = {
@@ -36,6 +37,7 @@
         "gnome-keyring-daemon -s -d -c secrets"
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "dbus-update-activation-environment --all"
+        "systemctl --user import-environment"
         "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
         "nm-applet &"
         "hypridle"
@@ -44,7 +46,7 @@
         "wl-paste --type image --watch cliphist store"
         "hyprctl setcursor rose-pine-hyprcursor 24"
         "1password --silent"
-	"tailscale-systray"
+        "tailscale-systray"
 
       ];
       input = {
@@ -61,8 +63,8 @@
         gaps_in = 0;
         gaps_out = 4;
         border_size = 2;
-        "col.active_border" = "$pine";
-        "col.inactive_border" = "$muted";
+        "col.active_border" = "$overlay1";
+        "col.inactive_border" = "$surface0";
         layout = "dwindle";
         allow_tearing = true;
         resize_on_border = true;
@@ -102,15 +104,15 @@
       };
       group = {
         drag_into_group = 2;
-        "col.border_active" = "$pine";
-        "col.border_inactive" = "$muted";
+        "col.border_active" = "$overlay1";
+        "col.border_inactive" = "$surface0";
         groupbar = {
           enabled = true;
           font_size = 12;
           text_color = "$text";
           height = 24;
-          "col.active" = "$pine";
-          "col.inactive" = "$muted";
+          "col.active" = "$surface1";
+          "col.inactive" = "$surface0";
         };
       };
       bind = [
@@ -186,7 +188,7 @@
         "XCURSOR_SIZE,24"
         "HYPRCURSOR_THEME,rose-pine-hyprcursor"
         "HYPRCURSOR_SIZE,24"
-        "GDK_SCALE,2"
+        "GDK_SCALE,1.5"
         "XDG_CURRENT_DESKTOP,Hyprland"
         "XDG_SESSION_DESKTOP,Hyprland"
         "XDG_SESSION_TYPE,wayland"
@@ -201,7 +203,6 @@
         "QT_QPA_PLATFORMTHEME,qt6ct"
         "QT_AUTO_SCREEN_SCALE_FACTOR,1"
         "WLR_RENDERER_ALLOW_SOFTWARE,1"
-        "NIXPKGS_ALLOW_UNFREE,1"
       ];
       windowrulev2 = [
         "suppressevent maximize, class:.*"

@@ -6,12 +6,6 @@ options = ["-euc", "for file in \"$@\"; do statix check \"$file\"; done"]
 includes = [ "*.nix" ]
 priority = 1
 
-[formatter.deadnix]
-command = "deadnix"
-options = ["-f"]
-includes = [ "*.nix" ]
-priority = 2
-
 [formatter.nix]
 command = "nix"
 options = ["fmt"]

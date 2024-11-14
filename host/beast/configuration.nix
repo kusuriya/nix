@@ -5,36 +5,24 @@
 , pkgs
 , modulesPath
 , ...
-}: {
+}:
+{
   # You can import other NixOS modules here
   imports = [
-    ./home-manager.nix
+    ../../modules/home-manager.nix
     ./hardware-configuration.nix
-    ./oom.nix
+    ../../modules/oom.nix
     ./vfio.nix
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
   ];
   nixpkgs = {
-    # You can add overlays here
     overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
-
-      # You can also add overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
     ];
-    # Configure your nixpkgs instance
     config = {
       allowUnfree = true;
     };
@@ -42,7 +30,9 @@
 
   nix =
     let
-      flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+      flakeInputs = lib.filterAttrs
+        (_: lib.isType "flake")
+        inputs;
     in
     {
       settings = {
@@ -63,13 +53,33 @@
     };
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.configurationLimit = 7;
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      systemd-boot.configurationLimit = 7;
+    };
+    kernelPackages = pkgs.linuxPackages_latest;
+    plymouth.enable = true;
+    tmp = {
+      useTmpfs = true;
+      tmpfsSize = "25%";
+    };
+    kernel.sysctl = {
+      "kernel.panic" = 60;
+      "net.ipv4.tcp_mtu_probing" = 1;
+    };
+  };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  networking.hostName = "beast";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "beast";
+    networkmanager.enable = true;
+    resolvconf = {
+      dnsExtensionMechanism = true;
+      enable = true;
+    };
+  };
+
   time.timeZone = "America/Los_Angeles";
   i18n = {
     defaultLocale = "en_US.UTF-8";
@@ -86,43 +96,21 @@
     };
   };
 
-  services.desktopManager.cosmic.enable = true;
-  services.flatpak.enable = true;
   xdg.portal = {
     enable = true;
+    config.common.default = "xdg-desktop-portal-hyprland";
     extraPortals = [
-      pkgs.xdg-desktop-portal-hyprland
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-kde
     ];
   };
 
-  services.xserver = {
+  zramSwap = {
     enable = true;
-    displayManager.gdm.enable = true;
-    #displayManager.sddm.wayland.enable = true;
-    #displayManager.defaultSession = "plasma";
-    #desktopManager.plasma6.enable = true;
-    xkb = {
-      layout = "us";
-      variant = "";
-    };
-  };
-  services.openssh.enable = true;
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    nssmdns6 = true;
-    wideArea = true;
-    openFirewall = true;
-    ipv6 = true;
-    ipv4 = true;
-    browseDomains = [
-      "lan.corrupted.io"
-      "corrupted.io"
-      "local"
-      "sneaky.dev"
-    ];
+    priority = 100;
+    memoryPercent = 10;
+    swapDevices = 1;
+    algorithm = "zstd";
   };
 
   hardware = {
@@ -137,7 +125,9 @@
 
   };
   #sound.enable = true;
-  security.rtkit.enable = true;
+  security = {
+    rtkit.enable = true;
+  };
 
   users.users.kusuriya = {
     isNormalUser = true;
@@ -148,6 +138,7 @@
   };
 
   services = {
+    flatpak.enable = true;
     libinput = {
       enable = true;
       touchpad = {
@@ -161,6 +152,30 @@
       useRoutingFeatures = "client";
       interfaceName = "userspace-networking";
     };
+    xserver = {
+      enable = true;
+      displayManager.gdm.enable = true;
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
+    };
+    openssh.enable = true;
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      nssmdns6 = true;
+      openFirewall = true;
+      ipv6 = true;
+      ipv4 = true;
+      browseDomains = [
+        "lan.corrupted.io"
+        "corrupted.io"
+        "local"
+        "sneaky.dev"
+      ];
+    };
+
 
     fwupd.enable = true;
     fstrim.enable = true;
@@ -182,7 +197,6 @@
       pulse.enable = true;
       jack.enable = true;
       wireplumber.enable = true;
-      #media-session.enable = true;
       extraConfig.pipewire."92-rates" = {
         "context.properties" = {
           "default.clock.rate" = 44100;
