@@ -1,11 +1,10 @@
-{
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  modulesPath,
-  ...
+{ inputs
+, outputs
+, lib
+, config
+, pkgs
+, modulesPath
+, ...
 }: {
   # You can import other NixOS modules here
   imports = [
@@ -41,25 +40,27 @@
     };
   };
 
-  nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-    in {
-    settings = {
-      experimental-features = "nix-command flakes";
-      auto-optimise-store = true;
-      allowed-users = [ "kusuriya" "root" ];
-      trusted-users = [ "kusuriya" "root" ];
-      nix-path = config.nix.nixPath;
+  nix =
+    let
+      flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+    in
+    {
+      settings = {
+        experimental-features = "nix-command flakes";
+        auto-optimise-store = true;
+        allowed-users = [ "kusuriya" "root" ];
+        trusted-users = [ "kusuriya" "root" ];
+        nix-path = config.nix.nixPath;
+      };
+      registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
+      nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+      gc = {
+        automatic = true;
+        dates = "weekly";
+        # Keep the last week
+        options = "--delete-older-than 7d";
+      };
     };
-    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      # Keep the last week
-      options = "--delete-older-than 7d";
-    };
-  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -84,7 +85,7 @@
       LC_TIME = "en_US.UTF-8";
     };
   };
-  
+
   services.desktopManager.cosmic.enable = true;
   services.flatpak.enable = true;
   xdg.portal = {
@@ -96,7 +97,7 @@
     ];
   };
 
-  services.xserver = { 
+  services.xserver = {
     enable = true;
     displayManager.gdm.enable = true;
     #displayManager.sddm.wayland.enable = true;
@@ -105,7 +106,7 @@
     xkb = {
       layout = "us";
       variant = "";
-    };    
+    };
   };
   services.openssh.enable = true;
   services.avahi = {
@@ -141,16 +142,18 @@
   users.users.kusuriya = {
     isNormalUser = true;
     description = "kusuriya";
-    extraGroups = [ "cdrom" "networkmanager" "wheel" "dialout" "audio" "video" "system" "libvirtd" "kvm" "render"];
+    extraGroups = [ "cdrom" "networkmanager" "wheel" "dialout" "audio" "video" "system" "libvirtd" "kvm" "render" ];
     shell = pkgs.fish;
 
   };
-  
-  services = { 
-    libinput = { 
+
+  services = {
+    libinput = {
       enable = true;
       touchpad = {
-        tapping = true;                                                                                                     disableWhileTyping = true;                                                                                          clickMethod = "clickfinger";                                                    
+        tapping = true;
+        disableWhileTyping = true;
+        clickMethod = "clickfinger";
       };
     };
     tailscale = {
@@ -238,7 +241,7 @@
     };
     dconf.enable = true;
   };
-  
+
   fonts = {
     packages = with pkgs; [
       dejavu_fonts
@@ -259,29 +262,29 @@
       subpixel.rgba = "rgb";
     };
   };
-  
+
   environment = {
     systemPackages = with pkgs; [
-     wget
-     git
-     curl
-     distrobox
-     neovim
-     linux-firmware
-     glib
-     glib-networking
-     appimage-run
-     kdePackages.kdeconnect-kde
-     btrfs-progs
-     btrfs-snap
-     timeshift
-     swtpm
-     unstable.OVMFFull
-     looking-glass-client
-     dnsmasq
+      wget
+      git
+      curl
+      distrobox
+      neovim
+      linux-firmware
+      glib
+      glib-networking
+      appimage-run
+      kdePackages.kdeconnect-kde
+      btrfs-progs
+      btrfs-snap
+      timeshift
+      swtpm
+      unstable.OVMFFull
+      looking-glass-client
+      dnsmasq
 
-     ];
-     etc = {
+    ];
+    etc = {
       "ovmf/edk2-x86_64-secure-code.fd" = {
         source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
       };
@@ -303,29 +306,29 @@
   };
 
 
- virtualisation = {
-   containers.enable = true;
-   podman = {
-     enable = true;
-     dockerCompat = true;
-     defaultNetwork.settings.dns_enabled = true;
-   };
-   libvirtd = {
-     enable = true;
-     qemu = {
-       package = pkgs.qemu_kvm;
-       runAsRoot = false;
-       swtpm.enable = true;
-       ovmf = {
-         enable = true;
-         packages = [ pkgs.unstable.OVMFFull.fd ];
-       };
-     };
-   };
- };
+  virtualisation = {
+    containers.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+    libvirtd = {
+      enable = true;
+      qemu = {
+        package = pkgs.qemu_kvm;
+        runAsRoot = false;
+        swtpm.enable = true;
+        ovmf = {
+          enable = true;
+          packages = [ pkgs.unstable.OVMFFull.fd ];
+        };
+      };
+    };
+  };
 
 
- programs.kdeconnect = {
+  programs.kdeconnect = {
     enable = true;
   };
 

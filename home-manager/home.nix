@@ -18,14 +18,8 @@
       libsForQt5.qt5ct
       libsForQt5.qtstyleplugin-kvantum
       cliphist
-      rose-pine-cursor
       overskride
       helvum
-      tango-icon-theme
-      papirus-icon-theme
-      gnome-icon-theme
-      adwaita-icon-theme
-      virt-manager
       networkmanagerapplet
       parsec-bin
       unzip
@@ -34,14 +28,12 @@
       gnupg
       rclone
       rsync
-      slack
       yt-dlp
       plantuml
       jq
       inkscape
       cider
       libreoffice
-      coreutils
       wl-clipboard
       transmission_4-qt
       (aspellWithDicts (
@@ -51,7 +43,6 @@
           en-science
         ]
       ))
-      vscode
       via
       distrobox
       tailscale-systray
@@ -68,9 +59,6 @@
       hyprutils
       hyprnotify
       chromium
-      clipman
-      cascadia-code
-      tokyo-night-gtk
       pamixer
       dunst
       appimage-run
@@ -90,13 +78,24 @@
       playerctl
       devenv
 
+      # themes
+      tango-icon-theme
+      papirus-icon-theme
+      gnome-icon-theme
+      adwaita-icon-theme
+      rose-pine-cursor
+      cascadia-code
+      tokyo-night-gtk
+
+
       #communication
-vesktop
-signal-desktop
-zoom-us
-discord
-telegram-desktop
-dissent
+      vesktop
+      signal-desktop
+      zoom-us
+      discord
+      telegram-desktop
+      dissent
+      slack
 
       #nix
       nixpkgs-fmt
@@ -134,9 +133,12 @@ dissent
         global = {
           offset = "30x50";
           origin = "bottom-right";
-          font = "Cascadia Code 14";
+          font = "Cascadia Code 12";
           frame_color = "#1a1b26";
           background_color = "#7a2f7a";
+          geometry = "500x5-5+30";
+          format = "<b>%s</b>\\n%b";
+          icon_position = "left";
         };
       };
     };
@@ -219,13 +221,11 @@ dissent
             settings = {
               "browser.search.defaultenginename" = "DuckDuckGo";
               "browser.search.order.1" = "DuckDuckGo";
-
               "signon.rememberSignons" = false;
               "widget.use-xdg-desktop-portal.file-picker" = 1;
               "browser.aboutConfig.showWarning" = false;
               "browser.compactmode.show" = true;
               "browser.cache.disk.enable" = false; # Be kind to hard drive
-
               "widget.disable-workspace-management" = true;
             };
           };
@@ -246,29 +246,20 @@ dissent
       extraConfig = ''
         set -g update-environment 'DISPLAY SSH_ASKPASS SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY TERM'
         set -g default-terminal screen-256color
-
         set -g history-limit 100000
         set -q -g status-utf8 on                  # expect UTF-8 (tmux < 2.2)
         setw -q -g utf8 on
-
         setw -g automatic-rename on   # rename window to reflect current program
         set -g renumber-windows on    # renumber windows when a window is closed
-
         set -g set-titles on          # set terminal title
-
         set -g display-panes-time 800 # slightly longer pane indicators display time
         set -g display-time 1000      # slightly longer status messages display time
-
         set -g status-interval 5 # redraw status line every 10 seconds
-
         set -g status-bg colour235
         set -g status-fg yellow
         set -g status-right-length 150
         set -g status-right '[ #{host_short} | %a %F %R]'
-
         set -g window-status-current-format "#[fg=colour117,bg=colour31] #I:#W "
-
-        # Mouse mode on!
         setw -g mouse on
       '';
     };

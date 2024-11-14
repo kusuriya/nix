@@ -254,7 +254,6 @@
       videoDrivers = [ "amdgpu" ];
     };
 
-
   };
   programs = {
     neovim = {
@@ -275,6 +274,7 @@
       appimage-run
       brightnessctl
       curl
+      coreutils
       distrobox
       linux-firmware
       mosh
@@ -292,6 +292,7 @@
           vivaldi-bin
           floorp
           brave
+	  zen
         '';
         mode = "0755";
       };

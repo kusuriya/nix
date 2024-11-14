@@ -1,10 +1,9 @@
-{
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  ...
+{ inputs
+, outputs
+, lib
+, config
+, pkgs
+, ...
 }: {
   # You can import other NixOS modules here
   imports = [
@@ -41,19 +40,19 @@
 
   # This will add each flake input as a registry
   # To make nix3 commands consistent with your flake
-  nix.registry = (lib.mapAttrs (_: flake: {inherit flake;})) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+  nix.registry = (lib.mapAttrs (_: flake: { inherit flake; })) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
 
   # This will additionally add your inputs to the system's legacy channels
   # Making legacy nix commands consistent as well, awesome!
-  nix.nixPath = ["/etc/nix/path"];
+  nix.nixPath = [ "/etc/nix/path" ];
   programs.nix-ld.enable = true;
   environment.etc =
     lib.mapAttrs'
-    (name: value: {
-      name = "nix/path/${name}";
-      value.source = value.flake;
-    })
-    config.nix.registry;
+      (name: value: {
+        name = "nix/path/${name}";
+        value.source = value.flake;
+      })
+      config.nix.registry;
 
   nix = {
     settings = {
@@ -94,7 +93,7 @@
       LC_TIME = "en_US.UTF-8";
     };
   };
-  
+
   services.desktopManager.cosmic.enable = true;
   services.flatpak.enable = true;
   xdg.portal = {
@@ -106,7 +105,7 @@
     ];
   };
 
-  services.xserver = { 
+  services.xserver = {
     enable = true;
     displayManager.gdm.enable = true;
     #displayManager.sddm.wayland.enable = true;
@@ -115,7 +114,7 @@
     xkb = {
       layout = "us";
       variant = "";
-    };    
+    };
   };
   services.avahi = {
     enable = true;
@@ -150,16 +149,18 @@
   users.users.kusuriya = {
     isNormalUser = true;
     description = "kusuriya";
-    extraGroups = [ "cdrom" "networkmanager" "wheel" "dialout" "audio" "video" "system" "libvirtd" "render"];
+    extraGroups = [ "cdrom" "networkmanager" "wheel" "dialout" "audio" "video" "system" "libvirtd" "render" ];
     shell = pkgs.fish;
 
   };
-  
-  services = { 
-    libinput = { 
+
+  services = {
+    libinput = {
       enable = true;
       touchpad = {
-        tapping = true;                                                                                                     disableWhileTyping = true;                                                                                          clickMethod = "clickfinger";                                                    
+        tapping = true;
+        disableWhileTyping = true;
+        clickMethod = "clickfinger";
       };
     };
     tailscale = {
@@ -238,7 +239,7 @@
     };
     dconf.enable = true;
   };
-  
+
   fonts.packages = with pkgs; [
     dejavu_fonts
     emacs-all-the-icons-fonts
@@ -248,23 +249,23 @@
     noto-fonts-emoji
     nerdfonts
   ];
-  
-  environment.systemPackages = with pkgs; [
-   wget
-   git
-   curl
-   distrobox
-   neovim
-   linux-firmware
-   glib
-   glib-networking
-   appimage-run
-   kdePackages.kdeconnect-kde
-   btrfs-progs
-   btrfs-snap
-   timeshift
 
-   ];
+  environment.systemPackages = with pkgs; [
+    wget
+    git
+    curl
+    distrobox
+    neovim
+    linux-firmware
+    glib
+    glib-networking
+    appimage-run
+    kdePackages.kdeconnect-kde
+    btrfs-progs
+    btrfs-snap
+    timeshift
+
+  ];
   boot.binfmt.registrations.appimage = {
     wrapInterpreterInShell = false;
     interpreter = "${pkgs.appimage-run}/bin/appimage-run";
@@ -275,16 +276,16 @@
   };
 
 
- virtualisation = {
-   containers.enable = true;
-   podman = {
-     enable = true;
-     dockerCompat = true;
-     defaultNetwork.settings.dns_enabled = true;
-   };
-   libvirtd.enable = true;
- };
- programs.kdeconnect = {
+  virtualisation = {
+    containers.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+    libvirtd.enable = true;
+  };
+  programs.kdeconnect = {
     enable = true;
   };
 
