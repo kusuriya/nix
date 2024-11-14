@@ -45,8 +45,6 @@
           "root"
         ];
         nix-path = config.nix.nixPath;
-        substituters = [ "https://hyprland.cachix.org" ];
-        trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
       };
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
@@ -266,7 +264,7 @@
       enable = true;
       polkitPolicyOwners = [ "kusuriya" ];
     };
-
+    dconf.enable=true;
   };
 
   environment = {

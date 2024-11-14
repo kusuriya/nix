@@ -1,6 +1,15 @@
 {
   description = "Desktop config";
-
+  nixConfig = {
+    extra-substituters = [
+      "https://cache.nixos.org"
+      "https://hyprland.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+    ];
+  };
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -18,6 +27,12 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.1";
+
+      # Optional but recommended to limit the size of your system closure.
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -26,6 +41,7 @@
     , home-manager
     , hardware
     , hyprland
+    , lanzaboote
     , ...
     }@inputs:
     let
@@ -61,6 +77,14 @@
             inherit inputs outputs;
           };
           modules = [
+            lanzaboote.nixosModules.lanzaboote
+            ({ pkgs, lib, ... }: {
+              boot.loader.systemd-boot.enable = lib.mkForce false;
+              boot.lanzaboote = {
+                enable = true;
+                pkiBundle = "/etc/secureboot";
+              };
+            })
             ./host/framey/configuration.nix
           ];
         };

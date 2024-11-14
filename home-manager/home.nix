@@ -15,6 +15,7 @@
       _1password-gui
       _1password-cli
       arc-kde-theme
+      dconf
       libsForQt5.qt5ct
       libsForQt5.qtstyleplugin-kvantum
       cliphist
@@ -34,7 +35,7 @@
       inkscape
       cider
       libreoffice
-      wl-clipboard
+      wl-clipboard-rs
       transmission_4-qt
       (aspellWithDicts (
         dicts: with dicts; [
@@ -265,7 +266,9 @@
     };
 
   };
-  dconf.settings = {
+  dconf = {
+  enable = true;
+  settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
     };
@@ -273,6 +276,7 @@
     "org/gnome/shell/extensions/user-theme" = {
       name = "Tokyonight-Dark-B-LB";
     };
+  };
   };
   manual = {
     html.enable = false;
