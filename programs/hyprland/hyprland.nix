@@ -130,7 +130,9 @@
         "$mainMod, down, movefocus, d"
         "$mainMod, G, togglegroup"
         "$mainMod SHIFT, G, moveoutofgroup"
-        "$mainMod, V, exec, cliphist list|wofi --dmenu|cliphist decode|wl-copy"
+        "$mainMod SHIFT, V, exec, cliphist list|wofi --dmenu|cliphist decode|wl-copy"
+	"$mainMod, V, sendshortcut, SHIFT, INSERT,"
+	"$mainMod, C, sendshortcut, CONTROL, INSERT,"
         "$mainMod Control, S, exec, hyprshot --clipboard-only -m region -z"
         "$mainMod, S, togglespecialworkspace, magic"
         "$mainMod SHIFT, S, movetoworkspace, special:magic"
@@ -231,6 +233,11 @@
         "float,pavucontrol"
         "size 1280 720, pavucontrol"
       ];
+      workspace = [
+        "3, monitor:desc:LG Electronics LG SDQHD 302NTCZF0715, default=true, defaultname=comms"
+        "1, monitor:desc:HP Inc. HP X27q 6CM1210654, default=true, defaultname=term"
+        "2, monitor:desc:BOE NE135A1M-NY1, default=true,defaultname=browse"
+      ];
     };
     extraConfig = ''
       # Window resize
@@ -250,6 +257,72 @@
     '';
   };
   programs = {
+    waybar = {
+      enable = true;
+      style = ''
+              * {
+            font-family: FontAwesome,"CasckaydiaCove NF",sans-serif,monospace;
+        }
+
+        #window {
+            padding: 0 2px;
+        }
+
+        window#waybar {
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            text-shadow: none;
+            transition-duration: 0s;
+            color: @text;
+            background: @crust; 
+        } 
+
+        #workspaces {
+            margin: 0 5px;
+        }
+
+        #workspaces button.urgent {
+            background-color: @red;
+            color: white;
+        }
+
+        #tray,
+        #mode,
+        #battery,
+        #temperature,
+        #cpu,
+        #memory,
+        #network,
+        #wireplumber,
+        #idle_inhibitor,
+        #backlight {
+            margin: 0px 0px 0px 6px;
+            padding: 0 2px;
+        }
+
+        #clock {
+            margin:     0px 6px 0px 6px;
+        }
+
+        #battery {
+        	font-size: 18px;
+        }
+        #battery.warning {
+            color: orange;
+        }
+
+        #battery.critical {
+            color: red;
+        }
+
+        #battery.charging {
+            color: rgba(217, 216, 216, 1);
+        }
+
+
+      '';
+    };
     hyprlock = {
       enable = true;
       settings = {

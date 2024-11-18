@@ -9,11 +9,16 @@
     ../programs/hyprland/hyprland.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [
+                "electron-27.3.11"
+              ];
+  };
   home = {
     username = "kusuriya";
     homeDirectory = "/home/kusuriya";
-    stateVersion = "23.05";
+    stateVersion = "24.11";
     packages = with pkgs; [
       _1password-gui
       _1password-cli
@@ -51,7 +56,7 @@
       distrobox
       tailscale-systray
       freecad
-      calibre
+      #calibre
       alacritty
       orca-slicer
       wofi
@@ -83,6 +88,7 @@
       playerctl
       devenv
       direnv
+      logseq
 
       # themes
       tango-icon-theme
@@ -102,6 +108,7 @@
       telegram-desktop
       dissent
       slack
+      weechat
 
       #nix
       nixpkgs-fmt
