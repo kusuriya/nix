@@ -16,6 +16,7 @@ in
     ./waybar.nix
     ./hyprlock.nix
     ./hypridle.nix
+    ./greetd.nix
   ];
   options.modules.hyprland = {
     enable = mkEnableOption "Hyprland configuration";
