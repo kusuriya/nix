@@ -19,9 +19,9 @@
   modules.hyprland = {
     enable = true;
     monitors = [
-      "desc:HP Inc. HP X27q 6CM1210654,preferred,0x0,1"
-      "desc:BOE NE135A1M-NY1,preferred,auto-right,2.0"
-      "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1.25"
+      "desc:HP Inc. HP X27q 6CM1210654,preferred,0x0,1,vrr,1"
+      "desc:BOE NE135A1M-NY1,preferred,auto-right,2,vrr,1"
+      "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1.25,vrr,1"
       ",preferred,auto,auto"
     ];
   };
