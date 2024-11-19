@@ -10,6 +10,9 @@ let
   cfg = config.modules.hyprland;
 in
 {
+  imports = [
+  ./waybar.nix
+  ];
   options.modules.hyprland = {
     enable = mkEnableOption "Hyprland configuration";
     monitors = mkOption {
@@ -20,12 +23,8 @@ in
   };
 
   config = mkIf cfg.enable {
-    imports = [
-      ./waybar.nix
-    ];
     home.packages = with pkgs;
       [
-        waybar
         dunst
         wl-clipboard-rs
         wofi

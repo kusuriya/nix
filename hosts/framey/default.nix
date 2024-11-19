@@ -328,7 +328,6 @@
       lm_sensors
       poweralertd
       statix
-      nixpkg-fmt
       git-lfs
       git
       nil
