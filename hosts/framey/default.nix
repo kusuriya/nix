@@ -66,7 +66,6 @@
   system = {
     autoUpgrade = {
       enable = true;
-      #flake = "github:kusuriya/nix";
       flake = inputs.self.outPath;
       flags = [
         "--cores 15"
@@ -201,6 +200,8 @@
     rtkit.enable = true;
     polkit.enable = true;
     sudo.wheelNeedsPassword = true;
+    audit.enable = true;
+    auditd.enable = true;
     apparmor = {
       enable = true;
       killUnconfinedConfinables = true;
