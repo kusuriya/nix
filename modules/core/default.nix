@@ -6,4 +6,5 @@
     ./home-manager.nix
     ./fonts.nix
     ./containers.nix
-  ]
+  ];
+}
