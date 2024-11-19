@@ -1,5 +1,5 @@
 {
-  description = "Kusuriya consilidated nix config";
+  description = "https://github.com/kusuriya/nix";
   nixConfig = {
     extra-substituters = [
       "https://cache.nixos.org"
@@ -111,6 +111,9 @@
         };
 
         # Laptop configuration
+        # Framework 13
+        # AMD Ryzen 7 7040
+        # 32
         framey = mkSystem {
           hostname = "framey";
           extraModules = [
