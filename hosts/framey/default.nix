@@ -8,12 +8,8 @@
 }:
 {
   imports = [
-    ../../modules/home-manager.nix
+    ../../modules/core
     ./hardware-configuration.nix
-    ../../modules/oom.nix
-    ../../modules/kusuriya.nix
-    ../../modules/fonts.nix
-    ../../modules/containers.nix
     inputs.hardware.nixosModules.framework-13-7040-amd
     inputs.hardware.nixosModules.common-pc-ssd
   ];
