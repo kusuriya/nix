@@ -11,7 +11,6 @@
       nerdfonts
     ];
     fontconfig = {
-      cache32bit = true;
       hinting.style = "slight";
       subpixel.lcdfilter = "default";
     };
