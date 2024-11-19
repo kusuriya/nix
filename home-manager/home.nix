@@ -25,10 +25,6 @@
       ",preferred,auto,auto"
     ];
   };
-  catppuccin = {
-    enable = true;
-    flavor = "macchiato";
-  };
 
   home = {
     username = "kusuriya";
@@ -171,6 +167,10 @@
     };
   };
   programs = {
+    catppuccin = {
+      enable = true;
+      flavor = "macchiato";
+    };
     alacritty = {
       enable = true;
       settings = {

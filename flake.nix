@@ -65,7 +65,7 @@
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {
                 extraSpecialArgs = { inherit inputs self; };
-                users.kusuriya = import ./home-manager/home.nix;
+                users.kusuriya = { imports [ ./home-manager/home.nix inputs.catppuccin.homeManagerModules.catppuccin ]
                 useGlobalPkgs = true;
                 useUserPackages = true;
               };
@@ -99,8 +99,8 @@
           extraModules = [
             inputs.hardware.nixosModules.framework-13-7040-amd
             inputs.hardware.nixosModules.common-pc-ssd
-            inputs.catppuccin.nixosModules.catppuccin
             inputs.lanzaboote.nixosModules.lanzaboote
+	    inputs.catppuccin.nixosModules.catppuccin
           ];
         };
       };
