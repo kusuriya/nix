@@ -52,10 +52,25 @@
         #"aarch64-darwin"
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
-      mkSystem = hostname: nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs self; };
-        modules = [ ./hosts/${hostname} ];
-      };
+      # Helper function to create system configurations
+      mkSystem = { hostname, system ? "x86_64-linux", extraModules ? [], homeManagerConfig ? true }: 
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs self; };
+          modules = [
+            # Base configuration
+            ./hosts/${hostname}
+
+            # Conditional home-manager setup
+            (lib.mkIf homeManagerConfig {
+              imports = [ home-manager.nixosModules.home-manager ];
+              home-manager = {
+                extraSpecialArgs = { inherit inputs self; };
+                users.kusuriya = import ./home-manager/home.nix;
+              };
+            })
+          ] ++ extraModules;
+        };
     in
     {
       packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
@@ -63,13 +78,30 @@
 
       overlays = import ./overlays { inherit inputs; };
       nixosModules = import ./modules/nixos;
-      vfioModules = import ./modules/vfio;
       homeManagerModules = import ./modules/home-manager;
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
-        beast = mkSystem "beast";
-        framey = mkSystem "framey";
+        # Desktop configuration
+        beast = mkSystem {
+          hostname = "beast";
+          extraModules = [
+            inputs.hardware.nixosModules.common-cpu-amd
+            inputs.hardware.nixosModules.common-gpu-intel
+            inputs.hardware.nixosModules.common-pc-ssd
+          ];
+        };
+
+        # Laptop configuration
+        framey = mkSystem {
+          hostname = "framey";
+          extraModules = [
+            inputs.hardware.nixosModules.framework-13-7040-amd
+            inputs.hardware.nixosModules.common-pc-ssd
+            inputs.catppuccin.nixosModules.catppuccin
+            inputs.lanzaboote.nixosModules.lanzaboote
+          ];
+        };
       };
     };
 }
