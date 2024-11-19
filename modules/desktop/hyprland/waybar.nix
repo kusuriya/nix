@@ -69,7 +69,7 @@
       modules-right = [
         "wireplumber"
         "power-profiles-daemon"
-	"network"
+        "network"
         "battery"
         "tray"
       ];
@@ -101,7 +101,7 @@
         format = "{icon} {capacity}%";
         format-charging = "󰂄 {capacity}%";
         format-plugged = "󱘖 {capacity}%";
-        format-icons = ["󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹"];
+        format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
       };
       network = {
         format-wifi = "󰤨 {essid}";
@@ -113,7 +113,7 @@
       wireplumber = {
         format = "{icon} {volume}%";
         format-muted = "󰝟";
-        format-icons = ["󰕿" "󰖀" "󰕾"];
+        format-icons = [ "󰕿" "󰖀" "󰕾" ];
         on-click = "pavucontrol";
       };
       tray = {
@@ -123,8 +123,8 @@
       "idle_inhibitor" = {
         format = "{icon}";
         format-icons = {
-          activated = "󰅶";    # Icon when idle inhibitor is active
-          deactivated = "󰾪";  # Icon when idle inhibitor is inactive
+          activated = "󰅶"; # Icon when idle inhibitor is active
+          deactivated = "󰾪"; # Icon when idle inhibitor is inactive
         };
         tooltip = true;
         tooltip-format-activated = "Idle Inhibitor Active";
