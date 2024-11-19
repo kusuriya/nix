@@ -12,6 +12,7 @@
     kernelParams = [
       "quiet"
       "splash"
+      "amd_pstate=active"
     ];
     initrd = {
       availableKernelModules = [
@@ -24,6 +25,7 @@
       kernelModules = [
         "v4l2loopback"
         "amdgpu"
+	"amd-pstate"
       ];
       luks.devices."luks-b0bd2e7d-bb44-4105-a3b9-5d2b5e87065c".device = "/dev/disk/by-uuid/b0bd2e7d-bb44-4105-a3b9-5d2b5e87065c";
     };
