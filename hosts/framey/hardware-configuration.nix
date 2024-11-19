@@ -9,7 +9,6 @@
   ];
   boot = {
     loader.timeout = 0;
-    systemd.enable = true;
     kernelParams = [
       "quiet"
       "splash"
@@ -19,6 +18,7 @@
       "randomize_kstack_offset=on"
     ];
     initrd = {
+      systemd.enable = true;
       availableKernelModules = [
         "nvme"
         "xhci_pci"
