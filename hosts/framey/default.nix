@@ -99,8 +99,8 @@
       kernel.sysctl = {
         "net.ipv4.tcp_mtu_probing" = 1;
         "kernel.panic" = 60;
-	"net.core.default_qdisc" = "fq";
-  "net.ipv4.tcp_congestion_control" = "bbr";
+        "net.core.default_qdisc" = "fq";
+        "net.ipv4.tcp_congestion_control" = "bbr";
       };
       binfmt.registrations.appimage = {
         wrapInterpreterInShell = false;
@@ -115,7 +115,6 @@
 
   networking = {
     hostName = "framey";
-    tcp_fastopen = true;
     networkmanager.wifi.powersave = true;
     networkmanager.enable = true;
     firewall.enable = true;
