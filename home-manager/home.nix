@@ -39,8 +39,6 @@
       _1password-cli
       arc-kde-theme
       dconf
-      libsForQt5.qt5ct
-      libsForQt5.qtstyleplugin-kvantum
       cliphist
       overskride
       helvum

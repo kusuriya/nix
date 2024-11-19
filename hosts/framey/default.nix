@@ -157,12 +157,6 @@
     };
   };
 
-  qt = {
-    enable = true;
-    platformTheme = "qt5ct";
-    style = "kvantum";
-  };
-
   zramSwap = {
     enable = true;
     priority = 100;
