@@ -77,14 +77,14 @@
         format = "{icon}";
         on-click = "activate";
         format-icons = {
-          "1" = "";
-          "2" = "";
-          "3" = "";
-          "4" = "";
-          "5" = "";
-          urgent = "";
-          active = "";
-          default = "";
+          "1" = "1";
+          "2" = "2";
+          "3" = "3";
+          "4" = "4";
+          "5" = "5";
+          urgent = "!";
+          active = "-";
+          default = "x";
         };
         sort-by-number = true;
       };
