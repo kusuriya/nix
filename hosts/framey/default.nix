@@ -1,9 +1,9 @@
 { inputs
-, outputs
 , lib
 , config
 , pkgs
 , modulesPath
+, self
 , ...
 }:
 {
@@ -15,9 +15,9 @@
   ];
   nixpkgs = {
     overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
+      self.overlays.additions
+      self.overlays.modifications
+      self.overlays.unstable-packages
     ];
     config = {
       allowUnfree = true;

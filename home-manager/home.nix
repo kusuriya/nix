@@ -1,7 +1,6 @@
 { config
 , pkgs
 , inputs
-, outputs
 , ...
 }:
 {
@@ -26,14 +25,15 @@
       ",preferred,auto,auto"
     ];
   };
+  catppuccin = {
+    enable = true;
+    flavor = "macchiato";
+  };
+
   home = {
     username = "kusuriya";
     homeDirectory = "/home/kusuriya";
     stateVersion = "24.11";
-    catppuccin = {
-      enable = true;
-      style = "macciato";
-    };
     packages = with pkgs; [
       _1password-gui
       _1password-cli

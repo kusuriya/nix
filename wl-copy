@@ -63,11 +63,10 @@
 
             # Conditional home-manager setup
             (nixpkgs.lib.mkIf homeManagerConfig {
+              imports = [ home-manager.nixosModules.home-manager ];
               home-manager = {
                 extraSpecialArgs = { inherit inputs self; };
                 users.kusuriya = import ./home-manager/home.nix;
-                useGlobalPkgs = true;
-                useUserPackages = true;
               };
             })
           ] ++ extraModules;
