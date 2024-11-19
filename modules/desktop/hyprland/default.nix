@@ -88,8 +88,6 @@ in
           "col.inactive_border" = "$surface0";
           layout = "dwindle";
           allow_tearing = true;
-          no_direct_scanout = false;
-          force_default_wallpaper = 0;
           resize_on_border = true;
         };
         cursor = {
