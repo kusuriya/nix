@@ -88,8 +88,13 @@
       loader = {
         systemd-boot.enable = true;
         efi.canTouchEfiVariables = true;
-        systemd-boot.configurationLimit = 7;
+        systemd-boot = {
+          configurationLimit = 14;
+          enable = true;
+
+        };
       };
+      initrd.compressor = "zstd";
       kernelPackages = pkgs.linuxPackages_latest;
       plymouth.enable = true;
       tmp = {
@@ -101,6 +106,8 @@
         "kernel.panic" = 60;
         "net.core.default_qdisc" = "fq";
         "net.ipv4.tcp_congestion_control" = "bbr";
+        "vm.swappiness" = 10;
+        "vm.vfs_cache_pressure" = 50;
       };
       binfmt.registrations.appimage = {
         wrapInterpreterInShell = false;
@@ -115,9 +122,17 @@
 
   networking = {
     hostName = "framey";
-    networkmanager.wifi.powersave = true;
-    networkmanager.enable = true;
-    firewall.enable = true;
+    networkmanager = {
+      wifi = {
+        powersave = true;
+        scanRandMacAddress = true;
+      };
+      enable = true;
+    };
+    firewall = {
+      enable = true;
+      allowPing = true;
+    };
     resolvconf = {
       dnsExtensionMechanism = true;
       enable = true;
@@ -150,7 +165,7 @@
   zramSwap = {
     enable = true;
     priority = 100;
-    memoryPercent = 10;
+    memoryPercent = 50;
     swapDevices = 1;
     algorithm = "zstd";
   };
@@ -204,7 +219,10 @@
     };
 
     fwupd.enable = true;
-    fstrim.enable = true;
+    fstrim = {
+      enable = true;
+      interval = "weekly";
+    };
     thermald.enable = true;
     gvfs.enable = true;
     hardware.bolt.enable = true;
@@ -294,6 +312,7 @@
       nix-index
       nix-output-monitor
       nix-prefetch-git
+      nix-direnv
       pciutils
       sbctl
       radeontop
@@ -301,8 +320,17 @@
       ryzenadj
       lm_sensors
       poweralertd
+      statix
+      nixpkg-fmt
+      git-lfs
+      git
+      nil
     ];
-    sessionVariables.NIXOS_OZONE_WL = "1";
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      WLR_RENDERER = "vulkan";
+      LIBVA_DRIVER_NAME = "radeonsi";
+    };
     etc = {
       "1password/custom_allowed_browsers" = {
         text = ''

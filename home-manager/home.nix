@@ -12,8 +12,8 @@
   nixpkgs.config = {
     allowUnfree = true;
     permittedInsecurePackages = [
-                "electron-27.3.11"
-              ];
+      "electron-27.3.11"
+    ];
   };
   home = {
     username = "kusuriya";
