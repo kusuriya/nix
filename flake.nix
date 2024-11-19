@@ -93,7 +93,7 @@
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
       # NixOS configuration entrypoint
-      # Available through 'nixos-rebuild --flake .#your-hostname'
+      # Available through 'nixos-rebuild --flake https://github.com/kusuriya/nix/#hostname'
       nixosConfigurations = {
         # Desktop configuration
         beast = mkSystem {

@@ -15,6 +15,7 @@ in
   imports = [
     ./waybar.nix
     ./hyprlock.nix
+    ./hypridle.nix
   ];
   options.modules.hyprland = {
     enable = mkEnableOption "Hyprland configuration";
@@ -277,9 +278,9 @@ in
           "size 1280 720, pavucontrol"
         ];
         workspace = [
-          "3, monitor:desc:LG Electronics LG SDQHD 302NTCZF0715, default=true, defaultname=comms"
           "1, monitor:desc:HP Inc. HP X27q 6CM1210654, default=true, defaultname=term"
           "2, monitor:desc:BOE NE135A1M-NY1, default=true,defaultname=browse"
+          "3, monitor:desc:LG Electronics LG SDQHD 302NTCZF0715, default=true, defaultname=comms"
         ];
       };
       extraConfig = ''
@@ -299,77 +300,6 @@ in
         submap = reset
       '';
     };
-    programs = {
-      hyprlock = {
-        enable = true;
-        settings = {
-          background = {
-            monitor = "";
-            color = "rgba(5,5,5,1.0)";
-          };
-          input-field = {
-            monitor = "";
-            fade_on_empty = false;
-            rounding = "-1";
-            placeholder_text = "Password";
-            halign = "center";
-            valign = "center";
-          };
-          label = [
-            {
-              monitor = "";
-              position = "0, -300";
-              text = "cmd[update:1000] date +\"%-I:%M%p\"";
-              color = "rgba(200, 200, 200, 1.0)";
-              halign = "right";
-              valign = "bottom";
-              font_size = "55";
-              font_family = "Fira Semibold";
-            }
-          ];
-        };
-      };
-    };
-    services = {
-      hypridle = {
-        enable = true;
-        settings = {
-          general = {
-            # avoid starting multiple hyprlock instances.
-            lock_cmd = "pidof hyprlock || ${pkgs.hyprlock}/bin/hyprlock";
-            # lock before suspend.
-            before_sleep_cmd = "loginctl lock-session";
-            # to avoid having to press a key twice to turn on the display.
-            after_sleep_cmd = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
-          };
-
-          listener = [
-            {
-              # 5 minutes
-              timeout = 300;
-              # set monitor backlight to minimum, avoid 0 on OLED monitor.
-              on-timeout = "${pkgs.brightnessctl}/bin/brightnessctl -s set 10";
-              # monitor backlight restore.
-              on-resume = "${pkgs.brightnessctl}/bin/brightnessctl -r";
-            }
-            {
-              # 10 minutes
-              timeout = 600;
-              # lock screen when timeout has passed
-              on-timeout = "loginctl lock-session";
-            }
-            {
-              # 11 minutes
-              timeout = 660;
-              # screen off when timeout has passed
-              on-timeout = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
-              # screen on when activity is detected after timeout has fired.
-              on-resume = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
-            }
-          ];
-        };
-      };
-      swayosd.enable = true;
-    };
+    services.swayosd.enable = true;
   };
 }

@@ -270,7 +270,6 @@
     flatpak.enable = true;
     dbus.enable = true;
     upower.enable = true;
-    fprintd.enable = false; #turned off for now because I need to figure out how to make this optional.
     greetd = {
       enable = true;
       settings = rec {
