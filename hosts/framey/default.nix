@@ -89,6 +89,7 @@
         efi.canTouchEfiVariables = true;
         systemd-boot = {
           configurationLimit = 14;
+          consoleMode = "max";
           enable = false;
         };
       };
@@ -199,7 +200,6 @@
   security = {
     rtkit.enable = true;
     polkit.enable = true;
-    pam.services.login.enableGnomeKeyring = true;
     sudo.wheelNeedsPassword = true;
     apparmor = {
       enable = true;
@@ -209,6 +209,16 @@
       enable = true;
       pkcs11.enable = true;
       tctiEnvironment.enable = true;
+    };
+    pam = {
+      services = {
+        login = {
+          fprintAuth = true;
+          enableGnomeKeyring = true;
+        };
+
+        sudo.fprintAuth = true;
+      };
     };
   };
 
@@ -332,11 +342,22 @@
       git-lfs
       git
       nil
+      sops
+      age
+      unzip
+      p7zip
+      dig
+      whois
+      usbutils
+      iotop
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
       WLR_RENDERER = "vulkan";
       LIBVA_DRIVER_NAME = "radeonsi";
+      TERMINAL = "alacritty";
+      EDITOR = "nvim";
+      BROWSER = "firefox";
     };
     etc = {
       "1password/custom_allowed_browsers" = {
