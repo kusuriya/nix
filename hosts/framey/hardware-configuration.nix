@@ -24,7 +24,6 @@
         "thunderbolt"
         "usbhid"
       ];
-      systemd.enable = true;
       kernelModules = [
         "v4l2loopback"
         "amdgpu"
