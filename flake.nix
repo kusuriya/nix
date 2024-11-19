@@ -53,8 +53,8 @@
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
       mkSystem = hostname: nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs self; }
-	modules = [ ./hosts/${hostname} ];
+        specialArgs = { inherit inputs self; };
+        modules = [ ./hosts/${hostname} ];
       };
     in
     {
@@ -68,8 +68,8 @@
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
-        beast
-        framey
+        beast = mkSystem "beast";
+        framey = mkSystem "framey";
       };
     };
 }

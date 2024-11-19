@@ -129,8 +129,8 @@ in
           mouse_move_enables_dpms = true;
           key_press_enables_dpms = false;
           vrr = 0;
-	  vfr = true;
-	  render_ahead_of_time = false;
+          vfr = true;
+          render_ahead_of_time = false;
           allow_session_lock_restore = true;
           render_unfocused_fps = 5;
         };
