@@ -67,6 +67,7 @@
         "clock"
       ];
       modules-right = [
+        "idle_inhibitor"
         "wireplumber"
         "power-profiles-daemon"
         "network"
@@ -83,15 +84,64 @@
           "4" = "4";
           "5" = "5";
           urgent = "!";
-          active = "-";
-          default = "x";
+          active = "";
+          default = "󰍹";
+        };
+        sort-by-number = true;
+      };
+      clock = {
+        format = " {%H:%M}";
+        format-alt = " {:%Y-%m-%d}";
+        tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+      };
+      battery = {
+        states = {
+          warning = 30;
+          critical = 15;
+        };
+        format = "{icon} {capacity}%";
+        format-charging = "󰂄 {capacity}%";
+        format-plugged = "󱘖 {capacity}%";
+        format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+      };
+      network = {
+        format-wifi = "󰤨 {essid}";
+        format-ethernet = "󰈀 {ipaddr}";
+        format-linked = "󰈀 {ifname} (No IP)";
+        format-disconnected = "󰤭 Disconnected";
+        tooltip-format = "{ifname} via {gwaddr}";
+      };
+      wireplumber = {
+        format = "{icon} {volume}%";
+        format-muted = "󰝟";
+        format-icons = [ "󰕿" "󰖀" "󰕾" ];
+        on-click = "pavucontrol";
+      };
+      tray = {
+        icon-size = 21;
+        spacing = 10;
+      };
+      "idle_inhibitor" = {
+        format = "{icon}";
+        format-icons = {
+          activated = "󰅶"; # Icon when idle inhibitor is active
+          deactivated = "󰾪"; # Icon when idle inhibitor is inactive
+        };
+        tooltip = true;
+        tooltip-format-activated = "Idle Inhibitor Active";
+        tooltip-format-deactivated = "Idle Inhibitor Inactive";
+      };
+      "privacy" = {
+        format = "{icon}";
+        format-icons = {
+          screenshare = ";
         };
         sort-by-number = true;
       };
       clock = {
         format = " {:%H:%M}";
         format-alt = " {:%Y-%m-%d}";
-        tooltip-format = "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>";
+        tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
       };
       battery = {
         states = {
