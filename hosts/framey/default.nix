@@ -113,6 +113,9 @@
 
   networking = {
     hostName = "framey";
+    tcp_fastopen = true;
+    tcp_congestion_control = "bbr";
+    networkmanager.wifi.powersave = true;
     networkmanager.enable = true;
     firewall.enable = true;
     resolvconf = {
