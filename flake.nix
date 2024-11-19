@@ -52,6 +52,10 @@
         #"aarch64-darwin"
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
+      mkSystem = hostname: nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs self; }
+	modules = [ ./hosts/${hostname} ];
+      };
     in
     {
       packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
@@ -64,42 +68,8 @@
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
-        beast = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          modules = [
-            ./hosts/beast/configuration.nix
-          ];
-        };
-        framey = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          modules = [
-            home-manager.nixosModules.home-manager
-            catppuccin.nixosModules.catppuccin
-            {
-              home-manager.users.kusuriya = {
-                imports = [
-                  ./home-manager/home.nix
-                  catppuccin.homeManagerModules.catppuccin
-                ];
-                catppuccin = { enable = true; flavor = "macchiato"; };
-
-              };
-            }
-            lanzaboote.nixosModules.lanzaboote
-            ({ pkgs, lib, ... }: {
-              boot.loader.systemd-boot.enable = lib.mkForce false;
-              boot.lanzaboote = {
-                enable = true;
-                pkiBundle = "/etc/secureboot";
-              };
-            })
-            ./hosts/framey
-          ];
-        };
+        beast
+        framey
       };
     };
 }

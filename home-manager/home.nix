@@ -7,6 +7,7 @@
 {
   imports = [
     ../modules/desktop/hyprland
+    inputs.catppuccin.homeManagerModules.catppuccin
   ];
 
   nixpkgs.config =
@@ -29,6 +30,10 @@
     username = "kusuriya";
     homeDirectory = "/home/kusuriya";
     stateVersion = "24.11";
+    catppuccin = {
+      enable = true;
+      style = "macciato";
+    };
     packages = with pkgs; [
       _1password-gui
       _1password-cli

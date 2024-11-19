@@ -85,8 +85,12 @@
         efi.canTouchEfiVariables = true;
         systemd-boot = {
           configurationLimit = 14;
-          enable = true;
+          enable = false;
         };
+      };
+      lanzaboote = {
+        enable = true;
+        pkiBundle = "/etc/secureboot";
       };
       initrd = {
         compressor = "zstd";
