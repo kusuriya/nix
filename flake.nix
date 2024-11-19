@@ -65,7 +65,7 @@
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {
                 extraSpecialArgs = { inherit inputs self; };
-                users.kusuriya = { imports [ ./home-manager/home.nix inputs.catppuccin.homeManagerModules.catppuccin ]
+                users.kusuriya = { imports = [ ./home-manager/home.nix inputs.catppuccin.homeManagerModules.catppuccin ]
                 useGlobalPkgs = true;
                 useUserPackages = true;
               };
