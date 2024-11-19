@@ -14,6 +14,8 @@
       "splash"
       "amd_pstate=active"
       "nvme.noacpi=1"
+      "page_alloc.shuffle=1"
+      "randomize_kstack_offset=on"
     ];
     initrd = {
       availableKernelModules = [

@@ -94,7 +94,10 @@
 
         };
       };
-      initrd.compressor = "zstd";
+      initrd = {
+        compressor = "zstd";
+        systemd.enable = true;
+      };
       kernelPackages = pkgs.linuxPackages_latest;
       plymouth.enable = true;
       tmp = {
@@ -186,13 +189,13 @@
     };
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
+    amdgpu = {
+      amdvlk.enable = true;
+      opencl.enable = true;
+      initrd.enable = true;
+    };
     graphics = {
       enable = true;
-      extraPackages = with pkgs; [
-        rocmPackages.clr.icd
-        clinfo
-        amdvlk
-      ];
     };
 
   };
@@ -201,6 +204,16 @@
     rtkit.enable = true;
     polkit.enable = true;
     pam.services.login.enableGnomeKeyring = true;
+    sudo.wheelNeedsPassword = true;
+    apparmor = {
+      enable = true;
+      killUnconfinedConfinables = true;
+    };
+    tpm2 = {
+      enable = true;
+      pkcs11.enable = true;
+      tctiEnvironment.enable = true;
+    };
   };
 
   services = {
