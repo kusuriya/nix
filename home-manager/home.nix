@@ -6,7 +6,7 @@
 }:
 {
   imports = [
-    ../modules/hyprland
+    ../modules/desktop/hyprland
   ];
 
   nixpkgs.config =
