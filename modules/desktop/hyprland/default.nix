@@ -33,6 +33,7 @@ in
         polkit_gnome
         cliphist
         alacritty
+	swayosd
       ];
 
     wayland.windowManager.hyprland = {
