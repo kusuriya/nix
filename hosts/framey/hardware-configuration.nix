@@ -9,6 +9,7 @@
   ];
   boot = {
     loader.timeout = 0;
+    systemd.enable = true;
     kernelParams = [
       "quiet"
       "splash"
