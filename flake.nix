@@ -13,6 +13,9 @@
     ];
     warn-dirty = false;
     auto-optimise-store = true;
+    experimental-features = [ "nix-command" "flakes" ];
+    max-jobs = "auto";
+
   };
   inputs = {
     # Nixpkgs
@@ -38,6 +41,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     catppuccin.url = "github:catppuccin/nix";
+    flake-utils.url = "github:numtide/flake-utils";
+
   };
 
   outputs =
@@ -55,7 +60,8 @@
       # Supported systems for your flake packages, shell, etc.
       systems = [
         "x86_64-linux"
-        #"aarch64-darwin"
+        "aarch64-linux"
+        "aarch64-darwin"
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
       # Helper function to create system configurations

@@ -1,3 +1,5 @@
+# modules/desktop/hyprland/default.nix
+
 { config
 , pkgs
 , inputs
@@ -12,6 +14,7 @@ in
 {
   imports = [
     ./waybar.nix
+    ./hyprlock.nix
   ];
   options.modules.hyprland = {
     enable = mkEnableOption "Hyprland configuration";
@@ -33,7 +36,8 @@ in
         polkit_gnome
         cliphist
         alacritty
-	swayosd
+        swayosd
+        hyprpolkitagent
       ];
 
     wayland.windowManager.hyprland = {
@@ -296,72 +300,6 @@ in
       '';
     };
     programs = {
-      waybar = {
-        enable = true;
-        style = ''
-                * {
-              font-family: FontAwesome,"CasckaydiaCove NF",sans-serif,monospace;
-          }
-
-          #window {
-              padding: 0 2px;
-          }
-
-          window#waybar {
-              border: none;
-              border-radius: 0;
-              box-shadow: none;
-              text-shadow: none;
-              transition-duration: 0s;
-              color: @text;
-              background: @crust; 
-          } 
-
-          #workspaces {
-              margin: 0 5px;
-          }
-
-          #workspaces button.urgent {
-              background-color: @red;
-              color: white;
-          }
-
-          #tray,
-          #mode,
-          #battery,
-          #temperature,
-          #cpu,
-          #memory,
-          #network,
-          #wireplumber,
-          #idle_inhibitor,
-          #backlight {
-              margin: 0px 0px 0px 6px;
-              padding: 0 2px;
-          }
-
-          #clock {
-              margin:     0px 6px 0px 6px;
-          }
-
-          #battery {
-          	font-size: 18px;
-          }
-          #battery.warning {
-              color: orange;
-          }
-
-          #battery.critical {
-              color: red;
-          }
-
-          #battery.charging {
-              color: rgba(217, 216, 216, 1);
-          }
-
-
-        '';
-      };
       hyprlock = {
         enable = true;
         settings = {
