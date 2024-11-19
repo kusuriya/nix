@@ -11,7 +11,7 @@ let
 in
 {
   imports = [
-  ./waybar.nix
+    ./waybar.nix
   ];
   options.modules.hyprland = {
     enable = mkEnableOption "Hyprland configuration";
@@ -99,7 +99,14 @@ in
           use_nearest_neighbor = false;
         };
         animations = {
-          enabled = false;
+          enabled = true;
+          bezier = "overshot,0.13,0.99,0.29,1.1";
+          animation = [
+            "windows,1,4,overshot,slide"
+            "border,1,10,default"
+            "fade,1,10,default"
+            "workspaces,1,6,overshot,slidevert"
+          ];
         };
         decoration = {
           rounding = 4;
@@ -225,7 +232,13 @@ in
           "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
           "QT_QPA_PLATFORMTHEME,qt6ct"
           "QT_AUTO_SCREEN_SCALE_FACTOR,1"
-          "WLR_RENDERER_ALLOW_SOFTWARE,1"
+          "WLR_RENDERER,vulkan"
+          "XDG_CURRENT_DESKTOP,Hyprland"
+          "XDG_SESSION_DESKTOP,Hyprland"
+          "XDG_SESSION_TYPE,wayland"
+          "GDK_BACKEND,wayland,x11"
+          "QT_QPA_PLATFORM,wayland;xcb"
+
         ];
         windowrulev2 = [
           "suppressevent maximize, class:.*"
