@@ -20,4 +20,5 @@
       config.allowUnfree = true;
     };
   };
+  firefox-overlay.url = "github:mozilla/nixpkgs-mozilla";
 }

@@ -69,7 +69,7 @@
             inherit inputs outputs;
           };
           modules = [
-            ./host/beast/configuration.nix
+            ./hosts/beast/configuration.nix
           ];
         };
         framey = nixpkgs.lib.nixosSystem {
@@ -97,7 +97,7 @@
                 pkiBundle = "/etc/secureboot";
               };
             })
-            ./host/framey/configuration.nix
+            ./hosts/framey
           ];
         };
       };

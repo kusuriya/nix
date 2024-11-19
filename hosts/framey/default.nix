@@ -262,6 +262,9 @@
 
   };
   programs = {
+    corectrl = {
+      enable = true;
+    };
     neovim = {
       enable = true;
       viAlias = true;
@@ -290,6 +293,11 @@
       nix-prefetch-git
       pciutils
       sbctl
+      radeontop
+      zenmonitor
+      ryzenadj
+      lm_sensors
+      poweralertd
     ];
     sessionVariables.NIXOS_OZONE_WL = "1";
     etc = {
