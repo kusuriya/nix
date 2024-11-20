@@ -170,6 +170,8 @@
     };
   };
   programs = {
+    mpv.enable = true;
+    imv.enable = true;
     alacritty = {
       enable = true;
       settings = {
@@ -215,25 +217,57 @@
           name = "kusuriya";
           isDefault = true;
           settings = {
-            settings = {
-              "browser.search.defaultenginename" = "DuckDuckGo";
-              "browser.search.order.1" = "DuckDuckGo";
-              "signon.rememberSignons" = false;
-              "widget.use-xdg-desktop-portal.file-picker" = 1;
-              "browser.aboutConfig.showWarning" = false;
-              "browser.compactmode.show" = true;
-              "browser.cache.disk.enable" = false; # Be kind to hard drive
-              "widget.disable-workspace-management" = true;
-            };
+            "browser.cache.disk.enable" = false;
+            "browser.cache.memory.enable" = true;
+            "browser.cache.memory.capacity" = 524288; # 512MB
+            "browser.sessionstore.interval" = 15000;
+            "browser.search.defaultenginename" = "DuckDuckGo";
+            "browser.search.order.1" = "DuckDuckGo";
+            "signon.rememberSignons" = false;
+            "widget.use-xdg-desktop-portal.file-picker" = 1;
+            "browser.aboutConfig.showWarning" = false;
+            "browser.compactmode.show" = true;
+            "widget.disable-workspace-management" = true;
+            "media.ffmpeg.vaapi.enabled" = true;
+            "media.hardware-video-decoding.enabled" = true;
+            "gfx.webrender.all" = true;
+            "privacy.firstparty.isolate" = true;
+            "privacy.resistFingerprinting" = true;
+            "privacy.trackingprotection.fingerprinting.enabled" = true;
+            "privacy.trackingprotection.cryptomining.enabled" = true;
+            "network.dns.disablePrefetch" = true;
+            "network.prefetch-next" = false;
+            "dom.ipc.processCount" = 8;
+            "browser.tabs.unloadOnLowMemory" = true;
+            # Network Optimization
+            "network.http.max-persistent-connections-per-server" = 10;
+            "network.http.max-connections" = 900;
+
+            # JavaScript Performance
+            "javascript.options.mem.gc_incremental_slice_ms" = 5;
+            "javascript.options.mem.high_water_mark" = 128;
+            "media.ffmpeg.vaapi-drm-display.enabled" = true;
+            "media.rdd-ffmpeg.enabled" = true;
           };
         };
       };
     };
-    neovim = {
+    nixvim = {
       enable = true;
       defaultEditor = true;
-      withRuby = true;
-      withPython3 = true;
+      vimdiffAlias = true;
+      viAlias = true;
+      vimAlias = true;
+      colorschemes.catppuccin.enable = true;
+      plugins = {
+        lualine.enable = true;
+	treesitter.enable = true;
+      };
+      opts = {
+        number = true;
+	relativenumber = true;
+	shiftwidth = 2;
+      };
     };
     ranger = {
       enable = true;

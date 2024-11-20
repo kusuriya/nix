@@ -1,6 +1,6 @@
-{lib, pkgs, config, ... }:
+{ lib, pkgs, config, ... }:
 {
-systemd.services.flake-update = {
+  systemd.services.flake-update = {
     description = "Update Nix Flakes";
     serviceConfig = {
       Type = "oneshot";
@@ -15,7 +15,7 @@ systemd.services.flake-update = {
   systemd.timers.flake-update = {
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnCalendar = "daily";  # or weekly, monthly, etc.
+      OnCalendar = "daily"; # or weekly, monthly, etc.
       Persistent = true;
       RandomizedDelaySec = "1h";
     };

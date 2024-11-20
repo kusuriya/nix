@@ -46,8 +46,13 @@
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
+      # url = "github:nix-community/nixvim/nixos-24.05";
 
-
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -58,6 +63,7 @@
     , hyprland
     , lanzaboote
     , catppuccin
+    , nixvim
     , ...
     }@inputs:
     let
@@ -82,7 +88,7 @@
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {
                 extraSpecialArgs = { inherit inputs self; };
-                users.kusuriya = { imports = [ ./home-manager/home.nix catppuccin.homeManagerModules.catppuccin ]; };
+                users.kusuriya = { imports = [ ./home-manager/home.nix catppuccin.homeManagerModules.catppuccin nixvim.homeManagerModules.nixvim ]; };
                 useGlobalPkgs = true;
                 useUserPackages = true;
               };
@@ -121,6 +127,7 @@
             inputs.hardware.nixosModules.common-pc-ssd
             inputs.lanzaboote.nixosModules.lanzaboote
             inputs.catppuccin.nixosModules.catppuccin
+
           ];
         };
       };

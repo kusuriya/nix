@@ -196,6 +196,7 @@
 
   };
 
+	    inputs.nixvim.homeManagerModules.nixvim
   security = {
     rtkit.enable = true;
     polkit.enable = true;
@@ -214,7 +215,7 @@
     pam = {
       services = {
         login = {
-          fprintAuth = true;
+          fprintAuth = false;
           enableGnomeKeyring = true;
         };
 
@@ -304,12 +305,6 @@
   programs = {
     corectrl = {
       enable = true;
-    };
-    neovim = {
-      enable = true;
-      viAlias = true;
-      vimAlias = true;
-      withRuby = true;
     };
     _1password-gui = {
       enable = true;
