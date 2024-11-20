@@ -19,12 +19,11 @@
         {
           monitor = "";
           position = "0, -300";
-          text = "cmd[update:1000] date +\"%-I:%M%p\"";
+          text = "cmd[update:1000] date";
           color = "rgba(200, 200, 200, 1.0)";
           halign = "right";
           valign = "bottom";
           font_size = "55";
-          font_family = "Fira Semibold";
         }
       ];
     };

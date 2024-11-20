@@ -58,10 +58,6 @@
   powerManagement.enable = true;
   systemd = {
     watchdog.runtimeTime = "30s";
-    sleep.extraConfig = ''
-      HibernateDelaySec=30m
-      SuspendState=mem
-    '';
   };
   system = {
     autoUpgrade = {
@@ -196,7 +192,6 @@
 
   };
 
-	    inputs.nixvim.homeManagerModules.nixvim
   security = {
     rtkit.enable = true;
     polkit.enable = true;
@@ -215,16 +210,16 @@
     pam = {
       services = {
         login = {
-          fprintAuth = false;
           enableGnomeKeyring = true;
+	  fprintAuth = false;
         };
-
-        sudo.fprintAuth = true;
+	hyprlock.fprintAuth = false;
       };
     };
   };
 
   services = {
+    #fprintd.enable = true;
     libinput = {
       enable = true;
       touchpad = {

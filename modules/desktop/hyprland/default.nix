@@ -108,10 +108,10 @@ in
           enabled = true;
           bezier = "overshot,0.13,0.99,0.29,1.1";
           animation = [
-            "windows,1,4,overshot,slide"
+            "windows,1,3,overshot,slide"
             "border,1,10,default"
             "fade,1,10,default"
-            "workspaces,1,6,overshot,slidevert"
+            "workspaces,1,3,overshot,slidevert"
           ];
         };
         decoration = {
@@ -276,11 +276,6 @@ in
           # pavucontrol
           "float,pavucontrol"
           "size 1280 720, pavucontrol"
-        ];
-        workspace = [
-          "1, monitor:desc:HP Inc. HP X27q 6CM1210654, default=true, defaultname=term"
-          "2, monitor:desc:BOE NE135A1M-NY1, default=true,defaultname=browse"
-          "3, monitor:desc:LG Electronics LG SDQHD 302NTCZF0715, default=true, defaultname=comms"
         ];
       };
       extraConfig = ''

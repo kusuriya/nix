@@ -261,12 +261,12 @@
       colorschemes.catppuccin.enable = true;
       plugins = {
         lualine.enable = true;
-	treesitter.enable = true;
+        treesitter.enable = true;
       };
       opts = {
         number = true;
-	relativenumber = true;
-	shiftwidth = 2;
+        relativenumber = true;
+        shiftwidth = 2;
       };
     };
     ranger = {
