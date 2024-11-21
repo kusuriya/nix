@@ -262,7 +262,15 @@
       colorschemes.catppuccin.enable = true;
       plugins = {
         lualine.enable = true;
-	treesitter.enable = true;
+	treesitter = {
+	  enable = true;
+	  folding = false;
+	  settings = {
+	    highlight.enable = true;
+	    auto_install = true;
+
+	    };
+	  };
       };
       opts = {
         number = true;
