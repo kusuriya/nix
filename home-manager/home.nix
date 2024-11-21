@@ -264,13 +264,20 @@
         lualine.enable = true;
 	treesitter = {
 	  enable = true;
-	  folding = false;
+          folding = false;
+          grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
 	  settings = {
 	    highlight.enable = true;
-	    auto_install = true;
-
+            auto_install = true;
+            indent.enable = true;
 	    };
 	  };
+        coq-nvim.enable = true;
+        nix.enable = true;
+        telescope.enable = true;
+        lsp.enable = true;
+        web-devicons = true;
+
       };
       opts = {
         number = true;
