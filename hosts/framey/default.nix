@@ -211,9 +211,9 @@
       services = {
         login = {
           enableGnomeKeyring = true;
-	  fprintAuth = false;
+          fprintAuth = false;
         };
-	hyprlock.fprintAuth = false;
+        hyprlock.fprintAuth = false;
       };
     };
   };

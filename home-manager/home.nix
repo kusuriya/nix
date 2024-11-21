@@ -262,27 +262,33 @@
       colorschemes.catppuccin.enable = true;
       plugins = {
         lualine.enable = true;
-	treesitter = {
-	  enable = true;
+        treesitter = {
+          enable = true;
           folding = false;
           grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
-	  settings = {
-	    highlight.enable = true;
+          settings = {
+            highlight.enable = true;
             auto_install = true;
             indent.enable = true;
-	    };
-	  };
+          };
+        };
         coq-nvim.enable = true;
         nix.enable = true;
         telescope.enable = true;
         lsp.enable = true;
-        web-devicons = true;
+        web-devicons.enable = true;
+        cmp.enable = true;
+        nvim-tree = {
+          enable = true;
+          openOnSetupFile = true;
+          autoReloadOnWrite = true;
+        };
 
       };
       opts = {
         number = true;
-	relativenumber = true;
-	shiftwidth = 2;
+        relativenumber = true;
+        shiftwidth = 2;
       };
     };
     ranger = {
