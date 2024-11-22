@@ -139,8 +139,8 @@
       enable = true;
     };
     extraHosts = ''
-    52.86.32.172 dfs-vpn-c.climate.com
-    52.86.32.172 dfs-vpn.climate.com
+      52.86.32.172 dfs-vpn-c.climate.com
+      52.86.32.172 dfs-vpn.climate.com
     '';
   };
 

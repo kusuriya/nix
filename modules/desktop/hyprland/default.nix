@@ -105,7 +105,7 @@ in
           use_nearest_neighbor = false;
         };
         animations = {
-          enabled = true;
+          enabled = false;
           bezier = "overshot,0.13,0.99,0.29,1.1";
           animation = [
             "windows,1,3,overshot,slide"
@@ -248,7 +248,10 @@ in
           "XDG_SESSION_TYPE,wayland"
           "GDK_BACKEND,wayland,x11"
           "QT_QPA_PLATFORM,wayland;xcb"
-
+          "QT_WAYLAND_FORCE_DPI,physical"
+          "SDL_VIDEODRIVER,wayland"
+          "_JAVA_AWT_WM_NONREPARENTING,1"
+          "WLR_DRM_NO_ATOMIC,1" # Fix for some GPU drivers
         ];
         windowrulev2 = [
           "suppressevent maximize, class:.*"
@@ -266,16 +269,19 @@ in
           "float,title:^(Open)$"
           "float,title:^(Choose Files)$"
           "float,title:^(Save As)$"
-          "float,class:^(google-chrome)$,title:^(Open Files)$"
-          "float,class:^(google-chrome)$,title:^(Open File)$"
+          "float,title:^(Open Files)$"
           "float,class:^(xdg-desktop-portal-gtk)$"
           "stayfocused, title:Quick Access — 1Password"
           "stayfocused, class:polkit-gnome-authentication-agent-1"
-        ];
-        windowrule = [
-          # pavucontrol
-          "float,pavucontrol"
-          "size 1280 720, pavucontrol"
+          # Add rules for better floating window management
+          "float,class:^(pavucontrol)$,title:^(Volume Control)$"
+          "float,class:^(blueman-manager)$"
+          "float,class:^(nm-connection-editor)$"
+          "workspace special:magic silent,title:^(.*)(Picture-in-Picture)$"
+          "float,class:^(1Password)$"
+          # Center floating windows
+          "center,class:^(pavucontrol)$"
+          "center,class:^(blueman-manager)$"
         ];
       };
       extraConfig = ''
