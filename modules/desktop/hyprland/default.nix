@@ -274,6 +274,7 @@ in
           "stayfocused, title:Quick Access — 1Password"
           "stayfocused, class:polkit-gnome-authentication-agent-1"
           "float,class:^(pavucontrol)$,title:^(Volume Control)$"
+          "size 800 600,class:^(pavucontrol)$"
           "float,class:^(nm-connection-editor)$"
           "float,class:^(blueman-manager)$"
           "float,class:^(nm-connection-editor)$"
