@@ -273,8 +273,8 @@ in
           "float,class:^(xdg-desktop-portal-gtk)$"
           "stayfocused, title:Quick Access — 1Password"
           "stayfocused, class:polkit-gnome-authentication-agent-1"
-          # Add rules for better floating window management
           "float,class:^(pavucontrol)$,title:^(Volume Control)$"
+          "float,class:^(nm-connection-editor)$"
           "float,class:^(blueman-manager)$"
           "float,class:^(nm-connection-editor)$"
           "workspace special:magic silent,title:^(.*)(Picture-in-Picture)$"
