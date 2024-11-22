@@ -152,7 +152,7 @@
     kdeconnect.enable = true;
     gnome-keyring = {
       enable = true;
-      components = [ "secrets" ];
+      components = [ "pkcs11" "secrets" "ssh" ];
     };
     dunst = {
       enable = true;

@@ -226,8 +226,6 @@
   };
 
   services = {
-    gnome.gnome-keyring.enable = true;
-    #fprintd.enable = true;
     libinput = {
       enable = true;
       touchpad = {
