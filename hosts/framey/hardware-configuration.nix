@@ -42,8 +42,6 @@
     device = "/dev/disk/by-uuid/750A-3B24";
     fsType = "vfat";
   };
-  ];
-  networking.networkmanager.enable = true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
