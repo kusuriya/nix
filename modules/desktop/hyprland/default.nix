@@ -39,6 +39,17 @@ in
         alacritty
         swayosd
         hyprpolkitagent
+        xarchiver
+        mpv
+        imv
+        blueman
+        pamixer
+        wf-recorder
+        grim
+        slurp
+        libnotify
+        swww
+        easyeffects
       ];
 
     wayland.windowManager.hyprland = {
@@ -74,6 +85,8 @@ in
           "hyprctl setcursor rose-pine-hyprcursor 24"
           "1password --silent"
           "tailscale-systray"
+          "easyeffects --gapplication-service"
+          "swww -init"
 
         ];
         input = {
@@ -273,13 +286,14 @@ in
           "float,class:^(xdg-desktop-portal-gtk)$"
           "stayfocused, title:Quick Access — 1Password"
           "stayfocused, class:polkit-gnome-authentication-agent-1"
-          "float,class:^(pavucontrol)$,title:^(Volume Control)$"
-          "size 800 600,class:^(pavucontrol)$"
+          "float,title:^(Volume Control)$"
+          "size 800 600,title:^(Volume Control)$"
           "float,class:^(nm-connection-editor)$"
           "float,class:^(blueman-manager)$"
           "float,class:^(nm-connection-editor)$"
           "workspace special:magic silent,title:^(.*)(Picture-in-Picture)$"
           "float,class:^(1Password)$"
+          "float,class:^(easyeffects)$"
           # Center floating windows
           "center,class:^(pavucontrol)$"
           "center,class:^(blueman-manager)$"
