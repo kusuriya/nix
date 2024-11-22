@@ -138,6 +138,10 @@
       dnsExtensionMechanism = true;
       enable = true;
     };
+    extraHosts = ''
+    52.86.32.172 dfs-vpn-c.climate.com
+    52.86.32.172 dfs-vpn.climate.com
+    '';
   };
 
   time.timeZone = "America/Los_Angeles";
@@ -209,6 +213,9 @@
     };
     pam = {
       services = {
+        greetd = {
+          enableGnomeKeyring = true;
+        };
         login = {
           enableGnomeKeyring = true;
           fprintAuth = false;
@@ -219,6 +226,7 @@
   };
 
   services = {
+    gnome.gnome-keyring.enable = true;
     #fprintd.enable = true;
     libinput = {
       enable = true;
@@ -298,6 +306,10 @@
 
   };
   programs = {
+    seahorse.enable = true;
+    nix-ld = {
+      enable = true;
+    };
     corectrl = {
       enable = true;
     };
@@ -341,6 +353,8 @@
       whois
       usbutils
       iotop
+      openconnect
+      networkmanager-openconnect
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";

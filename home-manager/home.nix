@@ -278,10 +278,12 @@
         lsp.enable = true;
         web-devicons.enable = true;
         cmp.enable = true;
+        gitgutter.enable = true;
         nvim-tree = {
           enable = true;
           openOnSetupFile = true;
           autoReloadOnWrite = true;
+          git.enable = true;
         };
 
       };
@@ -289,6 +291,11 @@
         number = true;
         relativenumber = true;
         shiftwidth = 2;
+        tabstop = 2;
+        smarttab = true;
+        expandtab = true;
+        mouse = "nv";
+
       };
     };
     ranger = {
