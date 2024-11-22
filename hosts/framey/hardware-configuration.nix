@@ -28,7 +28,6 @@
       ];
       luks.devices."luks-b0bd2e7d-bb44-4105-a3b9-5d2b5e87065c".device = "/dev/disk/by-uuid/b0bd2e7d-bb44-4105-a3b9-5d2b5e87065c";
     };
-    resumeDevice = "/swapfile";
     kernelModules = [ "kvm-amd" ];
     extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
     extraModprobeConfig = ''
@@ -43,11 +42,6 @@
     device = "/dev/disk/by-uuid/750A-3B24";
     fsType = "vfat";
   };
-  swapDevices = [
-    {
-      device = "/swapfile";
-      size = 128 * 1024; # 128GB
-    }
   ];
   networking.networkmanager.enable = true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
