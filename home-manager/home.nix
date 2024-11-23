@@ -24,7 +24,7 @@
       ",preferred,auto,auto"
     ];
   };
-
+  systemd.user.startServices = "sd-switch";
   home = {
     username = "kusuriya";
     homeDirectory = "/home/kusuriya";
@@ -189,7 +189,6 @@
     };
     firefox = {
       enable = true;
-      #package = pkgs.firefox-wayland;
       profiles = {
         default = {
           id = 0;
@@ -314,5 +313,5 @@
     json.enable = false;
     manpages.enable = false;
   };
-  systemd.user.startServices = "sd-switch";
+  
 }
