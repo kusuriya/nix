@@ -30,25 +30,18 @@
     homeDirectory = "/home/kusuriya";
     stateVersion = "24.11";
     packages = with pkgs; [
+
+      #passwords
       _1password-gui
       _1password-cli
+
+      #themes
       arc-kde-theme
-      dconf
-      cliphist
-      overskride
       openconnect
-      helvum
-      networkmanagerapplet
       parsec-bin
-      unzip
-      unrar
-      p7zip
-      gnupg
       rclone
       rsync
       yt-dlp
-      plantuml
-      jq
       inkscape
       cider
       libreoffice
@@ -62,41 +55,18 @@
         ]
       ))
       via
-      distrobox
-      tailscale-systray
       freecad
-      #calibre
+      calibre
       alacritty
       orca-slicer
-      wofi
-      waybar
-      mpv
-      pavucontrol
-      hyprshot
-      hyprpolkitagent
-      hyprcursor
-      hyprutils
-      hyprnotify
-      chromium
-      pamixer
-      dunst
       appimage-run
-      swayosd
-      wlogout
-      clipman
-      nautilus
-      zenity
-      eog
-      gnome-keyring
-      polkit
-      polkit_gnome
-      rofi-wayland
-      rofi-bluetooth
-      wayprompt
       btop
-      playerctl
+
+      #dev
       devenv
       direnv
+      distrobox
+
       logseq
 
       # themes
@@ -128,6 +98,14 @@
       #Sec Stuff
       burpsuite
       nmap
+
+      #browser
+      microsoft-edge
+      chromium
+      vivaldi
+      vivaldi-ffmpeg-codecs
+      brave
+
     ];
     file = {
       # ".screenrc".source = dotfiles/screenrc;

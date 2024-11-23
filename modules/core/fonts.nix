@@ -9,6 +9,8 @@
       noto-fonts
       noto-fonts-emoji
       nerdfonts
+      fira-mono
+      fira-sans
     ];
     fontconfig = {
       hinting.style = "slight";

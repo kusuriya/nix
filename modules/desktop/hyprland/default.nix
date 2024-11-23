@@ -31,14 +31,17 @@ in
       [
         dunst
         wl-clipboard-rs
+        clipman
+        nautilus
+        gnome-keyring
+        polkit
+        polkit_gnome
         wofi
         pavucontrol
         networkmanagerapplet
-        polkit_gnome
         cliphist
         alacritty
         swayosd
-        hyprpolkitagent
         xarchiver
         mpv
         imv
@@ -50,6 +53,20 @@ in
         libnotify
         swww
         easyeffects
+        playerctl
+        hyprshot
+        hyprpolkitagent
+        hyprcursor
+        hyprutils
+        hyprnotify
+        networkmanagerapplet
+        dconf
+        unzip
+        unrar
+        p7zip
+        gnupg
+        tailscale-systray
+
       ];
 
     wayland.windowManager.hyprland = {

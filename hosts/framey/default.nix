@@ -129,6 +129,9 @@
         scanRandMacAddress = true;
       };
       enable = true;
+      plugins = [
+        pkgs.networkmanager-openconnect
+      ];
     };
     firewall = {
       enable = true;
