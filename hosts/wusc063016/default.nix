@@ -85,12 +85,8 @@
         systemd-boot = {
           configurationLimit = 14;
           consoleMode = "max";
-          enable = false;
+          enable = true;
         };
-      };
-      lanzaboote = {
-        enable = true;
-        pkiBundle = "/etc/secureboot";
       };
       initrd = {
         compressor = "zstd";
@@ -191,7 +187,6 @@
     graphics = {
       enable = true;
       extraPackages = with pkgs; [
-      ... # your Open GL, Vulkan and VAAPI drivers
       vpl-gpu-rt # or intel-media-sdk for QSV
     ];
     };
