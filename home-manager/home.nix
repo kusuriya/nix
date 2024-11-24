@@ -269,7 +269,7 @@
         tabstop = 2;
         smarttab = true;
         expandtab = true;
-        mouse = "nv";
+        mouse = "nvi";
 
       };
     };
