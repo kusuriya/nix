@@ -68,8 +68,8 @@ in
         tailscale-systray
 
       ];
-
     wayland.windowManager.hyprland = {
+
       enable = true;
       catppuccin.enable = true;
       package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;

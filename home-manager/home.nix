@@ -35,8 +35,6 @@
       _1password-gui
       _1password-cli
 
-      #themes
-      arc-kde-theme
       openconnect
       parsec-bin
       rclone
@@ -45,7 +43,6 @@
       inkscape
       cider
       libreoffice
-      wl-clipboard-rs
       transmission_4-qt
       (aspellWithDicts (
         dicts: with dicts; [
@@ -70,6 +67,7 @@
       logseq
 
       # themes
+      arc-kde-theme
       tango-icon-theme
       papirus-icon-theme
       gnome-icon-theme
@@ -80,13 +78,13 @@
 
 
       #communication
-      vesktop
-      signal-desktop
-      zoom-us
-      discord
-      telegram-desktop
       dissent
+      discord
+      signal-desktop
       slack
+      telegram-desktop
+      vesktop
+      zoom-us
       weechat
 
       #nix
@@ -100,11 +98,11 @@
       nmap
 
       #browser
-      microsoft-edge
+      brave
       chromium
+      microsoft-edge
       vivaldi
       vivaldi-ffmpeg-codecs
-      brave
 
     ];
     file = {
@@ -313,5 +311,5 @@
     json.enable = false;
     manpages.enable = false;
   };
-  
+
 }

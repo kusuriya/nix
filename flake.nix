@@ -130,6 +130,14 @@
 
           ];
         };
+        work = mkSystem {
+          hostname = "wusc063016";
+          extraModules = [
+            inputs.hardware.nixosModules.common-pc-ssd
+            inputs.hardware.nixosModules.lenovo-thinkpad-t14
+            inputs.catppuccin.nixosModules.catppuccin
+          ];
+        };
       };
     };
 }
