@@ -187,8 +187,8 @@
     graphics = {
       enable = true;
       extraPackages = with pkgs; [
-      vpl-gpu-rt # or intel-media-sdk for QSV
-    ];
+        vpl-gpu-rt # or intel-media-sdk for QSV
+      ];
     };
 
   };

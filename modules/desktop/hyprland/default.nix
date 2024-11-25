@@ -256,7 +256,6 @@ in
         ];
         env = [
           "XCURSOR_SIZE,24"
-          "HYPRCURSOR_THEME,rose-pine-hyprcursor"
           "HYPRCURSOR_SIZE,24"
           "GDK_SCALE,1.5"
           "XDG_CURRENT_DESKTOP,Hyprland"

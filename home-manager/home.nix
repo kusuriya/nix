@@ -105,6 +105,7 @@
       vivaldi-ffmpeg-codecs
       librewolf
       floorp
+      inputs.zen-browser.packages."${system}".specific
 
     ];
     file = {
