@@ -103,6 +103,9 @@
       microsoft-edge
       vivaldi
       vivaldi-ffmpeg-codecs
+      librewolf
+      waterfox
+      floorp
 
     ];
     file = {
