@@ -104,7 +104,6 @@
       vivaldi
       vivaldi-ffmpeg-codecs
       librewolf
-      waterfox
       floorp
 
     ];
