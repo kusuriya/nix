@@ -44,15 +44,9 @@
       cider
       libreoffice
       transmission_4-qt
-      (aspellWithDicts (
-        dicts: with dicts; [
-          en
-          en-computers
-          en-science
-        ]
-      ))
       via
       freecad
+      drawio
       calibre
       alacritty
       orca-slicer
@@ -86,6 +80,7 @@
       vesktop
       zoom-us
       weechat
+      teams-for-linux
 
       #nix
       nixpkgs-fmt
@@ -106,6 +101,15 @@
       librewolf
       floorp
       inputs.zen-browser.packages."${system}".specific
+
+      #Dictonary
+      (aspellWithDicts (
+        dicts: with dicts; [
+          en
+          en-computers
+          en-science
+        ]
+      ))
 
     ];
     file = {

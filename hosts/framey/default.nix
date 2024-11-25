@@ -380,7 +380,8 @@
                     vivaldi-bin
                     floorp
                     brave
-          	  zen
+          	        zen
+                    .zen-wrapper
         '';
         mode = "0755";
       };
