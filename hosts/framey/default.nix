@@ -372,16 +372,16 @@
       LIBVA_DRIVER_NAME = "radeonsi";
       TERMINAL = "alacritty";
       EDITOR = "nvim";
-      BROWSER = "firefox";
+      BROWSER = "zen";
     };
     etc = {
       "1password/custom_allowed_browsers" = {
         text = ''
-                    vivaldi-bin
-                    floorp
-                    brave
-          	        zen
-                    .zen-wrapper
+        vivaldi-bin
+        floorp
+        brave
+        zen
+        .zen-wrapper
         '';
         mode = "0755";
       };

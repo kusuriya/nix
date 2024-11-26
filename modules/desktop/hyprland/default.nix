@@ -196,18 +196,24 @@ in
           "$mainMod, right, movefocus, r"
           "$mainMod, up, movefocus, u"
           "$mainMod, down, movefocus, d"
+          # groups
           "$mainMod, G, togglegroup"
+          "$mainMod, Tab, changegroupactive, f"
+          "mainMod Shift, Tab, changegroupactive, b"
           "$mainMod SHIFT, G, moveoutofgroup"
+
           "$mainMod SHIFT, V, exec, cliphist list|wofi --dmenu|cliphist decode|wl-copy"
           "$mainMod, V, sendshortcut, SHIFT, INSERT,"
           "$mainMod, C, sendshortcut, CONTROL, INSERT,"
-          "$mainMod Control, S, exec, hyprshot --clipboard-only -m region -z"
+
+          "$mainMod Shift, 4, exec, hyprshot --clipboard-only -m region -z"
           "$mainMod, S, togglespecialworkspace, magic"
           "$mainMod SHIFT, S, movetoworkspace, special:magic"
           "$mainMod ALT, RIGHT, movecurrentworkspacetomonitor, -1"
           "$mainMod ALT, LEFT, movecurrentworkspacetomonitor, +1"
           "$mainMod SHIFT, RIGHT, workspace, m+1"
           "$mainMod SHIFT, LEFT, workspace, m-1"
+
           "$mainMod, 1, workspace, 1"
           "$mainMod, 2, workspace, 2"
           "$mainMod, 3, workspace, 3"
@@ -290,10 +296,12 @@ in
           "noinitialfocus, class:^(xwaylandvideobridge)$"
           "maxsize 1 1, class:^(xwaylandvideobridge)$"
           "noblur, class:^(xwaylandvideobridge)$"
+          
           # Firefox PIP
           "float,class:^(firefox)$,title:^(Picture-in-Picture)$"
           "pin,class:^(firefox)$,title:^(Picture-in-Picture)$"
           "float,class:^(firefox)$,title:^(Firefox — Sharing Indicator)$"
+          
           # modals
           "float,title:^(Open)$"
           "float,title:^(Choose Files)$"
@@ -302,6 +310,7 @@ in
           "float,class:^(xdg-desktop-portal-gtk)$"
           "stayfocused, title:Quick Access — 1Password"
           "stayfocused, class:polkit-gnome-authentication-agent-1"
+          "size 800 600, class:poklit-gnome-authentication-agent-1"
           "float,title:^(Volume Control)$"
           "size 800 600,title:^(Volume Control)$"
           "float,class:^(nm-connection-editor)$"
@@ -309,10 +318,13 @@ in
           "float,class:^(nm-connection-editor)$"
           "workspace special:magic silent,title:^(.*)(Picture-in-Picture)$"
           "float,class:^(1Password)$"
+          "size 900 800,class:^(1Password)$"
           "float,class:^(easyeffects)$"
+          
           # Center floating windows
           "center,class:^(pavucontrol)$"
           "center,class:^(blueman-manager)$"
+          "center,class:^(1Password)$"
         ];
       };
       extraConfig = ''
