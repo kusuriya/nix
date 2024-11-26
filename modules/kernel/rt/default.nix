@@ -15,5 +15,5 @@
         DRM_I915_GVT_KVMGT = lib.mkForce (option module);
       };
     }];
-  }
-    }
+  };
+}
