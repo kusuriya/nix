@@ -9,6 +9,7 @@
 {
   imports = [
     ../../modules/core
+    ../../modules/kernel/rt
     ./hardware-configuration.nix
     inputs.hardware.nixosModules.framework-13-7040-amd
     inputs.hardware.nixosModules.common-pc-ssd
@@ -96,20 +97,6 @@
         compressor = "zstd";
         systemd.enable = true;
       };
-      kernelPackages = pkgs.linuxPackages_latest;
-      kernelPatches = [{
-        name = "preempt-rt";
-        patch = null;
-        extraStructuredConfig = with lib.kernel; {
-          PREEMPT_RT = yes;
-          EXPERT = yes; # PREEMPT_RT depends on it (in kernel/Kconfig.preempt)
-          PREEMPT_VOLUNTARY = lib.mkForce no; # PREEMPT_RT deselects it.
-          # Fix error: unused option: RT_GROUP_SCHED.
-          RT_GROUP_SCHED = lib.mkForce (option no); # Removed by sched-disable-rt-group-sched-on-rt.patch.
-          DRM_I915_GVT = lib.mkForce (option yes);
-          DRM_I915_GVT_KVMGT = lib.mkForce (option module);
-        };
-      }];
       plymouth.enable = true;
       tmp = {
         useTmpfs = false;
@@ -377,11 +364,11 @@
     etc = {
       "1password/custom_allowed_browsers" = {
         text = ''
-        vivaldi-bin
-        floorp
-        brave
-        zen
-        .zen-wrapper
+          vivaldi-bin
+          floorp
+          brave
+          zen
+          .zen-wrapper
         '';
         mode = "0755";
       };

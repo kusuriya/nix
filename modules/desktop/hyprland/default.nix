@@ -66,7 +66,7 @@ in
         p7zip
         gnupg
         tailscale-systray
-
+        wlsunset
       ];
     wayland.windowManager.hyprland = {
 
@@ -102,8 +102,8 @@ in
           "hyprctl setcursor rose-pine-hyprcursor 24"
           "1password --silent"
           "tailscale-systray"
-          "easyeffects --gapplication-service"
           "swww -init"
+          "wlsunset -t 5000 -T 6500 -l 47.253080 -L -122.441530"
 
         ];
         input = {
@@ -296,12 +296,12 @@ in
           "noinitialfocus, class:^(xwaylandvideobridge)$"
           "maxsize 1 1, class:^(xwaylandvideobridge)$"
           "noblur, class:^(xwaylandvideobridge)$"
-          
+
           # Firefox PIP
           "float,class:^(firefox)$,title:^(Picture-in-Picture)$"
           "pin,class:^(firefox)$,title:^(Picture-in-Picture)$"
           "float,class:^(firefox)$,title:^(Firefox — Sharing Indicator)$"
-          
+
           # modals
           "float,title:^(Open)$"
           "float,title:^(Choose Files)$"
@@ -320,7 +320,7 @@ in
           "float,class:^(1Password)$"
           "size 900 800,class:^(1Password)$"
           "float,class:^(easyeffects)$"
-          
+
           # Center floating windows
           "center,class:^(pavucontrol)$"
           "center,class:^(blueman-manager)$"
