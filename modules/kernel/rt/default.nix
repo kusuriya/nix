@@ -1,4 +1,4 @@
-{config, pkgs, ...}:
+{ config, pkgs, lib, ... }:
 {
   kernelPackages = pkgs.linuxPackages_latest;
   kernelPatches = [{
