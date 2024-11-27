@@ -18,13 +18,11 @@
     inputs.hardware.nixosModules.common-pc-ssd
   ];
   nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
-    ];
     config = {
       allowUnfree = true;
+      permittedInsecurePackages = [
+                "electron-27.3.11"
+              ];
     };
   };
 
@@ -59,12 +57,7 @@
       efi.canTouchEfiVariables = true;
       systemd-boot.configurationLimit = 7;
     };
-    kernelPackages = pkgs.linuxPackages_latest;
     plymouth.enable = true;
-    tmp = {
-      useTmpfs = true;
-      tmpfsSize = "25%";
-    };
     kernel.sysctl = {
       "kernel.panic" = 60;
       "net.ipv4.tcp_mtu_probing" = 1;
@@ -127,14 +120,6 @@
   #sound.enable = true;
   security = {
     rtkit.enable = true;
-  };
-
-  users.users.kusuriya = {
-    isNormalUser = true;
-    description = "kusuriya";
-    extraGroups = [ "cdrom" "networkmanager" "wheel" "dialout" "audio" "video" "system" "libvirtd" "kvm" "render" ];
-    shell = pkgs.fish;
-
   };
 
   services = {
