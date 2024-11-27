@@ -20,8 +20,8 @@
     config = {
       allowUnfree = true;
       permittedInsecurePackages = [
-                "electron-27.3.11"
-              ];
+        "electron-27.3.11"
+      ];
     };
   };
 
@@ -47,6 +47,24 @@
         # Keep the last week
         options = "--delete-older-than 7d";
       };
+      system = {
+        autoUpgrade = {
+          enable = true;
+          flake = inputs.self.outPath;
+          flags = [
+            "--cores 15"
+            "--update-input"
+            "nixpkgs"
+            "-L"
+          ];
+          allowReboot = true;
+          dates = "01:00";
+          randomizedDelaySec = "45min";
+          rebootWindow.lower = "00:01";
+          rebootWindow.upper = "05:00";
+          persistent = true;
+        };
+      };
     };
 
   # Bootloader.
@@ -59,9 +77,22 @@
     kernelPackages = pkgs.linuxPackages_latest;
     plymouth.enable = true;
     kernel.sysctl = {
-      "kernel.panic" = 60;
       "net.ipv4.tcp_mtu_probing" = 1;
+      "kernel.panic" = 60;
+      "net.core.default_qdisc" = "fq";
+      "net.ipv4.tcp_congestion_control" = "bbr";
+      "vm.swappiness" = 10;
+      "vm.vfs_cache_pressure" = 50;
     };
+    binfmt.registrations.appimage = {
+      wrapInterpreterInShell = false;
+      interpreter = "${pkgs.appimage-run}/bin/appimage-run";
+      recognitionType = "magic";
+      offset = 0;
+      mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
+      magicOrExtension = ''\x7fELF....AI\x02'';
+    };
+
   };
 
   networking = {
@@ -70,6 +101,10 @@
     resolvconf = {
       dnsExtensionMechanism = true;
       enable = true;
+    };
+    firewall = {
+      enable = true;
+      allowPing = true;
     };
   };
 
@@ -97,7 +132,6 @@
       pkgs.xdg-desktop-portal-kde
     ];
   };
-
   zramSwap = {
     enable = true;
     priority = 100;
@@ -120,9 +154,45 @@
   #sound.enable = true;
   security = {
     rtkit.enable = true;
+    polkit.enable = true;
+    sudo.wheelNeedsPassword = true;
+    audit.enable = true;
+    auditd.enable = true;
+    apparmor = {
+      enable = true;
+      killUnconfinedConfinables = true;
+    };
+    tpm2 = {
+      enable = true;
+      pkcs11.enable = true;
+      tctiEnvironment.enable = true;
+    };
+    pam = {
+      services = {
+        greetd = {
+          enableGnomeKeyring = true;
+        };
+        login = {
+          enableGnomeKeyring = true;
+          fprintAuth = false;
+        };
+        hyprlock.fprintAuth = false;
+      };
+    };
+
   };
 
   services = {
+    greetd = {
+      enable = true;
+      settings = rec {
+        initial_session = {
+          command = "Hyprland";
+          user = "kusuriya";
+        };
+        default_session = initial_session;
+      };
+    };
     flatpak.enable = true;
     libinput = {
       enable = true;
@@ -139,7 +209,6 @@
     };
     xserver = {
       enable = true;
-      displayManager.gdm.enable = true;
       xkb = {
         layout = "us";
         variant = "";
@@ -163,7 +232,10 @@
 
 
     fwupd.enable = true;
-    fstrim.enable = true;
+    fstrim = {
+      enable = true;
+      interval = "weekly";
+    };
     thermald.enable = true;
     gvfs.enable = true;
     udev.packages = [ pkgs.via ];
@@ -188,77 +260,20 @@
       };
     };
   };
-  security.polkit.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs = {
-    fish.enable = true;
-    hyprland = {
+    seahorse.enable = true;
+    nix-ld = {
       enable = true;
-      xwayland.enable = true;
+    };
+    corectrl = {
+      enable = true;
     };
     _1password-gui = {
       enable = true;
       polkitPolicyOwners = [ "kusuriya" ];
     };
-    neovim = {
-      enable = true;
-      viAlias = true;
-      vimAlias = true;
-      withRuby = true;
-    };
-    tmux = {
-      enable = true;
-      extraConfig = ''
-        set -g update-environment 'DISPLAY SSH_ASKPASS SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY TERM'
-        set -g default-terminal screen-256color
-
-        set -g history-limit 100000
-        set -q -g status-utf8 on                  # expect UTF-8 (tmux < 2.2)
-        setw -q -g utf8 on
-     
-        setw -g automatic-rename on   # rename window to reflect current program
-        set -g renumber-windows on    # renumber windows when a window is closed
-     
-        set -g set-titles on          # set terminal title
-     
-        set -g display-panes-time 800 # slightly longer pane indicators display time
-        set -g display-time 1000      # slightly longer status messages display time
-     
-        set -g status-interval 5 # redraw status line every 10 seconds
-     
-        set -g status-bg colour235
-        set -g status-fg yellow
-        set -g status-right-length 150
-        set -g status-right '[ #{host_short} | %a %F %R]'
-
-        set -g window-status-current-format "#[fg=colour117,bg=colour31] #I:#W "
-     
-        # Mouse mode on!
-        setw -g mouse on
-      '';
-    };
     dconf.enable = true;
-  };
-
-  fonts = {
-    packages = with pkgs; [
-      dejavu_fonts
-      emacs-all-the-icons-fonts
-      jetbrains-mono
-      font-awesome
-      noto-fonts
-      noto-fonts-emoji
-      nerdfonts
-    ];
-    fontconfig = {
-      enable = true;
-      antialias = true;
-      allowType1 = true;
-      allowBitmaps = true;
-      hinting.autohint = true;
-      hinting.enable = true;
-      subpixel.rgba = "rgb";
-    };
   };
 
   environment = {
@@ -326,11 +341,6 @@
   };
 
 
-  programs.kdeconnect = {
-    enable = true;
-  };
-
-  networking.firewall.enable = false;
   system.stateVersion = "23.05"; # Did you read the comment
   vfio.enable = true;
 }
