@@ -8,13 +8,14 @@
     ../modules/desktop/hyprland
   ];
 
-  nixpkgs.config =
-    {
+  nixpkgs = {
+    config = {
       allowUnfree = true;
       permittedInsecurePackages = [
         "electron-27.3.11"
       ];
     };
+  };
   modules.hyprland = {
     enable = true;
     monitors = [

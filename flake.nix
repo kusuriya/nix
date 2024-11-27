@@ -54,6 +54,10 @@
 
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mozilla = {
+      url = "github:mozilla/nixpkgs-mozilla";
+      flake = false;
+    };
   };
 
   outputs =
@@ -65,6 +69,7 @@
     , lanzaboote
     , catppuccin
     , nixvim
+    , mozilla
     , ...
     }@inputs:
     let

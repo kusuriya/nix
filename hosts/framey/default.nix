@@ -359,7 +359,6 @@
       LIBVA_DRIVER_NAME = "radeonsi";
       TERMINAL = "alacritty";
       EDITOR = "nvim";
-      BROWSER = "zen";
     };
     etc = {
       "1password/custom_allowed_browsers" = {

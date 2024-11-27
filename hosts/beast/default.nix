@@ -4,6 +4,7 @@
 , config
 , pkgs
 , modulesPath
+, self
 , ...
 }:
 {
@@ -23,6 +24,11 @@
         "electron-27.3.11"
       ];
     };
+    overlays = [
+      self.overlays.additions
+      self.overlays.modifications
+      self.overlays.unstable-packages
+    ];
   };
 
   nix =
@@ -47,25 +53,25 @@
         # Keep the last week
         options = "--delete-older-than 7d";
       };
-      system = {
-        autoUpgrade = {
-          enable = true;
-          flake = inputs.self.outPath;
-          flags = [
-            "--cores 15"
-            "--update-input"
-            "nixpkgs"
-            "-L"
-          ];
-          allowReboot = true;
-          dates = "01:00";
-          randomizedDelaySec = "45min";
-          rebootWindow.lower = "00:01";
-          rebootWindow.upper = "05:00";
-          persistent = true;
-        };
-      };
     };
+  system = {
+    autoUpgrade = {
+      enable = true;
+      flake = inputs.self.outPath;
+      flags = [
+        "--cores 30"
+        "--update-input"
+        "nixpkgs"
+        "-L"
+      ];
+      allowReboot = true;
+      dates = "01:00";
+      randomizedDelaySec = "45min";
+      rebootWindow.lower = "00:01";
+      rebootWindow.upper = "05:00";
+      persistent = true;
+    };
+  };
 
   # Bootloader.
   boot = {
@@ -135,7 +141,7 @@
   zramSwap = {
     enable = true;
     priority = 100;
-    memoryPercent = 10;
+    memoryPercent = 50;
     swapDevices = 1;
     algorithm = "zstd";
   };
@@ -253,14 +259,11 @@
       pulse.enable = true;
       jack.enable = true;
       wireplumber.enable = true;
-      extraConfig.pipewire."92-rates" = {
-        "context.properties" = {
-          "default.clock.rate" = 44100;
-        };
-      };
-    };
   };
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      EDITOR = "nvim";
+    };
   programs = {
     seahorse.enable = true;
     nix-ld = {
@@ -287,7 +290,6 @@
       glib
       glib-networking
       appimage-run
-      kdePackages.kdeconnect-kde
       btrfs-progs
       btrfs-snap
       timeshift
@@ -295,7 +297,22 @@
       OVMFFull
       looking-glass-client
       dnsmasq
-
+      appimage-run
+      openconnect
+      p7zip
+      zenmonitor
+      ryzenadj
+      mosh
+      nix-diff
+      nix-index
+      nix-output-monitor
+      nix-prefetch-git
+      nil
+      sops
+      age
+      usbutils
+      coreutils
+      brightnessctl
     ];
     etc = {
       "ovmf/edk2-x86_64-secure-code.fd" = {
@@ -309,16 +326,6 @@
       };
     };
   };
-  boot.binfmt.registrations.appimage = {
-    wrapInterpreterInShell = false;
-    interpreter = "${pkgs.appimage-run}/bin/appimage-run";
-    recognitionType = "magic";
-    offset = 0;
-    mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
-    magicOrExtension = ''\x7fELF....AI\x02'';
-  };
-
-
   virtualisation = {
     containers.enable = true;
     podman = {
