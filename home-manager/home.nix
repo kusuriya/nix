@@ -21,6 +21,7 @@
       "desc:HP Inc. HP X27q 6CM1210654,preferred,0x0,1,vrr,1"
       "desc:BOE NE135A1M-NY1,preferred,auto-right,2,vrr,1"
       "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1.25,vrr,1"
+      "desc:Dell Inc. DELL U2718Q 4K8X785O0L3L,preferred,auto-right,1.5,vrr,1,transform,1"
       ",preferred,auto,auto"
     ];
   };

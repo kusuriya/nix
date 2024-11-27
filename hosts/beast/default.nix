@@ -278,7 +278,7 @@
       btrfs-snap
       timeshift
       swtpm
-      unstable.OVMFFull
+      OVMFFull
       looking-glass-client
       dnsmasq
 
