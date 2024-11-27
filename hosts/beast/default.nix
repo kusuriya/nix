@@ -313,6 +313,7 @@
       usbutils
       coreutils
       brightnessctl
+
     ];
     etc = {
       "ovmf/edk2-x86_64-secure-code.fd" = {
