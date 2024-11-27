@@ -12,7 +12,6 @@
     ./hardware-configuration.nix
     ./vfio.nix
     ../../modules/core
-    ../../modules/kernel/rt
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
@@ -57,6 +56,7 @@
       efi.canTouchEfiVariables = true;
       systemd-boot.configurationLimit = 7;
     };
+    kernelPackages = pkgs.linuxPackages_latest;
     plymouth.enable = true;
     kernel.sysctl = {
       "kernel.panic" = 60;
@@ -166,7 +166,6 @@
     fstrim.enable = true;
     thermald.enable = true;
     gvfs.enable = true;
-    hardware.bolt.enable = true;
     udev.packages = [ pkgs.via ];
     printing = {
       enable = true;
