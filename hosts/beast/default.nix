@@ -9,10 +9,10 @@
 {
   # You can import other NixOS modules here
   imports = [
-    ../../modules/home-manager.nix
     ./hardware-configuration.nix
-    ../../modules/oom.nix
     ./vfio.nix
+    ../../modules/core
+    ../../modules/kernel/rt
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
