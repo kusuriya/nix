@@ -45,7 +45,7 @@
         trusted-users = [ "kusuriya" "root" ];
         nix-path = config.nix.nixPath;
         max-jobs = "auto";
-    cores = 0;  # Use all cores
+        cores = 0; # Use all cores
       };
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
@@ -239,8 +239,6 @@
         "sneaky.dev"
       ];
     };
-
-
     fwupd.enable = true;
     fstrim = {
       enable = true;
@@ -264,108 +262,108 @@
       jack.enable = true;
       wireplumber.enable = true;
     };
-    environment.sessionVariables = {
-      NIXOS_OZONE_WL = "1";
-      EDITOR = "nvim";
+  };
+  programs = {
+    seahorse.enable = true;
+    nix-ld = {
+      enable = true;
     };
-    programs = {
-      seahorse.enable = true;
-      nix-ld = {
-        enable = true;
-      };
-      corectrl = {
-        enable = true;
-      };
-      _1password-gui = {
-        enable = true;
-        polkitPolicyOwners = [ "kusuriya" ];
-      };
-      dconf.enable = true;
+    corectrl = {
+      enable = true;
     };
+    _1password-gui = {
+      enable = true;
+      polkitPolicyOwners = [ "kusuriya" ];
+    };
+    dconf.enable = true;
+  };
 
-    environment = {
-      systemPackages = with pkgs; [
-        wget
-        git
-        curl
-        distrobox
-        neovim
-        linux-firmware
-        glib
-        glib-networking
-        appimage-run
-        btrfs-progs
-        btrfs-snap
-        timeshift
-        swtpm
-        OVMFFull
-        looking-glass-client
-        dnsmasq
-        appimage-run
-        openconnect
-        p7zip
-        zenmonitor
-        ryzenadj
-        mosh
-        nix-diff
-        nix-index
-        nix-output-monitor
-        nix-prefetch-git
-        nil
-        sops
-        age
-        usbutils
-        coreutils
-        brightnessctl
-        virt-viewer
-        spice-gtk
-      ];
-      etc = {
-        "ovmf/edk2-x86_64-secure-code.fd" = {
-          source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
+  environment = {
+    systemPackages = with pkgs; [
+      wget
+      git
+      curl
+      distrobox
+      neovim
+      linux-firmware
+      glib
+      glib-networking
+      appimage-run
+      btrfs-progs
+      btrfs-snap
+      timeshift
+      swtpm
+      OVMFFull
+      looking-glass-client
+      dnsmasq
+      appimage-run
+      openconnect
+      p7zip
+      zenmonitor
+      ryzenadj
+      mosh
+      nix-diff
+      nix-index
+      nix-output-monitor
+      nix-prefetch-git
+      nil
+      sops
+      age
+      usbutils
+      coreutils
+      brightnessctl
+      virt-viewer
+      spice-gtk
+      deadnix
+      statix
+      nixpkgs-fmt
+    ];
+    etc = {
+      "ovmf/edk2-x86_64-secure-code.fd" = {
+        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
+      };
+
+      "ovmf/edk2-i386-vars.fd" = {
+        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-i386-vars.fd";
+        mode = "0644";
+        user = "libvirtd";
+      };
+    };
+  };
+  virtualisation = {
+    containers.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+    libvirtd = {
+      enable = true;
+      qemu = {
+        package = pkgs.qemu_kvm;
+        runAsRoot = false;
+        swtpm.enable = true;
+        ovmf = {
+          enable = true;
+          packages = [ pkgs.OVMFFull.fd ];
         };
-
-        "ovmf/edk2-i386-vars.fd" = {
-          source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-i386-vars.fd";
-          mode = "0644";
-          user = "libvirtd";
-        };
+        verbatimConfig = ''
+          memory_backing_dir = "/dev/hugepages"
+          nvram = [ "${pkgs.OVMFFull}/FV/OVMF.fd:/run/libvirt/nix-ovmf/OVMF_CODE.fd" ]
+          cgroup_device_acl = [
+            "/dev/null", "/dev/full", "/dev/zero",
+            "/dev/random", "/dev/urandom",
+            "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+            "/dev/rtc","/dev/hpet",
+            "/dev/vfio/vfio", "/dev/vfio/1"
+          ]
+        '';
       };
     };
-    virtualisation = {
-      containers.enable = true;
-      podman = {
-        enable = true;
-        dockerCompat = true;
-        defaultNetwork.settings.dns_enabled = true;
-      };
-      libvirtd = {
-        enable = true;
-        qemu = {
-          package = pkgs.qemu_kvm;
-          runAsRoot = false;
-          swtpm.enable = true;
-          ovmf = {
-            enable = true;
-            packages = [ pkgs.OVMFFull.fd ];
-          };
-          verbatimConfig = ''
-      memory_backing_dir = "/dev/hugepages"
-      nvram = [ "${pkgs.OVMFFull}/FV/OVMF.fd:/run/libvirt/nix-ovmf/OVMF_CODE.fd" ]
-      cgroup_device_acl = [
-        "/dev/null", "/dev/full", "/dev/zero",
-        "/dev/random", "/dev/urandom",
-        "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
-        "/dev/rtc","/dev/hpet",
-        "/dev/vfio/vfio", "/dev/vfio/1"
-      ]
-    '';
-        };
-      };
-    };
+  };
 
 
-    system.stateVersion = "23.05"; # Did you read the comment
-    vfio.enable = true;
-  }
+  system.stateVersion = "23.05"; # Did you read the comment
+  vfio.enable = true;
+}
 

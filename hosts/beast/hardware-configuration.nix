@@ -11,7 +11,7 @@
 
   boot = {
     initrd = {
-      availableKernelModules = [ 
+      availableKernelModules = [
         "nvme"
         "xhci_pci"
         "ahci"
