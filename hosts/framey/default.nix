@@ -46,6 +46,8 @@
           "root"
         ];
         nix-path = config.nix.nixPath;
+        max-jobs = "auto";
+    cores = 0;  # Use all cores
       };
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;

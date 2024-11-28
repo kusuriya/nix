@@ -44,6 +44,8 @@
         allowed-users = [ "kusuriya" "root" ];
         trusted-users = [ "kusuriya" "root" ];
         nix-path = config.nix.nixPath;
+        max-jobs = "auto";
+    cores = 0;  # Use all cores
       };
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
@@ -87,7 +89,7 @@
       "kernel.panic" = 60;
       "net.core.default_qdisc" = "fq";
       "net.ipv4.tcp_congestion_control" = "bbr";
-      "vm.swappiness" = 10;
+      "vm.swappiness" = 5;
       "vm.vfs_cache_pressure" = 50;
       "kernel.sched_autogroup_enabled" = 1;
       "kernel.sched_cfs_bandwidth_slice_us" = 500;

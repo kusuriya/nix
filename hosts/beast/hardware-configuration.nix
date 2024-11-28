@@ -11,7 +11,14 @@
 
   boot = {
     initrd = {
-      availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "uas" "sd_mod" ];
+      availableKernelModules = [ 
+        "nvme"
+        "xhci_pci"
+        "ahci"
+        "usbhid"
+        "uas"
+        "sd_mod"
+      ];
       kernelModules = [
         "v4l2loopback"
       ];
