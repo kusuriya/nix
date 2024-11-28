@@ -89,6 +89,8 @@
       "net.ipv4.tcp_congestion_control" = "bbr";
       "vm.swappiness" = 10;
       "vm.vfs_cache_pressure" = 50;
+      "kernel.sched_autogroup_enabled" = 1;
+      "kernel.sched_cfs_bandwidth_slice_us" = 500;
     };
     binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
@@ -259,97 +261,98 @@
       pulse.enable = true;
       jack.enable = true;
       wireplumber.enable = true;
-  };
-  environment.sessionVariables = {
+    };
+    environment.sessionVariables = {
       NIXOS_OZONE_WL = "1";
       EDITOR = "nvim";
     };
-  programs = {
-    seahorse.enable = true;
-    nix-ld = {
-      enable = true;
-    };
-    corectrl = {
-      enable = true;
-    };
-    _1password-gui = {
-      enable = true;
-      polkitPolicyOwners = [ "kusuriya" ];
-    };
-    dconf.enable = true;
-  };
-
-  environment = {
-    systemPackages = with pkgs; [
-      wget
-      git
-      curl
-      distrobox
-      neovim
-      linux-firmware
-      glib
-      glib-networking
-      appimage-run
-      btrfs-progs
-      btrfs-snap
-      timeshift
-      swtpm
-      OVMFFull
-      looking-glass-client
-      dnsmasq
-      appimage-run
-      openconnect
-      p7zip
-      zenmonitor
-      ryzenadj
-      mosh
-      nix-diff
-      nix-index
-      nix-output-monitor
-      nix-prefetch-git
-      nil
-      sops
-      age
-      usbutils
-      coreutils
-      brightnessctl
-
-    ];
-    etc = {
-      "ovmf/edk2-x86_64-secure-code.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
+    programs = {
+      seahorse.enable = true;
+      nix-ld = {
+        enable = true;
       };
-
-      "ovmf/edk2-i386-vars.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-i386-vars.fd";
-        mode = "0644";
-        user = "libvirtd";
+      corectrl = {
+        enable = true;
       };
+      _1password-gui = {
+        enable = true;
+        polkitPolicyOwners = [ "kusuriya" ];
+      };
+      dconf.enable = true;
     };
-  };
-  virtualisation = {
-    containers.enable = true;
-    podman = {
-      enable = true;
-      dockerCompat = true;
-      defaultNetwork.settings.dns_enabled = true;
-    };
-    libvirtd = {
-      enable = true;
-      qemu = {
-        package = pkgs.qemu_kvm;
-        runAsRoot = false;
-        swtpm.enable = true;
-        ovmf = {
-          enable = true;
-          packages = [ pkgs.OVMFFull.fd ];
+
+    environment = {
+      systemPackages = with pkgs; [
+        wget
+        git
+        curl
+        distrobox
+        neovim
+        linux-firmware
+        glib
+        glib-networking
+        appimage-run
+        btrfs-progs
+        btrfs-snap
+        timeshift
+        swtpm
+        OVMFFull
+        looking-glass-client
+        dnsmasq
+        appimage-run
+        openconnect
+        p7zip
+        zenmonitor
+        ryzenadj
+        mosh
+        nix-diff
+        nix-index
+        nix-output-monitor
+        nix-prefetch-git
+        nil
+        sops
+        age
+        usbutils
+        coreutils
+        brightnessctl
+        virt-viewer
+        spice-gtk
+      ];
+      etc = {
+        "ovmf/edk2-x86_64-secure-code.fd" = {
+          source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
+        };
+
+        "ovmf/edk2-i386-vars.fd" = {
+          source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-i386-vars.fd";
+          mode = "0644";
+          user = "libvirtd";
         };
       };
     };
-  };
+    virtualisation = {
+      containers.enable = true;
+      podman = {
+        enable = true;
+        dockerCompat = true;
+        defaultNetwork.settings.dns_enabled = true;
+      };
+      libvirtd = {
+        enable = true;
+        qemu = {
+          package = pkgs.qemu_kvm;
+          runAsRoot = false;
+          swtpm.enable = true;
+          ovmf = {
+            enable = true;
+            packages = [ pkgs.OVMFFull.fd ];
+          };
+        };
+      };
+    };
 
 
-  system.stateVersion = "23.05"; # Did you read the comment
-  vfio.enable = true;
-}
+    system.stateVersion = "23.05"; # Did you read the comment
+    vfio.enable = true;
+  }
 
