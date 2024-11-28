@@ -31,17 +31,24 @@
     kernelParams = [
       "default_hugepagesz=1G"
       "hugepagesz=1G"
-      "hugepages=32"
+      "hugepages=64"
       "amd_iommu=on" # Since you have AMD CPU
       "iommu=pt"
       "kvm.ignore_msrs=1"
       "kvm.report_ignored_msrs=0"
+      "preempt=full"
+
     ];
   };
   fileSystems."/" =
     {
       device = "/dev/disk/by-uuid/a1bc0189-0fe7-4bc0-8193-02d4e176e154";
       fsType = "ext4";
+      options = [
+        "noatime"
+        "nodiratime"
+        "discard=async"
+      ];
     };
 
   fileSystems."/boot" =
@@ -55,5 +62,7 @@
     [{ device = "/dev/disk/by-uuid/741357fa-3dfa-46f2-8c29-da08524b0ce6"; }];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware = {
+    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  };
 }

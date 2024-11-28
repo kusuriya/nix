@@ -54,6 +54,7 @@
       #orca-slicer
       appimage-run
       btop
+      moonlight-qt
 
       #dev
       devenv
