@@ -54,9 +54,9 @@
 
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mozilla = {
-      url = "github:mozilla/nixpkgs-mozilla";
-      flake = false;
+    firefox = {
+      url = "github:nix-community/flake-firefox-nightly";
+      #flake = false;
     };
   };
 
@@ -69,7 +69,7 @@
     , lanzaboote
     , catppuccin
     , nixvim
-    , mozilla
+    , firefox
     , ...
     }@inputs:
     let

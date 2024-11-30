@@ -29,13 +29,8 @@
       options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
     '';
     kernelParams = [
-      "default_hugepagesz=1G"
-      "hugepagesz=1G"
-      "hugepages=64"
       "amd_iommu=on" # Since you have AMD CPU
       "iommu=pt"
-      "kvm.ignore_msrs=1"
-      "kvm.report_ignored_msrs=0"
       "preempt=full"
 
     ];
@@ -46,8 +41,6 @@
       fsType = "ext4";
       options = [
         "noatime"
-        "nodiratime"
-        "discard=async"
       ];
     };
 

@@ -1,6 +1,7 @@
 { config
 , pkgs
 , inputs
+, lib
 , ...
 }:
 {
@@ -15,6 +16,7 @@
         "electron-27.3.11"
       ];
     };
+
   };
   modules.hyprland = {
     enable = true;
@@ -103,6 +105,7 @@
       vivaldi-ffmpeg-codecs
       librewolf
       floorp
+      inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
       inputs.zen-browser.packages."${system}".specific
 
       #Dictonary
