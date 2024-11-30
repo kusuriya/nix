@@ -53,7 +53,7 @@
       drawio
       calibre
       alacritty
-      orca-slicer
+      #orca-slicer
       appimage-run
       btop
       moonlight-qt
