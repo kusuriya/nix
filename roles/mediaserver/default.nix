@@ -5,6 +5,7 @@
   , ...
 }:
 {
+  nixpkgs.config.allowUnfree = true;
   services = {
     jellyfin = {
       enable = true;
