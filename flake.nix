@@ -92,7 +92,7 @@
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {
                 extraSpecialArgs = { inherit inputs self; };
-                users.kusuriya = { imports = [ ./modules/home-manager ./home-manager/home.nix catppuccin.homeManagerModules.catppuccin nixvim.homeManagerModules.nixvim ]; };
+                users.kusuriya = { imports = [ ./home-manager/home.nix catppuccin.homeManagerModules.catppuccin nixvim.homeManagerModules.nixvim  ./modules/home-manager ]; };
                 useGlobalPkgs = true;
                 useUserPackages = true;
               };
@@ -106,6 +106,7 @@
 
       overlays = import ./overlays { inherit inputs; };
       nixosModules = import ./modules/nixos;
+      homeManagerModules = import ./modules/home-manager;
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake https://github.com/kusuriya/nix/#hostname'
       nixosConfigurations = {

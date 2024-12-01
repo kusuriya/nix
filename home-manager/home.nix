@@ -8,11 +8,11 @@
   imports = [
     ../modules/desktop/hyprland
   ];
-  config = {
-    environment.systemPackages = [
-      inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
-    ];
-  };
+  #config = {
+  #  environment.systemPackages = [
+  #    inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
+  #  ];
+  #};
   nixpkgs = {
     config = {
       allowUnfree = true;
