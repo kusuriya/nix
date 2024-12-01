@@ -152,6 +152,7 @@
         };
       pve = mkSystem {
           hostname = "pve";
+          homeManagerConfig = false;
           extraModules = [];
         };
       };
