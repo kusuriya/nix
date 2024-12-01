@@ -150,10 +150,10 @@
             inputs.catppuccin.nixosModules.catppuccin
           ];
         };
-      pve = mkSystem {
+        pve = mkSystem {
           hostname = "pve";
           homeManagerConfig = false;
-          extraModules = [];
+          extraModules = [ ];
         };
       };
     };
