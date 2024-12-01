@@ -8,9 +8,13 @@
       font-awesome
       noto-fonts
       noto-fonts-emoji
-      nerdfonts
       fira-mono
       fira-sans
+      nerd-fonts.caskaydia-cove
+      nerd-fonts.caskaydia-mono
+      nerd-fonts.fira-code
+      nerd-fonts.fira-mono
+      nerd-fonts.jetbrains-mono
     ];
     fontconfig = {
       hinting.style = "slight";
