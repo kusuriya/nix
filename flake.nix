@@ -56,7 +56,6 @@
     };
     firefox = {
       url = "github:nix-community/flake-firefox-nightly";
-      #flake = false;
     };
   };
 
@@ -89,7 +88,14 @@
           modules = [
             # Base configuration
             ./hosts/${hostname}
-
+            ({ pkgs, inputs, config, ... }:
+              {
+                config = {
+                  environment.systemPackages = [
+                    inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
+                  ];
+                };
+              })
             # Conditional home-manager setup
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {
