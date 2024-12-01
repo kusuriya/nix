@@ -5,7 +5,7 @@
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      (modulesPath + "/installer/scan/not-detected.nix"
+      (modulesPath + "/installer/scan/not-detected.nix")
         ];
       nix =
       let
