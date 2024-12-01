@@ -142,7 +142,7 @@
             inputs.catppuccin.nixosModules.catppuccin
           ];
         };
-        pve = nixpkgs.lib."pve".nixosSystem {
+        pve = nixosSystem {
           specialArgs = { inherit inputs self; };
           modules = [ ./hosts/pve ];
         };
