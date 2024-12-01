@@ -88,14 +88,6 @@
           modules = [
             # Base configuration
             ./hosts/${hostname}
-            (nixpkgs.lib.mkIf homeManagerConfig { pkgs, inputs, config, ... }:
-              {
-                config = {
-                  environment.systemPackages = [
-                    inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
-                  ];
-                };
-              })
             # Conditional home-manager setup
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {
