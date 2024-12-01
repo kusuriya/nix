@@ -58,7 +58,6 @@
       btrfs = true;
       zfs = lib.mkForce true;
     };
-      nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
       networking = {
       hostName = "pve"; # Define your hostname.
