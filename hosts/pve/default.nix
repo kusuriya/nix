@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{ config, lib, pkgs, modulesPath, inputs, outputs, self, ... }:
 
 {
   imports =
@@ -10,6 +10,10 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFileSystems = {
+    btrfs = true;
+    zfs = lib.mkForce true;
+  };
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   networking = {
@@ -24,6 +28,8 @@ users.users.kusuriya = {
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
+    zfs
+    git
   ];
   services.openssh.enable = true;
   system.stateVersion = "24.05"; # Did you read the comment?
