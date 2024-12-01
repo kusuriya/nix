@@ -53,12 +53,12 @@
       drawio
       calibre
       alacritty
-      #orca-slicer
       appimage-run
       btop
       moonlight-qt
       element-desktop
       fractal
+      virt-manager
 
       #dev
       devenv
