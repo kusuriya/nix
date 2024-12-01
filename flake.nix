@@ -88,7 +88,7 @@
           modules = [
             # Base configuration
             ./hosts/${hostname}
-            ({ pkgs, inputs, config, ... }:
+            (nixpkgs.lib.mkIf homeManagerConfig { pkgs, inputs, config, ... }:
               {
                 config = {
                   environment.systemPackages = [
