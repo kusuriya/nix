@@ -59,7 +59,6 @@
       moonlight-qt
       element-desktop
       fractal
-      cinny
 
       #dev
       devenv
