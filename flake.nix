@@ -92,7 +92,7 @@
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {
                 extraSpecialArgs = { inherit inputs self; };
-                users.kusuriya = { imports = [ ./home-manager/home.nix catppuccin.homeManagerModules.catppuccin nixvim.homeManagerModules.nixvim  ./modules/home-manager ]; };
+                users.kusuriya = { imports = [ ./home-manager/home.nix catppuccin.homeManagerModules.catppuccin nixvim.homeManagerModules.nixvim ./modules/home-manager ]; };
                 useGlobalPkgs = true;
                 useUserPackages = true;
               };
@@ -142,10 +142,9 @@
             inputs.catppuccin.nixosModules.catppuccin
           ];
         };
-        pve = mkSystem {
-          hostname = "pve";
-          homeManagerConfig = false;
-          extraModules = [ ];
+        pve = nixpkgs.lib."pve".nixosSystem {
+          specialArgs = { inherit inputs self; };
+          modules = [ ./hosts/pve ];
         };
       };
     };
