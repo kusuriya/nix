@@ -49,6 +49,7 @@
       rsync
       yt-dlp
       inkscape
+      gimp
       cider
       libreoffice
       transmission_4-qt
@@ -63,6 +64,9 @@
       element-desktop
       fractal
       virt-manager
+      imagemagick
+      texlive
+      pandoc
 
       #dev
       devenv

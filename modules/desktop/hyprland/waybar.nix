@@ -75,23 +75,21 @@
         "tray"
       ];
       "hyprland/workspaces" = {
-        format = "{number}:{icon}";
+        format = "{id}:{icon}";
         on-click = "activate";
         format-icons = {
-          "1" = "1";
-          "2" = "2";
-          "3" = "3";
-          "4" = "4";
-          "5" = "5";
+          "1" = "";
+          "2" = "󰭹";
+          "3" = "󰗃";
+          "4" = "󱆃";
           urgent = "!";
           default = "󰍹";
         };
         sort-by-number = true;
       };
       clock = {
-        format = " {:%H:%M}";
-        format-alt = " {:%Y-%m-%d}";
-        tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+        format = " {:%H:%M %Y-%m-%d}";
+        tooltip-format = "<big>{:%Y %B}</big>\n<tt><big>{calendar}</big></tt>";
       };
       battery = {
         states = {
