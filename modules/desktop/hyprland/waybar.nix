@@ -75,7 +75,7 @@
         "tray"
       ];
       "hyprland/workspaces" = {
-        format = "{icon}";
+        format = "{number}:{icon}";
         on-click = "activate";
         format-icons = {
           "1" = "1";
