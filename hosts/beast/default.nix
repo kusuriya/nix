@@ -206,6 +206,7 @@
         default_session = initial_session;
       };
     };
+    fprintd.enable = true;
     flatpak.enable = true;
     libinput = {
       enable = true;
