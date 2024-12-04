@@ -65,7 +65,6 @@
       fractal
       virt-manager
       imagemagick
-      texlive
       pandoc
 
       #dev
