@@ -199,7 +199,7 @@ in
           # groups
           "$mainMod, G, togglegroup"
           "$mainMod, Tab, changegroupactive, f"
-          "mainMod Shift, Tab, changegroupactive, b"
+          "mainMod CTRL, Tab, changegroupactive, b"
           "$mainMod SHIFT, G, moveoutofgroup"
 
           "$mainMod SHIFT, V, exec, cliphist list|wofi --dmenu|cliphist decode|wl-copy"
