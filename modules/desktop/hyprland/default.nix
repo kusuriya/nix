@@ -206,7 +206,7 @@ in
           "$mainMod, V, sendshortcut, SHIFT, INSERT,"
           "$mainMod, C, sendshortcut, CONTROL, INSERT,"
 
-          "$mainMod Shift, 4, exec, hyprshot --clipboard-only -m region -z"
+          "$mainMod Ctrl, 4, exec, hyprshot --clipboard-only -m region -z"
           "$mainMod, S, togglespecialworkspace, magic"
           "$mainMod SHIFT, S, movetoworkspace, special:magic"
           "$mainMod ALT, RIGHT, movecurrentworkspacetomonitor, -1"
