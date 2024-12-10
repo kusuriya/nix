@@ -1,8 +1,8 @@
 { self
-  , config
-  , lib
-  , pkgs
-  , ...
+, config
+, lib
+, pkgs
+, ...
 }:
 {
   nixpkgs.config.allowUnfree = true;
@@ -15,9 +15,9 @@
       enable = true;
       openFirewall = true;
       accelerationDevices = [
-      "/dev/dri/card0"
-      "/dev/dri/card1"
-      "/dev/dri/renderD128"
+        "/dev/dri/card0"
+        "/dev/dri/card1"
+        "/dev/dri/renderD128"
       ];
     };
   };

@@ -63,7 +63,10 @@
   networking = {
     hostName = "pve"; # Define your hostname.
     hostId = "06904201";
-    firewall.enable = true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 80 443 81 82 ];
+    };
   };
   services.zfs.autoScrub.enable = true;
   users.users.kusuriya = {
@@ -76,14 +79,37 @@
     zfs
     git
   ];
-  services.openssh = {
-    enable = true;
-    openFirewall = true;
-  };
-  services.adguardhome = {
-    enable = true;
-    openFirewall = true;
-    port = 82;
+  services = {
+    openssh = {
+      enable = true;
+      openFirewall = true;
+    };
+    adguardhome = {
+      enable = true;
+      openFirewall = true;
+      port = 82;
+    };
+    zfs.autoScrub.enable = true;
+    traefik = {
+      enable = true;
+      dynamicConfigOptions = {
+        http = {
+          routers = {
+            rule = "Host('adguard')";
+            service = "adguard";
+          };
+        };
+        services = {
+          adguard = {
+            loadbalancer = {
+              servers = [
+                { url = "http://127.0.0.1:82"; }
+              ];
+            };
+          };
+        };
+      };
+    };
   };
   system.stateVersion = "24.05"; # Did you read the comment?
 
