@@ -68,7 +68,6 @@
       allowedTCPPorts = [ 80 443 81 82 ];
     };
   };
-  services.zfs.autoScrub.enable = true;
   users.users.kusuriya = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
