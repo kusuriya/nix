@@ -76,7 +76,10 @@
     zfs
     git
   ];
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    openFirewall = true;
+  };
   services.adguardhome = {
     enable = true;
     openFirewall = true;
