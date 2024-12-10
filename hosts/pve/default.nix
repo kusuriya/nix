@@ -77,6 +77,10 @@
     git
   ];
   services.openssh.enable = true;
+  services.adguardhome = {
+    enable = true;
+    openFirewall = true;
+  };
   system.stateVersion = "24.05"; # Did you read the comment?
 
   boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "ehci_pci" "mpt3sas" "nvme" "usb_storage" "usbhid" "sd_mod" ];
