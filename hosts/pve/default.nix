@@ -83,6 +83,7 @@
   services.adguardhome = {
     enable = true;
     openFirewall = true;
+    port = 81;
   };
   system.stateVersion = "24.05"; # Did you read the comment?
 
