@@ -57,6 +57,7 @@
       freecad
       drawio
       calibre
+      orca-slicer
       alacritty
       appimage-run
       btop
@@ -66,6 +67,7 @@
       virt-manager
       imagemagick
       pandoc
+      catt
 
       #dev
       devenv

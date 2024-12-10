@@ -63,6 +63,7 @@
   networking = {
     hostName = "pve"; # Define your hostname.
     hostId = "06904201";
+    firewall = false;
   };
   services.zfs.autoScrub.enable = true;
   users.users.kusuriya = {
