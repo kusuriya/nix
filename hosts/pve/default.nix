@@ -43,7 +43,7 @@
         "nixpkgs"
         "-L"
       ];
-      allowReboot = true;
+      allowReboot = false;
       dates = "01:00";
       randomizedDelaySec = "45min";
       rebootWindow.lower = "00:01";
@@ -67,6 +67,12 @@
       enable = true;
       allowedTCPPorts = [ 80 443 81 82 ];
     };
+    nat = {
+      enable = true;
+      internalInterfaces = ["ve-+"];
+      externalInterface = "eno2";
+      enableIPv6 = true;
+    };
   };
   users.users.kusuriya = {
     isNormalUser = true;
@@ -82,11 +88,6 @@
     openssh = {
       enable = true;
       openFirewall = true;
-    };
-    adguardhome = {
-      enable = true;
-      openFirewall = true;
-      port = 82;
     };
     zfs.autoScrub.enable = true;
     traefik = {
