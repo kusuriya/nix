@@ -268,6 +268,7 @@
     };
   };
   programs = {
+    steam.enable = true;
     seahorse.enable = true;
     nix-ld = {
       enable = true;
