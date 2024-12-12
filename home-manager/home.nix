@@ -171,6 +171,7 @@
     };
   };
   programs = {
+    steam.enable = true;
     mpv.enable = true;
     imv.enable = true;
     alacritty = {

@@ -67,7 +67,7 @@
         "-L"
       ];
       allowReboot = true;
-      dates = "01:00";
+      dates = "weekly";
       randomizedDelaySec = "45min";
       rebootWindow.lower = "00:01";
       rebootWindow.upper = "05:00";
