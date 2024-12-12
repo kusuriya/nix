@@ -268,7 +268,14 @@
     };
   };
   programs = {
-    steam.enable = true;
+    steam = {
+      enable = true;
+      extraCompatPackages = [pkgs.proton-ge-bin];
+      fontPackages = [pkgs.source-han-sans];
+      gamescopeSession.enable = true;
+      localNetworkGameTransfers.openFirewall = true;
+
+    };
     seahorse.enable = true;
     nix-ld = {
       enable = true;
