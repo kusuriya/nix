@@ -38,5 +38,8 @@
     };
     dconf.enable = true;
   };
+  environment.sessionVariables = {
+  WLR_NO_HARDWARE_CURSORS = "1";
+}
 
 }
