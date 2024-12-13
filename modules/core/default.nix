@@ -16,6 +16,15 @@
       localNetworkGameTransfers.openFirewall = true;
 
     };
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+      args = [
+        "-F fsr"
+        "-S stretch"
+        "-b"
+      ];
+    };
     seahorse.enable = true;
     nix-ld = {
       enable = true;
