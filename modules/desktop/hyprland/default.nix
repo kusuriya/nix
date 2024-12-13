@@ -164,11 +164,10 @@ in
           disable_splash_rendering = true;
           mouse_move_enables_dpms = true;
           key_press_enables_dpms = false;
-          vrr = 0;
           vfr = true;
-          render_ahead_of_time = false;
+          render_ahead_of_time = true;
           allow_session_lock_restore = true;
-          render_unfocused_fps = 5;
+          render_unfocused_fps = 30;
         };
         group = {
           drag_into_group = 2;
@@ -318,8 +317,9 @@ in
           "float,class:^(nm-connection-editor)$"
           "workspace special:magic silent,title:^(.*)(Picture-in-Picture)$"
           "float,class:^(1Password)$"
-          "size 900 800,class:^(1Password)$"
+          "size 900 300,class:^(1Password)$"
           "float,class:^(easyeffects)$"
+          "workspace,5,class:^(gamescope}$"
 
           # Center floating windows
           "center,class:^(pavucontrol)$"

@@ -15,17 +15,6 @@
         halign = "center";
         valign = "center";
       };
-      label = [
-        {
-          monitor = "";
-          position = "0, -300";
-          text = "cmd[update:1000] date";
-          color = "rgba(200, 200, 200, 1.0)";
-          halign = "right";
-          valign = "bottom";
-          font_size = "55";
-        }
-      ];
     };
   };
 }
