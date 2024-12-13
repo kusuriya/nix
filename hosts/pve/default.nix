@@ -69,7 +69,7 @@
     };
     nat = {
       enable = true;
-      internalInterfaces = ["ve-+"];
+      internalInterfaces = [ "ve-+" ];
       externalInterface = "eno2";
       enableIPv6 = true;
     };

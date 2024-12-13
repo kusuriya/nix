@@ -9,7 +9,7 @@
 {
   imports = [
     ../../modules/core
-    ../../modules/kernel/rt
+    ../../modules/kernel/latest
     ./hardware-configuration.nix
     inputs.hardware.nixosModules.framework-13-7040-amd
     inputs.hardware.nixosModules.common-pc-ssd

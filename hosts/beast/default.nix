@@ -270,8 +270,8 @@
   programs = {
     steam = {
       enable = true;
-      extraCompatPackages = [pkgs.proton-ge-bin];
-      fontPackages = [pkgs.source-han-sans];
+      extraCompatPackages = [ pkgs.proton-ge-bin ];
+      fontPackages = [ pkgs.source-han-sans ];
       gamescopeSession.enable = true;
       localNetworkGameTransfers.openFirewall = true;
 
