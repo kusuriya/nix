@@ -13,7 +13,7 @@
     ./hardware-configuration.nix
     ./vfio.nix
     ../../modules/core
-    ../../modules/kernel/lts
+    ../../modules/kernel/latest
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
