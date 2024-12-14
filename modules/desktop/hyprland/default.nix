@@ -129,6 +129,7 @@ in
         cursor = {
           hide_on_key_press = true;
           inactive_timeout = 60;
+          no_hardware_cursors = true;
         };
         xwayland = {
           force_zero_scaling = true;
