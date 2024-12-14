@@ -13,6 +13,7 @@
     ./hardware-configuration.nix
     ./vfio.nix
     ../../modules/core
+    ../../modules/kernel/lts
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
@@ -82,7 +83,6 @@
       efi.canTouchEfiVariables = true;
       systemd-boot.configurationLimit = 7;
     };
-    kernelPackages = pkgs.linuxPackages_latest;
     plymouth.enable = true;
     kernel.sysctl = {
       "net.ipv4.tcp_mtu_probing" = 1;

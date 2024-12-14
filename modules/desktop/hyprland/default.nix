@@ -165,10 +165,10 @@ in
           disable_splash_rendering = true;
           mouse_move_enables_dpms = true;
           key_press_enables_dpms = false;
-          vfr = true;
+          vfr = false;
           render_ahead_of_time = true;
           allow_session_lock_restore = true;
-          render_unfocused_fps = 30;
+          render_unfocused_fps = 60;
         };
         group = {
           drag_into_group = 2;

@@ -31,7 +31,7 @@
     kernelParams = [
       "amd_iommu=on" # Since you have AMD CPU
       "iommu=pt"
-      "preempt=full"
+      #"preempt=full"
 
     ];
   };
