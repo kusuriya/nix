@@ -210,13 +210,6 @@
         default_session = initial_session;
       };
     };
-    displayManager = {
-    sddm = {
-      enable = false;
-      wayland.enable = true;
-      };
-    };
-    desktopManager.plasma6.enable = false;
     fprintd.enable = true;
     flatpak.enable = true;
     libinput = {
