@@ -25,7 +25,6 @@
         "-b"
       ];
     };
-    seahorse.enable = true;
     nix-ld = {
       enable = true;
     };

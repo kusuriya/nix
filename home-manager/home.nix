@@ -25,10 +25,10 @@
   modules.hyprland = {
     enable = true;
     monitors = [
-      "desc:HP Inc. HP X27q 6CM1210654,2560x1440@,59.95Hz,0x0,1"
+      "desc:HP Inc. HP X27q 6CM1210654,preferred,0x0,1.25"
       "desc:BOE NE135A1M-NY1,preferred,auto-right,2,vrr,2"
-      "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1"
-      "desc:Dell Inc. DELL U2718Q 4K8X785O0L3L,preferred,auto-right,1,transform,3"
+      "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1.25"
+      "desc:Dell Inc. DELL U2718Q 4K8X785O0L3L,preferred,auto-right,1.5,transform,3"
       ",preferred,auto,auto"
     ];
   };

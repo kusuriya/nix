@@ -136,7 +136,6 @@
       LC_TIME = "en_US.UTF-8";
     };
   };
-
   xdg.portal = {
     enable = true;
     config.common.default = "xdg-desktop-portal-hyprland";
@@ -152,15 +151,20 @@
     swapDevices = 1;
     algorithm = "zstd";
   };
-
   hardware = {
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
     pulseaudio.enable = false;
+    enableRedistributableFirmware = true;
     graphics = {
       enable = true;
-      #driSupport32Bit = true;
-      #driSupport = true;
+      extraPackages = with pkgs; [
+        vpl-gpu-rt # for newer GPUs on NixOS >24.05 or unstable
+        intel-media-driver # LIBVA_DRIVER_NAME=iHD
+        #intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+        libvdpau-va-gl
+      ];
+      extraPackages32 = with pkgs.pkgsi686Linux; [ intel-media-driver intel-vaapi-driver ];
     };
 
   };
@@ -197,7 +201,7 @@
 
   services = {
     greetd = {
-      enable = true;
+      enable = false;
       settings = rec {
         initial_session = {
           command = "Hyprland";
@@ -206,6 +210,13 @@
         default_session = initial_session;
       };
     };
+    displayManager = {
+    sddm = {
+      enable = false;
+      wayland.enable = true;
+      };
+    };
+    desktopManager.plasma6.enable = false;
     fprintd.enable = true;
     flatpak.enable = true;
     libinput = {
@@ -227,6 +238,7 @@
         layout = "us";
         variant = "";
       };
+      videoDrivers = ["intel"];
     };
     openssh.enable = true;
     avahi = {
@@ -268,6 +280,13 @@
     };
   };
   programs = {
+    hyprland = {
+    enable = true;
+    # set the flake package
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    # make sure to also set the portal package, so that they are in sync
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  };
     steam = {
       enable = true;
       extraCompatPackages = [ pkgs.proton-ge-bin ];
@@ -276,7 +295,6 @@
       localNetworkGameTransfers.openFirewall = true;
 
     };
-    seahorse.enable = true;
     nix-ld = {
       enable = true;
     };
@@ -291,6 +309,7 @@
   };
 
   environment = {
+    sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
     systemPackages = with pkgs; [
       wget
       git

@@ -81,6 +81,10 @@ in
       };
       sourceFirst = true;
       settings = {
+        xwayland = {
+          enabled = true;
+          use_nearest_neighbor = false;
+        };
         "$mainMod" = "SUPER";
         "$terminal" = "alacritty";
         "$fileManager" = "thunar";
@@ -99,10 +103,9 @@ in
           "hyprpolkitagent"
           "wl-paste --type text --watch cliphist store"
           "wl-paste --type image --watch cliphist store"
-          "hyprctl setcursor rose-pine-hyprcursor 24"
+          #"hyprctl setcursor rose-pine-hyprcursor 24"
           "1password --silent"
           "tailscale-systray"
-          "swww -init"
           "wlsunset -t 5000 -T 6500 -l 47.253080 -L -122.441530"
 
         ];
@@ -131,10 +134,6 @@ in
           inactive_timeout = 60;
           no_hardware_cursors = true;
         };
-        xwayland = {
-          force_zero_scaling = true;
-          use_nearest_neighbor = false;
-        };
         animations = {
           enabled = false;
           bezier = "overshot,0.13,0.99,0.29,1.1";
@@ -142,7 +141,7 @@ in
             "windows,1,3,overshot,slide"
             "border,1,10,default"
             "fade,1,10,default"
-            "workspaces,1,3,overshot,slidevert"
+            "workspaces,1,3,overshot,slide"
           ];
         };
         decoration = {
@@ -163,12 +162,7 @@ in
         misc = {
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
-          mouse_move_enables_dpms = true;
-          key_press_enables_dpms = false;
-          vfr = false;
-          render_ahead_of_time = true;
-          allow_session_lock_restore = true;
-          render_unfocused_fps = 60;
+          vfr = true;
         };
         group = {
           drag_into_group = 2;
@@ -326,6 +320,9 @@ in
           "center,class:^(pavucontrol)$"
           "center,class:^(blueman-manager)$"
           "center,class:^(1Password)$"
+
+          "immediate, class:^(.gamescope-wrapped)$"
+
         ];
       };
       extraConfig = ''
