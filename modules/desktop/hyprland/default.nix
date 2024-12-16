@@ -312,7 +312,7 @@ in
           "float,class:^(nm-connection-editor)$"
           "workspace special:magic silent,title:^(.*)(Picture-in-Picture)$"
           "float,class:^(1Password)$"
-          "size 900 300,class:^(1Password)$"
+          "size 900 600,class:^(1Password)$"
           "float,class:^(easyeffects)$"
           "workspace,5,class:^(gamescope}$"
 
