@@ -263,7 +263,7 @@ in
           "XDG_SESSION_TYPE,wayland"
           "GDK_BACKEND,wayland,x11,*"
           "NIXOS_OZONE_WL,1"
-          "MOZ_ENABLE_WAYLAND,1" # disable if You're having issues with firefox
+          "MOZ_ENABLE_WAYLAND,1" 
           "SDL_VIDEODRIVER,wayland"
           "OZONE_PLATFORM,wayland"
           "CLUTTER_BACKEND,wayland"
@@ -280,7 +280,6 @@ in
           "QT_WAYLAND_FORCE_DPI,physical"
           "SDL_VIDEODRIVER,wayland"
           "_JAVA_AWT_WM_NONREPARENTING,1"
-          "WLR_DRM_NO_ATOMIC,1" # Fix for some GPU drivers
         ];
         windowrulev2 = [
           "suppressevent maximize, class:.*"
@@ -322,6 +321,19 @@ in
           "center,class:^(1Password)$"
 
           "immediate, class:^(.gamescope-wrapped)$"
+
+          ### Zoom
+          "size 360 690,class:(^Zoom)$"
+          "float,class:(^Zoom)$"
+          "noanim,class:(^Zoom)$"
+          "nodim,class:(^Zoom)$"
+          "noblur,class:(^Zoom)$"
+
+          ## ### Zoom Screen Sharing
+          "float,title:^as_toolbar$,class:(^Zoom)$"
+          "noborder,title:^as_toolbar$,class:(^Zoom)$"
+          "noshadow,title:^as_toolbar$,class:(^Zoom)$"
+          "noblur,title:^as_toolbar$,class:(^Zoom)$"
 
         ];
       };
