@@ -68,10 +68,10 @@ in
         tailscale-systray
         wlsunset
       ];
+    catppuccin.hyprland.enable = true;
     wayland.windowManager.hyprland = {
-
       enable = true;
-      catppuccin.enable = true;
+      #catppuchin.enable = true;
       package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       xwayland.enable = true;
       systemd = {
