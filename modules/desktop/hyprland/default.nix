@@ -165,14 +165,14 @@ in
           vfr = true;
         };
         group = {
-          drag_into_group = 2;
+          #drag_into_group = 2;
           "col.border_active" = "$overlay1";
           "col.border_inactive" = "$surface0";
           groupbar = {
             enabled = true;
             font_size = 12;
             text_color = "$text";
-            height = 24;
+            height = 32;
             "col.active" = "$surface1";
             "col.inactive" = "$surface0";
           };
