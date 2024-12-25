@@ -194,9 +194,7 @@
     graphics = {
       enable = true;
     };
-
   };
-
   security = {
     rtkit.enable = true;
     polkit.enable = true;
@@ -357,8 +355,6 @@
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
-      WLR_RENDERER = "vulkan";
-      LIBVA_DRIVER_NAME = "radeonsi";
       TERMINAL = "alacritty";
       EDITOR = "nvim";
     };

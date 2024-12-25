@@ -172,7 +172,7 @@ in
             enabled = true;
             font_size = 12;
             text_color = "$text";
-            height = 32;
+            height = 16;
             "col.active" = "$surface1";
             "col.inactive" = "$surface0";
           };
