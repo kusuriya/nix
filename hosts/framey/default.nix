@@ -362,10 +362,6 @@
       "1password/custom_allowed_browsers" = {
         text = ''
           vivaldi-bin
-          floorp
-          brave
-          zen
-          .zen-wrapper
         '';
         mode = "0755";
       };

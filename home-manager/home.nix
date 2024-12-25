@@ -115,9 +115,7 @@
       vivaldi
       vivaldi-ffmpeg-codecs
       librewolf
-      floorp
       inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
-      inputs.zen-browser.packages."${system}".specific
 
       #Dictonary
       (aspellWithDicts (
@@ -134,7 +132,7 @@
     };
     sessionVariables = {
       EDITOR = "nvim";
-      BROWSER = "firefox";
+      BROWSER = "firefox-nightly";
       TERMINAL = "alacritty";
       MOZ_ENABLE_WAYLAND = "1";
       MOZ_USE_XINPUT2 = "1";
@@ -211,6 +209,7 @@
     };
     firefox = {
       enable = true;
+      package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
       profiles = {
         default = {
           id = 0;
