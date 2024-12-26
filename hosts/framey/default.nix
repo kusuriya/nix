@@ -282,20 +282,16 @@
     flatpak.enable = true;
     dbus.enable = true;
     upower.enable = true;
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-    };
-    desktopManager.plasma6.enable = true;
-    greetd = {
-      enable = false;
-      settings = rec {
-        initial_session = {
-          command = "Hyprland";
-          user = "kusuriya";
-        };
-        default_session = initial_session;
+    displayManager = {
+      cosmic-greeter.enable = true;
+      sddm = {
+        enable = false;
+        wayland.enable = true;
       };
+    };
+    desktopManager = {
+      plasma6.enable = true;
+      cosmic.enable = true;
     };
     xserver = {
       enable = true;

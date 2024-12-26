@@ -72,6 +72,7 @@
     , catppuccin
     , nixvim
     , firefox
+    , nixos-cosmic
     , ...
     }@inputs:
     let
