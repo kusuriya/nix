@@ -282,8 +282,13 @@
     flatpak.enable = true;
     dbus.enable = true;
     upower.enable = true;
-    greetd = {
+    displayManager.sddm = {
       enable = true;
+      wayland.enable = true;
+    };
+    desktopManager.plasma6.enable = true;
+    greetd = {
+      enable = false;
       settings = rec {
         initial_session = {
           command = "Hyprland";
@@ -303,7 +308,7 @@
 
   };
   programs = {
-    seahorse.enable = true;
+    hyprland.enable = true;
     nix-ld = {
       enable = true;
     };
@@ -333,13 +338,10 @@
       nix-direnv
       pciutils
       sbctl
-      radeontop
-      zenmonitor
       ryzenadj
       lm_sensors
       poweralertd
       statix
-      git-lfs
       git
       nil
       sops
