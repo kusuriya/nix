@@ -64,7 +64,7 @@
     hostName = "pve"; # Define your hostname.
     hostId = "06904201";
     firewall = {
-      enable = true;
+      enable = false;
       allowedTCPPorts = [ 80 443 81 82 ];
     };
     nat = {
