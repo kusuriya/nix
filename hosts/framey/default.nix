@@ -283,15 +283,13 @@
     dbus.enable = true;
     upower.enable = true;
     displayManager = {
-      cosmic-greeter.enable = true;
       sddm = {
-        enable = false;
+        enable = true;
         wayland.enable = true;
       };
     };
     desktopManager = {
       plasma6.enable = true;
-      cosmic.enable = true;
     };
     xserver = {
       enable = true;
@@ -334,7 +332,6 @@
       nix-direnv
       pciutils
       sbctl
-      ryzenadj
       lm_sensors
       poweralertd
       statix

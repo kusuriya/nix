@@ -85,6 +85,10 @@
     git
   ];
   services = {
+    technitium-dns-server = {
+      enable = true;
+      openFirewall = true;
+    };
     openssh = {
       enable = true;
       openFirewall = true;

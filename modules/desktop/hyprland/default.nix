@@ -91,7 +91,6 @@ in
         "$menu" = "wofi -i -I --show drun,run";
         monitor = cfg.monitors;
         exec-once = [
-          "hyprlock"
           "waybar"
           "gnome-keyring-daemon -s -d -c secrets"
           "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
@@ -121,18 +120,17 @@ in
         };
         general = {
           gaps_in = 0;
-          gaps_out = 4;
+          gaps_out = 2;
           border_size = 2;
           "col.active_border" = "$overlay1";
           "col.inactive_border" = "$surface0";
           layout = "dwindle";
-          allow_tearing = true;
           resize_on_border = true;
         };
         cursor = {
-          hide_on_key_press = true;
-          inactive_timeout = 60;
-          no_hardware_cursors = true;
+          #hide_on_key_press = true;
+          #inactive_timeout = 60;
+          #no_hardware_cursors = false;
         };
         animations = {
           enabled = false;
@@ -172,7 +170,7 @@ in
             enabled = true;
             font_size = 12;
             text_color = "$text";
-            height = 16;
+            height = 24;
             "col.active" = "$surface1";
             "col.inactive" = "$surface0";
           };
@@ -258,27 +256,15 @@ in
           "XCURSOR_SIZE,24"
           "HYPRCURSOR_SIZE,24"
           "GDK_SCALE,1.5"
-          "XDG_CURRENT_DESKTOP,Hyprland"
-          "XDG_SESSION_DESKTOP,Hyprland"
-          "XDG_SESSION_TYPE,wayland"
-          "GDK_BACKEND,wayland,x11,*"
+          #"XDG_CURRENT_DESKTOP,Hyprland"
+          #"XDG_SESSION_DESKTOP,Hyprland"
+          #"XDG_SESSION_TYPE,wayland"
+          #"GDK_BACKEND,wayland,x11,*"
           "NIXOS_OZONE_WL,1"
           "MOZ_ENABLE_WAYLAND,1" 
           "SDL_VIDEODRIVER,wayland"
           "OZONE_PLATFORM,wayland"
-          "CLUTTER_BACKEND,wayland"
-          "QT_QPA_PLATFORM,wayland;xcb"
-          "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
-          "QT_QPA_PLATFORMTHEME,qt6ct"
-          "QT_AUTO_SCREEN_SCALE_FACTOR,1"
           "WLR_RENDERER,vulkan"
-          "XDG_CURRENT_DESKTOP,Hyprland"
-          "XDG_SESSION_DESKTOP,Hyprland"
-          "XDG_SESSION_TYPE,wayland"
-          "GDK_BACKEND,wayland,x11"
-          "QT_QPA_PLATFORM,wayland;xcb"
-          "QT_WAYLAND_FORCE_DPI,physical"
-          "SDL_VIDEODRIVER,wayland"
           "_JAVA_AWT_WM_NONREPARENTING,1"
         ];
         windowrulev2 = [
