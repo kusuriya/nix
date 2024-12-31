@@ -315,7 +315,6 @@
       timeshift
       swtpm
       OVMFFull
-      looking-glass-client
       dnsmasq
       appimage-run
       openconnect
