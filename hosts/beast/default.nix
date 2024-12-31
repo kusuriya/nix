@@ -154,7 +154,6 @@
   hardware = {
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
-    pulseaudio.enable = false;
     enableRedistributableFirmware = true;
     graphics = {
       enable = true;

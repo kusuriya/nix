@@ -58,7 +58,6 @@
       freecad
       drawio
       calibre
-      orca-slicer
       looking-glass-client
       alacritty
       appimage-run
