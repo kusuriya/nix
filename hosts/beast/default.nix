@@ -231,7 +231,6 @@
         layout = "us";
         variant = "";
       };
-      videoDrivers = ["intel"];
     };
     openssh.enable = true;
     avahi = {
