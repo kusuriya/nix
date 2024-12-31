@@ -72,6 +72,7 @@
     , nixvim
     , firefox
     , nixos-cosmic
+    , nixpkgs-stable
     , ...
     }@inputs:
     let

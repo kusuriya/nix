@@ -59,6 +59,7 @@
       drawio
       calibre
       orca-slicer
+      looking-glass-client
       alacritty
       appimage-run
       btop
@@ -183,7 +184,6 @@
       plugins = with pkgs.obs-studio-plugins; [
         wlrobs
         input-overlay
-        looking-glass-obs
         obs-pipewire-audio-capture
         obs-backgroundremoval
         obs-composite-blur
