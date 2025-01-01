@@ -8,6 +8,7 @@
     ./containers.nix
   ];
   nix = {
+    settings = {
     substituters = [
       "https://cache.nixos.org"
       "https://hyprland.cachix.org"
@@ -20,6 +21,7 @@
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
     ];
+    };
   };
   programs = {
     steam = {
