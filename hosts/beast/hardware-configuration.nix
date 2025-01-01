@@ -36,10 +36,11 @@
   };
   fileSystems."/" =
     {
-      device = "/dev/disk/by-uuid/f4304570-46fa-4f84-9aa2-d78f9e782374";
-      fsType = "bcachefs";
+      device = "/dev/disk/by-label/root";
+      fsType = "btrfs";
       options = [
-        "compression=zstd"
+        "compress=zstd"
+        "noatime"
       ];
     };
 

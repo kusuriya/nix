@@ -95,7 +95,7 @@
       "kernel.sched_cfs_bandwidth_slice_us" = 500;
     };
     supportedFilesystems = [
-      "bcachefs"
+      "btrfs"
     ];
     binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
@@ -199,6 +199,10 @@
   };
 
   services = {
+    btrfs.autoScrub = {
+      enable = true;
+      interval = "weekly";
+    };
     greetd = {
       enable = false;
       settings = rec {
