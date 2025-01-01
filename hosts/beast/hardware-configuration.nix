@@ -34,7 +34,8 @@
       "preempt=full"
     ];
   };
-  fileSystems."/" =
+  fileSystems = { 
+    "/" =
     {
       device = "/dev/disk/by-label/root";
       fsType = "btrfs";
@@ -43,14 +44,15 @@
         "noatime"
       ];
     };
-
-  fileSystems."/boot" =
+  "/home".options = ["compress=zstd"];
+  "/nix".options = ["compress=zstd" "noatime"];
+  "/boot" =
     {
       device = "/dev/disk/by-label/BOOT";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
-
+  };
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware = {
     cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
