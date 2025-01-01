@@ -109,12 +109,8 @@
       nmap
 
       #browser
-      brave
       chromium
       microsoft-edge
-      vivaldi
-      vivaldi-ffmpeg-codecs
-      librewolf
       inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
 
       #Dictonary
