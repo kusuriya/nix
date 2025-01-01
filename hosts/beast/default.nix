@@ -94,9 +94,6 @@
       "kernel.sched_autogroup_enabled" = 1;
       "kernel.sched_cfs_bandwidth_slice_us" = 500;
     };
-    supportedFilesystems = [
-      "btrfs"
-    ];
     binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
       interpreter = "${pkgs.appimage-run}/bin/appimage-run";
