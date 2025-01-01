@@ -21,8 +21,9 @@
   };
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-git.url = "github:nixos/nixpkgs/master";
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
 
     # Home manager
@@ -70,6 +71,7 @@
     , firefox
     , nixos-cosmic
     , nixpkgs-stable
+    , nixpkgs-git
     , ...
     }@inputs:
     let
@@ -86,10 +88,14 @@
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs self; };
+          extraSpecialArgs = {
+              pkgs-stable = import nixpkgs-stable { inherit system; config.allowUnfree = true; };
+              pkgs-git = import nixpkgs-git { inherit system; config.allowUnfree = true; };
+            };
           modules = [
             # Base configuration
             ./hosts/${hostname}
-            nixos-cosmic.nixosModules.default
+            nixos-cosmic.nixosModules.default  
             # Conditional home-manager setup
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {

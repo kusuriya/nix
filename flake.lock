@@ -969,11 +969,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1735608992,
-        "narHash": "sha256-NkzMjar9Sz0pLJxVfp9Hchf48YCuQQ1AnGVYGNfzwVA=",
+        "lastModified": 1735689527,
+        "narHash": "sha256-KT9E0WNaqJeeWxNOztjKvL0pRDaxawidEGXQzX0YqXE=",
         "owner": "lilyinstarlight",
         "repo": "nixos-cosmic",
-        "rev": "af6900c2f6e68439c5f4aaaa8bb1a6d54bf04025",
+        "rev": "b057c7cf1fd05d8614f8ddcdaae7c3c5ca631158",
         "type": "github"
       },
       "original": {
@@ -994,6 +994,22 @@
       "original": {
         "owner": "NixOS",
         "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-git": {
+      "locked": {
+        "lastModified": 1735689779,
+        "narHash": "sha256-zNi070xMEB0bpWe4V4reZrCvxugCpGU2pkSyEIrP4LY=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "644fe64e60876b98c59a32c865464f36bd3fd237",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -1143,16 +1159,16 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1735686590,
-        "narHash": "sha256-oyM8YI/WcJO/KJ3g9BhitEGClKJBL05YkdxirTG+ykc=",
+        "lastModified": 1735471104,
+        "narHash": "sha256-0q9NGQySwDQc7RhAV2ukfnu7Gxa5/ybJ2ANT8DQrQrs=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "2ef30333629d6a5b8c64cfcd6aa05e376ff38085",
+        "rev": "88195a94f390381c6afcdaa933c2f6ff93959cb4",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "master",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -1294,6 +1310,7 @@
         "lanzaboote": "lanzaboote",
         "nixos-cosmic": "nixos-cosmic",
         "nixpkgs": "nixpkgs_5",
+        "nixpkgs-git": "nixpkgs-git",
         "nixpkgs-stable": "nixpkgs-stable_5",
         "nixvim": "nixvim",
         "sops-nix": "sops-nix"
