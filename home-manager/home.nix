@@ -67,6 +67,7 @@
       imagemagick
       pandoc
       catt
+      unstable.looking-glass-client
 
       #dev
       devenv

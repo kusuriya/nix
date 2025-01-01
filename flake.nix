@@ -23,7 +23,7 @@
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
-    nixpkgs-git.url = "github:nixos/nixpkgs/master";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/master";
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
 
     # Home manager
@@ -71,7 +71,7 @@
     , firefox
     , nixos-cosmic
     , nixpkgs-stable
-    , nixpkgs-git
+    , nixpkgs-unstable
     , ...
     }@inputs:
     let
@@ -88,10 +88,6 @@
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs self; };
-          extraSpecialArgs = {
-              pkgs-stable = import nixpkgs-stable { inherit system; config.allowUnfree = true; };
-              pkgs-git = import nixpkgs-git { inherit system; config.allowUnfree = true; };
-            };
           modules = [
             # Base configuration
             ./hosts/${hostname}

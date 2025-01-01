@@ -998,22 +998,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-git": {
-      "locked": {
-        "lastModified": 1735689779,
-        "narHash": "sha256-zNi070xMEB0bpWe4V4reZrCvxugCpGU2pkSyEIrP4LY=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "644fe64e60876b98c59a32c865464f36bd3fd237",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "master",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1735434288,
@@ -1105,6 +1089,22 @@
       "original": {
         "owner": "nixos",
         "ref": "nixos-24.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-unstable": {
+      "locked": {
+        "lastModified": 1735691075,
+        "narHash": "sha256-1s8qv/YC51AAHZeC2qt7igwrJNWql8tmV0CvL93m1M0=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "4d1c1474919f927dd50f5d90d97f0adf814950ab",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -1310,8 +1310,8 @@
         "lanzaboote": "lanzaboote",
         "nixos-cosmic": "nixos-cosmic",
         "nixpkgs": "nixpkgs_5",
-        "nixpkgs-git": "nixpkgs-git",
         "nixpkgs-stable": "nixpkgs-stable_5",
+        "nixpkgs-unstable": "nixpkgs-unstable",
         "nixvim": "nixvim",
         "sops-nix": "sops-nix"
       }
