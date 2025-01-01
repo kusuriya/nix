@@ -45,6 +45,7 @@
       _1password-cli
 
       openconnect
+      stable.orca-slicer
       parsec-bin
       rclone
       rsync
