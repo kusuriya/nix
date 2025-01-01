@@ -11,7 +11,7 @@
     settings = {
     substituters = [
         "https://cache.nixos.org"
-        "https://nix-community.cacheix.org"
+        "https://nix-community.cachix.org"
       "https://hyprland.cachix.org"
       "https://nix-community.cachix.org"
       "https://cosmic.cachix.org/"
