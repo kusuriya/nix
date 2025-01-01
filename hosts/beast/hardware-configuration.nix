@@ -37,18 +37,27 @@
   fileSystems = { 
     "/" =
     {
-      device = "/dev/disk/by-label/root";
+      device = "/dev/nvme0n1p2";
       fsType = "btrfs";
       options = [
         "compress=zstd"
         "noatime"
+        "subvol=root"
       ];
     };
-  "/home".options = ["compress=zstd"];
-  "/nix".options = ["compress=zstd" "noatime"];
+    "/home" = {
+      device = "/dev/nvme0n1p2";
+      fsType = "btrfs";
+      options = ["compress=zstd"];
+    };
+    "/nix" = {
+      device = "/dev/nvme0n1p2";
+      fsType = "btrfs";
+      options = ["compress=zstd" "noatime"];
+    };
   "/boot" =
     {
-      device = "/dev/disk/by-label/BOOT";
+      device = "/dev/disk/by-uuid/9C11-02CC";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
