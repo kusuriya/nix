@@ -38,7 +38,7 @@
     username = "kusuriya";
     homeDirectory = "/home/kusuriya";
     stateVersion = "24.11";
-    packages = with pkgs, pkgs-stable, pkgs-git; [
+    packages = with pkgs; [
 
       #passwords
       _1password-gui
@@ -58,7 +58,6 @@
       freecad
       drawio
       calibre
-      pkgs-git.looking-glass-client
       alacritty
       appimage-run
       btop
