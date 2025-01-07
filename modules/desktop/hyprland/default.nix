@@ -102,7 +102,6 @@ in
           "hyprpolkitagent"
           "wl-paste --type text --watch cliphist store"
           "wl-paste --type image --watch cliphist store"
-          #"hyprctl setcursor rose-pine-hyprcursor 24"
           "1password --silent"
           "tailscale-systray"
           "wlsunset -t 5000 -T 6500 -l 47.253080 -L -122.441530"
