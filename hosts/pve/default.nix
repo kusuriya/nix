@@ -65,7 +65,7 @@
     hostId = "06904201";
     firewall = {
       enable = false;
-      allowedTCPPorts = [ 80 443 81 82 ];
+      allowedTCPPorts = [ 80 443 81 82 8080 ];
     };
     nat = {
       enable = true;
