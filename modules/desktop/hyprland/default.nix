@@ -193,7 +193,7 @@ in
           "$mainMod SHIFT, G, togglegroup"
           "$mainMod, Tab, changegroupactive, f"
           "mainMod CTRL, Tab, changegroupactive, b"
-          "$mainMod G, moveoutofgroup"
+          "$mainMod, G, moveoutofgroup"
 
           "$mainMod SHIFT, V, exec, cliphist list|wofi --dmenu|cliphist decode|wl-copy"
           "$mainMod, V, sendshortcut, SHIFT, INSERT,"
