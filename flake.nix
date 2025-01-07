@@ -78,7 +78,7 @@
           modules = [
             # Base configuration
             ./hosts/${hostname}
-            nixos-cosmic.nixosModules.default  
+            nixos-cosmic.nixosModules.default
             # Conditional home-manager setup
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {

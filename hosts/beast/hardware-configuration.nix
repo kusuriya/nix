@@ -41,16 +41,16 @@
         "subvol=root"
       ];
     };
-    fileSystems."/home" = {
-      device = "/dev/nvme0n1p2";
-      fsType = "btrfs";
-      options = ["compress=zstd" "subvol=home"];
-    };
-    fileSystems."/nix" = {
-      device = "/dev/nvme0n1p2";
-      fsType = "btrfs";
-      options = ["compress=zstd" "noatime" "subvol=nix"];
-    };
+  fileSystems."/home" = {
+    device = "/dev/nvme0n1p2";
+    fsType = "btrfs";
+    options = [ "compress=zstd" "subvol=home" ];
+  };
+  fileSystems."/nix" = {
+    device = "/dev/nvme0n1p2";
+    fsType = "btrfs";
+    options = [ "compress=zstd" "noatime" "subvol=nix" ];
+  };
   fileSystems."/boot" =
     {
       device = "/dev/disk/by-uuid/A63A-D92E";

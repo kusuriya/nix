@@ -261,7 +261,7 @@ in
           #"XDG_SESSION_TYPE,wayland"
           #"GDK_BACKEND,wayland,x11,*"
           "NIXOS_OZONE_WL,1"
-          "MOZ_ENABLE_WAYLAND,1" 
+          "MOZ_ENABLE_WAYLAND,1"
           "SDL_VIDEODRIVER,wayland"
           "OZONE_PLATFORM,wayland"
           "WLR_RENDERER,vulkan"

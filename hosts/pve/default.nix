@@ -73,6 +73,16 @@
       externalInterface = "eno2";
       enableIPv6 = true;
     };
+    bridges = {
+      br0 = {
+        interfaces = [ "eno2" ];
+      };
+    };
+    interfaces = {
+      "br0" = {
+        useDHCP = true;
+      };
+    };
   };
   users.users.kusuriya = {
     isNormalUser = true;
@@ -85,35 +95,11 @@
     git
   ];
   services = {
-    technitium-dns-server = {
-      enable = true;
-      openFirewall = true;
-    };
     openssh = {
       enable = true;
       openFirewall = true;
     };
     zfs.autoScrub.enable = true;
-    traefik = {
-      enable = true;
-      dynamicConfigOptions = {
-        http = {
-          routers = {
-            rule = "Host('adguard')";
-            service = "adguard";
-          };
-        };
-        services = {
-          adguard = {
-            loadbalancer = {
-              servers = [
-                { url = "http://127.0.0.1:82"; }
-              ];
-            };
-          };
-        };
-      };
-    };
   };
   system.stateVersion = "24.05"; # Did you read the comment?
 

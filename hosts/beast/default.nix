@@ -201,7 +201,7 @@
       interval = "weekly";
     };
     greetd = {
-      enable = false;
+      enable = true;
       settings = rec {
         initial_session = {
           command = "Hyprland";
@@ -271,12 +271,12 @@
   };
   programs = {
     hyprland = {
-    enable = true;
-    # set the flake package
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    # make sure to also set the portal package, so that they are in sync
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-  };
+      enable = true;
+      # set the flake package
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      # make sure to also set the portal package, so that they are in sync
+      portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    };
     steam = {
       enable = true;
       extraCompatPackages = [ pkgs.proton-ge-bin ];
@@ -361,23 +361,12 @@
       enable = true;
       qemu = {
         package = pkgs.qemu_kvm;
-        runAsRoot = false;
+        runAsRoot = true;
         swtpm.enable = true;
         ovmf = {
           enable = true;
           packages = [ pkgs.OVMFFull.fd ];
         };
-        verbatimConfig = ''
-          memory_backing_dir = "/dev/hugepages"
-          nvram = [ "${pkgs.OVMFFull}/FV/OVMF.fd:/run/libvirt/nix-ovmf/OVMF_CODE.fd" ]
-          cgroup_device_acl = [
-            "/dev/null", "/dev/full", "/dev/zero",
-            "/dev/random", "/dev/urandom",
-            "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
-            "/dev/rtc","/dev/hpet",
-            "/dev/vfio/vfio", "/dev/vfio/1"
-          ]
-        '';
       };
     };
   };
