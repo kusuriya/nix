@@ -91,20 +91,20 @@ in
         "$menu" = "wofi -i -I --show drun,run";
         monitor = cfg.monitors;
         exec-once = [
-          "waybar"
-          "gnome-keyring-daemon -s -d -c secrets"
-          "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-          "dbus-update-activation-environment --all"
+          "uwsm app -- waybar"
+          "uwsm app -- gnome-keyring-daemon -s -d -c secrets"
+          "uwsm app -- dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+          "uwsm app --dbus-update-activation-environment --all"
           "systemctl --user import-environment"
-          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
-          "nm-applet"
-          "hypridle"
-          "hyprpolkitagent"
-          "wl-paste --type text cliphist store"
-          "wl-paste --type image cliphist store"
-          "1password --silent"
-          "tailscale-systray"
-          "wlsunset -t 5000 -T 6500 -l 47.253080 -L -122.441530"
+          "uwsm app -- ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+          "uwsm app -- nm-applet"
+          "uwsm app -- hypridle"
+          "uwsm app -- hyprpolkitagent"
+          "uwsm app -- wl-paste --type text cliphist store"
+          "uwsm app -- wl-paste --type image cliphist store"
+          "uwsm app -- 1password --silent"
+          "uwsm app -- tailscale-systray"
+          "uwsm app -- wlsunset -t 5000 -T 6500 -l 47.253080 -L -122.441530"
 
         ];
         input = {
@@ -182,7 +182,7 @@ in
           "$mainMod, F, focusurgentorlast"
           "$mainMod, L, exec, hyprlock"
           "$mainMod SHIFT, F, togglefloating,"
-          "$mainMod, SPACE, exec, $menu"
+          "$mainMod, SPACE, exec, $uwsm app -- menu"
           "$mainMod, P, pseudo,"
           "$mainMod, J, togglesplit,"
           "$mainMod SHIFT, J, swapsplit"
@@ -196,11 +196,11 @@ in
           "mainMod CTRL, Tab, changegroupactive, b"
           "$mainMod, G, moveoutofgroup"
 
-          "$mainMod SHIFT, V, exec, cliphist list|wofi --dmenu|cliphist decode|wl-copy"
+          "$mainMod SHIFT, V, exec, uwsm app -- cliphist list|wofi --dmenu|cliphist decode|wl-copy"
           "$mainMod, V, sendshortcut, SHIFT, INSERT,"
           "$mainMod, C, sendshortcut, CONTROL, INSERT,"
 
-          "$mainMod Ctrl, 4, exec, hyprshot --clipboard-only -m region -z"
+          "$mainMod Ctrl, 4, exec, uwsm app -- hyprshot --clipboard-only -m region -z"
           "$mainMod, S, togglespecialworkspace, magic"
           "$mainMod SHIFT, S, movetoworkspace, special:magic"
           "$mainMod ALT, RIGHT, movecurrentworkspacetomonitor, -1"
@@ -230,7 +230,7 @@ in
           "$mainMod SHIFT, 0, movetoworkspace, 10"
           "$mainMod, mouse_down, workspace, e+1"
           "$mainMod, mouse_up, workspace, e-1"
-          "CONTROL, Space, exec, 1password --quick-access"
+          "CONTROL, Space, exec, uwsm app -- 1password --quick-access"
         ];
         bindm = [
           "$mainMod, mouse:272, movewindow"
