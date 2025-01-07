@@ -340,6 +340,9 @@ in
         submap = reset
       '';
     };
-    services.swayosd.enable = true;
+    services.swayosd = {
+      enable = true;
+      display = "DP-1";
+    };
   };
 }
