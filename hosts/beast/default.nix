@@ -67,7 +67,7 @@
         "nixpkgs"
         "-L"
       ];
-      allowReboot = true;
+      allowReboot = false;
       dates = "weekly";
       randomizedDelaySec = "45min";
       rebootWindow.lower = "00:01";
