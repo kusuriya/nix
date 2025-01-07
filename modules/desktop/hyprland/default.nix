@@ -67,6 +67,7 @@ in
         gnupg
         tailscale-systray
         wlsunset
+        overskride
       ];
     catppuccin.hyprland.enable = true;
     wayland.windowManager.hyprland = {
@@ -320,6 +321,10 @@ in
           "noshadow,title:^as_toolbar$,class:(^Zoom)$"
           "noblur,title:^as_toolbar$,class:(^Zoom)$"
 
+        ];
+        workspace = [
+          "1, monitor:desc:Sceptre Tech Inc Sceptre O34, default:true,persistent:true,defaultName:browse"
+          "4, monitor:desc:Sceptre Tech Inc Sceptre O34,persistent:true,defaultName:term,on-created-empty:alacritty"
         ];
       };
       extraConfig = ''
