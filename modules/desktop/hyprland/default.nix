@@ -71,7 +71,6 @@ in
     catppuccin.hyprland.enable = true;
     wayland.windowManager.hyprland = {
       enable = true;
-      #catppuchin.enable = true;
       package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       xwayland.enable = true;
       systemd = {
@@ -97,7 +96,7 @@ in
           "dbus-update-activation-environment --all"
           "systemctl --user import-environment"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
-          "nm-applet &"
+          "nm-applet"
           "hypridle"
           "hyprpolkitagent"
           "wl-paste --type text --watch cliphist store"
@@ -127,8 +126,8 @@ in
           resize_on_border = true;
         };
         cursor = {
-          #hide_on_key_press = true;
-          #inactive_timeout = 60;
+          hide_on_key_press = true;
+          inactive_timeout = 60;
           #no_hardware_cursors = false;
         };
         animations = {
@@ -147,8 +146,8 @@ in
         dwindle = {
           pseudotile = true;
           preserve_split = true;
-          force_split = 2;
-          smart_split = true;
+          force_split = 0;
+          smart_split = false;
         };
         master = {
           new_status = "master";
@@ -160,6 +159,8 @@ in
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
           vfr = true;
+          vrr = 1;
+          render_unfocused_fps = 60;
         };
         group = {
           #drag_into_group = 2;
@@ -299,14 +300,12 @@ in
           "float,class:^(1Password)$"
           "size 900 600,class:^(1Password)$"
           "float,class:^(easyeffects)$"
-          "workspace,5,class:^(gamescope}$"
+          "workspace,5,class:^(gamescope)$"
 
           # Center floating windows
           "center,class:^(pavucontrol)$"
           "center,class:^(blueman-manager)$"
           "center,class:^(1Password)$"
-
-          "immediate, class:^(.gamescope-wrapped)$"
 
           ### Zoom
           "size 360 690,class:(^Zoom)$"
