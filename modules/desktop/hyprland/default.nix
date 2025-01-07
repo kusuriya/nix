@@ -100,8 +100,8 @@ in
           "nm-applet"
           "hypridle"
           "hyprpolkitagent"
-          "wl-paste --type text --watch cliphist store"
-          "wl-paste --type image --watch cliphist store"
+          "wl-paste --type text cliphist store"
+          "wl-paste --type image cliphist store"
           "1password --silent"
           "tailscale-systray"
           "wlsunset -t 5000 -T 6500 -l 47.253080 -L -122.441530"
@@ -321,10 +321,6 @@ in
           "noshadow,title:^as_toolbar$,class:(^Zoom)$"
           "noblur,title:^as_toolbar$,class:(^Zoom)$"
 
-        ];
-        workspace = [
-          "1, monitor:desc:Sceptre Tech Inc Sceptre O34, default:true,persistent:true,defaultName:browse"
-          "4, monitor:desc:Sceptre Tech Inc Sceptre O34,persistent:true,defaultName:term,on-created-empty:alacritty"
         ];
       };
       extraConfig = ''
