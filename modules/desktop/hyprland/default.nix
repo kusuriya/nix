@@ -164,6 +164,7 @@ in
         };
         group = {
           #drag_into_group = 2;
+          merge_groups_on_drag = false;
           "col.border_active" = "$overlay1";
           "col.border_inactive" = "$surface0";
           groupbar = {
@@ -189,10 +190,10 @@ in
           "$mainMod, up, movefocus, u"
           "$mainMod, down, movefocus, d"
           # groups
-          "$mainMod, G, togglegroup"
+          "$mainMod SHIFT, G, togglegroup"
           "$mainMod, Tab, changegroupactive, f"
           "mainMod CTRL, Tab, changegroupactive, b"
-          "$mainMod SHIFT, G, moveoutofgroup"
+          "$mainMod G, moveoutofgroup"
 
           "$mainMod SHIFT, V, exec, cliphist list|wofi --dmenu|cliphist decode|wl-copy"
           "$mainMod, V, sendshortcut, SHIFT, INSERT,"
