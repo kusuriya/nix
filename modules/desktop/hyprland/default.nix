@@ -71,6 +71,7 @@ in
       ];
     catppuccin.hyprland.enable = true;
     wayland.windowManager.hyprland = {
+      systemd.enable = false;
       enable = true;
       package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       xwayland.enable = true;
