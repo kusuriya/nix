@@ -200,8 +200,17 @@
       enable = true;
       interval = "weekly";
     };
+    displayManager = {
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+      };
+    };
+    desktopManager = {
+      plasma6.enable = true;
+    };
     greetd = {
-      enable = true;
+      enable = false;
       settings = rec {
         initial_session = {
           command = "Hyprland";
