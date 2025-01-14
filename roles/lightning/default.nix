@@ -1,8 +1,8 @@
 { self
-  , lib
-  , config
-  , pkg
-  ,...
+, lib
+, config
+, pkg
+, ...
 }:
 {
   virtualisation = {
@@ -10,7 +10,7 @@
       albyhub = {
         image = "ghcr.io/getalby/hub:latest";
         autoStart = true;
-        ports = ["8080:8080"];
+        ports = [ "8080:8080" ];
         volumes = [ "albyhub:/data" ];
       };
     };

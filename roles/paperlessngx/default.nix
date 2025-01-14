@@ -1,8 +1,8 @@
 { self
-  , lib
-  , config
-  , pkg
-  ,...
+, lib
+, config
+, pkg
+, ...
 }:
 {
   services.paperless = {
@@ -10,6 +10,6 @@
     address = "0.0.0.0";
     consumptionDir = "/dozer-files/files/paperless/import";
     dataDir = "/dozer-files/files/paperless/data";
-    port = "28981";    
+    port = "28981";
   };
 }
