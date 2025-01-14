@@ -7,7 +7,7 @@
 {
   services.paperless = {
     enable = true;
-    address = "0.0.0.0";
+    address = "127.0.0.1";
     consumptionDir = "/dozer-files/files/paperless/import";
     dataDir = "/dozer-files/files/paperless/data";
     consumptionDirIsPublic = true;
