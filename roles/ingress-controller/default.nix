@@ -7,7 +7,7 @@
 {
   virtualisation = {
     oci-containers.containers = {
-      albyhub = {
+      nginx-proxy-manager = {
         image = "docker.io/jc21/nginx-proxy-manager:latest";
         autoStart = true;
         ports = [ 
