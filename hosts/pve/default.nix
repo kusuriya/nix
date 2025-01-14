@@ -8,6 +8,7 @@
       ./samba.nix
       ../../roles/mediaserver
       ../../roles/lightning
+      ../../roles/paperlessngx
     ];
   nix =
     let
