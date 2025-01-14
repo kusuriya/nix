@@ -9,6 +9,7 @@
       ../../roles/mediaserver
       ../../roles/lightning
       ../../roles/paperlessngx
+      ../../roles/ingress-controller
     ];
   nix =
     let
