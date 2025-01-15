@@ -99,7 +99,6 @@ in
           "uwsm-app -- ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "uwsm-app -- nm-applet"
           "uwsm-app -- hypridle"
-          "uwsm-app -- hyprpolkitagent"
           "uwsm-app -- wl-paste --type text cliphist store"
           "uwsm-app -- wl-paste --type image cliphist store"
           "uwsm-app -- 1password --silent"
@@ -159,9 +158,6 @@ in
         misc = {
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
-          vfr = true;
-          vrr = 1;
-          render_unfocused_fps = 60;
         };
         group = {
           #drag_into_group = 2;
@@ -170,7 +166,7 @@ in
           "col.border_inactive" = "$surface0";
           groupbar = {
             enabled = true;
-            font_size = 12;
+            font_size = 16;
             text_color = "$text";
             height = 24;
             "col.active" = "$surface1";
@@ -257,7 +253,7 @@ in
         env = [
           "XCURSOR_SIZE,24"
           "HYPRCURSOR_SIZE,24"
-          "GDK_SCALE,1.5"
+          "GDK_SCALE,1.25"
           #"XDG_CURRENT_DESKTOP,Hyprland"
           #"XDG_SESSION_DESKTOP,Hyprland"
           #"XDG_SESSION_TYPE,wayland"
