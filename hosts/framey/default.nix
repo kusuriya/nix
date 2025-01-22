@@ -190,8 +190,8 @@
     graphics = {
       enable = true;
       enable32Bit = true;
-      extraPackages = pkgs-unstable.mesa.drivers;
-      extraPackages32 = pkgs-unstable.pkgsi686Linux.mesa.drivers;
+      extraPackages = pkgs.mesa.drivers;
+      extraPackages32 = pkgs.pkgsi686Linux.mesa.drivers;
     };
   };
   security = {
