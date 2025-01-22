@@ -225,12 +225,7 @@
 
   services = {
     greetd = {
-      enable = true;
-      settings = {
-        default_session = {
-          command = "${pkgs.greetd.regreet}/bin/regreet";
-        };
-      };
+      enable = false;
     };
     libinput = {
       enable = true;
@@ -294,9 +289,10 @@
         enable = false;
         wayland.enable = true;
       };
+      cosmic-greeter.enable = true;
     };
     desktopManager = {
-      plasma6.enable = false;
+      cosmic.enable = true;
     };
     xserver = {
       enable = true;
@@ -309,7 +305,7 @@
   };
   programs = {
     regreet = {
-      enable = true;
+      enable = false;
     };
     hyprland = {
       enable = true;
