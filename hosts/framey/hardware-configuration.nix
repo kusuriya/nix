@@ -23,16 +23,15 @@
         "usbhid"
       ];
       kernelModules = [
-        "v4l2loopback"
-        "amdgpu"
+        #"v4l2loopback"
       ];
       luks.devices."luks-b0bd2e7d-bb44-4105-a3b9-5d2b5e87065c".device = "/dev/disk/by-uuid/b0bd2e7d-bb44-4105-a3b9-5d2b5e87065c";
     };
     kernelModules = [ "kvm-amd" ];
-    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
-    extraModprobeConfig = ''
-      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
-    '';
+    #extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+    #extraModprobeConfig = ''
+    #  options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+    #'';
   };
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/173373b2-9db9-4890-993a-9c57c5340f75";

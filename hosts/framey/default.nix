@@ -176,6 +176,7 @@
   };
 
   hardware = {
+    framework.enableKmod = false;
     logitech.wireless = {
       enable = true;
       enableGraphical = true;
