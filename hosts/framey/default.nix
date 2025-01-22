@@ -226,6 +226,9 @@
   services = {
     greetd = {
       enable = true;
+      default_session = {
+        command = "${pkgs.greetd.regreet}/bin/regreet";
+      };
     };
     libinput = {
       enable = true;
@@ -358,7 +361,7 @@
       iotop
       openconnect
       networkmanager-openconnect
-      regreet
+      greetd.regreet
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
