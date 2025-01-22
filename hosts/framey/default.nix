@@ -213,7 +213,7 @@
       services = {
         greetd = {
           enableGnomeKeyring = true;
-          fpringAuth = false;
+          fprintAuth = false;
         };
         login = {
           enableGnomeKeyring = true;
