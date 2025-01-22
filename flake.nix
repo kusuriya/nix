@@ -25,7 +25,7 @@
       inputs.hyprland.follows = "hyprland";
     };
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.1";
+      url = "github:nix-community/lanzaboote/"; #v0.4.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     catppuccin.url = "github:catppuccin/nix";
