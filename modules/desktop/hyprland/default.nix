@@ -163,7 +163,7 @@ in
           vfr = true;
           vrr = 1;
         };
-        render = { allow_early_buffer_release=true; };
+        render = { allow_early_buffer_release = true; };
         group = {
           #drag_into_group = 2;
           merge_groups_on_drag = false;

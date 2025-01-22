@@ -190,8 +190,8 @@
     graphics = {
       enable = true;
       enable32Bit = true;
-      extraPackages = [pkgs.mesa.drivers];
-      extraPackages32 = [pkgs.pkgsi686Linux.mesa.drivers];
+      extraPackages = [ pkgs.mesa.drivers ];
+      extraPackages32 = [ pkgs.pkgsi686Linux.mesa.drivers ];
     };
   };
   security = {
@@ -224,6 +224,14 @@
   };
 
   services = {
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.regreet}/bin/regreet";
+        };
+      };
+    };
     libinput = {
       enable = true;
       touchpad = {
@@ -300,6 +308,9 @@
 
   };
   programs = {
+    regreet = {
+      enable = true;
+    };
     hyprland = {
       enable = true;
       # set the flake package
