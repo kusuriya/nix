@@ -127,7 +127,7 @@
     hostName = "framey";
     networkmanager = {
       wifi = {
-        powersave = true;
+        powersave = false;
         scanRandMacAddress = true;
       };
       enable = true;
@@ -173,10 +173,6 @@
   xdg.portal = {
     enable = true;
     config.common.default = "xdg-desktop-portal-hyprland";
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-kde
-    ];
   };
 
   hardware = {
@@ -186,11 +182,11 @@
     };
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
-    amdgpu = {
-      amdvlk.enable = true;
-      opencl.enable = true;
-      initrd.enable = true;
-    };
+    #amdgpu = {
+    #  amdvlk.enable = true;
+    #  opencl.enable = true;
+    #  initrd.enable = true;
+    #};
     graphics = {
       enable = true;
     };
@@ -289,7 +285,7 @@
       };
     };
     desktopManager = {
-      plasma6.enable = true;
+      plasma6.enable = false;
     };
     xserver = {
       enable = true;

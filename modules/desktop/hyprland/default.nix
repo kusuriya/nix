@@ -91,11 +91,11 @@ in
         "$menu" = "wofi -i -I --show drun,run";
         monitor = cfg.monitors;
         exec-once = [
-          "uwsm-app -- waybar"
+          "systemctl --user import-environment"
+          "waybar"
           "uwsm-app -- gnome-keyring-daemon -s -d -c secrets"
           "uwsm-app -- dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-          "uwsm-app --dbus-update-activation-environment --all"
-          "systemctl --user import-environment"
+          "uwsm-app -- dbus-update-activation-environment --all"
           "uwsm-app -- ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "uwsm-app -- nm-applet"
           "uwsm-app -- hypridle"
@@ -124,11 +124,11 @@ in
           "col.inactive_border" = "$surface0";
           layout = "dwindle";
           resize_on_border = true;
+          allow_tearing = true;
         };
         cursor = {
           hide_on_key_press = true;
           inactive_timeout = 60;
-          #no_hardware_cursors = false;
         };
         animations = {
           enabled = false;
@@ -142,6 +142,9 @@ in
         };
         decoration = {
           rounding = 4;
+          shadow = {
+            enabled = false;
+          };
         };
         dwindle = {
           pseudotile = true;
@@ -158,6 +161,8 @@ in
         misc = {
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
+          enable_swallow = true;
+          vfr = false;
         };
         group = {
           #drag_into_group = 2;
@@ -166,9 +171,9 @@ in
           "col.border_inactive" = "$surface0";
           groupbar = {
             enabled = true;
-            font_size = 16;
+            font_size = 24;
             text_color = "$text";
-            height = 24;
+            height = 32;
             "col.active" = "$surface1";
             "col.inactive" = "$surface0";
           };
@@ -260,9 +265,9 @@ in
           #"GDK_BACKEND,wayland,x11,*"
           "NIXOS_OZONE_WL,1"
           "MOZ_ENABLE_WAYLAND,1"
-          "SDL_VIDEODRIVER,wayland"
-          "OZONE_PLATFORM,wayland"
-          "WLR_RENDERER,vulkan"
+          #"SDL_VIDEODRIVER,wayland"
+          #"OZONE_PLATFORM,wayland"
+          #"WLR_RENDERER,vulkan"
           "_JAVA_AWT_WM_NONREPARENTING,1"
         ];
         windowrulev2 = [
