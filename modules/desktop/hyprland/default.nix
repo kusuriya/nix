@@ -93,17 +93,17 @@ in
         exec-once = [
           "systemctl --user import-environment"
           "waybar"
-          "uwsm-app -- gnome-keyring-daemon -s -d -c secrets"
-          "uwsm-app -- dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-          "uwsm-app -- dbus-update-activation-environment --all"
-          "uwsm-app -- ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
-          "uwsm-app -- nm-applet"
-          "uwsm-app -- hypridle"
-          "uwsm-app -- wl-paste --type text cliphist store"
-          "uwsm-app -- wl-paste --type image cliphist store"
-          "uwsm-app -- 1password --silent"
-          "uwsm-app -- tailscale-systray"
-          "uwsm-app -- wlsunset -t 5000 -T 6500 -l 47.253080 -L -122.441530"
+          "gnome-keyring-daemon -s -d -c secrets"
+          "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+          "dbus-update-activation-environment --all"
+          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+          "nm-applet"
+          "hypridle"
+          "wl-paste --type text cliphist store"
+          "wl-paste --type image cliphist store"
+          "1password --silent"
+          "tailscale-systray"
+          "wlsunset -t 5000 -T 6500 -l 47.253080 -L -122.441530"
 
         ];
         input = {
@@ -164,6 +164,7 @@ in
           enable_swallow = true;
           vfr = false;
         };
+        render = { allow_early_buffer_release=true; };
         group = {
           #drag_into_group = 2;
           merge_groups_on_drag = false;
