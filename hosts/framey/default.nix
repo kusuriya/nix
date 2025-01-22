@@ -226,11 +226,6 @@
   services = {
     greetd = {
       enable = true;
-      settings = {
-        default_session = {
-          command = "${pkgs.regreet}/bin/regreet";
-        };
-      };
     };
     libinput = {
       enable = true;
