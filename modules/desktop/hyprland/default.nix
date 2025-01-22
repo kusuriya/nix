@@ -76,8 +76,6 @@ in
       xwayland.enable = true;
       systemd = {
         enable = false;
-        enableXdgAutostart = true;
-        variables = [ "--all" ];
       };
       sourceFirst = true;
       settings = {
@@ -94,16 +92,16 @@ in
           "systemctl --user import-environment"
           "waybar"
           "gnome-keyring-daemon -s -d -c secrets"
-          "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-          "dbus-update-activation-environment --all"
+          #"dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+          #"dbus-update-activation-environment --all"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "nm-applet"
-          "hypridle"
+          #"hypridle"
           "wl-paste --type text cliphist store"
           "wl-paste --type image cliphist store"
           "1password --silent"
           "tailscale-systray"
-          "wlsunset -t 5000 -T 6500 -l 47.253080 -L -122.441530"
+          #"wlsunset -t 5000 -T 6500 -l 47.253080 -L -122.441530"
 
         ];
         input = {
@@ -162,7 +160,8 @@ in
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
           enable_swallow = true;
-          vfr = false;
+          vfr = true;
+          vrr = 1;
         };
         render = { allow_early_buffer_release=true; };
         group = {
