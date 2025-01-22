@@ -213,6 +213,7 @@
       services = {
         greetd = {
           enableGnomeKeyring = true;
+          fpringAuth = false;
         };
         login = {
           enableGnomeKeyring = true;
@@ -224,9 +225,6 @@
   };
 
   services = {
-    greetd = {
-      enable = false;
-    };
     libinput = {
       enable = true;
       touchpad = {
