@@ -291,12 +291,12 @@
     upower.enable = true;
     displayManager = {
       sddm = {
-        enable = true;
+        enable = false;
         wayland.enable = true;
       };
     };
     desktopManager = {
-      plasma6.enable = true;
+      plasma6.enable = false;
     };
     xserver = {
       enable = true;
