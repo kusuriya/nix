@@ -285,7 +285,7 @@
       };
     };
     desktopManager = {
-      plasma6.enable = false;
+      plasma6.enable = true;
     };
     xserver = {
       enable = true;
