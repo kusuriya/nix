@@ -363,6 +363,7 @@
       iotop
       openconnect
       networkmanager-openconnect
+      regreet
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
