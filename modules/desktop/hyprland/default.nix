@@ -91,8 +91,8 @@ in
           "systemctl --user import-environment"
           "waybar"
           "gnome-keyring-daemon -s -d -c secrets"
-          #"dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-          #"dbus-update-activation-environment --all"
+          "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+          "dbus-update-activation-environment --all"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "nm-applet"
           #"hypridle"
@@ -100,7 +100,7 @@ in
           "wl-paste --type image cliphist store"
           "1password --silent"
           "tailscale-systray"
-          #"wlsunset -t 5000 -T 6500 -l 47.253080 -L -122.441530"
+          "wlsunset -t 5000 -T 6500 -l 47.253080 -L -122.441530"
 
         ];
         input = {
@@ -146,7 +146,7 @@ in
           "col.border_inactive" = "$surface0";
           groupbar = {
             enabled = true;
-            font_size = 24;
+            font_size = 18;
             text_color = "$text";
             height = 25;
             "col.active" = "$surface1";
@@ -234,15 +234,15 @@ in
           "XCURSOR_SIZE,24"
           "HYPRCURSOR_SIZE,24"
           "GDK_SCALE,1.25"
-          #"XDG_CURRENT_DESKTOP,Hyprland"
-          #"XDG_SESSION_DESKTOP,Hyprland"
-          #"XDG_SESSION_TYPE,wayland"
-          #"GDK_BACKEND,wayland,x11,*"
+          "XDG_CURRENT_DESKTOP,Hyprland"
+          "XDG_SESSION_DESKTOP,Hyprland"
+          "XDG_SESSION_TYPE,wayland"
+          "GDK_BACKEND,wayland,x11,*"
           "NIXOS_OZONE_WL,1"
           "MOZ_ENABLE_WAYLAND,1"
-          #"SDL_VIDEODRIVER,wayland"
-          #"OZONE_PLATFORM,wayland"
-          #"WLR_RENDERER,vulkan"
+          "SDL_VIDEODRIVER,wayland"
+          "OZONE_PLATFORM,wayland"
+          "WLR_RENDERER,vulkan"
           "_JAVA_AWT_WM_NONREPARENTING,1"
         ];
         windowrulev2 = [
