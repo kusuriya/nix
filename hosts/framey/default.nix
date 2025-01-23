@@ -287,7 +287,7 @@
       ];
     };
     power-profiles-daemon.enable = true;
-    flatpak.enable = true;
+    flatpak.enable = false;
     dbus.enable = true;
     upower.enable = true;
     desktopManager = {
