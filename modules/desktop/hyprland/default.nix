@@ -52,7 +52,6 @@ in
         slurp
         libnotify
         swww
-        easyeffects
         playerctl
         hyprshot
         hyprpolkitagent
@@ -121,37 +120,16 @@ in
           "col.active_border" = "$overlay1";
           "col.inactive_border" = "$surface0";
           layout = "dwindle";
-          resize_on_border = true;
-          allow_tearing = true;
         };
         cursor = {
           hide_on_key_press = true;
           inactive_timeout = 60;
-        };
-        animations = {
-          enabled = false;
-          bezier = "overshot,0.13,0.99,0.29,1.1";
-          animation = [
-            "windows,1,3,overshot,slide"
-            "border,1,10,default"
-            "fade,1,10,default"
-            "workspaces,1,3,overshot,slide"
-          ];
-        };
-        decoration = {
-          rounding = 4;
-          shadow = {
-            enabled = false;
-          };
         };
         dwindle = {
           pseudotile = true;
           preserve_split = true;
           force_split = 0;
           smart_split = false;
-        };
-        master = {
-          new_status = "master";
         };
         gestures = {
           workspace_swipe = true;
@@ -160,10 +138,7 @@ in
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
           enable_swallow = true;
-          vfr = true;
-          vrr = 1;
         };
-        render = { allow_early_buffer_release = true; };
         group = {
           #drag_into_group = 2;
           merge_groups_on_drag = false;
@@ -173,7 +148,7 @@ in
             enabled = true;
             font_size = 24;
             text_color = "$text";
-            height = 32;
+            height = 25;
             "col.active" = "$surface1";
             "col.inactive" = "$surface0";
           };
@@ -273,16 +248,6 @@ in
         windowrulev2 = [
           "suppressevent maximize, class:.*"
           "suppressevent minimize, class:.*"
-          "opacity 0.0 override, class:^(xwaylandvideobridge)$"
-          "noanim, class:^(xwaylandvideobridge)$"
-          "noinitialfocus, class:^(xwaylandvideobridge)$"
-          "maxsize 1 1, class:^(xwaylandvideobridge)$"
-          "noblur, class:^(xwaylandvideobridge)$"
-
-          # Firefox PIP
-          "float,class:^(firefox)$,title:^(Picture-in-Picture)$"
-          "pin,class:^(firefox)$,title:^(Picture-in-Picture)$"
-          "float,class:^(firefox)$,title:^(Firefox — Sharing Indicator)$"
 
           # modals
           "float,title:^(Open)$"

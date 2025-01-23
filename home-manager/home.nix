@@ -25,14 +25,12 @@
   modules.hyprland = {
     enable = true;
     monitors = [
-      "desc:HP Inc. HP X27q 6CM1210654,preferred,0x0,1.25"
       "desc:BOE NE135A1M-NY1,preferred,auto-right,2"
       "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1.25"
       "desc:LG Electronics LG SDQHD 409NTLE8K432,preferred,auto-right,1.25"
       ",preferred,auto,auto"
     ];
   };
-  systemd.user.startServices = "sd-switch";
   home = {
     username = "kusuriya";
     homeDirectory = "/home/kusuriya";
@@ -133,7 +131,6 @@
       MOZ_USE_XINPUT2 = "1";
       XDG_BIN_HOME = "\${HOME}/.local/bin";
       NIXOS_OZONE_WL = "1";
-      WLR_RENDERER = "vulkan";
 
     };
   };

@@ -47,7 +47,7 @@
         ];
         nix-path = config.nix.nixPath;
         max-jobs = "auto";
-        cores = 0; # Use all cores
+        cores = 14; # Use all cores
       };
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
@@ -67,12 +67,12 @@
       enable = true;
       flake = inputs.self.outPath;
       flags = [
-        "--cores 15"
+        "--cores 14"
         "--update-input"
         "nixpkgs"
         "-L"
       ];
-      allowReboot = true;
+      allowReboot = false;
       dates = "01:00";
       randomizedDelaySec = "45min";
       rebootWindow.lower = "00:01";
@@ -100,10 +100,6 @@
         systemd.enable = true;
       };
       plymouth.enable = true;
-      tmp = {
-        useTmpfs = false;
-        tmpfsSize = "50%";
-      };
       kernel.sysctl = {
         "net.ipv4.tcp_mtu_probing" = 1;
         "kernel.panic" = 60;
@@ -127,7 +123,7 @@
     hostName = "framey";
     networkmanager = {
       wifi = {
-        powersave = false;
+        powersave = true;
         scanRandMacAddress = true;
       };
       enable = true;
@@ -182,11 +178,22 @@
     };
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
-    #amdgpu = {
-    #  amdvlk.enable = true;
-    #  opencl.enable = true;
-    #  initrd.enable = true;
-    #};
+    amdgpu = {
+      amdvlk = {
+        enable = true;
+        settings = {
+          AllowVkPipelineCachingToDisk = 1;
+          EnableVmAlwaysValid = 1;
+          IFH = 0;
+          IdleAfterSubmitGpuMask = 1;
+          ShaderCacheMode = 1;
+          MaxNumCmdStreamsPerSubmit = 4;
+          CommandBufferCombineDePreambles = 1;
+        };
+      };
+      opencl.enable = false;
+      initrd.enable = true;
+    };
     graphics = {
       enable = true;
       enable32Bit = true;
@@ -225,6 +232,7 @@
   };
 
   services = {
+    greetd.enable = true;
     libinput = {
       enable = true;
       touchpad = {
@@ -282,15 +290,8 @@
     flatpak.enable = true;
     dbus.enable = true;
     upower.enable = true;
-    displayManager = {
-      sddm = {
-        enable = false;
-        wayland.enable = true;
-      };
-      cosmic-greeter.enable = true;
-    };
     desktopManager = {
-      cosmic.enable = true;
+      cosmic.enable = false;
     };
     xserver = {
       enable = true;
@@ -303,7 +304,7 @@
   };
   programs = {
     regreet = {
-      enable = false;
+      enable = true;
     };
     hyprland = {
       enable = true;
