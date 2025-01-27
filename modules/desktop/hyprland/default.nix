@@ -55,6 +55,7 @@ in
         playerctl
         hyprshot
         hyprpolkitagent
+        hypridle
         hyprcursor
         hyprutils
         hyprnotify
@@ -73,9 +74,6 @@ in
       enable = true;
       package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       xwayland.enable = true;
-      systemd = {
-        enable = false;
-      };
       sourceFirst = true;
       settings = {
         xwayland = {
@@ -95,7 +93,7 @@ in
           "dbus-update-activation-environment --all"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "nm-applet"
-          #"hypridle"
+          "hypridle"
           "wl-paste --type text cliphist store"
           "wl-paste --type image cliphist store"
           "1password --silent"
@@ -115,8 +113,8 @@ in
         };
         general = {
           gaps_in = 0;
-          gaps_out = 2;
-          border_size = 2;
+          gaps_out = 3;
+          border_size = 1;
           "col.active_border" = "$overlay1";
           "col.inactive_border" = "$surface0";
           layout = "dwindle";
@@ -146,10 +144,10 @@ in
           "col.border_inactive" = "$surface0";
           groupbar = {
             enabled = true;
-            font_size = 18;
+            font_size = 16;
             text_color = "$text";
             height = 25;
-            "col.active" = "$surface1";
+            "col.active" = "$surface2";
             "col.inactive" = "$surface0";
           };
         };
