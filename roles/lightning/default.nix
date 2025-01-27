@@ -16,7 +16,6 @@
           WORK_DIR = "/data";
         };
         workdir = "/data";
-        extraOptions = ["--pull always"];
       };
     };
   };
