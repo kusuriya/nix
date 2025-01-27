@@ -11,7 +11,12 @@
         image = "ghcr.io/getalby/hub:latest";
         autoStart = true;
         ports = [ "8080:8080" ];
-        volumes = [ "/data/albyhub:/data" ];
+        volumes = [ "albyhub:/data" ];
+        environment = {
+          WORK_DIR = "/data";
+        };
+        workdir = "/data";
+        extraOptions = ["--pull always"];
       };
     };
   };
