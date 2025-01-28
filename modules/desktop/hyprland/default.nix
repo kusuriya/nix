@@ -154,7 +154,7 @@ in
         bind = [
           "$mainMod, Q, killactive,"
           "$mainMod, F, focusurgentorlast"
-          "$mainMod SHIFT, L, exec, hyprlock"
+          "$mainMod CTRL, L, exec, hyprlock"
           "$mainMod SHIFT, F, togglefloating,"
           "$mainMod, SPACE, exec, uwsm-app -- $menu"
           "$mainMod, P, pseudo,"
@@ -185,6 +185,10 @@ in
           "$mainMod ALT, LEFT, movecurrentworkspacetomonitor, +1"
           "$mainMod SHIFT, RIGHT, workspace, m+1"
           "$mainMod SHIFT, LEFT, workspace, m-1"
+          "$mainMod ALT, H, movecurrentworkspacetomonitor, -1"
+          "$mainMod ALT, L, movecurrentworkspacetomonitor, +1"
+          "$mainMod SHIFT, h, workspace, m+1"
+          "$mainMod SHIFT, l, workspace, m-1"
 
           "$mainMod, 1, workspace, 1"
           "$mainMod, 2, workspace, 2"
