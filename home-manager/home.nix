@@ -201,11 +201,11 @@
     };
     vscode = {
       enable = true;
-      extensions = [
-        vscode-extensions.vscodevim.vim
-        vscode-extensions.ms-vscode.PowerShell
-        vscode-extensions.rust-lang.rust-analyzer
-        vscode-extensions.yzhang.markdown-all-in-one
+      extensions = with pkgs.vscode-extensions; [
+        vscodevim.vim
+        ms-vscode.PowerShell
+        rust-lang.rust-analyzer
+        yzhang.markdown-all-in-one
       ];
     };
     nixvim = {
