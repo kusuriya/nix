@@ -6,6 +6,7 @@
     ./home-manager.nix
     ./fonts.nix
     ./containers.nix
+    ./polkit.nix
   ];
   nix = {
     settings = {
@@ -38,7 +39,6 @@
       enable = true;
       capSysNice = true;
       args = [
-        "-F fsr"
         "-S stretch"
         "-b"
       ];

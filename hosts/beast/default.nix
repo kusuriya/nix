@@ -167,7 +167,6 @@
   #sound.enable = true;
   security = {
     rtkit.enable = true;
-    polkit.enable = true;
     sudo.wheelNeedsPassword = true;
     audit.enable = true;
     auditd.enable = true;
