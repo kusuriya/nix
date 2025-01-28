@@ -202,7 +202,7 @@
     };
     displayManager = {
       sddm = {
-        enable = true;
+        enable = false;
         wayland.enable = true;
       };
     };
@@ -210,10 +210,10 @@
       plasma6.enable = true;
     };
     greetd = {
-      enable = false;
+      enable = true;
       settings = rec {
         initial_session = {
-          command = "Hyprland";
+          command = "${pkgs.hyprland}/bin/Hyprland";
           user = "kusuriya";
         };
         default_session = initial_session;
