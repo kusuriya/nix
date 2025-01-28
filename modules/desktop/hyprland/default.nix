@@ -152,18 +152,22 @@ in
           };
         };
         bind = [
-          "$mainMod, K, killactive,"
+          "$mainMod, Q, killactive,"
           "$mainMod, F, focusurgentorlast"
-          "$mainMod, L, exec, hyprlock"
+          "$mainMod SHIFT, L, exec, hyprlock"
           "$mainMod SHIFT, F, togglefloating,"
           "$mainMod, SPACE, exec, uwsm-app -- $menu"
           "$mainMod, P, pseudo,"
-          "$mainMod, J, togglesplit,"
-          "$mainMod SHIFT, J, swapsplit"
+          "$mainMod SHIFT, J, togglesplit,"
+          "$mainMod CTRL, J, swapsplit"
           "$mainMod, left, movefocus, l"
           "$mainMod, right, movefocus, r"
           "$mainMod, up, movefocus, u"
           "$mainMod, down, movefocus, d"
+          "$mainMod, h, movefocus, l"
+          "$mainMod, j, movefocus, d"
+          "$mainMod, k, movefocus, u"
+          "$mainMod, l, movefocus, r"
           # groups
           "$mainMod SHIFT, G, togglegroup"
           "$mainMod, Tab, changegroupactive, f"
