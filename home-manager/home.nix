@@ -203,7 +203,7 @@
       enable = true;
       extensions = with pkgs.vscode-extensions; [
         vscodevim.vim
-        super.ms-vscode.PowerShell
+        ms-python.python
         rust-lang.rust-analyzer
         yzhang.markdown-all-in-one
       ];
