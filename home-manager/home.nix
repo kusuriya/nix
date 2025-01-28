@@ -207,6 +207,7 @@
       vimAlias = true;
       colorschemes.catppuccin.enable = true;
       plugins = {
+        neo-tree.enable = true;
         lualine.enable = true;
         treesitter = {
           enable = true;
