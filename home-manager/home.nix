@@ -204,8 +204,12 @@
       extensions = with pkgs.vscode-extensions; [
         vscodevim.vim
         ms-python.python
+        jnoortheen.nix-ide
+        mkhl.direnv
+        ms-vscode.powershell
         rust-lang.rust-analyzer
         yzhang.markdown-all-in-one
+        eamodio.gitlens
       ];
     };
     nixvim = {
