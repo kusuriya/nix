@@ -199,6 +199,14 @@
       userName = "Jason Barbier";
       userEmail = "jason@corrupted.io";
     };
+    vscode = {
+      enable = true;
+      extensions = [
+        "vscodevim.vim"
+        "ms-vscode.PowerShell"
+        "rust-lang.rust-analyzer"
+      ];
+    };
     nixvim = {
       enable = true;
       defaultEditor = true;
@@ -207,7 +215,6 @@
       vimAlias = true;
       colorschemes.catppuccin.enable = true;
       plugins = {
-        neo-tree.enable = true;
         lualine.enable = true;
         treesitter = {
           enable = true;
@@ -224,13 +231,31 @@
         telescope.enable = true;
         lsp.enable = true;
         web-devicons.enable = true;
-        cmp.enable = true;
+        cmp = {
+          enable = true;
+          autoEnableSources = true;
+          settings.sources = [
+            { name = "nvim_lsp"; }
+            { name = "path"; }
+            { name = "buffer"; }
+          ];
+        };
+        gitsigns = {
+          enable = true;
+          autoLoad = true;
+          settings = {
+            current_line_blame = true;
+          };
+        };
         gitgutter.enable = true;
         nvim-tree = {
           enable = true;
           openOnSetupFile = true;
           autoReloadOnWrite = true;
           git.enable = true;
+          openOnSetup = true;
+          filesystemWatchers.enable = true;
+
         };
 
       };
