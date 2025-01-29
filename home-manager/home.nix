@@ -298,6 +298,17 @@
         setw -g mouse on
       '';
     };
+    zed-editor = {
+      enable = true;
+      extensions = ["nix" "toml" "elixir" "make"];
+    };
+    helix = {
+      enable = true;
+      language = [{
+        name = "rust";
+        auto-format = false;
+      }];
+    };
 
   };
   dconf = {
