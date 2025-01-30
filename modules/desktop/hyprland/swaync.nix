@@ -6,7 +6,7 @@
 , ...
 }:
 {
-  programs = {
+  services = {
     swaync = {
       enable = true;
       settings = {
