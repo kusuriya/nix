@@ -16,6 +16,7 @@ in
     ./waybar.nix
     ./hyprlock.nix
     ./hypridle.nix
+    ./swaync.nix
   ];
   options.modules.hyprland = {
     enable = mkEnableOption "Hyprland configuration";
@@ -30,6 +31,7 @@ in
     home.packages = with pkgs;
       [
         dunst
+        swaync
         wl-clipboard-rs
         clipman
         nautilus
