@@ -31,7 +31,6 @@ in
     home.packages = with pkgs;
       [
         dunst
-        swaync
         wl-clipboard-rs
         clipman
         nautilus
