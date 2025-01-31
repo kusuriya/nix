@@ -158,7 +158,7 @@ in
           "$mainMod, F, focusurgentorlast"
           "$mainMod CTRL, L, exec, hyprlock"
           "$mainMod SHIFT, F, togglefloating,"
-          "$mainMod, SPACE, exec, uwsm-app -- $menu"
+          "$mainMod, SPACE, exec, $menu"
           "$mainMod, P, pseudo,"
           "$mainMod SHIFT, J, togglesplit,"
           "$mainMod CTRL, J, swapsplit"

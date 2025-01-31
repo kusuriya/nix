@@ -162,6 +162,17 @@
     };
   };
   programs = {
+    starship = {
+      enable = true;
+      settings = {
+        scan_timeout = 10;
+        format = "$all$directory$character";
+      git_branch = {
+        format = "[$symbol$branch(:$remote_branch)]($style)";
+      };
+      status = { disabled = false; };
+      };
+    };
     mpv.enable = true;
     imv.enable = true;
     alacritty = {

@@ -10,8 +10,8 @@
     swaync = {
       enable = true;
       settings = {
-        positionX = "right";
-        positionY = "bottom";
+        positionX = "center";
+        positionY = "top";
         layer = "overlay";
         control-center-layer = "top";
         layer-shell = true;
