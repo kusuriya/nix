@@ -64,6 +64,7 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     videoAcceleration = true;
     datacenter.enable = false;
+    nvidiaSettings = true;
   };
 
   # Use the systemd-boot EFI boot loader.
