@@ -58,6 +58,7 @@
     enable = true;
   };
   hardware.nvidia = {
+    enable = true;
     open = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     videoAcceleration = true;
