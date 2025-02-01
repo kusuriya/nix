@@ -57,9 +57,10 @@
   hardware.graphics = {
     enable = true;
   };
+  services.xserver.videoDriver = ["nvidia"]
   hardware.nvidia = {
-    enable = true;
     open = true;
+    modesetting.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     videoAcceleration = true;
     datacenter.enable = false;
