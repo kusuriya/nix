@@ -64,6 +64,7 @@
         "hyprland/window"
       ];
       modules-center = [
+        "clock"
       ];
       modules-right = [
         "idle_inhibitor"
@@ -73,7 +74,6 @@
         "network"
         "battery"
         "tray"
-        "clock"
       ];
       "custom/notifcation" = {
         tooltip = false;

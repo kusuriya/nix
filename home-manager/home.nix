@@ -171,6 +171,10 @@
         format = "[$symbol$branch(:$remote_branch)]($style)";
       };
       status = { disabled = false; };
+        time = {
+          disabled = false;
+          format = "[$time]($style) ";
+        };
       };
     };
     mpv.enable = true;
