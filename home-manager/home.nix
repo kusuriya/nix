@@ -227,68 +227,11 @@
         eamodio.gitlens
       ];
     };
-    nixvim = {
+    neovim={
       enable = true;
-      defaultEditor = true;
       vimdiffAlias = true;
       viAlias = true;
       vimAlias = true;
-      colorschemes.catppuccin.enable = true;
-      plugins = {
-        lualine.enable = true;
-        treesitter = {
-          enable = true;
-          folding = false;
-          grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
-          settings = {
-            highlight.enable = true;
-            auto_install = true;
-            indent.enable = true;
-          };
-        };
-        coq-nvim.enable = true;
-        nix.enable = true;
-        telescope.enable = true;
-        lsp.enable = true;
-        web-devicons.enable = true;
-        cmp = {
-          enable = true;
-          autoEnableSources = true;
-          settings.sources = [
-            { name = "nvim_lsp"; }
-            { name = "path"; }
-            { name = "buffer"; }
-          ];
-        };
-        gitsigns = {
-          enable = true;
-          autoLoad = true;
-          settings = {
-            current_line_blame = true;
-          };
-        };
-        gitgutter.enable = true;
-        nvim-tree = {
-          enable = true;
-          openOnSetupFile = true;
-          autoReloadOnWrite = true;
-          git.enable = true;
-          openOnSetup = true;
-          filesystemWatchers.enable = true;
-
-        };
-
-      };
-      opts = {
-        number = true;
-        relativenumber = true;
-        shiftwidth = 2;
-        tabstop = 2;
-        smarttab = true;
-        expandtab = true;
-        mouse = "nvi";
-
-      };
     };
     ranger = {
       enable = true;
