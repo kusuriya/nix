@@ -34,13 +34,6 @@
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
-      # url = "github:nix-community/nixvim/nixos-24.05";
-
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     firefox = {
       url = "github:nix-community/flake-firefox-nightly";
     };
@@ -54,7 +47,6 @@
     , hyprland
     , lanzaboote
     , catppuccin
-    , nixvim
     , firefox
     , nixos-cosmic
     , nixpkgs-stable
@@ -83,7 +75,7 @@
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {
                 extraSpecialArgs = { inherit inputs self; };
-                users.kusuriya = { imports = [ ./home-manager/home.nix catppuccin.homeManagerModules.catppuccin nixvim.homeManagerModules.nixvim ./modules/home-manager ]; };
+                users.kusuriya = { imports = [ ./home-manager/home.nix catppuccin.homeManagerModules.catppuccin ./modules/home-manager ]; };
                 useGlobalPkgs = true;
                 useUserPackages = true;
               };
