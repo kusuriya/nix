@@ -346,6 +346,7 @@
       deadnix
       statix
       nixpkgs-fmt
+      gnome-boxes
     ];
     etc = {
       "ovmf/edk2-x86_64-secure-code.fd" = {
