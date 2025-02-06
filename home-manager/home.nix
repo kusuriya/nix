@@ -27,7 +27,7 @@
     monitors = [
       "desc:BOE NE135A1M-NY1,preferred,auto-right,2"
       "desc:Sceptre Tech Inc Sceptre O34,preferred,0x0,1"
-      "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1.5"
+      "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1"
       "desc:LG Electronics LG SDQHD 409NTLE8K432,preferred,auto-right,1"
       ",preferred,auto,auto"
     ];
@@ -43,6 +43,7 @@
       _1password-cli
 
       openconnect
+      thunar
       parsec-bin
       rclone
       rsync
