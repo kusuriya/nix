@@ -27,8 +27,8 @@
     monitors = [
       "desc:BOE NE135A1M-NY1,preferred,auto-right,2"
       "desc:Sceptre Tech Inc Sceptre O34,preferred,0x0,1"
-      "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1"
-      "desc:LG Electronics LG SDQHD 409NTLE8K432,preferred,auto-right,1"
+      "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1.25"
+      "desc:LG Electronics LG SDQHD 409NTLE8K432,preferred,auto-right,1.25"
       ",preferred,auto,auto"
     ];
   };
@@ -43,7 +43,7 @@
       _1password-cli
 
       openconnect
-      thunar
+
       parsec-bin
       rclone
       rsync
@@ -95,7 +95,6 @@
       vesktop
       zoom-us
       weechat
-      teams-for-linux
 
       #nix
       nixpkgs-fmt
@@ -146,38 +145,7 @@
       enable = true;
       components = [ "pkcs11" "secrets" "ssh" ];
     };
-    dunst = {
-      enable = true;
-      settings = {
-        global = {
-          offset = "30x50";
-          origin = "bottom-right";
-          font = "Cascadia Code 12";
-          frame_color = "#1a1b26";
-          background_color = "#7a2f7a";
-          geometry = "550x25-5+30";
-          format = "<b>%s</b>\\n%b";
-          icon_position = "left";
-        };
-      };
-    };
-  };
   programs = {
-    starship = {
-      enable = true;
-      settings = {
-        scan_timeout = 10;
-        format = "$all$directory$character";
-      git_branch = {
-        format = "[$symbol$branch(:$remote_branch)]($style)";
-      };
-      status = { disabled = false; };
-        time = {
-          disabled = false;
-          format = "[$time]($style) ";
-        };
-      };
-    };
     mpv.enable = true;
     imv.enable = true;
     alacritty = {
@@ -217,25 +185,12 @@
     };
     vscode = {
       enable = true;
-      extensions = with pkgs.vscode-extensions; [
-        vscodevim.vim
-        ms-python.python
-        jnoortheen.nix-ide
-        mkhl.direnv
-        ms-vscode.powershell
-        rust-lang.rust-analyzer
-        yzhang.markdown-all-in-one
-        eamodio.gitlens
-      ];
     };
     neovim={
       enable = true;
       vimdiffAlias = true;
       viAlias = true;
       vimAlias = true;
-    };
-    ranger = {
-      enable = true;
     };
     tmux = {
       enable = true;

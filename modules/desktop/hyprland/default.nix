@@ -105,7 +105,7 @@ in
         ];
         input = {
           kb_layout = "us";
-          follow_mouse = "1";
+          follow_mouse = "0";
           accel_profile = "adaptive";
           touchpad = {
             natural_scroll = false;
