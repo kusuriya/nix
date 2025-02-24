@@ -145,6 +145,7 @@
       enable = true;
       components = [ "pkcs11" "secrets" "ssh" ];
     };
+  };
   programs = {
     mpv.enable = true;
     imv.enable = true;
@@ -186,7 +187,7 @@
     vscode = {
       enable = true;
     };
-    neovim={
+    neovim = {
       enable = true;
       vimdiffAlias = true;
       viAlias = true;

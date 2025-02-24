@@ -138,7 +138,6 @@
     config.common.default = "xdg-desktop-portal-hyprland";
     extraPortals = [
       pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-kde
     ];
   };
   zramSwap = {
