@@ -295,7 +295,7 @@
         enable = true;
 	wayland.enable = true;
       };
-      desktopManageri = {
+      desktopManager = {
         plasma6.enable = true;
       };
     };
