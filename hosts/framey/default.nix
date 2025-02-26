@@ -287,11 +287,17 @@
       ];
     };
     power-profiles-daemon.enable = true;
-    flatpak.enable = false;
+    flatpak.enable = true;
     dbus.enable = true;
     upower.enable = true;
-    desktopManager = {
-      cosmic.enable = false;
+    displayManager = {
+      sddm = {
+        enable = true;
+	wayland.enable = true;
+      };
+      desktopManageri = {
+        plasma6.enable = true;
+      };
     };
     xserver = {
       enable = true;
@@ -303,9 +309,6 @@
 
   };
   programs = {
-    regreet = {
-      enable = true;
-    };
     hyprland = {
       enable = true;
       # set the flake package
@@ -358,7 +361,6 @@
       iotop
       openconnect
       networkmanager-openconnect
-      greetd.regreet
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
