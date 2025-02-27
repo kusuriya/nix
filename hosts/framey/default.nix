@@ -168,7 +168,6 @@
 
   xdg.portal = {
     enable = true;
-    config.common.default = "xdg-desktop-portal-hyprland";
   };
 
   hardware = {
@@ -293,90 +292,88 @@
     displayManager = {
       sddm = {
         enable = true;
-        wayland.enable = true;
       };
     };
     desktopManager = {
       plasma6.enable = true;
     };
-  };
-  xserver = {
-    enable = true;
-    xkb = {
-      layout = "us";
-      variant = "";
+    xserver = {
+      enable = true;
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
     };
+
+  };
+  programs = {
+    hyprland = {
+      enable = false;
+      # set the flake package
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      # make sure to also set the portal package, so that they are in sync
+      portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+      withUWSM = true;
+    };
+    nix-ld = {
+      enable = true;
+    };
+    corectrl = {
+      enable = true;
+    };
+    _1password-gui = {
+      enable = true;
+      polkitPolicyOwners = [ "kusuriya" ];
+    };
+    dconf.enable = true;
   };
 
-};
-programs = {
-hyprland = {
-enable = true;
-# set the flake package
-package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-# make sure to also set the portal package, so that they are in sync
-portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-withUWSM = true;
-};
-nix-ld = {
-enable = true;
-};
-corectrl = {
-enable = true;
-};
-_1password-gui = {
-enable = true;
-polkitPolicyOwners = [ "kusuriya" ];
-};
-dconf.enable = true;
-};
-
-environment = {
-systemPackages = with pkgs; [
-appimage-run
-brightnessctl
-curl
-coreutils
-distrobox
-linux-firmware
-mosh
-nix-diff
-nix-index
-nix-output-monitor
-nix-prefetch-git
-nix-direnv
-pciutils
-sbctl
-lm_sensors
-poweralertd
-statix
-git
-nil
-sops
-age
-unzip
-p7zip
-dig
-whois
-usbutils
-iotop
-openconnect
-networkmanager-openconnect
-];
-sessionVariables = {
-NIXOS_OZONE_WL = "1";
-TERMINAL = "alacritty";
-EDITOR = "nvim";
-};
-etc = {
-"1password/custom_allowed_browsers" = {
-text = ''
+  environment = {
+    systemPackages = with pkgs; [
+      appimage-run
+      brightnessctl
+      curl
+      coreutils
+      distrobox
+      linux-firmware
+      mosh
+      nix-diff
+      nix-index
+      nix-output-monitor
+      nix-prefetch-git
+      nix-direnv
+      pciutils
+      sbctl
+      lm_sensors
+      poweralertd
+      statix
+      git
+      nil
+      sops
+      age
+      unzip
+      p7zip
+      dig
+      whois
+      usbutils
+      iotop
+      openconnect
+      networkmanager-openconnect
+    ];
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      TERMINAL = "alacritty";
+      EDITOR = "nvim";
+    };
+    etc = {
+      "1password/custom_allowed_browsers" = {
+        text = ''
           vivaldi-bin
         '';
-mode = "0755";
-};
-};
+        mode = "0755";
+      };
+    };
 
-};
-system.stateVersion = "23.05"; # Did you read the comment
+  };
+  system.stateVersion = "23.05"; # Did you read the comment
 }
