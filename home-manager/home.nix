@@ -6,7 +6,7 @@
 }:
 {
   imports = [
-    ../modules/desktop/hyprland
+    #../modules/desktop/hyprland
   ];
   #config = {
   #  environment.systemPackages = [

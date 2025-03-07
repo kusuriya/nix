@@ -135,10 +135,6 @@
   };
   xdg.portal = {
     enable = true;
-    config.common.default = "xdg-desktop-portal-hyprland";
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-    ];
   };
   zramSwap = {
     enable = true;
@@ -278,7 +274,7 @@
   };
   programs = {
     hyprland = {
-      enable = true;
+      enable = false;
       # set the flake package
       package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       # make sure to also set the portal package, so that they are in sync
