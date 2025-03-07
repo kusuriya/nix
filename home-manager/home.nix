@@ -67,6 +67,7 @@
       pandoc
       catt
       unstable.looking-glass-client
+      texliveFull
 
       #dev
       devenv

@@ -176,11 +176,11 @@ in
           "mainMod CTRL, Tab, changegroupactive, b"
           "$mainMod, G, moveoutofgroup"
 
-          "$mainMod SHIFT, V, exec, uwsm-app -- cliphist list|wofi --dmenu|cliphist decode|wl-copy"
+          "$mainMod SHIFT, V, exec, cliphist list|wofi --dmenu|cliphist decode|wl-copy"
           "$mainMod, V, sendshortcut, SHIFT, INSERT,"
           "$mainMod, C, sendshortcut, CONTROL, INSERT,"
 
-          "$mainMod Ctrl, 4, exec, uwsm-app -- hyprshot --clipboard-only -m region -z"
+          "$mainMod Ctrl, 4, exec, hyprshot --clipboard-only -m region -z"
           "$mainMod, S, togglespecialworkspace, magic"
           "$mainMod SHIFT, S, movetoworkspace, special:magic"
           "$mainMod ALT, RIGHT, movecurrentworkspacetomonitor, -1"
