@@ -115,6 +115,8 @@
     firewall = {
       enable = true;
       allowPing = true;
+      allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+      allowedUDPPortRanges = [ { from = 1714; to = 1764; } ];
     };
   };
 
@@ -273,6 +275,7 @@
     };
   };
   programs = {
+    kdeconnect.enable = true;
     hyprland = {
       enable = false;
       # set the flake package
@@ -305,6 +308,7 @@
   environment = {
     sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
     systemPackages = with pkgs; [
+      openterface-qt
       wget
       git
       curl

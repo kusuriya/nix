@@ -22,16 +22,16 @@
     };
 
   };
-  modules.hyprland = {
-    enable = true;
-    monitors = [
-      "desc:BOE NE135A1M-NY1,preferred,auto-right,2"
-      "desc:Sceptre Tech Inc Sceptre O34,preferred,0x0,1"
-      "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1.25"
-      "desc:LG Electronics LG SDQHD 409NTLE8K432,preferred,auto-right,1.25"
-      ",preferred,auto,auto"
-    ];
-  };
+  #modules.hyprland = {
+  #  enable = true;
+  #  monitors = [
+  #    "desc:BOE NE135A1M-NY1,preferred,auto-right,2"
+  #    "desc:Sceptre Tech Inc Sceptre O34,preferred,0x0,1"
+  #    "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1.25"
+  #    "desc:LG Electronics LG SDQHD 409NTLE8K432,preferred,auto-right,1.25"
+  #    ",preferred,auto,auto"
+  #  ];
+  #};
   home = {
     username = "kusuriya";
     homeDirectory = "/home/kusuriya";
@@ -74,7 +74,6 @@
       direnv
       distrobox
 
-      logseq
 
       # themes
       arc-kde-theme
@@ -141,7 +140,10 @@
     flavor = "macchiato";
   };
   services = {
-    kdeconnect.enable = true;
+    kdeconnect = {
+      enable = true;
+      indicator = true;
+    };
     gnome-keyring = {
       enable = true;
       components = [ "pkcs11" "secrets" "ssh" ];
