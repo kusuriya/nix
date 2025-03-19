@@ -263,8 +263,10 @@
     printing = {
       enable = true;
       drivers = [
+        pkgs.gutenprint
         pkgs.gutenprintBin
 	pkgs.hplipWithPlugin
+	pkgs.canon-cups-ufr2
 	pkgs.cnijfilter2
       ];
     };
