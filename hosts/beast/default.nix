@@ -264,6 +264,8 @@
       enable = true;
       drivers = [
         pkgs.gutenprintBin
+	pkgs.hplipWithPlugin
+	pkgs.cnijfilter2
       ];
     };
     pipewire = {
