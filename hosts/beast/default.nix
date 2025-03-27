@@ -361,6 +361,12 @@
         mode = "0644";
         user = "libvirtd";
       };
+      "1password/custom_allowed_browsers" = {
+        text = ''
+	  vivaldi-bin
+	'';
+	mode=755;
+      };
     };
   };
   virtualisation = {

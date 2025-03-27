@@ -109,6 +109,8 @@
       #browser
       chromium
       microsoft-edge
+      vivaldi
+      vivaldi-ffmpeg-codecs
       inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
 
       #Dictonary
