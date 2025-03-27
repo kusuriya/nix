@@ -365,7 +365,7 @@
         text = ''
 	  vivaldi-bin
 	'';
-	mode=755;
+	mode = "0755";
       };
     };
   };
