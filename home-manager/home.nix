@@ -109,7 +109,11 @@
       #browser
       chromium
       microsoft-edge
-      vivaldi
+      (vivaldi.overrideAttrs (oldAttrs: {
+        dontWrapQtApps = false;
+        dontPatchELF = true;
+        nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.kdePackages.wrapQtAppsHook ];
+      }))
       vivaldi-ffmpeg-codecs
       inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
 

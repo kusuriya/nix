@@ -115,8 +115,8 @@
     firewall = {
       enable = true;
       allowPing = true;
-      allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
-      allowedUDPPortRanges = [ { from = 1714; to = 1764; } ];
+      allowedTCPPortRanges = [{ from = 1714; to = 1764; }];
+      allowedUDPPortRanges = [{ from = 1714; to = 1764; }];
     };
   };
 
@@ -265,9 +265,9 @@
       drivers = [
         pkgs.gutenprint
         pkgs.gutenprintBin
-	pkgs.hplipWithPlugin
-	pkgs.canon-cups-ufr2
-	pkgs.cnijfilter2
+        pkgs.hplipWithPlugin
+        pkgs.canon-cups-ufr2
+        pkgs.cnijfilter2
       ];
     };
     pipewire = {
@@ -326,6 +326,8 @@
       btrfs-snap
       timeshift
       swtpm
+      ovmf
+      edk2
       OVMFFull
       dnsmasq
       appimage-run
@@ -363,9 +365,9 @@
       };
       "1password/custom_allowed_browsers" = {
         text = ''
-	  vivaldi-bin
-	'';
-	mode = "0755";
+          	  vivaldi-bin
+          	'';
+        mode = "0755";
       };
     };
   };
@@ -379,12 +381,12 @@
     libvirtd = {
       enable = true;
       qemu = {
-        package = pkgs.qemu_kvm;
+        package = pkgs.qemu_full;
         runAsRoot = true;
         swtpm.enable = true;
         ovmf = {
           enable = true;
-          packages = [ pkgs.OVMFFull.fd ];
+          packages = [ (pkgs.OVMFFull.fd ];
         };
       };
     };
@@ -393,5 +395,12 @@
 
   system.stateVersion = "23.05"; # Did you read the comment
   vfio.enable = true;
+  security.wrappers.qemu-system-x86_64 = {
+    source = "${pkgs.qemu_full}/bin/qemu-system-x86_64";
+    owner = "root";
+    group = "kvm";
+    permissions = "0755";
+    capabilities = "cap_net_admin+ep";
+  };
 }
 
