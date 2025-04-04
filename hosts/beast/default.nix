@@ -326,9 +326,7 @@
       btrfs-snap
       timeshift
       swtpm
-      ovmf
       edk2
-      OVMFFull
       dnsmasq
       appimage-run
       openconnect
@@ -352,6 +350,13 @@
       statix
       nixpkgs-fmt
       gnome-boxes
+      (OVMF.override{
+      	tpmSupport = true;
+	secureBoot = true;
+	msVarsTemplate = true;
+	httpSupport = true;
+	tlsSupport = true;
+      })
     ];
     etc = {
       "ovmf/edk2-x86_64-secure-code.fd" = {
@@ -386,7 +391,7 @@
         swtpm.enable = true;
         ovmf = {
           enable = true;
-          packages = [ pkgs.OVMFFull.fd ];
+          packages = [ pkgs.OVMF.fd ];
         };
       };
     };
