@@ -6,13 +6,7 @@
 }:
 {
   imports = [
-    #../modules/desktop/hyprland
   ];
-  #config = {
-  #  environment.systemPackages = [
-  #    inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
-  #  ];
-  #};
   nixpkgs = {
     config = {
       allowUnfree = true;
@@ -22,16 +16,6 @@
     };
 
   };
-  #modules.hyprland = {
-  #  enable = true;
-  #  monitors = [
-  #    "desc:BOE NE135A1M-NY1,preferred,auto-right,2"
-  #    "desc:Sceptre Tech Inc Sceptre O34,preferred,0x0,1"
-  #    "desc:LG Electronics LG SDQHD 302NTCZF0715,preferred,auto-left,1.25"
-  #    "desc:LG Electronics LG SDQHD 409NTLE8K432,preferred,auto-right,1.25"
-  #    ",preferred,auto,auto"
-  #  ];
-  #};
   home = {
     username = "kusuriya";
     homeDirectory = "/home/kusuriya";
@@ -43,7 +27,7 @@
       _1password-cli
 
       openconnect
-
+      logseq
       parsec-bin
       rclone
       rsync
@@ -87,12 +71,10 @@
 
 
       #communication
-      dissent
       discord
       signal-desktop
       slack
       telegram-desktop
-      vesktop
       zoom-us
       weechat
 
