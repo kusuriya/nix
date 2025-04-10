@@ -100,6 +100,7 @@
         systemd.enable = true;
       };
       plymouth.enable = true;
+      plymouth.theme = "plymouth-blahaj-theme"
       kernel.sysctl = {
         "net.ipv4.tcp_mtu_probing" = 1;
         "kernel.panic" = 60;
@@ -359,6 +360,7 @@
       iotop
       openconnect
       networkmanager-openconnect
+      plymouth-blahaj-theme
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";

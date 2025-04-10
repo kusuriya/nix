@@ -52,6 +52,7 @@
       catt
       unstable.looking-glass-client
       texliveFull
+      kmail
 
       #dev
       devenv
@@ -98,6 +99,7 @@
       }))
       vivaldi-ffmpeg-codecs
       inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
+      librewolf
 
       #Dictonary
       (aspellWithDicts (

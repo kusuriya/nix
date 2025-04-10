@@ -84,6 +84,7 @@
       systemd-boot.configurationLimit = 7;
     };
     plymouth.enable = true;
+    plymouth.theme = "plymouth-blahaj-theme"
     kernel.sysctl = {
       "net.ipv4.tcp_mtu_probing" = 1;
       "kernel.panic" = 60;
@@ -349,7 +350,7 @@
       deadnix
       statix
       nixpkgs-fmt
-      gnome-boxes
+      plymouth-blahaj-theme
       (OVMF.override{
       	tpmSupport = true;
 	secureBoot = true;
