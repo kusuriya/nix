@@ -52,7 +52,7 @@
       catt
       unstable.looking-glass-client
       texliveFull
-      kmail
+      kdePackages.kmail
 
       #dev
       devenv

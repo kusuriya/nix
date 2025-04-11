@@ -46,7 +46,14 @@
         trusted-users = [ "kusuriya" "root" ];
         nix-path = config.nix.nixPath;
         max-jobs = "auto";
-        cores = 0; # Use all cores
+        substituters = [
+          "https://cache.nixos.org"
+          "https://nix-community.cachix.org"
+        ];
+        trusted-public-keys = [
+          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        ];
       };
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
@@ -84,7 +91,8 @@
       systemd-boot.configurationLimit = 7;
     };
     plymouth.enable = true;
-    plymouth.theme = "plymouth-blahaj-theme"
+    plymouth.theme = "blahaj";
+    plymouth.themePackages = [ pkgs.plymouth-blahaj-theme ];
     kernel.sysctl = {
       "net.ipv4.tcp_mtu_probing" = 1;
       "kernel.panic" = 60;
@@ -94,6 +102,10 @@
       "vm.vfs_cache_pressure" = 50;
       "kernel.sched_autogroup_enabled" = 1;
       "kernel.sched_cfs_bandwidth_slice_us" = 500;
+      "vm.dirty_ratio" = 10;
+      "vm.dirty_background_ratio" = 5;
+      "net.ipv4.tcp_fastopen" = 3;
+      "net.ipv4.tcp_slow_start_after_idle" = 0;
     };
     binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
@@ -142,7 +154,7 @@
   zramSwap = {
     enable = true;
     priority = 100;
-    memoryPercent = 50;
+    memoryPercent = 1;
     swapDevices = 1;
     algorithm = "zstd";
   };
@@ -260,7 +272,16 @@
     };
     thermald.enable = true;
     gvfs.enable = true;
-    udev.packages = [ pkgs.via ];
+    udev =
+      {
+        packages = [ pkgs.via ];
+        udev.extraRules = ''
+          # Set scheduler for NVMe
+          ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/scheduler}="none"
+          # Set scheduler for SSD
+          ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+        '';
+      };
     printing = {
       enable = true;
       drivers = [
@@ -351,12 +372,12 @@
       statix
       nixpkgs-fmt
       plymouth-blahaj-theme
-      (OVMF.override{
-      	tpmSupport = true;
-	secureBoot = true;
-	msVarsTemplate = true;
-	httpSupport = true;
-	tlsSupport = true;
+      (OVMF.override {
+        tpmSupport = true;
+        secureBoot = true;
+        msVarsTemplate = true;
+        httpSupport = true;
+        tlsSupport = true;
       })
     ];
     etc = {
@@ -407,6 +428,12 @@
     group = "kvm";
     permissions = "0755";
     capabilities = "cap_net_admin+ep";
+  };
+  systemd.services.rtkit-daemon.serviceConfig = {
+    ExecStart = [
+      ""
+      "${pkgs.rtkit}/libexec/rtkit-daemon --scheduling-policy=FIFO --priority=20"
+    ];
   };
 }
 

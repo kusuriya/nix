@@ -3,6 +3,23 @@
   services.samba = {
     enable = true;
     openFirewall = true;
+    securityType = "user";
+    extraConfig = ''
+      workgroup = CORRUPTED
+      server string = Dozer File Server
+      server min protocol = SMB2
+       # Performance tuning
+      socket options = TCP_NODELAY IPTOS_LOWDELAY
+      read raw = yes
+      write raw = yes
+      oplocks = yes
+      max xmit = 65536
+      dead time = 15
+
+      # Security settings
+      map to guest = bad user
+      guest account = nobody
+    ''
     settings = {
       global = {
         "workgroup" = "CORRUPTED";
@@ -13,6 +30,70 @@
       };
       "files" = {
         "path" = "/dozer-files/files";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+      };
+      "scans" = {
+        "path" = "/dozer-files/scans";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+      };
+      "movies" = {
+        "path" = "/dozer-files/media/movies";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+      };
+      "tv" = {
+        "path" = "/dozer-files/media/tv";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+      };
+      "music" = {
+        "path" = "/dozer-files/media/music";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+      };
+      "documents" = {
+        "path" = "/dozer-files/documents";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+      };
+      "home" = {
+        "path" = "/dozer-files/home";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+      };
+      "photos" = {
+        "path" = "/dozer-files/photos";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+      };
+      "scans" = {
+        "path" = "/dozer-files/scans";
         "browseable" = "yes";
         "read only" = "no";
         "guest ok" = "yes";
