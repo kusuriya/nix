@@ -19,7 +19,7 @@
       # Security settings
       map to guest = bad user
       guest account = nobody
-    ''
+    '';
     settings = {
       global = {
         "workgroup" = "CORRUPTED";
@@ -86,14 +86,6 @@
       };
       "photos" = {
         "path" = "/dozer-files/photos";
-        "browseable" = "yes";
-        "read only" = "no";
-        "guest ok" = "yes";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-      };
-      "scans" = {
-        "path" = "/dozer-files/scans";
         "browseable" = "yes";
         "read only" = "no";
         "guest ok" = "yes";
