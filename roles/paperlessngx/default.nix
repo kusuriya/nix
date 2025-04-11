@@ -8,8 +8,8 @@
   services.paperless = {
     enable = true;
     address = "10.88.0.1";
-    consumptionDir = "/dozer-files/files/paperless/import";
-    dataDir = "/dozer-files/files/paperless/data";
+    consumptionDir = "/dozer-files/paperless/import";
+    dataDir = "/dozer-files/paperless/data";
     consumptionDirIsPublic = true;
     port = 28981;
     environmentFile = "/etc/paperless/env";
