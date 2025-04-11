@@ -4,22 +4,6 @@
     enable = true;
     openFirewall = true;
     securityType = "user";
-    extraConfig = ''
-      workgroup = CORRUPTED
-      server string = Dozer File Server
-      server min protocol = SMB2
-       # Performance tuning
-      socket options = TCP_NODELAY IPTOS_LOWDELAY
-      read raw = yes
-      write raw = yes
-      oplocks = yes
-      max xmit = 65536
-      dead time = 15
-
-      # Security settings
-      map to guest = bad user
-      guest account = nobody
-    '';
     settings = {
       global = {
         "workgroup" = "CORRUPTED";
