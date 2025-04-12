@@ -54,24 +54,29 @@
       persistent = true;
     };
   };
-  hardware.graphics = {
-    enable = true;
-  };
-  services.xserver.videoDriver = [ "nvidia" ];
-  hardware.nvidia = {
-    open = true;
-    modesetting.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-    videoAcceleration = true;
-    datacenter.enable = false;
+  hardware = {
+    graphics = {
+      enable = true;
+    };
+    nvidia = {
+      open = true;
+      modesetting.enable = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      videoAcceleration = true;
+      datacenter.enable = false;
+    };
   };
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.supportedFilesystems = {
-    btrfs = true;
-    zfs = lib.mkForce true;
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    supportedFilesystems = {
+      btrfs = true;
+      zfs = lib.mkForce true;
+    };
   };
 
   networking = {

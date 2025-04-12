@@ -90,9 +90,6 @@
       efi.canTouchEfiVariables = true;
       systemd-boot.configurationLimit = 7;
     };
-    plymouth.enable = true;
-    plymouth.theme = "blahaj";
-    plymouth.themePackages = [ pkgs.plymouth-blahaj-theme ];
     kernel.sysctl = {
       "net.ipv4.tcp_mtu_probing" = 1;
       "kernel.panic" = 60;
@@ -275,7 +272,7 @@
     udev =
       {
         packages = [ pkgs.via ];
-        udev.extraRules = ''
+        extraRules = ''
           # Set scheduler for NVMe
           ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/scheduler}="none"
           # Set scheduler for SSD

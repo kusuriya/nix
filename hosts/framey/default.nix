@@ -107,8 +107,6 @@
         systemd.enable = true;
       };
       plymouth.enable = true;
-      plymouth.theme = "blahaj";
-      plymouth.themePackages = [ pkgs.plymouth-blahaj-theme ];
       kernel.sysctl = {
         "net.ipv4.tcp_mtu_probing" = 1;
         "kernel.panic" = 60;
@@ -279,118 +277,118 @@
           # Set scheduler for SSD and disks
           ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
         '';
-      }
-        printing = {
-    enable = true;
-    drivers = [
-      pkgs.gutenprint
-      pkgs.gutenprintBin
-      pkgs.cnijfilter2
-    ];
+      };
+    printing = {
+      enable = true;
+      drivers = [
+        pkgs.gutenprint
+        pkgs.gutenprintBin
+        pkgs.cnijfilter2
+      ];
+    };
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      pulse.enable = true;
+      jack.enable = true;
+      wireplumber.enable = true;
+      #media-session.enable = true;
+    };
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      nssmdns6 = true;
+      openFirewall = true;
+      ipv6 = true;
+      ipv4 = true;
+      browseDomains = [
+        "lan.corrupted.io"
+        "corrupted.io"
+        "local"
+        "sneaky.dev"
+      ];
+    };
+    power-profiles-daemon.enable = true;
+    flatpak.enable = true;
+    dbus.enable = true;
+    upower.enable = true;
+    displayManager = {
+      sddm = {
+        enable = true;
+      };
+    };
+    desktopManager = {
+      plasma6.enable = true;
+    };
+    xserver = {
+      enable = true;
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
+    };
+
   };
-  pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-    jack.enable = true;
-    wireplumber.enable = true;
-    #media-session.enable = true;
-  };
-  avahi = {
-    enable = true;
-    nssmdns4 = true;
-    nssmdns6 = true;
-    openFirewall = true;
-    ipv6 = true;
-    ipv4 = true;
-    browseDomains = [
-      "lan.corrupted.io"
-      "corrupted.io"
-      "local"
-      "sneaky.dev"
-    ];
-  };
-  power-profiles-daemon.enable = true;
-  flatpak.enable = true;
-  dbus.enable = true;
-  upower.enable = true;
-  displayManager = {
-    sddm = {
+  programs = {
+    nix-ld = {
       enable = true;
     };
-  };
-  desktopManager = {
-    plasma6.enable = true;
-  };
-  xserver = {
-    enable = true;
-    xkb = {
-      layout = "us";
-      variant = "";
+    corectrl = {
+      enable = true;
     };
+    _1password-gui = {
+      enable = true;
+      polkitPolicyOwners = [ "kusuriya" ];
+    };
+    dconf.enable = true;
   };
 
-};
-programs = {
-nix-ld = {
-enable = true;
-};
-corectrl = {
-enable = true;
-};
-_1password-gui = {
-enable = true;
-polkitPolicyOwners = [ "kusuriya" ];
-};
-dconf.enable = true;
-};
-
-environment = {
-systemPackages = with pkgs; [
-appimage-run
-brightnessctl
-curl
-coreutils
-distrobox
-linux-firmware
-mosh
-nix-diff
-nix-index
-nix-output-monitor
-nix-prefetch-git
-nix-direnv
-pciutils
-sbctl
-lm_sensors
-poweralertd
-statix
-git
-nil
-sops
-age
-unzip
-p7zip
-dig
-whois
-usbutils
-iotop
-openconnect
-networkmanager-openconnect
-plymouth-blahaj-theme
-];
-sessionVariables = {
-NIXOS_OZONE_WL = "1";
-EDITOR = "nvim";
-};
-etc = {
-"1password/custom_allowed_browsers" = {
-text = ''
+  environment = {
+    systemPackages = with pkgs; [
+      appimage-run
+      brightnessctl
+      curl
+      coreutils
+      distrobox
+      linux-firmware
+      mosh
+      nix-diff
+      nix-index
+      nix-output-monitor
+      nix-prefetch-git
+      nix-direnv
+      pciutils
+      sbctl
+      lm_sensors
+      poweralertd
+      statix
+      git
+      nil
+      sops
+      age
+      unzip
+      p7zip
+      dig
+      whois
+      usbutils
+      iotop
+      openconnect
+      networkmanager-openconnect
+      plymouth-blahaj-theme
+    ];
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      EDITOR = "nvim";
+    };
+    etc = {
+      "1password/custom_allowed_browsers" = {
+        text = ''
           vivaldi-bin
         '';
-mode = "0755";
-};
-};
+        mode = "0755";
+      };
+    };
 
-};
-system.stateVersion = "23.05";
+  };
+  system.stateVersion = "23.05";
 }
