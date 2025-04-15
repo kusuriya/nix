@@ -264,7 +264,6 @@
       enable = true;
       interval = "weekly";
     };
-    iotop.enable = true;
     thermald.enable = true;
     gvfs.enable = true;
     hardware.bolt.enable = true;
