@@ -117,7 +117,7 @@
     ollama.enable = true;
     open-webui = {
       enable = true;
-      host = "0.0.0.0"
+      host = "0.0.0.0";
       port = 3000; # Default port
       # Configure to use your GPU
       package = pkgs.open-webui;
