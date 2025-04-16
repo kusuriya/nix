@@ -19,6 +19,20 @@
       self.overlays.additions
       self.overlays.modifications
       self.overlays.unstable-packages
+      (self: super: {
+        openconnect-git = super.openconnect.overrideAttrs (old: {
+          src = super.fetchgit {
+            url = "https://gitlab.com/openconnect/openconnect.git";
+            #rev = "master"; # or specific commit hash
+            # Leave sha256 empty initially, Nix will tell you the correct hash
+            sha256 = "sha256-OBEojqOf7cmGtDa9ToPaJUHrmBhq19/CyZ5agbP7WUw="; # Will fail first time with correct hash to use
+          };
+          version = "git-master";
+
+          # You might need additional build inputs for the git version
+          nativeBuildInputs = old.nativeBuildInputs ++ [ self.autoreconfHook ];
+        });
+      })
     ];
     config = {
       allowUnfree = true;
@@ -244,7 +258,6 @@
   };
 
   services = {
-    greetd.enable = true;
     libinput = {
       enable = true;
       touchpad = {
@@ -371,7 +384,7 @@
       whois
       usbutils
       iotop
-      openconnect
+      openconnect-git
       networkmanager-openconnect
       plymouth-blahaj-theme
     ];

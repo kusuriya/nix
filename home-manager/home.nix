@@ -26,7 +26,6 @@
       _1password-gui
       _1password-cli
 
-      openconnect
       logseq
       parsec-bin
       rclone
