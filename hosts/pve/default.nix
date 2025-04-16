@@ -116,7 +116,7 @@
   services = {
     ollama = {
       enable = true;
-      extraSettings = {
+      environmentVariables = {
         GPU_DEVICE = "cuda";
         CPU_THREADS = "0"; # Disable CPU threads
       };
