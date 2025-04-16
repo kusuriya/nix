@@ -72,11 +72,12 @@
 
       #communication
       discord
-      signal-desktop
+      signal-desktop-bin
       slack
       telegram-desktop
       zoom-us
       weechat
+
 
       #nix
       nixpkgs-fmt
