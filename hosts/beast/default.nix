@@ -29,6 +29,9 @@
       self.overlays.additions
       self.overlays.modifications
       self.overlays.unstable-packages
+      (self: super: {
+      glowing-bear-electron = self.callPackage ../../pkgs/glowing-bear-electron.nix {};
+    })
     ];
   };
 
@@ -331,6 +334,7 @@
   environment = {
     sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
     systemPackages = with pkgs; [
+      glowing-bear-electron
       openterface-qt
       wget
       git

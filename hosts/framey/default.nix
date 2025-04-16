@@ -33,6 +33,9 @@
           nativeBuildInputs = old.nativeBuildInputs ++ [ self.autoreconfHook ];
         });
       })
+      (self: super: {
+        glowing-bear-electron = self.callPackage ./pkgs/glowing-bear-electron.nix { };
+      })
     ];
     config = {
       allowUnfree = true;
@@ -387,6 +390,7 @@
       openconnect-git
       networkmanager-openconnect
       plymouth-blahaj-theme
+      glowing-bear-electron
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
