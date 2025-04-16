@@ -26,6 +26,7 @@
       _1password-gui
       _1password-cli
 
+      lmstudio
       logseq
       parsec-bin
       rclone
