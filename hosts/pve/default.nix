@@ -84,7 +84,7 @@
     hostId = "06904201";
     firewall = {
       enable = false;
-      allowedTCPPorts = [ 80 443 81 82 8080 ];
+      allowedTCPPorts = [ 80 443 81 82 8080 3000 ];
     };
     nat = {
       enable = true;
@@ -117,6 +117,7 @@
     ollama.enable = true;
     open-webui = {
       enable = true;
+      host = "0.0.0.0"
       port = 3000; # Default port
       # Configure to use your GPU
       package = pkgs.open-webui;
