@@ -63,8 +63,6 @@
       modesetting.enable = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
       videoAcceleration = true;
-      cuda.enable = true;
-      cudaCapabilities = [ "6.1" ];
       datacenter.enable = false;
     };
   };
@@ -117,7 +115,7 @@
     btop
     btop-cuda
     ollama-cuda
-    
+    cudatoolkit
   ];
   services = {
     ollama = {
