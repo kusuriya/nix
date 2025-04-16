@@ -63,6 +63,8 @@
       modesetting.enable = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
       videoAcceleration = true;
+      cuda.enable = true;
+      cudaCapabilities = [ "6.1" ];
       datacenter.enable = false;
     };
   };
@@ -112,6 +114,10 @@
     wget
     zfs
     git
+    btop
+    btop-cuda
+    ollama-cuda
+    
   ];
   services = {
     ollama = {
