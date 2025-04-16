@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchFromGitHub, makeWrapper, nodejs, electron, bower, gnumake }:
+{ lib, stdenv, fetchFromGitHub, makeWrapper, nodejs, electron, bower, gnumake, nodePackages }:
 
 stdenv.mkDerivation rec {
   pname = "glowing-bear-electron";
@@ -8,10 +8,10 @@ stdenv.mkDerivation rec {
     owner = "glowing-bear";
     repo = "glowing-bear";
     rev = "master"; # Replace with specific tag/commit if needed
-    sha256 = lib.fakeSha256; # Replace with actual hash after first build attempt
+    sha256 = "sha256-4HgmUgV/orL8vr5lNwZiijypHpr8rBiULCglgNV2R88="; # Replace with actual hash after first build attempt
   };
 
-  nativeBuildInputs = [ makeWrapper nodejs bower gnumake ];
+  nativeBuildInputs = [ makeWrapper nodejs nodePackages.bower gnumake ];
 
   buildPhase = ''
     # Install dependencies

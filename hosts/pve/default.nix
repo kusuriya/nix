@@ -114,6 +114,13 @@
     git
   ];
   services = {
+    ollama.enable = true;
+    open-webui = {
+      enable = true;
+      port = 3000; # Default port
+      # Configure to use your GPU
+      package = pkgs.open-webui;
+    };
     openssh = {
       enable = true;
       openFirewall = true;
