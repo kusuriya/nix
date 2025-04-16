@@ -121,10 +121,6 @@
         CPU_THREADS = "0"; # Disable CPU threads
       };
     };
-    comfyui = {
-      enable = true;
-      port = 8188;
-    };
     open-webui = {
       enable = true;
       host = "0.0.0.0";
