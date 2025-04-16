@@ -114,7 +114,12 @@
     git
   ];
   services = {
-    ollama.enable = true;
+    ollama = {
+      enable = true;
+      extraSettings = {
+      GPU_DEVICE = "cuda";
+    };
+    };
     comfyui = {
   enable = true;
   port = 8188;
