@@ -59,7 +59,7 @@
       enable = true;
     };
     nvidia = {
-      open = true;
+      open = false;
       modesetting.enable = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
       videoAcceleration = true;
@@ -115,6 +115,10 @@
   ];
   services = {
     ollama.enable = true;
+    comfyui = {
+  enable = true;
+  port = 8188;
+};
     open-webui = {
       enable = true;
       host = "0.0.0.0";
