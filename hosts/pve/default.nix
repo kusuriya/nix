@@ -117,13 +117,14 @@
     ollama = {
       enable = true;
       extraSettings = {
-      GPU_DEVICE = "cuda";
-    };
+        GPU_DEVICE = "cuda";
+        CPU_THREADS = "0"; # Disable CPU threads
+      };
     };
     comfyui = {
-  enable = true;
-  port = 8188;
-};
+      enable = true;
+      port = 8188;
+    };
     open-webui = {
       enable = true;
       host = "0.0.0.0";
