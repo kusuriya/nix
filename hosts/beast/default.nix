@@ -31,6 +31,7 @@
       self.overlays.unstable-packages
       (self: super: {
       glowing-bear-electron = self.callPackage ../../pkgs/glowing-bear-electron.nix {};
+      bower = self.nodePackages.bower;
     })
     ];
   };
