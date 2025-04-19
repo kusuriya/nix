@@ -91,7 +91,6 @@
       enable = true;
       flake = inputs.self.outPath;
       flags = [
-        "--cores 14"
         "--update-input"
         "nixpkgs"
         "-L"
@@ -151,7 +150,7 @@
     hostName = "framey";
     networkmanager = {
       wifi = {
-        powersave = true;
+        powersave = false;
         scanRandMacAddress = true;
       };
       enable = true;
@@ -161,7 +160,7 @@
     };
     firewall = {
       enable = true;
-      allowPing = true;
+      allowPing = false;
     };
     resolvconf = {
       dnsExtensionMechanism = true;
@@ -226,8 +225,6 @@
     graphics = {
       enable = true;
       enable32Bit = true;
-      extraPackages = [ pkgs.mesa.drivers ];
-      extraPackages32 = [ pkgs.pkgsi686Linux.mesa.drivers ];
     };
   };
   security = {
