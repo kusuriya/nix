@@ -61,9 +61,9 @@
     nvidia = {
       open = false;
       modesetting.enable = true;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
       videoAcceleration = true;
       datacenter.enable = false;
+      nvidiaSettings = true;
     };
   };
 
@@ -84,7 +84,7 @@
     hostId = "06904201";
     firewall = {
       enable = false;
-      allowedTCPPorts = [ 80 443 81 82 8080 3000 ];
+      allowedTCPPorts = [ 80 443 81 82 8080 3000 19999 ];
     };
     nat = {
       enable = true;
@@ -118,6 +118,16 @@
     cudatoolkit
   ];
   services = {
+    netdata = {
+    enable = true;
+    config = {
+      global = {
+        "memory mode" = "ram";
+        "debug log" = "none";
+        "access log" = "none";
+        "error log" = "syslog";
+      };
+    };
     ollama = {
       enable = true;
       environmentVariables = {
