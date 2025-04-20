@@ -33,9 +33,6 @@
           nativeBuildInputs = old.nativeBuildInputs ++ [ self.autoreconfHook ];
         });
       })
-      (self: super: {
-        glowing-bear-electron = self.callPackage ./pkgs/glowing-bear-electron.nix { };
-      })
     ];
     config = {
       allowUnfree = true;
@@ -324,16 +321,10 @@
     flatpak.enable = true;
     dbus.enable = true;
     upower.enable = true;
-    displayManager = {
-      sddm = {
-        enable = true;
-      };
-    };
-    desktopManager = {
-      plasma6.enable = true;
-    };
     xserver = {
       enable = true;
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
       xkb = {
         layout = "us";
         variant = "";
@@ -386,8 +377,6 @@
       iotop
       openconnect-git
       networkmanager-openconnect
-      plymouth-blahaj-theme
-      glowing-bear-electron
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
