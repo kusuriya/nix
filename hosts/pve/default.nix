@@ -84,7 +84,7 @@
     hostId = "06904201";
     firewall = {
       enable = false;
-      allowedTCPPorts = [ 80 443 81 82 8080 3000 19999 ];
+      allowedTCPPorts = [ 80 443 81 82 8080 3000 ];
     };
     nat = {
       enable = true;
@@ -118,15 +118,9 @@
     cudatoolkit
   ];
   services = {
+    # Configure to use your GPU
     netdata = {
-    enable = true;
-    config = {
-      global = {
-        "memory mode" = "ram";
-        "debug log" = "none";
-        "access log" = "none";
-        "error log" = "syslog";
-      };
+      enable = true;
     };
     ollama = {
       enable = true;
