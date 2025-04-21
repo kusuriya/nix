@@ -209,26 +209,6 @@
       enable = true;
       interval = "weekly";
     };
-    displayManager = {
-      sddm = {
-        enable = true;
-        wayland.enable = true;
-      };
-    };
-    desktopManager = {
-      plasma6.enable = true;
-    };
-    greetd = {
-      enable = false;
-      settings = rec {
-        initial_session = {
-          command = "${pkgs.hyprland}/bin/Hyprland";
-          user = "kusuriya";
-        };
-        default_session = initial_session;
-      };
-    };
-    fprintd.enable = true;
     flatpak.enable = true;
     libinput = {
       enable = true;
@@ -245,6 +225,8 @@
     };
     xserver = {
       enable = true;
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
       xkb = {
         layout = "us";
         variant = "";
