@@ -14,9 +14,6 @@
     ./vfio.nix
     ../../modules/core
     ../../modules/kernel/latest
-    inputs.hardware.nixosModules.common-cpu-amd
-    inputs.hardware.nixosModules.common-gpu-intel
-    inputs.hardware.nixosModules.common-pc-ssd
   ];
   nixpkgs = {
     config = {
@@ -29,9 +26,6 @@
       self.overlays.additions
       self.overlays.modifications
       self.overlays.unstable-packages
-      (self: super: {
-        glowing-bear-electron = self.callPackage ../../pkgs/glowing-bear-electron.nix { };
-      })
     ];
   };
 
@@ -72,7 +66,6 @@
       enable = true;
       flake = inputs.self.outPath;
       flags = [
-        "--cores 30"
         "--update-input"
         "nixpkgs"
         "-L"
@@ -92,20 +85,6 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
       systemd-boot.configurationLimit = 7;
-    };
-    kernel.sysctl = {
-      "net.ipv4.tcp_mtu_probing" = 1;
-      "kernel.panic" = 60;
-      "net.core.default_qdisc" = "fq";
-      "net.ipv4.tcp_congestion_control" = "bbr";
-      "vm.swappiness" = 5;
-      "vm.vfs_cache_pressure" = 50;
-      "kernel.sched_autogroup_enabled" = 1;
-      "kernel.sched_cfs_bandwidth_slice_us" = 500;
-      "vm.dirty_ratio" = 10;
-      "vm.dirty_background_ratio" = 5;
-      "net.ipv4.tcp_fastopen" = 3;
-      "net.ipv4.tcp_slow_start_after_idle" = 0;
     };
     binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
@@ -164,25 +143,17 @@
     enableRedistributableFirmware = true;
     graphics = {
       enable = true;
-      extraPackages = with pkgs; [
-        vpl-gpu-rt # for newer GPUs on NixOS >24.05 or unstable
-        intel-media-driver # LIBVA_DRIVER_NAME=iHD
-        #intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
-        libvdpau-va-gl
-      ];
-      extraPackages32 = with pkgs.pkgsi686Linux; [ intel-media-driver intel-vaapi-driver ];
     };
-
   };
   #sound.enable = true;
   security = {
     rtkit.enable = true;
-    sudo.wheelNeedsPassword = true;
+    sudo.wheelNeedsPassword = false;
     audit.enable = true;
     auditd.enable = true;
     apparmor = {
-      enable = true;
-      killUnconfinedConfinables = true;
+      enable = false;
+      killUnconfinedConfinables = false;
     };
     tpm2 = {
       enable = true;
@@ -203,12 +174,16 @@
     };
 
   };
-
+  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+  systemd.services."getty@tty1".enable = false;
+  systemd.services."autovt@tty1".enable = false;
   services = {
     btrfs.autoScrub = {
       enable = true;
       interval = "weekly";
     };
+    displayManager.autoLogin.enable = true;
+    displayManager.autoLogin.user = "kusuriya";
     flatpak.enable = true;
     libinput = {
       enable = true;
@@ -226,7 +201,10 @@
     xserver = {
       enable = true;
       displayManager.gdm.enable = true;
+displayManager.gdm.wayland = true;
       desktopManager.gnome.enable = true;
+      # Enable automatic login for the user.
+      videoDrivers = [ "modesetting" ];
       xkb = {
         layout = "us";
         variant = "";
@@ -283,23 +261,6 @@
     };
   };
   programs = {
-    kdeconnect.enable = true;
-    hyprland = {
-      enable = false;
-      # set the flake package
-      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-      # make sure to also set the portal package, so that they are in sync
-      portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-      withUWSM = true;
-    };
-    steam = {
-      enable = true;
-      extraCompatPackages = [ pkgs.proton-ge-bin ];
-      fontPackages = [ pkgs.source-han-sans ];
-      gamescopeSession.enable = true;
-      localNetworkGameTransfers.openFirewall = true;
-
-    };
     nix-ld = {
       enable = true;
     };
@@ -314,9 +275,7 @@
   };
 
   environment = {
-    sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
     systemPackages = with pkgs; [
-      glowing-bear-electron
       openterface-qt
       wget
       git
@@ -326,7 +285,6 @@
       linux-firmware
       glib
       glib-networking
-      appimage-run
       btrfs-progs
       btrfs-snap
       timeshift
@@ -336,8 +294,6 @@
       appimage-run
       openconnect
       p7zip
-      zenmonitor
-      ryzenadj
       mosh
       nix-diff
       nix-index
@@ -362,6 +318,92 @@
         httpSupport = true;
         tlsSupport = true;
       })
+            #passwords
+      _1password-gui
+      _1password-cli
+
+      lmstudio
+      logseq
+      parsec-bin
+      rclone
+      rsync
+      yt-dlp
+      inkscape
+      gimp
+      cider
+      libreoffice
+      transmission_4-qt
+      via
+      freecad
+      drawio
+      calibre
+      alacritty
+      appimage-run
+      btop
+      moonlight-qt
+      element-desktop
+      virt-manager
+      imagemagick
+      pandoc
+      catt
+      unstable.looking-glass-client
+      texliveFull
+      kdePackages.kmail
+      devenv
+      direnv
+      distrobox
+      gnome-icon-theme
+      adwaita-icon-theme
+      cascadia-code
+
+
+      #communication
+      discord
+      signal-desktop-bin
+      slack
+      telegram-desktop
+      zoom-us
+      weechat
+
+
+      #nix
+      nixpkgs-fmt
+      statix
+      deadnix
+      treefmt
+
+      #Sec Stuff
+      burpsuite
+      nmap
+
+      #browser
+      chromium
+      microsoft-edge
+      (vivaldi.overrideAttrs (oldAttrs: {
+        dontWrapQtApps = false;
+        dontPatchELF = true;
+        nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.kdePackages.wrapQtAppsHook ];
+      }))
+      vivaldi-ffmpeg-codecs
+      inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
+      librewolf
+
+      #Dictonary
+      (aspellWithDicts (
+        dicts: with dicts; [
+          en
+          en-computers
+          en-science
+        ]
+      ))
+
+      libva
+      libva-utils
+      vulkan-tools
+      vulkan-validation-layers
+      mesa-demos
+      mesa
+      mesa.drivers
     ];
     etc = {
       "ovmf/edk2-x86_64-secure-code.fd" = {
@@ -411,12 +453,6 @@
     group = "kvm";
     permissions = "0755";
     capabilities = "cap_net_admin+ep";
-  };
-  systemd.services.rtkit-daemon.serviceConfig = {
-    ExecStart = [
-      ""
-      "${pkgs.rtkit}/libexec/rtkit-daemon --scheduling-policy=FIFO --priority=20"
-    ];
   };
 }
 

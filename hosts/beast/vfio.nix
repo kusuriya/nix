@@ -21,7 +21,6 @@ in
         kernelParams = [
           # enable IOMMU
           "amd_iommu=on"
-          "pcie_aspm=off"
         ] ++ lib.optional cfg.enable
           # isolate the GPU
           ("vfio-pci.ids=" + lib.concatStringsSep "," gpuIDs);

@@ -22,94 +22,84 @@
     stateVersion = "24.11";
     packages = with pkgs; [
 
-      #passwords
-      _1password-gui
-      _1password-cli
+      # #passwords
+      # _1password-gui
+      # _1password-cli
 
-      lmstudio
-      logseq
-      parsec-bin
-      rclone
-      rsync
-      yt-dlp
-      inkscape
-      gimp
-      cider
-      libreoffice
-      transmission_4-qt
-      via
-      freecad
-      drawio
-      calibre
-      alacritty
-      appimage-run
-      btop
-      moonlight-qt
-      element-desktop
-      virt-manager
-      imagemagick
-      pandoc
-      catt
-      unstable.looking-glass-client
-      texliveFull
-      kdePackages.kmail
-
-      #dev
-      devenv
-      direnv
-      distrobox
-
-
-      # themes
-      arc-kde-theme
-      tango-icon-theme
-      papirus-icon-theme
-      gnome-icon-theme
-      adwaita-icon-theme
-      rose-pine-cursor
-      cascadia-code
-      tokyo-night-gtk
+      # lmstudio
+      # logseq
+      # parsec-bin
+      # rclone
+      # rsync
+      # yt-dlp
+      # inkscape
+      # gimp
+      # cider
+      # libreoffice
+      # transmission_4-qt
+      # via
+      # freecad
+      # drawio
+      # calibre
+      # alacritty
+      # appimage-run
+      # btop
+      # moonlight-qt
+      # element-desktop
+      # virt-manager
+      # imagemagick
+      # pandoc
+      # catt
+      # unstable.looking-glass-client
+      # texliveFull
+      # kdePackages.kmail
+      # devenv
+      # direnv
+      # distrobox
+      # gnome-icon-theme
+      # adwaita-icon-theme
+      # cascadia-code
 
 
-      #communication
-      discord
-      signal-desktop-bin
-      slack
-      telegram-desktop
-      zoom-us
-      weechat
+      # #communication
+      # discord
+      # signal-desktop-bin
+      # slack
+      # telegram-desktop
+      # zoom-us
+      # weechat
 
 
-      #nix
-      nixpkgs-fmt
-      statix
-      deadnix
-      treefmt
+      # #nix
+      # nixpkgs-fmt
+      # statix
+      # deadnix
+      # treefmt
 
-      #Sec Stuff
-      burpsuite
-      nmap
+      # #Sec Stuff
+      # burpsuite
+      # nmap
 
-      #browser
-      chromium
-      microsoft-edge
-      (vivaldi.overrideAttrs (oldAttrs: {
-        dontWrapQtApps = false;
-        dontPatchELF = true;
-        nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.kdePackages.wrapQtAppsHook ];
-      }))
-      vivaldi-ffmpeg-codecs
-      inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
-      librewolf
+      # #browser
+      # chromium
+      # microsoft-edge
+      # (vivaldi.overrideAttrs (oldAttrs: {
+      #   dontWrapQtApps = false;
+      #   dontPatchELF = true;
+      #   nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.kdePackages.wrapQtAppsHook ];
+      # }))
+      # vivaldi-ffmpeg-codecs
+      # inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
+      # librewolf
 
-      #Dictonary
-      (aspellWithDicts (
-        dicts: with dicts; [
-          en
-          en-computers
-          en-science
-        ]
-      ))
+      # #Dictonary
+      # (aspellWithDicts (
+      #   dicts: with dicts; [
+      #     en
+      #     en-computers
+      #     en-science
+      #   ]
+      # ))
 
     ];
     file = {
@@ -117,27 +107,12 @@
     };
     sessionVariables = {
       EDITOR = "nvim";
-      BROWSER = "firefox-nightly";
       TERMINAL = "alacritty";
       MOZ_ENABLE_WAYLAND = "1";
       MOZ_USE_XINPUT2 = "1";
       XDG_BIN_HOME = "\${HOME}/.local/bin";
       NIXOS_OZONE_WL = "1";
 
-    };
-  };
-  catppuccin = {
-    enable = true;
-    flavor = "macchiato";
-  };
-  services = {
-    kdeconnect = {
-      enable = true;
-      indicator = true;
-    };
-    gnome-keyring = {
-      enable = true;
-      components = [ "pkcs11" "secrets" "ssh" ];
     };
   };
   programs = {
@@ -206,14 +181,6 @@
         set -g window-status-current-format "#I:#W "
         setw -g mouse on
       '';
-    };
-  };
-  dconf = {
-    enable = true;
-    settings = {
-      "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
-      };
     };
   };
   manual = {

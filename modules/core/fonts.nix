@@ -16,9 +16,5 @@
       nerd-fonts.fira-mono
       nerd-fonts.jetbrains-mono
     ];
-    fontconfig = {
-      hinting.style = "slight";
-      subpixel.lcdfilter = "default";
-    };
   };
 }

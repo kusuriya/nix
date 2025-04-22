@@ -28,7 +28,6 @@
       url = "github:nix-community/lanzaboote/"; #v0.4.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    catppuccin.url = "github:catppuccin/nix";
     flake-utils.url = "github:numtide/flake-utils";
     sops-nix = {
       url = "github:mic92/sops-nix";
@@ -46,7 +45,6 @@
     , hardware
     , hyprland
     , lanzaboote
-    , catppuccin
     , firefox
     , nixos-cosmic
     , nixpkgs-stable
@@ -75,9 +73,7 @@
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {
                 extraSpecialArgs = { inherit inputs self; };
-                users.kusuriya = { imports = [ ./home-manager/home.nix catppuccin.homeManagerModules.catppuccin ./modules/home-manager ]; };
-                useGlobalPkgs = true;
-                useUserPackages = true;
+                users.kusuriya = { imports = [ ./home-manager/home.nix ./modules/home-manager ]; };
               };
             })
           ] ++ extraModules;

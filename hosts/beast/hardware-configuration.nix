@@ -29,32 +29,19 @@
     kernelParams = [
       "amd_iommu=on" # Since you have AMD CPU
       "iommu=pt"
-      "preempt=full"
     ];
   };
   fileSystems = {
-    "/" = {
-      device = "/dev/nvme0n1p2";
-      fsType = "btrfs";
-      options = [
-        "compress=zstd"
-        "noatime"
-        "subvol=root"
-      ];
-    };
-    "/home" = {
-      device = "/dev/nvme0n1p2";
-      fsType = "btrfs";
-      options = [ "compress=zstd" "subvol=home" ];
-    };
-    "/nix" = {
-      device = "/dev/nvme0n1p2";
-      fsType = "btrfs";
-      options = [ "compress=zstd" "noatime" "subvol=nix" ];
-    };
+    "/" =
+      {
+        device = "/dev/disk/by-uuid/46b5b039-153f-435f-ab9c-1585aee5f3d4";
+        fsType = "btrfs";
+        options = [ "subvol=@" ];
+      };
+
     "/boot" =
       {
-        device = "/dev/disk/by-uuid/A63A-D92E";
+        device = "/dev/disk/by-uuid/EA86-9835";
         fsType = "vfat";
         options = [ "fmask=0077" "dmask=0077" ];
       };
