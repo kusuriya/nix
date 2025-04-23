@@ -7,6 +7,7 @@
     ./fonts.nix
     ./containers.nix
     ./polkit.nix
+    ./packages.nix
   ];
   nix = {
     settings = {
