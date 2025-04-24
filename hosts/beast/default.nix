@@ -13,6 +13,7 @@
     ./hardware-configuration.nix
     ./vfio.nix
     ../../modules/core
+    ../../modules/desktop/cosmic
     ../../modules/kernel/latest
   ];
   nixpkgs = {
@@ -197,9 +198,7 @@
         clickMethod = "clickfinger";
       };
     };
-    desktopManager.cosmic.enable = true;
     displayManager = {
-      cosmic-greeter.enable = true;
       autoLogin.enable = true;
       autoLogin.user = "kusuriya";
     };
@@ -208,7 +207,7 @@
       displayManager.gdm.enable = false;
       displayManager.gdm.wayland = false;
       desktopManager.gnome = {
-        enable = true;
+        enable = false;
         extraGSettingsOverrides = ''
           [org.gnome.mutter]
           experimental-features=['scale-monitor-framebuffer']
