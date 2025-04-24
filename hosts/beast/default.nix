@@ -175,15 +175,19 @@
 
   };
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
+  systemd = {
+    packages = [ pkgs.observatory ];
+    services = {
+      "getty@tty1".enable = false;
+      "autovt@tty1".enable = false;
+      monitord.wantedBy = [ "multi-user.target" ];
+    };
+  };
   services = {
     btrfs.autoScrub = {
       enable = true;
       interval = "weekly";
     };
-    displayManager.autoLogin.enable = true;
-    displayManager.autoLogin.user = "kusuriya";
     flatpak.enable = true;
     libinput = {
       enable = true;
@@ -193,15 +197,16 @@
         clickMethod = "clickfinger";
       };
     };
-    tailscale = {
-      enable = true;
-      useRoutingFeatures = "client";
-      interfaceName = "userspace-networking";
+    desktopManager.cosmic.enable = true;
+    displayManager = {
+      cosmic-greeter.enable = true;
+      autoLogin.enable = true;
+      autoLogin.user = "kusuriya";
     };
     xserver = {
       enable = true;
-      displayManager.gdm.enable = true;
-      displayManager.gdm.wayland = true;
+      displayManager.gdm.enable = false;
+      displayManager.gdm.wayland = false;
       desktopManager.gnome = {
         enable = true;
         extraGSettingsOverrides = ''

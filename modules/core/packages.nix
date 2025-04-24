@@ -21,6 +21,8 @@
       openconnect
       p7zip
       mosh
+
+      # nix
       nix-diff
       nix-index
       nix-output-monitor
@@ -28,15 +30,18 @@
       nil
       sops
       age
+      nixpkgs-fmt
+      deadnix
+      statix
+
       usbutils
       coreutils
+      pciutils
       brightnessctl
       virt-viewer
       spice-gtk
-      deadnix
-      statix
-      nixpkgs-fmt
-      plymouth-blahaj-theme
+      
+      
       (OVMF.override {
         tpmSupport = true;
         secureBoot = true;
@@ -60,7 +65,6 @@
       libreoffice
       transmission_4-qt
       via
-      freecad
       drawio
       calibre
       alacritty
@@ -101,6 +105,10 @@
       #Sec Stuff
       burpsuite
       nmap
+
+      #electronics
+      kicad
+      freecad
 
       #browser
       chromium

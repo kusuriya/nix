@@ -76,6 +76,12 @@
                 users.kusuriya = { imports = [ ./home-manager/home.nix ./modules/home-manager ]; };
               };
             })
+            {
+              nix.settings = {
+                substituters = [ "https://cosmic.cachix.org/" ];
+                trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
+              };
+            }
           ] ++ extraModules;
         };
     in
