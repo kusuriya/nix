@@ -7,7 +7,7 @@
 }:
 {
   services = {
-    xserver.enable = true;
+    xserver.enable = lib.mkForce true;
     services.displayManager =
       {
         sddm = {

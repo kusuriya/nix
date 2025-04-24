@@ -13,7 +13,7 @@
     ./hardware-configuration.nix
     ./vfio.nix
     ../../modules/core
-    ../../modules/desktop/cosmic
+    ../../modules/desktop/kde
     ../../modules/kernel/latest
   ];
   nixpkgs = {
