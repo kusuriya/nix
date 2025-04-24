@@ -40,8 +40,8 @@
       brightnessctl
       virt-viewer
       spice-gtk
-      
-      
+
+
       (OVMF.override {
         tpmSupport = true;
         secureBoot = true;
