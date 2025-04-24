@@ -8,7 +8,6 @@
     ./containers.nix
     ./polkit.nix
     ./packages.nix
-    ./kernel.nix
   ];
   nix = {
     settings = {
