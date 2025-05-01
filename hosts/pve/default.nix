@@ -54,18 +54,6 @@
       persistent = true;
     };
   };
-  hardware = {
-    graphics = {
-      enable = true;
-    };
-    nvidia = {
-      open = false;
-      modesetting.enable = true;
-      videoAcceleration = true;
-      datacenter.enable = false;
-      nvidiaSettings = true;
-    };
-  };
 
   # Use the systemd-boot EFI boot loader.
   boot = {
@@ -113,28 +101,11 @@
     zfs
     git
     btop
-    btop-cuda
-    ollama-cuda
-    cudatoolkit
   ];
   services = {
     # Configure to use your GPU
     netdata = {
       enable = true;
-    };
-    ollama = {
-      enable = true;
-      environmentVariables = {
-        GPU_DEVICE = "cuda";
-        CPU_THREADS = "0"; # Disable CPU threads
-      };
-    };
-    open-webui = {
-      enable = true;
-      host = "0.0.0.0";
-      port = 3000; # Default port
-      # Configure to use your GPU
-      package = pkgs.open-webui;
     };
     openssh = {
       enable = true;
