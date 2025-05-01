@@ -7,31 +7,23 @@
 }:
 {
   services = {
-    xserver.enable = lib.mkForce true;
-    services.displayManager =
+    displayManager =
       {
         sddm = {
           enable = true;
           wayland.enable = true;
         };
-        defaultSession = "plasma";
       };
     desktopManager.plasma6.enable = true;
   };
   qt = {
     enable = true;
-    platformTheme = "qtct";
-    style = "kvantum";
+    platformTheme = "gnome";
+    style = "adwaita-dark";
   };
   programs = {
     dconf.enable = true;
   };
   environment.systemPackages = with pkgs; [
-    libsForQt5.qt5ct
-    libsForQt5.qtstyleplugin-kvantum
   ];
-  xdg.configFile = {
-    "Kvantum/ArcDark".source = "${pkgs.arc-kde-theme}/share/Kvantum/ArcDark";
-    "Kvantum/kvantum.kvconfig".text = "[General]\ntheme=ArcDark";
-  };
 }

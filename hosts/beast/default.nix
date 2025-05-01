@@ -13,7 +13,6 @@
     ./hardware-configuration.nix
     ./vfio.nix
     ../../modules/core
-    ../../modules/desktop/kde
     ../../modules/kernel/latest
   ];
   nixpkgs = {
@@ -175,15 +174,6 @@
     };
 
   };
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd = {
-    packages = [ pkgs.observatory ];
-    services = {
-      "getty@tty1".enable = false;
-      "autovt@tty1".enable = false;
-      monitord.wantedBy = [ "multi-user.target" ];
-    };
-  };
   services = {
     btrfs.autoScrub = {
       enable = true;
@@ -199,22 +189,13 @@
       };
     };
     displayManager = {
-      autoLogin.enable = true;
+      sddm.enable = true;
+      autoLogin.enable = false;
       autoLogin.user = "kusuriya";
     };
+    desktopManager.plasma6.enable = true;
     xserver = {
       enable = true;
-      displayManager.gdm.enable = false;
-      displayManager.gdm.wayland = false;
-      desktopManager.gnome = {
-        enable = false;
-        extraGSettingsOverrides = ''
-          [org.gnome.mutter]
-          experimental-features=['scale-monitor-framebuffer']
-        '';
-      };
-      # Enable automatic login for the user.
-      videoDrivers = [ "modesetting" ];
       xkb = {
         layout = "us";
         variant = "";
