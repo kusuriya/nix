@@ -115,7 +115,6 @@
             inputs.hardware.nixosModules.framework-13-7040-amd
             inputs.hardware.nixosModules.common-pc-ssd
             inputs.lanzaboote.nixosModules.lanzaboote
-            inputs.catppuccin.nixosModules.catppuccin
 
           ];
         };
@@ -124,7 +123,6 @@
           extraModules = [
             inputs.hardware.nixosModules.common-pc-ssd
             inputs.hardware.nixosModules.lenovo-thinkpad-t14
-            inputs.catppuccin.nixosModules.catppuccin
           ];
         };
         pve = nixpkgs.lib.nixosSystem {
