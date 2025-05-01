@@ -80,7 +80,7 @@
       };
     };
   powerManagement.enable = true;
-  systemd = {
+    systemd = {
     watchdog.runtimeTime = "30s";
   };
   system = {
@@ -120,6 +120,19 @@
         systemd.enable = true;
       };
       plymouth.enable = true;
+      kernelParams = [
+        "amd_pstate=active"
+        "amd_pstate.shared_mem=1"
+        "pcie_aspm=force"
+        "pcie_aspm.policy=powersaver"
+        "iwlwifi.power_save=1"
+        "iwlmvm.power_scheme=3"
+        "initcall_blacklist=acpi_cpufreq_init"
+        "quiet"
+        "nvme.noacpi=1"
+        "amdgpu.ppfeaturemask=0xffffffff"
+        "processor.max_cstate=10"
+      ];
       kernel.sysctl = {
         "net.ipv4.tcp_mtu_probing" = 1;
         "kernel.panic" = 60;
@@ -131,6 +144,9 @@
         "vm.dirty_background_ratio" = 5;
         "net.ipv4.tcp_fastopen" = 3;
         "net.ipv4.tcp_slow_start_after_idle" = 0;
+        "vm.laptop_mode" = 5;
+        "kernel.nmi_watchdog" = 0;
+        "vm.dirty_writeback_centisecs" = 6000;
       };
       binfmt.registrations.appimage = {
         wrapInterpreterInShell = false;
@@ -146,11 +162,11 @@
   networking = {
     hostName = "framey";
     networkmanager = {
+      enable = true;
       wifi = {
-        powersave = false;
+        powersave = true;
         scanRandMacAddress = true;
       };
-      enable = true;
       plugins = [
         pkgs.networkmanager-openconnect
       ];
@@ -274,7 +290,34 @@
       enable = true;
       interval = "weekly";
     };
-    thermald.enable = true;
+    thermald = {
+      enable = true;
+      configFile = pkgs.writeText "thermal-conf.xml" ''
+        <?xml version="1.0"?>
+        <ThermalConfiguration>
+          <Platform>
+            <Name>AMD Framework 13</Name>
+            <ProductName>*</ProductName>
+            <Preference>QUIET</Preference>
+            <ThermalZones>
+              <ThermalZone>
+                <Type>cpu</Type>
+                <TripPoints>
+                  <TripPoint>
+                    <SensorType>x86_pkg_temp</SensorType>
+                    <Temperature>75000</Temperature>
+                    <Type>passive</Type>
+                    <CoolingDevice>
+                      <Type>rapl_controller</Type>
+                    </CoolingDevice>
+                  </TripPoint>
+                </TripPoints>
+              </ThermalZone>
+            </ThermalZones>
+          </Platform>
+        </ThermalConfiguration>
+      '';
+    };
     gvfs.enable = true;
     hardware.bolt.enable = true;
     udev =
@@ -317,7 +360,9 @@
         "sneaky.dev"
       ];
     };
-    power-profiles-daemon.enable = true;
+    power-profiles-daemon = {
+      enable = true;
+    };
     flatpak.enable = true;
     dbus.enable = true;
     upower.enable = true;
@@ -377,6 +422,8 @@
       iotop
       openconnect-git
       networkmanager-openconnect
+      powertop
+      auto-cpufreq
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
