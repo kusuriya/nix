@@ -2,6 +2,10 @@
 {
   environment = {
     systemPackages = with pkgs; [
+
+      _1password
+      _1password-cli
+    
       openterface-qt
       wget
       git
