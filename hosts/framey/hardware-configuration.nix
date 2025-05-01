@@ -36,12 +36,10 @@
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/173373b2-9db9-4890-993a-9c57c5340f75";
     fsType = "ext4";
-    options = [ "noatime" "discard=async" ];
   };
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/750A-3B24";
     fsType = "vfat";
-    options = [ "noatime" ];
   };
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
