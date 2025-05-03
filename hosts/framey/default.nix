@@ -10,6 +10,7 @@
   imports = [
     ../../modules/core
     ../../modules/kernel/latest
+    ../../modules/desktop/kde
     ./hardware-configuration.nix
     inputs.hardware.nixosModules.framework-13-7040-amd
     inputs.hardware.nixosModules.common-pc-ssd
@@ -323,8 +324,6 @@
     upower.enable = true;
     xserver = {
       enable = true;
-      displayManager.gdm.enable = true;
-      desktopManager.gnome.enable = true;
       xkb = {
         layout = "us";
         variant = "";

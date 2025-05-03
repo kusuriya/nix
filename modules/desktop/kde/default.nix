@@ -16,11 +16,6 @@
       };
     desktopManager.plasma6.enable = true;
   };
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
   programs = {
     dconf.enable = true;
   };
