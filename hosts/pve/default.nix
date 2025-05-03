@@ -113,7 +113,7 @@
     openFirewall = true; # Opens the port the server is running on (by default 25565 but in this case 43000)
     declarative = true;
     serverProperties = {
-      server-port = 43000;
+      server-port = 25565;
       difficulty = 0;
       gamemode = 1;
       allow-flight = true;
