@@ -107,13 +107,13 @@
       loader = {
         efi.canTouchEfiVariables = true;
         systemd-boot = {
-          configurationLimit = 14;
+          configurationLimit = 5;
           consoleMode = "max";
-          enable = false;
+          enable = true;
         };
       };
       lanzaboote = {
-        enable = true;
+        enable = false;
         pkiBundle = "/etc/secureboot";
       };
       initrd = {
@@ -126,7 +126,7 @@
         "kernel.panic" = 60;
         "net.core.default_qdisc" = "fq";
         "net.ipv4.tcp_congestion_control" = "bbr";
-        "vm.swappiness" = 10;
+        "vm.swappiness/" = 10;
         "vm.vfs_cache_pressure" = 50;
         "vm.dirty_ratio" = 10;
         "vm.dirty_background_ratio" = 5;
@@ -382,6 +382,15 @@
       EDITOR = "nvim";
     };
     etc = {
+      "ovmf/edk2-x86_64-secure-code.fd" = {
+        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
+      };
+
+      "ovmf/edk2-i386-vars.fd" = {
+        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-i386-vars.fd";
+        mode = "0644";
+        user = "libvirtd";
+      };
       "1password/custom_allowed_browsers" = {
         text = ''
           vivaldi-bin
@@ -390,6 +399,26 @@
       };
     };
 
+  };
+  virtualisation = {
+    containers.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+    libvirtd = {
+      enable = true;
+      qemu = {
+        package = pkgs.qemu_full;
+        runAsRoot = true;
+        swtpm.enable = true;
+        ovmf = {
+          enable = true;
+          packages = [ pkgs.OVMF.fd ];
+        };
+      };
+    };
   };
   system.stateVersion = "23.05";
 }
