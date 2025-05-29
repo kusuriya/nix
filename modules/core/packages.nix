@@ -5,6 +5,7 @@
 
       _1password
       _1password-cli
+      kdePackages.plasma-browser-integration
     
       openterface-qt
       wget
@@ -116,7 +117,6 @@
 
       #browser
       chromium
-      microsoft-edge
       (vivaldi.overrideAttrs (oldAttrs: {
         dontWrapQtApps = false;
         dontPatchELF = true;
