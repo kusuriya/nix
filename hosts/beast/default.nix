@@ -227,10 +227,11 @@
       {
         packages = [ pkgs.via ];
         extraRules = ''
-          # Set scheduler for NVMe
-          ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/scheduler}="none"
-          # Set scheduler for SSD
-          ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+                    # Set scheduler for NVMe
+                    ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/scheduler}="none"
+                    # Set scheduler for SSD
+                    ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+          	  SUBSYSTEM=="kvmfr", OWNER="kusuriya", GROUP="kvm", MODE="0660"
         '';
       };
     printing = {
@@ -284,6 +285,12 @@
           	'';
         mode = "0755";
       };
+      "modules-load.d/kvmfr.conf".text = ''
+        kvmfr
+      '';
+      "modprobe.d/kvmfr.conf".text = ''
+        options kvmfr static_size_mb=256
+      '';
     };
   };
   virtualisation = {
@@ -296,6 +303,22 @@
     libvirtd = {
       enable = true;
       qemu = {
+        verbatimConfig = ''
+                    cgroup_device_acl = [
+                    "/dev/kvmfr0",
+          	    "/dev/kvm0",
+          	    "/dev/null",
+                    "/dev/full",
+                    "/dev/zero",
+                    "/dev/random",
+                    "/dev/urandom",
+                    "/dev/ptmx",
+                    "/dev/kvm",
+                    "/dev/kqemu",
+                    "/dev/rtc",
+                    "/dev/hpet",
+                    ]
+        '';
         package = pkgs.qemu_full;
         runAsRoot = true;
         swtpm.enable = true;

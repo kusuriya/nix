@@ -56,5 +56,6 @@
     };
     dconf.enable = true;
   };
+  boot.supportedFilesystems = [ "bcachefs" ];
 
 }

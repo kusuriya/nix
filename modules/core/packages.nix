@@ -3,10 +3,32 @@
   environment = {
     systemPackages = with pkgs; [
 
-      _1password
-      _1password-cli
+      #KDE Packages
       kdePackages.plasma-browser-integration
-    
+      kdePackages.ffmpegthumbs
+      kdePackages.filelight
+      kdePackages.flatpak-kcm
+      kdePackages.francis
+      kdePackages.kaccounts-integration
+      kdePackages.kaccounts-providers
+      kdePackages.kalk
+      kdePackages.kamera
+      kdePackages.kcalc
+      kdePackages.kcron
+      kdePackages.kdeconnect-kde
+      kdePackages.kio
+      kdePackages.kio-admin
+      kdePackages.kio-extras
+      kdePackages.kio-fuse
+      kdePackages.kio-zeroconf
+      kdePackages.korganizer
+      kdePackages.krdc
+      kdePackages.kmail
+      syncthingtray
+      syncthing
+
+
+
       openterface-qt
       wget
       git
@@ -26,6 +48,7 @@
       openconnect
       p7zip
       mosh
+      _1password-cli
 
       # nix
       nix-diff
@@ -38,6 +61,7 @@
       nixpkgs-fmt
       deadnix
       statix
+      treefmt
 
       usbutils
       coreutils
@@ -55,10 +79,8 @@
         tlsSupport = true;
       })
       #passwords
-      _1password-gui
       _1password-cli
 
-      lmstudio
       logseq
       parsec-bin
       rclone
@@ -83,9 +105,6 @@
       catt
       unstable.looking-glass-client
       texliveFull
-      kdePackages.kmail
-      devenv
-      direnv
       distrobox
       gnome-icon-theme
       adwaita-icon-theme
@@ -101,12 +120,6 @@
       weechat
 
 
-      #nix
-      nixpkgs-fmt
-      statix
-      deadnix
-      treefmt
-
       #Sec Stuff
       burpsuite
       nmap
@@ -117,14 +130,7 @@
 
       #browser
       chromium
-      (vivaldi.overrideAttrs (oldAttrs: {
-        dontWrapQtApps = false;
-        dontPatchELF = true;
-        nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.kdePackages.wrapQtAppsHook ];
-      }))
-      vivaldi-ffmpeg-codecs
       inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
-      librewolf
 
       #Dictonary
       (aspellWithDicts (

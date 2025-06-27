@@ -20,8 +20,8 @@
         "v4l2loopback"
       ];
     };
-    kernelModules = [ "kvm-amd" ];
-    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+    kernelModules = [ "kvm-amd" "kvmfr" ];
+    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback kvmfr ];
     extraModprobeConfig = ''
       options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
       options kvm-amd nested=1
@@ -44,6 +44,11 @@
         device = "/dev/disk/by-uuid/91B4-ECA3";
         fsType = "vfat";
         options = [ "fmask=0077" "dmask=0077" ];
+      };
+    "/virt" =
+      {
+        device = "/dev/disk/by-id/nvme-SHPP41-1000GM_AJD1N59571050210X";
+        fsType = "bcachefs";
       };
   };
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
