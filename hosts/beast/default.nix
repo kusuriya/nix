@@ -282,6 +282,7 @@
       "1password/custom_allowed_browsers" = {
         text = ''
           	  vivaldi-bin
+		  firefox-nightly
           	'';
         mode = "0755";
       };
@@ -319,7 +320,7 @@
                     "/dev/hpet",
                     ]
         '';
-        package = pkgs.qemu_full;
+        package = pkgs.stable.qemu;
         runAsRoot = true;
         swtpm.enable = true;
         ovmf = {

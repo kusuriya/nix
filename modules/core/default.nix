@@ -25,6 +25,8 @@
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
       ];
+      auto-optimise-store = true;
+
     };
   };
   programs = {
@@ -40,8 +42,11 @@
       enable = true;
       capSysNice = true;
       args = [
-        "-S stretch"
+        "-f nis"
+        "-S scale"
         "-b"
+        "--expose-wayland"
+
       ];
     };
     nix-ld = {
@@ -57,5 +62,9 @@
     dconf.enable = true;
   };
   boot.supportedFilesystems = [ "bcachefs" ];
-
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="534d", ATTRS{idProduct}=="2109", TAG+="kusuriya"
+    SUBSYSTEM=="hidraw", ATTRS{idVendor}=="534d", ATTRS{idProduct}=="2109", TAG+="kusuriya"
+    SUBSYSTEM=="ttyUSB", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", TAG+="kusuriya"
+  '';
 }

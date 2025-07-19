@@ -87,7 +87,6 @@
       rsync
       yt-dlp
       inkscape
-      gimp
       cider
       libreoffice
       transmission_4-qt
@@ -128,6 +127,7 @@
       kicad
       freecad
 
+      unstable.arrow-cpp
       #browser
       chromium
       inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
@@ -147,7 +147,7 @@
       vulkan-validation-layers
       mesa-demos
       mesa
-      gnome-boxes
+
     ];
   };
 }
