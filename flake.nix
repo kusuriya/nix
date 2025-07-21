@@ -64,8 +64,22 @@
       mkSystem = { hostname, system ? "x86_64-linux", extraModules ? [ ], homeManagerConfig ? true }:
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs self; };
+          specialArgs = {
+            inherit inputs self;
+            pkgs-stable = nixpkgs-stable.legacyPackages.x86_64-linux;
+
+          };
           modules = [
+	    {
+              nixpkgs.overlays = [
+                (final: prev: {
+                  libvirt = nixpkgs-stable.legacyPackages.${final.system}.libvirt;
+                  qemu = nixpkgs-stable.legacyPackages.${final.system}.qemu;
+                  qemu_kvm = nixpkgs-stable.legacyPackages.${final.system}.qemu_kvm;
+                  virt-manager = nixpkgs-stable.legacyPackages.${final.system}.virt-manager;
+                })
+              ];
+            }
             # Base configuration
             ./hosts/${hostname}
             nixos-cosmic.nixosModules.default

@@ -3,6 +3,7 @@
 , lib
 , config
 , pkgs
+, pkgs-stable
 , modulesPath
 , self
 , ...
@@ -281,9 +282,9 @@
       };
       "1password/custom_allowed_browsers" = {
         text = ''
-          	  vivaldi-bin
-		  firefox-nightly
-          	'';
+                    	  vivaldi-bin
+          		  firefox-nightly
+                    	'';
         mode = "0755";
       };
       "modules-load.d/kvmfr.conf".text = ''
@@ -320,7 +321,6 @@
                     "/dev/hpet",
                     ]
         '';
-        package = pkgs.stable.qemu;
         runAsRoot = true;
         swtpm.enable = true;
         ovmf = {
