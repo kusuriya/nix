@@ -106,7 +106,7 @@
       enable = true;
     };
     firewall = {
-      enable = true;
+      enable = false;
       allowPing = true;
       allowedTCPPortRanges = [{ from = 1714; to = 1764; }];
       allowedUDPPortRanges = [{ from = 1714; to = 1764; }];
