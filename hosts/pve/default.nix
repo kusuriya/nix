@@ -10,6 +10,7 @@
       ../../roles/lightning
       ../../roles/paperlessngx
       ../../roles/ingress-controller
+      ../../roles/dakland
     ];
   nix =
     let
