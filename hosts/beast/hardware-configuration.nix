@@ -45,11 +45,6 @@
         fsType = "vfat";
         options = [ "fmask=0077" "dmask=0077" ];
       };
-    "/virt" =
-      {
-        device = "/dev/disk/by-id/nvme-SHPP41-1000GM_AJD1N59571050210X";
-        fsType = "bcachefs";
-      };
   };
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware = {
