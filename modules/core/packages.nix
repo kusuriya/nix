@@ -103,7 +103,6 @@
       pandoc
       catt
       unstable.looking-glass-client
-      texliveFull
       distrobox
       gnome-icon-theme
       adwaita-icon-theme

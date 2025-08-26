@@ -73,5 +73,11 @@
     SUBSYSTEM=="usb", ATTRS{idVendor}=="534d", ATTRS{idProduct}=="2109", TAG+="kusuriya"
     SUBSYSTEM=="hidraw", ATTRS{idVendor}=="534d", ATTRS{idProduct}=="2109", TAG+="kusuriya"
     SUBSYSTEM=="ttyUSB", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", TAG+="kusuriya"
+    # Nuand bladeRF
+ATTR{idVendor}=="2cf0", ATTR{idProduct}=="5246", MODE="660", GROUP="kusuriya"
+# Nuand bladeRF, legacy VID/PID
+ATTR{idVendor}=="1d50", ATTR{idProduct}=="6066", MODE="660", GROUP="kusuriya"
+# Cypress Bootloader
+ATTR{idVendor}=="04b4", ATTR{idProduct}=="00f3", MODE="660", GROUP="kusuriya"
   '';
 }
