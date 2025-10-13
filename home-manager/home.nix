@@ -1,7 +1,4 @@
-{ config
-, pkgs
-, inputs
-, lib
+{pkgs
 , ...
 }:
 {
@@ -20,88 +17,6 @@
     username = "kusuriya";
     homeDirectory = "/home/kusuriya";
     stateVersion = "24.11";
-    packages = with pkgs; [
-
-      # #passwords
-      # _1password-gui
-      # _1password-cli
-
-      # lmstudio
-      # logseq
-      # parsec-bin
-      # rclone
-      # rsync
-      # yt-dlp
-      # inkscape
-      # gimp
-      # cider
-      # libreoffice
-      # transmission_4-qt
-      # via
-      # freecad
-      # drawio
-      # calibre
-      # alacritty
-      # appimage-run
-      # btop
-      # moonlight-qt
-      # element-desktop
-      # virt-manager
-      # imagemagick
-      # pandoc
-      # catt
-      # unstable.looking-glass-client
-      # texliveFull
-      # kdePackages.kmail
-      # devenv
-      # direnv
-      # distrobox
-      # gnome-icon-theme
-      # adwaita-icon-theme
-      # cascadia-code
-
-
-      # #communication
-      # discord
-      # signal-desktop-bin
-      # slack
-      # telegram-desktop
-      # zoom-us
-      # weechat
-
-
-      # #nix
-      # nixpkgs-fmt
-      # statix
-      # deadnix
-      # treefmt
-
-      # #Sec Stuff
-      # burpsuite
-      # nmap
-
-      # #browser
-      # chromium
-      # microsoft-edge
-      # (vivaldi.overrideAttrs (oldAttrs: {
-      #   dontWrapQtApps = false;
-      #   dontPatchELF = true;
-      #   nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.kdePackages.wrapQtAppsHook ];
-      # }))
-      # vivaldi-ffmpeg-codecs
-      # inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
-      # librewolf
-
-      # #Dictonary
-      # (aspellWithDicts (
-      #   dicts: with dicts; [
-      #     en
-      #     en-computers
-      #     en-science
-      #   ]
-      # ))
-
-    ];
     file = {
       # ".screenrc".source = dotfiles/screenrc;
     };
@@ -152,9 +67,6 @@
       enable = true;
       userName = "Jason Barbier";
       userEmail = "jason@corrupted.io";
-    };
-    vscode = {
-      enable = true;
     };
     neovim = {
       enable = true;

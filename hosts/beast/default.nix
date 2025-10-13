@@ -1,10 +1,7 @@
 { inputs
-, outputs
 , lib
 , config
 , pkgs
-, pkgs-stable
-, modulesPath
 , self
 , ...
 }:
@@ -15,6 +12,7 @@
     ./vfio.nix
     ../../modules/core
     ../../modules/kernel/latest
+    ../../modukes/desktop/sway
   ];
   nixpkgs = {
     config = {
