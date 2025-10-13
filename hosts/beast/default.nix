@@ -12,7 +12,7 @@
     ./vfio.nix
     ../../modules/core
     ../../modules/kernel/latest
-    ../../modukes/desktop/sway
+    ../../modules/desktop/sway
   ];
   nixpkgs = {
     config = {
