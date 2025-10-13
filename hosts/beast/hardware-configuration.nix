@@ -17,13 +17,11 @@
         "sd_mod"
       ];
       kernelModules = [
-        "v4l2loopback"
       ];
     };
     kernelModules = [ "kvm-amd" "kvmfr" ];
     extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback kvmfr ];
     extraModprobeConfig = ''
-      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
       options kvm-amd nested=1
     '';
     kernelParams = [
