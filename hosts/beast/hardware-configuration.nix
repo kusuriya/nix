@@ -20,7 +20,7 @@
       ];
     };
     kernelModules = [ "kvm-amd" "kvmfr" ];
-    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback kvmfr ];
+    extraModulePackages = with config.boot.kernelPackages; [ kvmfr ];
     extraModprobeConfig = ''
       options kvm-amd nested=1
     '';

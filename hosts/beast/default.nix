@@ -189,11 +189,6 @@
         clickMethod = "clickfinger";
       };
     };
-    displayManager = {
-      sddm.enable = true;
-      autoLogin.enable = false;
-      autoLogin.user = "kusuriya";
-    };
     desktopManager.plasma6.enable = true;
     xserver = {
       enable = true;
