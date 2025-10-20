@@ -9,7 +9,6 @@
     wl-clipboard
     mako
     sway
-    swaynotifcationcenter
     networkmanagerapplet
     wofi
     swaybg
@@ -26,10 +25,10 @@
         initial_session = {
           command = "${pkgs.sway}/bin/sway";
           user = "kusuriya";
+        };
+        default_session = initial_session;
       };
-      default_session = initial_session;
     };
-   };
   };
   programs = {
     sway = {
@@ -44,7 +43,7 @@
   fonts = {
     packages = with pkgs; [
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       font-awesome
       source-han-sans

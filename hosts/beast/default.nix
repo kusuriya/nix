@@ -84,6 +84,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
       systemd-boot.configurationLimit = 7;
+      timeout = 0;
     };
     binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
@@ -174,6 +175,9 @@
 
   };
   services = {
+    keyd = {
+      enable = true;
+    };
     btrfs.autoScrub = {
       enable = true;
       interval = "weekly";
@@ -298,6 +302,7 @@
     libvirtd = {
       enable = true;
       qemu = {
+        ovmf.enable = true;
         verbatimConfig = ''
                     cgroup_device_acl = [
                     "/dev/kvmfr0",
@@ -316,10 +321,6 @@
         '';
         runAsRoot = true;
         swtpm.enable = true;
-        ovmf = {
-          enable = true;
-          packages = [ pkgs.OVMF.fd ];
-        };
       };
     };
   };

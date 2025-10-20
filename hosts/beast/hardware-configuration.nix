@@ -25,18 +25,21 @@
       options kvm-amd nested=1
     '';
     kernelParams = [
+      "quiet"
       "amd_iommu=on" # Since you have AMD CPU
       "iommu=pt"
     ];
   };
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/8e9d6da6-f89c-4ea7-b2bc-115ec941996f";
+    {
+      device = "/dev/disk/by-uuid/8e9d6da6-f89c-4ea7-b2bc-115ec941996f";
       fsType = "btrfs";
       options = [ "subvol=@" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/1BF9-63A0";
+    {
+      device = "/dev/disk/by-uuid/1BF9-63A0";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
