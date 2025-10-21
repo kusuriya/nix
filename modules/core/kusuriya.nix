@@ -15,6 +15,13 @@
       "libvirtd"
       "kvm"
       "render"
+      "plugdev"
+      "disk"
+      "lp"
+      "lpadmin"
+      "floppy"
+      "systemd-journal"
+      "input"
     ];
     shell = pkgs.fish;
   };

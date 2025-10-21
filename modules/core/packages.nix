@@ -48,6 +48,14 @@
       p7zip
       mosh
       _1password-cli
+      slurp
+      swaybg
+      swayidle
+      swaylock
+      kanshi
+      wev
+      sway-contrib.grimshot
+
 
       # nix
       nix-diff
