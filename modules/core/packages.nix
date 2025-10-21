@@ -42,7 +42,6 @@
       btrfs-snap
       timeshift
       swtpm
-      edk2
       dnsmasq
       appimage-run
       openconnect

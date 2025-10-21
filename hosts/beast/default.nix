@@ -302,7 +302,6 @@
     libvirtd = {
       enable = true;
       qemu = {
-        ovmf.enable = true;
         verbatimConfig = ''
                     cgroup_device_acl = [
                     "/dev/kvmfr0",
