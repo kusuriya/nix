@@ -73,6 +73,9 @@
       vimdiffAlias = true;
       viAlias = true;
       vimAlias = true;
+      defaultEditor = true;
+      withPython3 = true;
+      withRuby = true;
     };
     tmux = {
       enable = true;

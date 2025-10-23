@@ -30,6 +30,8 @@
 
 
       openterface-qt
+      lua-language-server
+      pyright
       wget
       git
       curl
@@ -55,6 +57,9 @@
       kanshi
       wev
       sway-contrib.grimshot
+      gcc
+      clang
+      zig
 
 
       # nix
@@ -99,7 +104,6 @@
       transmission_4-qt
       via
       drawio
-      calibre
       alacritty
       appimage-run
       btop
