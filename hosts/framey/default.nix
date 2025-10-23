@@ -10,7 +10,7 @@
   imports = [
     ../../modules/core
     ../../modules/kernel/latest
-    ../../modules/desktop/gnome
+    ../../modules/desktop/sway
     ./hardware-configuration.nix
     inputs.hardware.nixosModules.framework-13-7040-amd
     inputs.hardware.nixosModules.common-pc-ssd
@@ -59,12 +59,6 @@
       };
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
-      gc = {
-        automatic = true;
-        dates = "weekly";
-        # Keep the last week
-        options = "--delete-older-than 14d";
-      };
     };
   powerManagement.enable = true;
   systemd = {
@@ -189,20 +183,6 @@
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
     amdgpu = {
-      amdvlk = {
-        enable = true;
-        settings = {
-          AllowVkPipelineCachingToDisk = 1;
-          EnableVmAlwaysValid = 1;
-          IFH = 0;
-          IdleAfterSubmitGpuMask = 1;
-          ShaderCacheMode = 1;
-          MaxNumCmdStreamsPerSubmit = 4;
-          CommandBufferCombineDePreambles = 1;
-          EnablePPOverClocking = 0; # Disable overclocking
-          DynamicPowerManagement = 1; # Enable power management
-        };
-      };
       opencl.enable = false;
       initrd.enable = true;
     };

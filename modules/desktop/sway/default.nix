@@ -5,6 +5,7 @@
   environment.systemPackages = with pkgs; [
     waybar
     grim
+    sway-contrib.grimshot
     slurp
     wl-clipboard
     mako

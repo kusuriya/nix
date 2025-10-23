@@ -60,6 +60,7 @@
       gcc
       clang
       zig
+      blueman
 
 
       # nix
