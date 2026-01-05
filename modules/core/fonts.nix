@@ -7,7 +7,7 @@
       jetbrains-mono
       font-awesome
       noto-fonts
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       fira-mono
       fira-sans
       nerd-fonts.caskaydia-cove

@@ -125,6 +125,7 @@
     };
 
   networking = {
+    wireguard.enable = true;
     hostName = "framey";
     networkmanager = {
       wifi = {
@@ -195,8 +196,8 @@
     rtkit.enable = true;
     polkit.enable = true;
     sudo.wheelNeedsPassword = true;
-    audit.enable = true;
-    auditd.enable = true;
+    audit.enable = false;
+    auditd.enable = false;
     apparmor = {
       enable = true;
       killUnconfinedConfinables = true;

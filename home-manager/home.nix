@@ -19,7 +19,7 @@
     stateVersion = "24.11";
     file = {
       # ".screenrc".source = dotfiles/screenrc;
-    };
+     };
     sessionVariables = {
       EDITOR = "nvim";
       TERMINAL = "alacritty";

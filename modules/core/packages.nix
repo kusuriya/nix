@@ -27,8 +27,16 @@
       syncthingtray
       syncthing
 
-
-
+      ada
+      ncurses
+      zlib
+      gnumake
+      bison
+      gnat
+      flex
+      gnupatch
+      wireguard-ui
+      wireguard-tools
       openterface-qt
       lua-language-server
       pyright
@@ -135,7 +143,6 @@
       nmap
 
       #electronics
-      kicad
       freecad
 
       unstable.arrow-cpp
