@@ -31,15 +31,19 @@
     ];
   };
   fileSystems."/" =
-    {
-      device = "/dev/disk/by-uuid/8e9d6da6-f89c-4ea7-b2bc-115ec941996f";
+    { device = "/dev/disk/by-uuid/50565520-b705-43ac-9623-694f06e62510";
       fsType = "btrfs";
       options = [ "subvol=@" ];
     };
 
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/50565520-b705-43ac-9623-694f06e62510";
+      fsType = "btrfs";
+      options = [ "subvol=@home" ];
+    };
+
   fileSystems."/boot" =
-    {
-      device = "/dev/disk/by-uuid/1BF9-63A0";
+    { device = "/dev/disk/by-uuid/30AB-C111";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };

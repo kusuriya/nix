@@ -42,20 +42,11 @@
       enable = true;
       extraCompatPackages = [ pkgs.proton-ge-bin ];
       fontPackages = [ pkgs.source-han-sans ];
-      gamescopeSession.enable = true;
       localNetworkGameTransfers.openFirewall = true;
 
     };
     gamescope = {
       enable = true;
-      capSysNice = true;
-      args = [
-        "-f nis"
-        "-S scale"
-        "-b"
-        "--expose-wayland"
-
-      ];
     };
     nix-ld = {
       enable = true;

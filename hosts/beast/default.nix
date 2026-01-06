@@ -13,6 +13,7 @@
     ../../modules/core
     ../../modules/kernel/latest
     ../../modules/desktop/sway
+    ../../pkgs/rd560
   ];
   nixpkgs = {
     config = {
@@ -238,7 +239,6 @@
         pkgs.gutenprintBin
         pkgs.hplipWithPlugin
         pkgs.canon-cups-ufr2
-        pkgs.cnijfilter2
       ];
     };
     pipewire = {
@@ -263,6 +263,12 @@
     dconf = {
       enable = true;
     };
+    steam = {
+            enable = true;
+            extraCompatPackages = [ pkgs.proton-ge-bin ];
+            remotePlay.openFirewall = true;
+            localNetworkGameTransfers.openFirewall = true;
+        };
   };
 
   environment = {
