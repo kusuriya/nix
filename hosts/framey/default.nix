@@ -60,7 +60,7 @@
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
     };
-  powerManagement.enable = true;
+    #powerManagement.enable = true;
   systemd = {
     watchdog.runtimeTime = "30s";
   };
@@ -245,6 +245,9 @@
     thermald.enable = true;
     gvfs.enable = true;
     hardware.bolt.enable = true;
+    power-profiles-daemon = {
+      enable = false;
+    };
     udev =
       {
         packages = [ pkgs.via ];
@@ -285,15 +288,33 @@
         "sneaky.dev"
       ];
     };
-    power-profiles-daemon.enable = true;
     flatpak.enable = true;
     dbus.enable = true;
-    upower.enable = true;
     xserver = {
       enable = true;
       xkb = {
         layout = "us";
         variant = "";
+      };
+    };
+    tlp = {
+      enable = true;
+      settings = {
+        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+        CPU_MIN_PERF_ON_AC = 0;
+        CPU_MAX_PERF_ON_AC = 100;
+        CPU_MIN_PERF_ON_BAT = 0;
+        CPU_MAX_PERF_ON_BAT = 20;
+
+       #Optional helps save long term battery health
+       START_CHARGE_THRESH_BAT0 = 25; # 40 and below it starts to charge
+       STOP_CHARGE_THRESH_BAT0 = 90; # 80 and above it stops charging
+
       };
     };
 
@@ -310,6 +331,7 @@
       polkitPolicyOwners = [ "kusuriya" ];
     };
     dconf.enable = true;
+    streamdeck-ui.enable = true;
   };
 
   environment = {
@@ -342,6 +364,8 @@
       usbutils
       iotop
       networkmanager-openconnect
+      spice-gtk
+      vscode
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
@@ -368,23 +392,26 @@
   };
   virtualisation = {
     containers.enable = true;
+    spiceUSBRedirection.enable = true;
     podman = {
       enable = true;
       dockerCompat = true;
       defaultNetwork.settings.dns_enabled = true;
     };
     libvirtd = {
-      enable = false;
+      enable = true;
       qemu = {
         package = pkgs.qemu_full;
         runAsRoot = true;
         swtpm.enable = true;
-        ovmf = {
-          enable = true;
-          packages = [ pkgs.OVMF.fd ];
-        };
       };
     };
   };
   system.stateVersion = "23.05";
+  
+fileSystems."/dozer/files" = {
+  device = "dozer:/mnt/dozer-files/files";
+  fsType = "nfs";
+  options = [ "x-systemd.automount" "noauto" ];
+};
 }

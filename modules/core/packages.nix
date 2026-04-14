@@ -3,30 +3,9 @@
   environment = {
     systemPackages = with pkgs; [
 
-      #KDE Packages
-      kdePackages.plasma-browser-integration
-      kdePackages.ffmpegthumbs
-      kdePackages.filelight
-      kdePackages.flatpak-kcm
-      kdePackages.francis
-      kdePackages.kaccounts-integration
-      kdePackages.kaccounts-providers
-      kdePackages.kalk
-      kdePackages.kamera
-      kdePackages.kcalc
-      kdePackages.kcron
-      kdePackages.kdeconnect-kde
-      kdePackages.kio
-      kdePackages.kio-admin
-      kdePackages.kio-extras
-      kdePackages.kio-fuse
-      kdePackages.kio-zeroconf
-      kdePackages.korganizer
-      kdePackages.krdc
-      kdePackages.kmail
       syncthingtray
+      nemo
       syncthing
-
       ada
       ncurses
       zlib
@@ -37,7 +16,6 @@
       gnupatch
       wireguard-ui
       wireguard-tools
-      openterface-qt
       lua-language-server
       pyright
       wget
@@ -69,7 +47,13 @@
       clang
       zig
       blueman
-
+      gnome-boxes
+      orca-slicer
+      nfs-utils
+      virt-viewer
+      makemkv
+      ghostty
+      handbrake
 
       # nix
       nix-diff
@@ -131,7 +115,7 @@
 
       #communication
       discord
-      signal-desktop-bin
+      signal-desktop
       slack
       telegram-desktop
       zoom-us
@@ -149,6 +133,7 @@
       #browser
       chromium
       inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
+      vivaldi
 
       #Dictonary
       (aspellWithDicts (

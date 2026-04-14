@@ -276,7 +276,6 @@
         "sneaky.dev"
       ];
     };
-    power-profiles-daemon.enable = true;
     flatpak.enable = true;
     dbus.enable = true;
     upower.enable = true;

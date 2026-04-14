@@ -37,8 +37,6 @@
       wrapperFeatures.gtk = true;
       xwayland.enable = true;
     };
-    light.enable = true;
-
   };
   security.polkit.enable = true;
   fonts = {

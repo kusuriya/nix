@@ -74,8 +74,6 @@
           };
           modules = [
             {
-              disko.nixosModules.disko
-              ./hosts/${hostname}/disko.nix
               nixpkgs.overlays = [
                 (final: prev: {
                   libvirt = nixpkgs-stable.legacyPackages.${final.system}.libvirt;
