@@ -26,7 +26,7 @@ Full-disk encryption via LUKS2, managed declaratively by [disko](https://github.
 
 **Disk layout** (`disko.nix`):
 ```
-/dev/nvme0n1
+/dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873
 ├── p1: ESP (1G, vfat)         → /boot          [unencrypted — kernel + initrd live here]
 └── p2: LUKS2 (cryptroot)       → /dev/mapper/cryptroot
       └── btrfs (zstd compression, noatime)
@@ -192,6 +192,7 @@ This procedure wipes the NVMe and installs a fresh NixOS with the full encrypted
 - **Back up `/home`** — this procedure is destructive
 - `/data` and `/dozer/files` are NFS mounts on dozer and are unaffected
 - **Enable TPM in BIOS** (F2 → Security → TPM 2.0 → Enable). Currently disabled on framey — required for LUKS TPM2 auto-unlock.
+- **Update firmware via fwupd** — `sudo fwupdmgr update` (current: 0.0.3.5, latest: 0.0.3.18, 13 versions behind, multiple CVEs). Must be done BEFORE TPM2 enrollment — firmware updates change PCR 0 and would break TPM2 unlock.
 
 ### Step 1: Boot NixOS Live Media
 
