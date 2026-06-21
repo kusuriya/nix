@@ -16,14 +16,12 @@
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
         "https://hyprland.cachix.org"
-        "https://nix-community.cachix.org"
         "https://cosmic.cachix.org/"
       ];
       trusted-substituters = [
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
         "https://hyprland.cachix.org"
-        "https://nix-community.cachix.org"
         "https://cosmic.cachix.org/"
       ];
 
@@ -31,45 +29,14 @@
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
       ];
       auto-optimise-store = true;
     };
   };
-  programs = {
-    steam = {
-      enable = true;
-      extraCompatPackages = [ pkgs.proton-ge-bin ];
-      fontPackages = [ pkgs.source-han-sans ];
-      localNetworkGameTransfers.openFirewall = true;
-
-    };
-    gamescope = {
-      enable = true;
-    };
-    nix-ld = {
-      enable = true;
-    };
-    corectrl = {
-      enable = true;
-    };
-    _1password-gui = {
-      enable = true;
-      polkitPolicyOwners = [ "kusuriya" ];
-    };
-    dconf.enable = true;
-  };
-  boot.supportedFilesystems = [ "bcachefs" ];
   services.udev.extraRules = ''
         SUBSYSTEM=="usb", ATTRS{idVendor}=="534d", ATTRS{idProduct}=="2109", TAG+="kusuriya"
         SUBSYSTEM=="hidraw", ATTRS{idVendor}=="534d", ATTRS{idProduct}=="2109", TAG+="kusuriya"
         SUBSYSTEM=="ttyUSB", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", TAG+="kusuriya"
-        # Nuand bladeRF
-    ATTR{idVendor}=="2cf0", ATTR{idProduct}=="5246", MODE="660", GROUP="kusuriya"
-    # Nuand bladeRF, legacy VID/PID
-    ATTR{idVendor}=="1d50", ATTR{idProduct}=="6066", MODE="660", GROUP="kusuriya"
-    # Cypress Bootloader
-    ATTR{idVendor}=="04b4", ATTR{idProduct}=="00f3", MODE="660", GROUP="kusuriya"
   '';
 }

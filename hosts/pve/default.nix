@@ -72,8 +72,9 @@
     hostName = "pve"; # Define your hostname.
     hostId = "06904201";
     firewall = {
-      enable = false;
+      enable = true;
       allowedTCPPorts = [ 80 443 81 82 8080 3000 ];
+      allowedUDPPorts = [ 19132 ]; # minecraft bedrock (dakland)
     };
     nat = {
       enable = true;

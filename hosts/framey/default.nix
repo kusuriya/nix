@@ -12,6 +12,7 @@
     ../../modules/kernel/latest
     ../../modules/desktop/sway
     ./hardware-configuration.nix
+    ./packages.nix
     inputs.hardware.nixosModules.framework-13-7040-amd
     inputs.hardware.nixosModules.common-pc-ssd
   ];
@@ -25,6 +26,7 @@
       allowUnfree = true;
       permittedInsecurePackages = [
         "electron-27.3.11"
+        "electron-39.8.10"
       ];
 
     };
@@ -36,7 +38,7 @@
     in
     {
       settings = {
-        experimental-features = "nix-command flakes";
+        experimental-features = [ "nix-command" "flakes" ];
         auto-optimise-store = true;
         allowed-users = [
           "kusuriya"
@@ -60,9 +62,9 @@
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
     };
-    #powerManagement.enable = true;
+  #powerManagement.enable = true;
   systemd = {
-    watchdog.runtimeTime = "30s";
+    settings.Manager.RuntimeWatchdogSec = "30s";
   };
   system = {
     autoUpgrade = {
@@ -92,10 +94,6 @@
           enable = true;
         };
       };
-      lanzaboote = {
-        enable = false;
-        pkiBundle = "/etc/secureboot";
-      };
       initrd = {
         compressor = "zstd";
         systemd.enable = true;
@@ -106,7 +104,7 @@
         "kernel.panic" = 60;
         "net.core.default_qdisc" = "fq";
         "net.ipv4.tcp_congestion_control" = "bbr";
-        "vm.swappiness/" = 10;
+        "vm.swappiness" = 10;
         "vm.vfs_cache_pressure" = 50;
         "vm.dirty_ratio" = 10;
         "vm.dirty_background_ratio" = 5;
@@ -125,7 +123,6 @@
     };
 
   networking = {
-    wireguard.enable = true;
     hostName = "framey";
     networkmanager = {
       wifi = {
@@ -167,14 +164,27 @@
   zramSwap = {
     enable = true;
     priority = 100;
-    memoryPercent = 1;
+    memoryPercent = 50;
     swapDevices = 1;
     algorithm = "zstd";
   };
 
   xdg.portal = {
     enable = true;
+    wlr.enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
+  xdg.mime = {
+    enable = true;
+    defaultApplications = {
+      "text/html" = "vivaldi-stable.desktop";
+      "x-scheme-handler/http" = "vivaldi-stable.desktop";
+      "x-scheme-handler/https" = "vivaldi-stable.desktop";
+      "x-scheme-handler/about" = "vivaldi-stable.desktop";
+      "x-scheme-handler/unknown" = "vivaldi-stable.desktop";
+    };
+  };
+
 
   hardware = {
     logitech.wireless = {
@@ -184,7 +194,7 @@
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
     amdgpu = {
-      opencl.enable = false;
+      opencl.enable = true;
       initrd.enable = true;
     };
     graphics = {
@@ -196,8 +206,8 @@
     rtkit.enable = true;
     polkit.enable = true;
     sudo.wheelNeedsPassword = true;
-    audit.enable = false;
-    auditd.enable = false;
+    audit.enable = true;
+    auditd.enable = true;
     apparmor = {
       enable = true;
       killUnconfinedConfinables = true;
@@ -217,7 +227,6 @@
           enableGnomeKeyring = true;
           fprintAuth = false;
         };
-        hyprlock.fprintAuth = false;
       };
     };
   };
@@ -242,7 +251,6 @@
       enable = true;
       interval = "weekly";
     };
-    thermald.enable = true;
     gvfs.enable = true;
     hardware.bolt.enable = true;
     power-profiles-daemon = {
@@ -273,6 +281,41 @@
       jack.enable = true;
       wireplumber.enable = true;
       #media-session.enable = true;
+
+      # Raise quantum to give QEMU's non-RT audio thread enough buffer to
+      # avoid underruns. 2048/48000 = 42.7ms — large enough to absorb
+      # scheduler jitter from libvirtd-launched QEMU processes.
+      extraConfig.pipewire."92-qemu-quantum" = {
+        "context.properties" = {
+          "default.clock.quantum"     = 2048;
+          "default.clock.min-quantum" = 1024;
+          "default.clock.max-quantum" = 4096;
+        };
+      };
+
+      # Grant QEMU's PipeWire client RT scheduling via WirePlumber policy.
+      # libvirtd-launched QEMU bypasses normal RTKit session negotiation,
+      # so we explicitly match on the binary name and set rt.prio.
+      wireplumber.extraConfig."92-qemu-rt" = {
+        "monitor.alsa.rules" = [];
+        "wireplumber.settings" = {};
+        "wireplumber.profiles" = {
+          main."monitor.libcamera" = "disabled";
+        };
+        "node.rules" = [
+          {
+            matches = [ { "application.process.binary" = ".qemu-system-x86_64-wrapped"; } ];
+            actions = {
+              update-props = {
+                "node.latency"  = "2048/48000";
+                "rt.prio"       = 88;
+                "rt.time.soft"  = 200000;
+                "rt.time.hard"  = 200000;
+              };
+            };
+          }
+        ];
+      };
     };
     avahi = {
       enable = true;
@@ -281,12 +324,7 @@
       openFirewall = true;
       ipv6 = true;
       ipv4 = true;
-      browseDomains = [
-        "lan.corrupted.io"
-        "corrupted.io"
-        "local"
-        "sneaky.dev"
-      ];
+      browseDomains = [ "local" ];
     };
     flatpak.enable = true;
     dbus.enable = true;
@@ -311,9 +349,9 @@
         CPU_MIN_PERF_ON_BAT = 0;
         CPU_MAX_PERF_ON_BAT = 20;
 
-       #Optional helps save long term battery health
-       START_CHARGE_THRESH_BAT0 = 25; # 40 and below it starts to charge
-       STOP_CHARGE_THRESH_BAT0 = 90; # 80 and above it stops charging
+        #Optional helps save long term battery health
+        START_CHARGE_THRESH_BAT0 = 25; # 40 and below it starts to charge
+        STOP_CHARGE_THRESH_BAT0 = 90; # 80 and above it stops charging
 
       };
     };
@@ -336,40 +374,20 @@
 
   environment = {
     systemPackages = with pkgs; [
-      appimage-run
-      brightnessctl
-      curl
-      coreutils
-      distrobox
-      linux-firmware
-      mosh
-      nix-diff
-      nix-index
-      nix-output-monitor
-      nix-prefetch-git
-      nix-direnv
-      pciutils
       sbctl
       lm_sensors
       poweralertd
-      statix
-      git
-      nil
-      sops
-      age
       unzip
-      p7zip
       dig
       whois
-      usbutils
       iotop
       networkmanager-openconnect
-      spice-gtk
       vscode
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
       EDITOR = "nvim";
+      BROWSER = "vivaldi";
     };
     etc = {
       "ovmf/edk2-x86_64-secure-code.fd" = {
@@ -408,10 +426,16 @@
     };
   };
   system.stateVersion = "23.05";
-  
-fileSystems."/dozer/files" = {
-  device = "dozer:/mnt/dozer-files/files";
-  fsType = "nfs";
-  options = [ "x-systemd.automount" "noauto" ];
-};
+
+  fileSystems."/data" = {
+    device = "dozer:/mnt/dozer-files/hermes-data";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" "async" ];
+  };
+
+  fileSystems."/dozer/files" = {
+    device = "dozer:/mnt/dozer-files/files";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" ];
+  };
 }

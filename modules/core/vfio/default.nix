@@ -1,12 +1,14 @@
-let
-  gpuIDs = [
-    "10de:2503" # Graphics
-    "10de:228e" # Audio
-  ];
-in
 { pkgs, lib, config, ... }: {
-  options.vfio.enable = with lib;
-    mkEnableOption "Configure the machine for VFIO";
+  options.vfio = {
+    enable = with lib;
+      mkEnableOption "Configure the machine for VFIO";
+
+    gpuIDs = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "PCI GPU IDs for VFIO passthrough";
+    };
+  };
 
   config =
     let cfg = config.vfio;
@@ -23,7 +25,7 @@ in
           "amd_iommu=on"
         ] ++ lib.optional cfg.enable
           # isolate the GPU
-          ("vfio-pci.ids=" + lib.concatStringsSep "," gpuIDs);
+          ("vfio-pci.ids=" + lib.concatStringsSep "," cfg.gpuIDs);
       };
 
       virtualisation.spiceUSBRedirection.enable = true;

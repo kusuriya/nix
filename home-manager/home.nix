@@ -9,6 +9,7 @@
       allowUnfree = true;
       permittedInsecurePackages = [
         "electron-27.3.11"
+        "electron-39.8.10"
       ];
     };
 
@@ -52,7 +53,11 @@
     home-manager.enable = true;
     fzf = {
       enable = true;
-      enableZshIntegration = true;
+      enableFishIntegration = true;
+    };
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
     };
     fish = {
       enable = true;
@@ -63,10 +68,37 @@
         }
       ];
     };
+    starship = {
+      enable = true;
+      enableFishIntegration = true;
+    };
+    zoxide = {
+      enable = true;
+      enableFishIntegration = true;
+    };
+    atuin = {
+      enable = true;
+      enableFishIntegration = true;
+    };
     git = {
       enable = true;
-      userName = "Jason Barbier";
-      userEmail = "jason@corrupted.io";
+      settings = {
+        user = {
+          name = "Jason Barbier";
+          email = "jason@corrupted.io";
+        };
+      };
+    };
+    delta = {
+      enable = true;
+      enableGitIntegration = true;
+      options = {
+        side-by-side = true;
+        line-numbers = true;
+        dark = true;
+        syntax-theme = "Dracula";
+        navigate = true;
+      };
     };
     neovim = {
       enable = true;

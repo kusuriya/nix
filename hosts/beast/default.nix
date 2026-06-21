@@ -105,7 +105,7 @@
       enable = true;
     };
     firewall = {
-      enable = false;
+      enable = true;
       allowPing = true;
       allowedTCPPortRanges = [{ from = 1714; to = 1764; }];
       allowedUDPPortRanges = [{ from = 1714; to = 1764; }];
@@ -152,8 +152,8 @@
     audit.enable = true;
     auditd.enable = true;
     apparmor = {
-      enable = false;
-      killUnconfinedConfinables = false;
+      enable = true;
+      killUnconfinedConfinables = true;
     };
     tpm2 = {
       enable = true;

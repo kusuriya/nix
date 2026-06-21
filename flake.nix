@@ -69,17 +69,17 @@
           inherit system;
           specialArgs = {
             inherit inputs self;
-            pkgs-stable = nixpkgs-stable.legacyPackages.x86_64-linux;
+            pkgs-stable = nixpkgs-stable.legacyPackages.${system};
 
           };
           modules = [
             {
               nixpkgs.overlays = [
                 (final: prev: {
-                  libvirt = nixpkgs-stable.legacyPackages.${final.system}.libvirt;
-                  qemu = nixpkgs-stable.legacyPackages.${final.system}.qemu;
-                  qemu_kvm = nixpkgs-stable.legacyPackages.${final.system}.qemu_kvm;
-                  virt-manager = nixpkgs-stable.legacyPackages.${final.system}.virt-manager;
+                  libvirt = nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.libvirt;
+                  qemu = nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.qemu;
+                  qemu_kvm = nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.qemu_kvm;
+                  virt-manager = nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.virt-manager;
                 })
               ];
             }

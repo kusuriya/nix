@@ -15,7 +15,7 @@
     environmentFile = "/etc/paperless/env";
   };
   environment.etc."paperless/env" = {
-    mode = "0555";
+    mode = "0400";
     text = ''
       PAPERLESS_URL="https://paperless.lan.corrupted.io"
     '';
