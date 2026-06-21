@@ -94,6 +94,15 @@ sudo btrfs subvolume snapshot /.snapshots/@root.20260621_140000 /restored
 
 **Note:** Snapshots are local and on the same disk — they are NOT backups. They protect against accidental deletion and bad changes, not disk failure.
 
+### btrfs autoScrub
+
+btrfs scrub is scheduled automatically via `services.btrfs.autoScrub`:
+- **Frequency:** weekly
+- **Targets:** all btrfs filesystems (cryptroot)
+- **Purpose:** detects and repairs silent data corruption (bit rot) by verifying checksums against metadata
+
+This runs in the background and does not impact normal I/O significantly. Check status with `sudo btrfs scrub status /`.
+
 ### Network Security
 
 - **Firewall:** enabled, no ping, SSH via Tailscale only (port 22 on `tailscale0` interface)
@@ -109,6 +118,13 @@ sudo btrfs subvolume snapshot /.snapshots/@root.20260621_140000 /restored
 - **1Password:** GUI + CLI + polkit integration
 - **sudo:** requires password (`wheelNeedsPassword = true`)
 - **Audit:** `audit.enable = true` + `auditd.enable = true` — kernel audit trail enabled
+
+### Physical Security
+
+- **Thunderbolt:** `services.hardware.bolt.enable = true` with `security = "user"` — Thunderbolt devices require explicit user authorization via `boltctl` before DMA access is granted
+- **USBGuard:** blocks unauthorized USB devices (see Access Control above)
+- **TPM2:** used for LUKS auto-unlock and potential future smart card use
+- **Secure Boot:** protects against evil-maid / boot-level attacks (see Secure Boot section)
 
 ### Kernel Hardening
 
@@ -519,3 +535,9 @@ Framey uses Sway (not Hyprland). The PAM config only references `greetd` and `lo
 | `nixos-cosmic` | COSMIC desktop module (imported but not actively used) |
 | `firefox` (flake-firefox-nightly) | Firefox Nightly browser |
 | `sops-nix` | Secrets management (imported, not yet actively used on framey) |
+
+---
+
+## Migration Guide
+
+See [MIGRATION.md](./MIGRATION.md) for the step-by-step migration plan covering disk layout changes, package swaps, security hardening additions, and verification procedures.

@@ -221,7 +221,7 @@
       rclone                  # Cloud storage sync — Google Drive, S3, Backblaze, etc.
       rsync                   # File sync — local/remote incremental transfer
       btrfs-progs             # Btrfs filesystem utilities — subvolumes, snapshots, scrub
-      btrfs-snap              # Btrfs snapshot automation — cron-based snapshots
+      btrbk                   # Btrfs snapshot automation — btrbk tool for managed snapshots
       timeshift               # System restore — RSYNC/BTRFS snapshots for rollback
 
       # ============================================================================

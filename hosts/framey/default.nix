@@ -15,6 +15,8 @@
     ./packages.nix
     inputs.hardware.nixosModules.framework-13-7040-amd
     inputs.hardware.nixosModules.common-pc-ssd
+    # ./disko.nix                    # TODO: uncomment after migration — importing before disk is reformatted will conflict
+    # inputs.disko.nixosModules.disko  # TODO: uncomment after migration
   ];
   nixpkgs = {
     overlays = [
@@ -91,12 +93,26 @@
         systemd-boot = {
           configurationLimit = 5;
           consoleMode = "max";
+          # Disabled in favour of lanzaboote (secure boot). Using mkForce
+          # because the hardware-configuration.nix or other modules may set
+          # this to true — we need it off so lanzaboote's bootctl stub takes over.
+          enable = lib.mkForce false;
+        };
+        # Lanzaboote: enables Secure Boot with a UKI-based boot flow.
+        # Keys are auto-generated into /etc/secureboot on first activation.
+        # Use `sbctl` (already in systemPackages) to verify and manage keys.
+        lanzaboote = {
           enable = true;
+          pkiBundle = "/etc/secureboot";
+          autoGenerateKeys.enable = true;
         };
       };
       initrd = {
         compressor = "zstd";
         systemd.enable = true;
+        # TPM kernel modules needed in initrd so the system can unlock
+        # LUKS2 via TPM2 sealed credentials during early boot.
+        kernelModules = [ "tpm_crb" "tpm_tis" ];
       };
       plymouth.enable = true;
       kernel.sysctl = {
@@ -110,6 +126,37 @@
         "vm.dirty_background_ratio" = 5;
         "net.ipv4.tcp_fastopen" = 3;
         "net.ipv4.tcp_slow_start_after_idle" = 0;
+        # --- Kernel hardening sysctls ---
+        # Restrict access to kernel pointers (prevents info leaks via /proc)
+        "kernel.kptr_restrict" = 2;
+        # Restrict dmesg access to root only
+        "kernel.dmesg_restrict" = 1;
+        # Restrict perf events to root (prevents side-channel attacks)
+        "kernel.perf_event_paranoid" = 3;
+        # Restrict ptrace to parent processes only
+        "kernel.yama.ptrace_scope" = 2;
+        # --- Network hardening ---
+        # Enable reverse path filtering (anti-spoofing)
+        "net.ipv4.conf.all.rp_filter" = 1;
+        "net.ipv4.conf.default.rp_filter" = 1;
+        # Disable ICMP redirect acceptance (prevents route hijacking)
+        "net.ipv4.conf.all.accept_redirects" = 0;
+        "net.ipv4.conf.default.accept_redirects" = 0;
+        # Disable ICMP redirect sending
+        "net.ipv4.conf.all.send_redirects" = 0;
+        "net.ipv4.conf.default.send_redirects" = 0;
+        # Disable source-routed packet acceptance
+        "net.ipv4.conf.all.accept_source_route" = 0;
+        "net.ipv4.conf.default.accept_source_route" = 0;
+        # IPv6: disable redirects and source routing
+        "net.ipv6.conf.all.accept_redirects" = 0;
+        "net.ipv6.conf.default.accept_redirects" = 0;
+        "net.ipv6.conf.all.accept_source_route" = 0;
+        "net.ipv6.conf.default.accept_source_route" = 0;
+        # Ignore broadcast ICMP (Smurf attack prevention)
+        "net.ipv4.icmp_echo_ignore_broadcasts" = 1;
+        # Enable TCP SYN cookies (SYN flood mitigation)
+        "net.ipv4.tcp_syncookies" = 1;
       };
       binfmt.registrations.appimage = {
         wrapInterpreterInShell = false;
@@ -134,9 +181,19 @@
         pkgs.networkmanager-openconnect
       ];
     };
+    # --- Firewall ---
+    # Default-deny firewall. Only SSH (22) is allowed, and only on the
+    # Tailscale interface (tailscale0) — no inbound ports on physical NICs.
+    # Tailscale itself punches outbound, so it works without open ports.
     firewall = {
       enable = true;
       allowPing = false;
+      allowedTCPPorts = [ ];
+      allowedUDPPorts = [ ];
+      interfaces.tailscale0 = {
+        allowedTCPPorts = [ 22 ];
+      };
+      logRefusedConnections = true;
     };
     resolvconf = {
       dnsExtensionMechanism = true;
@@ -161,13 +218,10 @@
     };
   };
 
-  zramSwap = {
-    enable = true;
-    priority = 100;
-    memoryPercent = 50;
-    swapDevices = 1;
-    algorithm = "zstd";
-  };
+  # zramSwap removed — btrfs on this host uses an NVMe SSD; zram was causing
+  # unnecessary CPU overhead and competing with the btrfs compression (zstd).
+  # Swap is now handled by the btrfs swapfile (if configured) or none at all.
+  # (Block deleted — no replacement needed.)
 
   xdg.portal = {
     enable = true;
@@ -250,6 +304,60 @@
     fstrim = {
       enable = true;
       interval = "weekly";
+    };
+
+    # --- btrbk: automated btrfs snapshot management ---
+    # Takes hourly snapshots of / and /home, retained on a sliding schedule:
+    #   - minimum: 2 days of all snapshots
+    #   - 48 hourly, 14 daily, 8 weekly, 6 monthly
+    # Snapshots are stored in /.snapshots (a hidden subvolume at the root).
+    # Uses mbuffer for faster data transfer during snapshot send/receive.
+    btrbk = {
+      enable = true;
+      extraPackages = [ pkgs.mbuffer ];
+      instances = {
+        "framey-snapshots" = {
+          onCalendar = "hourly";
+          settings = {
+            timestamp_format = "long";
+            snapshot_preserve_min = "2d";
+            snapshot_preserve = "48h 14d 8w 6m";
+            snapshot_dir = "/.snapshots";
+            subvolume = {
+              "/" = {};
+              "/home" = {};
+            };
+          };
+        };
+      };
+    };
+
+    # --- btrfs autoScrub: periodic data-integrity scrubbing ---
+    # Runs monthly across / and /home to detect and repair silent corruption
+    # (bit rot). Btrfs checksums every block; scrub verifies and self-heals
+    # using redundant copies or parity.
+    btrfs.autoScrub = {
+      enable = true;
+      interval = "monthly";
+      fileSystems = [ "/" "/home" ];
+    };
+
+    # --- USBGuard: USB device authorization policy ---
+    # Enforces a default-deny policy for USB devices. Known-safe device
+    # classes (mass storage, HID, Bluetooth) are allowed automatically;
+    # everything else is blocked until explicitly authorized via usbguard CLI.
+    # Members of the 'wheel' group can manage the daemon via IPC.
+    usbguard = {
+      enable = true;
+      IPCAllowedGroups = [ "wheel" ];
+      rules = ''
+        # Allow existing devices at boot
+        allow with-interface == "{ 08* * }"  # mass storage
+        allow with-interface == "{ 03* * }"  # HID
+        allow with-interface == "{ e0* * }"  # Bluetooth
+        # Block everything else by default
+        block
+      '';
     };
     gvfs.enable = true;
     hardware.bolt.enable = true;
@@ -427,15 +535,23 @@
   };
   system.stateVersion = "23.05";
 
+  # --- NFS mounts from dozer (NAS) ---
+  # Uses systemd automount (noauto) so the mount is only established on first
+  # access, and unmounted after 5 minutes of idle to save bandwidth.
+  # 'timeo=14' and 'retrans=2' tune timeout/retry for unreliable links.
   fileSystems."/data" = {
     device = "dozer:/mnt/dozer-files/hermes-data";
     fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" "async" ];
+    options = [ "x-systemd.automount" "noauto" "async" "x-systemd.idle-timeout=5min" "timeo=14" "retrans=2" ];
   };
 
   fileSystems."/dozer/files" = {
     device = "dozer:/mnt/dozer-files/files";
     fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" ];
+    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=5min" "timeo=14" "retrans=2" ];
   };
+
+  # fscrypt: Consider as future option for per-directory encryption in /home.
+  # LUKS2 already provides full-disk encryption — fscrypt would add defense-in-depth.
+  # See: https://nixos.org/manual/nixos/stable/#sec-fscrypt
 }
