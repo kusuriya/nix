@@ -65,10 +65,23 @@ print('-'.join(secrets.choice(words) for _ in range(12)))
 
 Save it securely:
 ```bash
-# Save to an age-encrypted file on the system (root-only)
-echo "$PASS" | age -p -o /root/luks-passphrase.age
+# Save to an age-encrypted file (prompts for an age passphrase — memorize this)
+echo "$PASS" | age -p -o /tmp/luks-passphrase.age
 
-# Write down on paper and store in a physical safe — this is your ultimate recovery method
+# Back up the age file to dozer (survives the disk wipe)
+cp /tmp/luks-passphrase.age /data/backup/framey-home-$(date +%Y-%m-%d)/luks-passphrase.age
+
+# Copy to the installed system after migration
+# (done post-install: cp /data/backup/.../luks-passphrase.age /root/)
+
+# Write down the 12-word passphrase on paper and store in a physical safe
+# This is your ultimate recovery method — no tools needed, just the paper
+```
+
+To decrypt later:
+```bash
+age -d /root/luks-passphrase.age
+# Prompts for the age passphrase → outputs the LUKS passphrase
 ```
 
 See `1-Daily/2026-06-21-framey-luks-passphrase.md` in Obsidian for full details.
