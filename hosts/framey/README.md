@@ -138,7 +138,8 @@ Plus existing network performance tuning (BBR congestion control, fq qdisc, TCP 
 - **TLP** max perf on battery: 20% (conservative)
 - **fstrim** weekly (SSD TRIM maintenance)
 - **fwupd** enabled (firmware updates)
-- **zramSwap** 50% zstd (16GB compressed swap in RAM)
+- **zramSwap** disabled (was 50% zstd — at 96GB RAM with minimal swap usage, zram wastes RAM for no benefit)
+- **Swap strategy:** 96G btrfs swapfile inside LUKS only, `vm.swappiness=10`
 - **power-profiles-daemon** disabled (TLP handles power management instead)
 
 ### Virtualization
