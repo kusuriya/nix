@@ -162,10 +162,20 @@ PipeWire with WirePlumber, tuned for QEMU:
 
 | Mount | Source | Options |
 |-------|--------|---------|
-| `/data` | `dozer:/mnt/dozer-files/hermes-data` | `x-systemd.automount noauto async` |
-| `/dozer/files` | `dozer:/mnt/dozer-files/files` | `x-systemd.automount noauto` |
+| `/data` | `dozer:/mnt/dozer-files/hermes-data` | `x-systemd.automount noauto async x-systemd.idle-timeout=5min timeo=14 retrans=2` |
+| `/dozer/files` | `dozer:/mnt/dozer-files/files` | `x-systemd.automount noauto x-systemd.idle-timeout=5min timeo=14 retrans=2` |
 
 Both are lazy-mounted via systemd automount — they only mount when accessed.
+
+**Tuning explained:**
+- `noauto` — not mounted at boot, boot is unaffected if dozer is offline
+- `x-systemd.automount` — mount on first access, unmount when idle
+- `x-systemd.idle-timeout=5min` — unmount after 5 min idle (default is 2 min)
+- `timeo=14` — NFS timeout of 1.4s per retry (default is 60s — absurd for a laptop)
+- `retrans=2` — retry 2 times, so total timeout ~3s instead of 60+
+- `async` (on `/data` only) — async writes for performance (mostly-read data)
+
+**Behavior when dozer is offline:** Accessing `/data` fails in ~3 seconds with `Connection timed out` instead of hanging for 60+ seconds.
 
 ---
 
