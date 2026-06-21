@@ -10,7 +10,7 @@ Primary workstation. Security-hardened NixOS with LUKS2 full-disk encryption, bt
 |-----------|------|
 | **Model** | Framework 13 (AMD) |
 | **CPU** | AMD Ryzen 7 7040 (8c/16t) |
-| **RAM** | 32GB |
+| **RAM** | 96GB (2x48GB SODIMMs) |
 | **Storage** | NVMe SSD |
 | **GPU** | AMD APU (integrated, no dGPU) |
 | **TPM** | fTPM 2.0 (firmware) |
@@ -34,7 +34,8 @@ Full-disk encryption via LUKS2, managed declaratively by [disko](https://github.
           ├── @home              → /home
           ├── @nix               → /nix
           ├── @log               → /var/log      [separate for snapshot exclusion]
-          ├── @swap              → /.swapvol     [32G swapfile, encrypted]
+          ├── @snapshots          → /.snapshots   [dedicated for btrbk — avoids recursive snapshots]
+          ├── @swap              → /.swapvol     [96G swapfile, encrypted — matches 96GB RAM]
           └── @persist           → /persist      [placeholder for future impermanence]
 ```
 
@@ -44,7 +45,7 @@ Full-disk encryption via LUKS2, managed declaratively by [disko](https://github.
 - **@log separate** — excludes noisy logs from root snapshots
 - **@swap inside LUKS** — swap is encrypted (no cleartext swap leak)
 - **@persist placeholder** — not actively used; reserved for potential future impermanence setup
-- **32G swapfile** — matches RAM size, required for hibernation (currently suspended-only, see Caveats)
+- **32G swapfile** → now **96G swapfile** — matches RAM size, required for hibernation (currently suspended-only, see Caveats)
 
 ### Secure Boot
 
