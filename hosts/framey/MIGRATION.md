@@ -96,10 +96,19 @@ See `1-Daily/2026-06-21-framey-luks-passphrase.md` in Obsidian for full details.
 nix run github:nix-community/disko -- --mode destroy,format,mount --flake .#framey
 ```
 
-**Alternative** — nixos-anywhere (handles disko + install + SSH in one command):
+**After disko completes, verify the mounts are correct before installing:**
+```bash
+mount | grep /mnt
+# Should show /dev/mapper/cryptroot mounted at /mnt, /mnt/boot, /mnt/home, etc.
+# If you see /dev/sda* (USB stick) mounted at /mnt, disko hit the wrong disk.
+# In that case: umount /mnt/*, and use --mode format then mount manually.
+```
+
+Alternative with nixos-anywhere (handles disko + install + SSH in one command):
 ```bash
 nix run github:nix-community/nixos-anywhere -- --flake .#framey root@<framey-ip>
 ```
+nixos-anywhere is preferred for remote/automated installs; manual disko is fine for local USB installs
 
 ---
 
