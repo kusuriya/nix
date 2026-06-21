@@ -191,6 +191,7 @@ This procedure wipes the NVMe and installs a fresh NixOS with the full encrypted
 - The flake repo accessible (clone from GitHub or have it on a USB drive)
 - **Back up `/home`** — this procedure is destructive
 - `/data` and `/dozer/files` are NFS mounts on dozer and are unaffected
+- **Enable TPM in BIOS** (F2 → Security → TPM 2.0 → Enable). Currently disabled on framey — required for LUKS TPM2 auto-unlock.
 
 ### Step 1: Boot NixOS Live Media
 
