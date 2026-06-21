@@ -141,19 +141,30 @@ sudo systemd-cryptenroll \
   --wipe-slot=tpm2 \
   --tpm2-device=auto \
   --tpm2-pcrs=0+2+7 \
+  --tpm2-with-pin \
   /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2
 ```
+
+You will be prompted to set a PIN during enrollment. Choose a strong numeric PIN (6-8 digits).
+
+**How this works:**
+- Normal boot: TPM2 checks PCRs (0+2+7) **and** prompts for the PIN → both must pass to unlock
+- If PCR values don't match (firmware update, Secure Boot change): falls back to LUKS passphrase
+- If laptop is stolen: attacker needs the PIN even if PCR values match — prevents silent unlock
+- The LUKS passphrase is always available as a secondary recovery method
 
 **Verify:**
 ```bash
 sudo cryptsetup luksDump /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2
 ```
-Should show a TPM2 slot. Reboot — the system should auto-unlock without a passphrase.
+Should show a TPM2 slot. Reboot — the system should prompt for a PIN at boot (not the full LUKS passphrase).
 
 **Re-enrollment triggers** (re-run the `systemd-cryptenroll` command above when any of these change):
 - Firmware updates → PCR 0
 - Boot loader changes → PCR 2
 - Secure Boot key changes → PCR 7
+
+When re-enrolling, you can reuse the same PIN or set a new one.
 
 ---
 

@@ -71,7 +71,10 @@
                   # systemd in stage 1 (boot.initrd.systemd.enable = true,
                   # already set in framey). The TPM is NOT enrolled at format
                   # time — enroll it after first boot (see header above).
-                  crypttabExtraOpts = [ "tpm2-device=auto" ];
+                  # tpm2-device=auto: TPM2 auto-unlock via systemd-cryptenroll (post-install)
+                  # tpm2-with-pin=yes: require a PIN in addition to TPM2 PCR check
+                  #   (prevents silent unlock if laptop is stolen with matching PCR state)
+                  crypttabExtraOpts = [ "tpm2-device=auto" "tpm2-with-pin=yes" ];
                 };
                 # disko prompts for the passphrase interactively at format time.
                 content = {

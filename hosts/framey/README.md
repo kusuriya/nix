@@ -60,9 +60,10 @@ Enabled via [lanzaboote](https://github.com/nix-community/lanzaboote) — wraps 
 
 ### TPM2 Auto-Unlock
 
-The LUKS2 container auto-unlocks via TPM2 at boot — no passphrase entry required for normal boots.
+The LUKS2 container auto-unlocks via TPM2 at boot with a required PIN — both the TPM2 PCR check and the PIN must pass to unlock.
 
 - **PCRs used:** 0 (firmware) + 2 (boot loader) + 7 (Secure Boot state)
+- **PIN required:** `--tpm2-with-pin` — a numeric PIN is prompted at boot in addition to the TPM2 PCR check. Prevents silent unlock if the laptop is stolen with matching PCR state.
 - **Passphrase fallback:** LUKS2 always has a passphrase slot as fallback — if PCR values change (firmware update, Secure Boot key change), the passphrase works
 - **systemd initrd:** `boot.initrd.systemd.enable = true` is required for TPM2 unlock via `systemd-cryptenroll`
 - **Re-enrollment required** after firmware updates, boot loader changes, or Secure Boot key changes (PCR values change)
@@ -302,8 +303,10 @@ sudo sbctl verify
 This adds TPM2 as an auto-unlock method. Must be done AFTER Secure Boot is set up (PCR 7 includes Secure Boot state).
 
 ```bash
-# Enroll TPM2 with PCR 0+2+7
-sudo systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7 /dev/nvme0n1p2
+# Enroll TPM2 with PCR 0+2+7 and required PIN
+sudo systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7 --tpm2-with-pin /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2
+
+# You will be prompted to set a PIN — choose a strong numeric PIN (6-8 digits)
 
 # Verify enrollment
 sudo cryptsetup luksDump /dev/nvme0n1p2
@@ -364,7 +367,7 @@ The TPM2 unlock uses PCR 0 (firmware) + PCR 2 (boot loader) + PCR 7 (Secure Boot
 
 ```bash
 # Re-enroll after firmware updates, boot loader changes, or Secure Boot key changes:
-sudo systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7 /dev/nvme0n1p2
+sudo systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7 --tpm2-with-pin /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2
 ```
 
 **What triggers re-enrollment:**
