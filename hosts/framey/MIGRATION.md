@@ -69,10 +69,10 @@ Save it securely:
 echo "$PASS" | age -p -o /tmp/luks-passphrase.age
 
 # Back up the age file to dozer (survives the disk wipe)
-cp /tmp/luks-passphrase.age /data/backup/framey-home-$(date +%Y-%m-%d)/luks-passphrase.age
+cp /tmp/luks-passphrase.age /data/backup/framey-post-install-$(date +%Y-%m-%d)/luks-passphrase.age
 
 # Copy to the installed system after migration
-# (done post-install: cp /data/backup/.../luks-passphrase.age /root/)
+# (done post-install: cp /data/backup/framey-post-install-.../luks-passphrase.age /root/)
 
 # Write down the 12-word passphrase on paper and store in a physical safe
 # This is your ultimate recovery method — no tools needed, just the paper
