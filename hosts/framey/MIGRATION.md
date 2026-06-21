@@ -51,9 +51,33 @@ This runbook migrates framey from its current state (unencrypted, Secure Boot of
 
 ---
 
+## Generate LUKS Passphrase (before disko)
+
+Generate a 12-word XKCD-style passphrase using the EFF wordlist (~156 bits entropy, actually memorable):
+
+```bash
+python3 -c "
+import secrets, urllib.request
+words = [l.split('\t')[1] for l in urllib.request.urlopen('https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt').read().decode().strip().split('\n') if '\t' in l]
+print('-'.join(secrets.choice(words) for _ in range(12)))
+"
+```
+
+Save it securely:
+```bash
+# Save to an age-encrypted file on the system (root-only)
+echo "$PASS" | age -p -o /root/luks-passphrase.age
+
+# Write down on paper and store in a physical safe — this is your ultimate recovery method
+```
+
+See `1-Daily/2026-06-21-framey-luks-passphrase.md` in Obsidian for full details.
+
 ## Apply Disko (DESTRUCTIVE — wipes disk)
 
 > **Warning:** This destroys all data on the NVMe. Ensure backups are complete before proceeding.
+>
+> When disko prompts for the LUKS passphrase, type (or paste) the 12-word passphrase generated above.
 
 ```bash
 nix run github:nix-community/disko -- --mode destroy,format,mount --flake .#framey
