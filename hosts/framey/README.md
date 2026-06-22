@@ -45,7 +45,7 @@ Full-disk encryption via LUKS2, managed declaratively by [disko](https://github.
 - **@log separate** — excludes noisy logs from root snapshots
 - **@swap inside LUKS** — swap is encrypted (no cleartext swap leak)
 - **@persist placeholder** — not actively used; reserved for potential future impermanence setup
-- **32G swapfile** → now **96G swapfile** — matches RAM size, required for hibernation (currently suspended-only, see Caveats)
+- **96G swapfile** — matches RAM size, required for hibernation (currently suspended-only, see Caveats)
 
 ### Secure Boot
 
@@ -465,7 +465,7 @@ sudo btrbk clean
 
 The Linux kernel blocks hibernation when Secure Boot (kernel lockdown mode) is enabled — it can't verify the hibernation image wasn't tampered with. A patchset by Matthew Garrett (mjg59) uses TPM PCR 5 + HMAC to authenticate hibernation images, but it is **not yet merged upstream** as of June 2026.
 
-The 32G swapfile is in place and ready. When the upstream kernel supports secure hibernation, your config should "just work" — systemd initrd already handles resume device/offset auto-detection.
+The 96G swapfile is in place and ready. When the upstream kernel supports secure hibernation, your config should "just work" — systemd initrd already handles resume device/offset auto-detection.
 
 If hibernation is critical, options are:
 1. Disable Secure Boot (loses evil-maid protection)
@@ -483,10 +483,9 @@ If you want to experiment with impermanence in the future:
 
 ### autoUpgrade
 
-Auto-upgrade is enabled (weekly, Sunday 1AM, 45min random delay) pulling from `nixos-unstable`. This means:
-- **Breaking changes are possible** — unstable channel can introduce breaking changes
+Auto-upgrade is enabled (weekly, Sunday 1AM, 45min random delay) rebuilding from `nixos-unstable` without bumping the nixpkgs input. This means:
+- **No automatic nixpkgs bumps** — `flake.lock` is not modified by autoUpgrade; you control when to update via `nix flake update`
 - **Reboots are NOT automatic** (`allowReboot = false`) — you control when to reboot after an upgrade
-- **The next boot could fail** if a breaking change landed — keep the previous generation (systemd-boot keeps 5)
 - **Recovery key needed on manual reboot** — TPM2 should handle this if PCR values haven't changed
 
 Consider switching to `nixos-24.11` or `nixos-25.05` stable if stability is more important than bleeding-edge packages.

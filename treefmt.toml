@@ -1,13 +1,10 @@
 [formatter.statix]
-#command = "statix"
-#options = ["check"]
 command = "sh"
 options = ["-euc", "for file in \"$@\"; do statix check \"$file\"; done"]
 includes = [ "*.nix" ]
 priority = 1
 
-[formatter.nix]
-command = "nix"
-options = ["fmt"]
+[formatter.nixpkgs-fmt]
+command = "nixpkgs-fmt"
 includes = ["*.nix"]
 priority = 3

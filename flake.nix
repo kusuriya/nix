@@ -1,5 +1,9 @@
 {
   description = "https://github.com/kusuriya/nix";
+  # These settings apply to the Nix CLI when running commands against this
+  # flake directly (e.g. `nix build .#`). The NixOS system daemon settings
+  # are in modules/core/nix.nix — both are needed, they configure different
+  # things.
   nixConfig = {
     warn-dirty = false;
     auto-optimise-store = true;
@@ -20,11 +24,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hardware.url = "github:nixos/nixos-hardware";
-    hyprland.url = "github:hyprwm/Hyprland";
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
     lanzaboote = {
       url = "github:nix-community/lanzaboote/"; #v0.4.1";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,7 +38,6 @@
     , nixpkgs
     , home-manager
     , hardware
-    , hyprland
     , lanzaboote
     , firefox
     , nixpkgs-stable
@@ -48,7 +46,6 @@
     , ...
     }@inputs:
     let
-      inherit (self) outputs;
       # Supported systems for your flake packages, shell, etc.
       systems = [
         "x86_64-linux"
@@ -95,7 +92,7 @@
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake https://github.com/kusuriya/nix/#hostname'
       nixosConfigurations = {
-        # Desktop configuration
+        # Desktop configuration (VFIO passthrough rig, Plasma6 + Sway)
         beast = mkSystem {
           hostname = "beast";
           extraModules = [
@@ -105,10 +102,7 @@
           ];
         };
 
-        # Laptop configuration
-        # Framework 13
-        # AMD Ryzen 7 7040
-        # 96 GB RAM
+        # Laptop (Framework 13 AMD, LUKS2 + Secure Boot + TPM2)
         framey = mkSystem {
           hostname = "framey";
           extraModules = [
@@ -117,6 +111,8 @@
             inputs.lanzaboote.nixosModules.lanzaboote
           ];
         };
+
+        # Home server (Proxmox host, ZFS, containers, no home-manager)
         pve = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs self; };

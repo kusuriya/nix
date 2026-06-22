@@ -21,7 +21,6 @@
   nixpkgs = {
     overlays = [
       self.overlays.additions
-      self.overlays.modifications
       self.overlays.unstable-packages
     ];
     config = {
@@ -177,33 +176,7 @@
       };
       logRefusedConnections = true;
     };
-    resolvconf = {
-      dnsExtensionMechanism = true;
-      enable = true;
-    };
   };
-
-  time.timeZone = "America/Los_Angeles";
-
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-    extraLocaleSettings = {
-      LC_ADDRESS = "en_US.UTF-8";
-      LC_IDENTIFICATION = "en_US.UTF-8";
-      LC_MEASUREMENT = "en_US.UTF-8";
-      LC_MONETARY = "en_US.UTF-8";
-      LC_NAME = "en_US.UTF-8";
-      LC_NUMERIC = "en_US.UTF-8";
-      LC_PAPER = "en_US.UTF-8";
-      LC_TELEPHONE = "en_US.UTF-8";
-      LC_TIME = "en_US.UTF-8";
-    };
-  };
-
-  # zramSwap removed — btrfs on this host uses an NVMe SSD; zram was causing
-  # unnecessary CPU overhead and competing with the btrfs compression (zstd).
-  # Swap is now handled by the btrfs swapfile (if configured) or none at all.
-  # (Block deleted — no replacement needed.)
 
   xdg.portal = {
     enable = true;

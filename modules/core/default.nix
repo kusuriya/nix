@@ -9,6 +9,7 @@
     ./polkit.nix
     ./packages.nix
     ./nix.nix
+    ./locale.nix
   ];
   nix = {
     settings = {
