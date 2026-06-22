@@ -97,7 +97,7 @@
           hostname = "beast";
           extraModules = [
             inputs.hardware.nixosModules.common-cpu-amd
-            inputs.hardware.nixosModules.common-gpu-intel
+            inputs.hardware.nixosModules.common-gpu-nvidia
             inputs.hardware.nixosModules.common-pc-ssd
           ];
         };
