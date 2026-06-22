@@ -239,6 +239,14 @@
     };
   };
 
+  # Let sway handle lid close (bindswitch) instead of logind.
+  # When docked with external monitors, lid close does nothing.
+  # When undocked, lid close triggers suspend via idle-guard.sh.
+  services.logind.lidSwitch = "ignore";
+  services.logind.extraConfig = ''
+    HandlePowerKey=suspend
+  '';
+
   services = {
     libinput = {
       enable = true;
