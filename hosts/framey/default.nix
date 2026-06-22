@@ -98,14 +98,14 @@
           # this to true — we need it off so lanzaboote's bootctl stub takes over.
           enable = lib.mkForce false;
         };
-        # Lanzaboote: enables Secure Boot with a UKI-based boot flow.
-        # Keys are auto-generated into /etc/secureboot on first activation.
-        # Use `sbctl` (already in systemPackages) to verify and manage keys.
-        lanzaboote = {
-          enable = true;
-          pkiBundle = "/etc/secureboot";
-          autoGenerateKeys.enable = true;
-        };
+      };
+      # Lanzaboote: enables Secure Boot with a UKI-based boot flow.
+      # Keys are auto-generated into /etc/secureboot on first activation.
+      # Use `sbctl` (already in systemPackages) to verify and manage keys.
+      lanzaboote = {
+        enable = true;
+        pkiBundle = "/etc/secureboot";
+        autoGenerateKeys.enable = true;
       };
       initrd = {
         compressor = "zstd";
