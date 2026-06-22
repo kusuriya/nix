@@ -241,7 +241,7 @@ cd /tmp/nix
 ```bash
 # This formats the disk with LUKS2 + btrfs per disko.nix
 # It will prompt for the LUKS passphrase — choose a strong one
-nix run github:nix-community/disko -- --mode destroy,format,mount --flake .#framey
+nix --extra-experimental-features 'nix-command flakes' run github:nix-community/disko -- --mode destroy,format,mount --flake .#framey
 ```
 
 **What this does:**

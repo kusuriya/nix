@@ -93,7 +93,7 @@ See `1-Daily/2026-06-21-framey-luks-passphrase.md` in Obsidian for full details.
 > When disko prompts for the LUKS passphrase, type (or paste) the 12-word passphrase generated above.
 
 ```bash
-nix run github:nix-community/disko -- --mode destroy,format,mount --flake .#framey
+nix --extra-experimental-features 'nix-command flakes' run github:nix-community/disko -- --mode destroy,format,mount --flake .#framey
 ```
 
 **After disko completes, verify the mounts are correct before installing:**
