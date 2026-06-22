@@ -2,19 +2,26 @@
 , lib
 , config
 , pkgs
+, modulesPath
 , self
 , ...
 }:
+
 {
-  # You can import other NixOS modules here
   imports = [
     ./hardware-configuration.nix
-    ./vfio.nix
+    ./disko.nix
+    ./packages.nix
     ../../modules/core
     ../../modules/kernel/latest
     ../../modules/desktop/sway
     ../../pkgs/rd560
+    inputs.disko.nixosModules.disko
+    inputs.hardware.nixosModules.common-cpu-amd
+    inputs.hardware.nixosModules.common-gpu-nvidia
+    inputs.hardware.nixosModules.common-pc-ssd
   ];
+
   nixpkgs = {
     config = {
       allowUnfree = true;
@@ -47,17 +54,15 @@
       gc = {
         automatic = true;
         dates = "weekly";
-        # Keep the last week
         options = "--delete-older-than 7d";
       };
     };
+
   system = {
     autoUpgrade = {
       enable = true;
       flake = inputs.self.outPath;
-      flags = [
-        "-L"
-      ];
+      flags = [ "-L" ];
       allowReboot = false;
       dates = "weekly";
       randomizedDelaySec = "45min";
@@ -67,14 +72,21 @@
     };
   };
 
-  # Bootloader.
+  # Bootloader — plain systemd-boot, no Secure Boot
   boot = {
     loader = {
-      systemd-boot.enable = true;
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 7;
+        timeout = 0;
+      };
       efi.canTouchEfiVariables = true;
-      systemd-boot.configurationLimit = 7;
-      timeout = 0;
     };
+    initrd = {
+      compressor = "zstd";
+      systemd.enable = true;
+    };
+    kernelParams = [ "quiet" "audit=1" ];
     binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
       interpreter = "${pkgs.appimage-run}/bin/appimage-run";
@@ -85,29 +97,58 @@
     };
   };
 
+  # --- NVIDIA RTX 3060 (Ampere) — primary GPU, open kernel modules ---
+  hardware = {
+    nvidia = {
+      # Open kernel modules (nvidia-open) — supported on Ampere+ (driver 555+)
+      open = true;
+      # Use the production driver package (not beta)
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      # RTX 3060 is not a Maxwell-era card, so no modesetting issues
+      modesetting.enable = true;
+      # Power management — important for display stability
+      powerManagement.enable = true;
+      # Fine-grained power management (turns off GPU when not in use)
+      # Only works on Turing+ — RTX 3060 is Ampere, so this is fine
+      powerManagement.finegrained = false;
+    };
+
+    # Intel iGPU — present but not used for display (NVIDIA is primary)
+    # Keep iGPU enabled for compute/quick-sync if needed, but don't load
+    # intel media driver as primary
+    intel-gpu-tools.enable = true; # optional, for diagnostics
+
+    bluetooth.enable = true;
+    keyboard.qmk.enable = true;
+    enableRedistributableFirmware = true;
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+  };
+
   networking = {
     hostName = "beast";
     networkmanager.enable = true;
     firewall = {
       enable = true;
       allowPing = true;
+      # KDE Connect
       allowedTCPPortRanges = [{ from = 1714; to = 1764; }];
       allowedUDPPortRanges = [{ from = 1714; to = 1764; }];
+      # SSH on Tailscale interface only
+      interfaces.tailscale0 = {
+        allowedTCPPorts = [ 22 ];
+      };
     };
   };
 
   xdg.portal = {
     enable = true;
+    wlr.enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
-  hardware = {
-    bluetooth.enable = true;
-    keyboard.qmk.enable = true;
-    enableRedistributableFirmware = true;
-    graphics = {
-      enable = true;
-    };
-  };
-  #sound.enable = true;
+
   security = {
     rtkit.enable = true;
     sudo.wheelNeedsPassword = true;
@@ -134,14 +175,38 @@
       };
     };
   };
+
   services = {
-    keyd = {
-      enable = true;
+    keyd.enable = true;
+
+    # --- btrbk: automated btrfs snapshot management ---
+    # Matches framey's config — hourly snapshots with tiered retention.
+    btrbk = {
+      extraPackages = [ pkgs.mbuffer ];
+      instances = {
+        "beast-snapshots" = {
+          onCalendar = "hourly";
+          settings = {
+            timestamp_format = "long";
+            snapshot_preserve_min = "2d";
+            snapshot_preserve = "48h 14d 8w 6m";
+            snapshot_dir = "/.snapshots";
+            subvolume = {
+              "/" = {};
+              "/home" = {};
+            };
+          };
+        };
+      };
     };
+
+    # --- btrfs autoScrub ---
     btrfs.autoScrub = {
       enable = true;
       interval = "weekly";
+      fileSystems = [ "/" "/home" ];
     };
+
     flatpak.enable = true;
     libinput = {
       enable = true;
@@ -151,7 +216,8 @@
         clickMethod = "clickfinger";
       };
     };
-    desktopManager.plasma6.enable = true;
+
+    # Sway-only — no Plasma6
     xserver = {
       enable = true;
       xkb = {
@@ -159,7 +225,15 @@
         variant = "";
       };
     };
+
     openssh.enable = true;
+
+    tailscale = {
+      enable = true;
+      useRoutingFeatures = "client";
+      interfaceName = "tailscale0";
+    };
+
     avahi = {
       enable = true;
       nssmdns4 = true;
@@ -169,23 +243,24 @@
       ipv4 = true;
       browseDomains = [ "local" ];
     };
+
     fwupd.enable = true;
     fstrim = {
       enable = true;
       interval = "weekly";
     };
     gvfs.enable = true;
-    udev =
-      {
-        packages = [ pkgs.via ];
-        extraRules = ''
-          # Set scheduler for NVMe
-          ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/scheduler}="none"
-          # Set scheduler for SSD
-          ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
-          SUBSYSTEM=="kvmfr", OWNER="kusuriya", GROUP="kvm", MODE="0660"
-        '';
-      };
+
+    udev = {
+      packages = [ pkgs.via ];
+      extraRules = ''
+        # Set scheduler for NVMe
+        ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/scheduler}="none"
+        # Set scheduler for SSD
+        ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+      '';
+    };
+
     printing = {
       enable = true;
       drivers = [
@@ -195,6 +270,7 @@
         pkgs.canon-cups-ufr2
       ];
     };
+
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -202,21 +278,29 @@
       jack.enable = true;
       wireplumber.enable = true;
     };
+
+    # Samba — minimal share config for file sharing
+    samba = {
+      enable = true;
+      settings = {
+        "beast-share" = {
+          path = "/home/kusuriya/shared";
+          browseable = "yes";
+          "read only" = "no";
+          "guest ok" = "no";
+        };
+      };
+    };
   };
+
   programs = {
-    nix-ld = {
-      enable = true;
-    };
-    corectrl = {
-      enable = true;
-    };
+    nix-ld.enable = true;
+    corectrl.enable = true;
     _1password-gui = {
       enable = true;
       polkitPolicyOwners = [ "kusuriya" ];
     };
-    dconf = {
-      enable = true;
-    };
+    dconf.enable = true;
     steam = {
       enable = true;
       extraCompatPackages = [ pkgs.proton-ge-bin ];
@@ -227,15 +311,6 @@
 
   environment = {
     etc = {
-      "ovmf/edk2-x86_64-secure-code.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
-      };
-
-      "ovmf/edk2-i386-vars.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-i386-vars.fd";
-        mode = "0644";
-        user = "libvirtd";
-      };
       "1password/custom_allowed_browsers" = {
         text = ''
           vivaldi-bin
@@ -243,47 +318,42 @@
         '';
         mode = "0644";
       };
-      "modules-load.d/kvmfr.conf".text = ''
-        kvmfr
-      '';
-      "modprobe.d/kvmfr.conf".text = ''
-        options kvmfr static_size_mb=256
-      '';
+    };
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      EDITOR = "nvim";
+      BROWSER = "vivaldi";
     };
   };
+
+  # --- libvirtd (non-passthrough VMs) ---
+  # Retained for headless Linux VMs and a future Windows VM.
+  # No VFIO, no Looking Glass, no kvmfr — just basic QEMU/KVM.
   virtualisation = {
     libvirtd = {
       enable = true;
       qemu = {
-        verbatimConfig = ''
-          cgroup_device_acl = [
-          "/dev/kvmfr0",
-          "/dev/kvm0",
-          "/dev/null",
-          "/dev/full",
-          "/dev/zero",
-          "/dev/random",
-          "/dev/urandom",
-          "/dev/ptmx",
-          "/dev/kvm",
-          "/dev/kqemu",
-          "/dev/rtc",
-          "/dev/hpet",
-          ]
-        '';
+        package = pkgs.qemu_full;
         runAsRoot = true;
         swtpm.enable = true;
       };
     };
+    spiceUSBRedirection.enable = true;
   };
 
-  system.stateVersion = "23.05"; # Did you read the comment
-  vfio.enable = true;
-  security.wrappers.qemu-system-x86_64 = {
-    source = "${pkgs.qemu_full}/bin/qemu-system-x86_64";
-    owner = "root";
-    group = "kvm";
-    permissions = "0755";
-    capabilities = "cap_net_admin+ep";
+  # --- NFS mounts from dozer (NAS) ---
+  # Same automount pattern as framey
+  fileSystems."/data" = {
+    device = "dozer:/mnt/dozer-files/hermes-data";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" "async" "x-systemd.idle-timeout=5min" "timeo=14" "retrans=2" ];
   };
+
+  fileSystems."/dozer/files" = {
+    device = "dozer:/mnt/dozer-files/files";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=5min" "timeo=14" "retrans=2" ];
+  };
+
+  system.stateVersion = "23.05"; # Do not change on a rebuild
 }
