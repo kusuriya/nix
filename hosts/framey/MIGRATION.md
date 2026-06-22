@@ -118,6 +118,15 @@ nixos-anywhere is preferred for remote/automated installs; manual disko is fine 
 nixos-install --flake .#framey --no-root-password
 ```
 
+After install completes, **reboot into the new system**:
+```bash
+reboot
+# You will be prompted for the LUKS passphrase (TPM2 not enrolled yet — that's the next step)
+# Enter your 12-word passphrase to unlock the disk
+```
+
+All remaining steps run **on the installed system** (not the live USB).
+
 ---
 
 ## Post-install: Set user password
