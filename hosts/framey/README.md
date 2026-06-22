@@ -202,105 +202,144 @@ Both are lazy-mounted via systemd automount — they only mount when accessed.
 
 This procedure wipes the NVMe and installs a fresh NixOS with the full encrypted + Secure Boot + TPM2 configuration.
 
-### Prerequisites
+### Prerequisites (do these BEFORE booting the live USB)
 
+- **Back up `/home`** — this procedure is destructive. See `1-Daily/2026-06-21-framey-backup-commands.md` in Obsidian for the rsync command
+- **Enable TPM in BIOS** — F2 → Security → TPM 2.0 → Enable (currently disabled on framey)
+- **Update firmware** — `sudo fwupdmgr update` (current: 0.0.3.5, latest: 0.0.3.18). Reboot required. Must be done BEFORE TPM2 enrollment.
+- **Back up SSH host keys** — `sudo cp /etc/ssh/ssh_host_ed25519_key* /data/backup/framey-post-install-$(date +%Y-%m-%d)/ssh-keys/`
+- **Back up Tailscale state (optional)** — `sudo cp -r /var/lib/tailscale /data/backup/framey-post-install-$(date +%Y-%m-%d)/tailscale/`
 - NixOS install media (USB)
-- The flake repo accessible (clone from GitHub or have it on a USB drive)
-- **Back up `/home`** — this procedure is destructive
 - `/data` and `/dozer/files` are NFS mounts on dozer and are unaffected
-- **Enable TPM in BIOS** (F2 → Security → TPM 2.0 → Enable). Currently disabled on framey — required for LUKS TPM2 auto-unlock.
-- **Update firmware via fwupd** — `sudo fwupdmgr update` (current: 0.0.3.5, latest: 0.0.3.18, 13 versions behind, multiple CVEs). Must be done BEFORE TPM2 enrollment — firmware updates change PCR 0 and would break TPM2 unlock.
 
-### Step 1: Boot NixOS Live Media
+### Copy-paste install script
 
-Boot from the NixOS install USB. If the laptop won't boot from USB:
-- Framework 13: press F12 for boot menu, or F2 for BIOS
-- Disable Secure Boot in BIOS temporarily (it will be re-enabled later)
+Boot the NixOS live USB, open a terminal, and paste this entire block. It handles cloning the repo, generating the passphrase, running disko, and installing NixOS.
 
-### Step 2: Verify the disk
+> **⚠️ DESTRUCTIVE** — this wipes the entire NVMe. Ensure all backups are complete before running.
 
 ```bash
-lsblk
-# Confirm the NVMe is /dev/nvme0n1
-# If it's a different device name, update disko.nix before proceeding
-```
+# ============================================================================
+# FRAMEY FRESH INSTALL — copy-paste this entire block into a root shell
+# ============================================================================
+set -e
 
-### Step 3: Clone the flake repo
-
-```bash
-# If networking is available:
+# 1. Clone the flake repo
 nix-shell -p git --run "git clone https://github.com/kusuriya/nix.git /tmp/nix"
 cd /tmp/nix
 
-# If offline, mount the USB with the repo:
-# mount /dev/sdX1 /mnt && cp -r /mnt/nix /tmp/nix && cd /tmp/nix
-```
+# 2. Generate a 12-word LUKS passphrase using EFF wordlist
+#    (no python needed — uses nix-shell to pull python3 + curl)
+echo "Generating 12-word LUKS passphrase..."
+nix-shell -p python3 curl --run "python3 -c \"
+import secrets, urllib.request
+words = [l.split('\t')[1] for l in urllib.request.urlopen('https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt').read().decode().strip().split('\n') if '\t' in l]
+print('-'.join(secrets.choice(words) for _ in range(12)))
+\"" > /tmp/luks-passphrase.txt
 
-### Step 4: Apply disko (DESTRUCTIVE — wipes the disk)
+echo "=== YOUR LUKS PASSPHRASE (save this — you'll need it) ==="
+cat /tmp/luks-passphrase.txt
+echo "========================================================="
+echo ""
+echo "Write this down on paper NOW. You will need it at every step below."
+echo "Press Enter when you've saved it..."
+read -r
 
-```bash
-# This formats the disk with LUKS2 + btrfs per disko.nix
-# It will prompt for the LUKS passphrase — choose a strong one
+# 3. Encrypt and back up the passphrase to dozer
+#    (uses nix-shell to pull age — not on the live USB by default)
+nix-shell -p age --run "age -p -o /tmp/luks-passphrase.age < /tmp/luks-passphrase.txt"
+#    (you'll be prompted for an age passphrase — memorize it, it's separate from the LUKS passphrase)
+
+# Back up the age file to dozer (survives the disk wipe)
+mkdir -p /data/backup/framey-post-install-$(date +%Y-%m-%d)
+cp /tmp/luks-passphrase.age /data/backup/framey-post-install-$(date +%Y-%m-%d)/luks-passphrase.age
+echo "Backed up encrypted passphrase to dozer."
+
+# 4. Verify the disk
+echo "=== DISK VERIFICATION ==="
+lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT
+echo ""
+echo "Confirm the NVMe is the 1.8TB disk (should be /dev/nvme0n1)"
+echo "Press Enter to continue with disko (DESTRUCTIVE — wipes disk)..."
+read -r
+
+# 5. Apply disko (DESTRUCTIVE — wipes the entire disk)
+#    You will be prompted for the LUKS passphrase — paste the 12-word passphrase
 nix --extra-experimental-features 'nix-command flakes' run github:nix-community/disko -- --mode destroy,format,mount --flake .#framey
+
+# 6. Verify mounts are correct (not the USB stick)
+echo "=== MOUNT VERIFICATION ==="
+mount | grep /mnt
+echo ""
+echo "Should show /dev/mapper/cryptroot at /mnt, /mnt/boot, /mnt/home, etc."
+echo "If you see /dev/sda* (USB stick), STOP — disko hit the wrong disk."
+echo "Press Enter to continue with nixos-install..."
+read -r
+
+# 7. Install NixOS
+nix --extra-experimental-features 'nix-command flakes' run nixpkgs#nixos-install -- --flake .#framey --no-root-password
+
+echo ""
+echo "============================================"
+echo "INSTALL COMPLETE"
+echo "============================================"
+echo "Next steps:"
+echo "1. Type 'reboot' and boot into the new system"
+echo "2. Enter your 12-word LUKS passphrase at the prompt"
+echo "3. Log in as root, run: passwd kusuriya"
+echo "4. Follow MIGRATION.md for Secure Boot + TPM2 + USBGuard setup"
+echo ""
+echo "Your encrypted passphrase backup is on dozer at:"
+echo "  /data/backup/framey-post-install-$(date +%Y-%m-%d)/luks-passphrase.age"
+echo ""
 ```
 
-**What this does:**
-1. Wipes all partitions on `/dev/nvme0n1`
-2. Creates the ESP (1G vfat) and LUKS2 container
-3. Formats the LUKS container with btrfs subvolumes
-4. Creates the 32G swapfile
-5. Mounts everything at the correct paths
+### After reboot — post-install steps
 
-### Step 5: Install NixOS
+Once you've rebooted into the new system and logged in as root:
 
 ```bash
-nixos-install --flake .#framey --no-root-password
-```
-
-The `--no-root-password` flag is intentional — you'll use `sudo` with your wheel user. Set the kusuriya user password after first boot.
-
-### Step 6: Reboot into the new system
-
-```bash
-reboot
-# The system should boot and prompt for the LUKS passphrase
-# Enter the passphrase you set in Step 4
-```
-
-### Step 7: Set user password
-
-```bash
-# Log in as root (or use the console)
+# 1. Set user password
 passwd kusuriya
-# Set a strong password
+
+# 2. Copy the age-encrypted passphrase to the new system
+cp /data/backup/framey-post-install-$(date +%Y-%m-%d)/luks-passphrase.age /root/
+chmod 600 /root/luks-passphrase.age
+
+# 3. Restore SSH host keys (if backed up)
+cp /data/backup/framey-post-install-$(date +%Y-%m-%d)/ssh-keys/ssh_host_ed25519_key* /etc/ssh/
+systemctl restart sshd
+
+# 4. Restore Tailscale (optional — or re-login with 'sudo tailscale up')
+# cp -r /data/backup/framey-post-install-$(date +%Y-%m-%d)/tailscale/* /var/lib/tailscale/
 ```
 
-### Step 8: Secure Boot Setup (one-time)
-
-This must be done before enabling Secure Boot in firmware.
+### Secure Boot setup (one-time, requires BIOS interaction)
 
 ```bash
-# Enter BIOS, set Secure Boot to "Setup Mode"
-# This clears existing platform keys
-# Reboot back into NixOS
+# Step 1: Enter BIOS (F2), set Secure Boot to "Setup Mode" (clears existing platform keys)
+#         Reboot back into NixOS
 
-# Generate Secure Boot keys
+# Step 2: Check if lanzaboote auto-generated keys
+sudo sbctl verify
+# If keys not found, generate them:
 sudo sbctl create-keys
 
-# Enroll keys (with Microsoft keys for hardware compatibility)
+# Step 3: Enroll keys (with Microsoft keys for hardware compatibility)
 sudo sbctl enroll-keys --microsoft
 
-# Verify all boot artifacts are signed
+# Step 4: Verify all boot artifacts are signed
 sudo sbctl verify
 # Should show: BOOTX64.EFI, kernel, initrd all signed
 
-# Enter BIOS, enable Secure Boot
-# Reboot — system should boot without intervention
+# Step 5: Enter BIOS (F2), enable Secure Boot
+#         Reboot — system should boot without intervention
+
+# Step 6: Verify Secure Boot is active
+bootctl status | grep -i secure
 ```
 
-### Step 9: TPM2 LUKS Enrollment (one-time)
-
-This adds TPM2 as an auto-unlock method. Must be done AFTER Secure Boot is set up (PCR 7 includes Secure Boot state).
+### TPM2 LUKS enrollment (one-time, AFTER Secure Boot is set up)
 
 ```bash
 # Enroll TPM2 with PCR 0+2+7 and required PIN
@@ -309,52 +348,35 @@ sudo systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7 -
 # You will be prompted to set a PIN — choose a strong numeric PIN (6-8 digits)
 
 # Verify enrollment
-sudo cryptsetup luksDump /dev/nvme0n1p2
-# Should show a TPM2 slot in the LUKS2 header
+sudo cryptsetup luksDump /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2 | grep -i tpm
 
-# Reboot — should auto-unlock via TPM2 without passphrase prompt
+# Reboot — should prompt for PIN (not the full LUKS passphrase)
 reboot
 ```
 
-### Step 10: USBGuard Policy Generation (one-time)
-
-Generate an allowlist from currently-connected devices:
+### USBGuard policy generation (one-time)
 
 ```bash
-# Generate policy from current devices
+# Generate policy from currently-connected devices
 sudo usbguard generate-policy > /tmp/rules.conf
 sudo cp /tmp/rules.conf /etc/usbguard/rules.conf
 sudo systemctl restart usbguard
 
 # Verify
 sudo usbguard list-devices
-# Should show your devices as "allow"
 ```
 
-### Step 11: Verify everything
+### Final verification
 
 ```bash
-# Secure Boot is active
-bootctl status
-# or: mokutil --sb-state (if available)
-
-# TPM2 is enrolled
-sudo cryptsetup luksDump /dev/nvme0n1p2 | grep -i tpm
-
-# USBGuard is running
-sudo systemctl status usbguard
-
-# btrbk snapshots are scheduled
-sudo systemctl status btrbk.timer
-
-# Firewall is active
-sudo iptables -L -n | head
-
-# Audit is running
-sudo systemctl status auditd
-
-# AppArmor is loaded
-sudo aa-status | head
+echo "=== Secure Boot ===" && bootctl status | grep -i secure
+echo "=== TPM2 ===" && sudo cryptsetup luksDump /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2 | grep -i tpm
+echo "=== USBGuard ===" && sudo systemctl status usbguard | head -3
+echo "=== btrbk ===" && sudo systemctl status btrbk.timer | head -3
+echo "=== autoScrub ===" && sudo systemctl status btrfs-autoScrub | head -3
+echo "=== Firewall ===" && sudo iptables -L -n | head -5
+echo "=== Audit ===" && sudo systemctl status auditd | head -3
+echo "=== AppArmor ===" && sudo aa-status | head -5
 ```
 
 ---
