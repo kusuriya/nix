@@ -349,6 +349,15 @@
     };
   };
 
+  # Create the Samba share directory at boot
+  systemd.tmpfiles.settings."/home/kusuriya/shared" = {
+    d = {
+      user = "kusuriya";
+      group = "users";
+      mode = "0755";
+    };
+  };
+
   programs = {
     nix-ld.enable = true;
     corectrl.enable = true;
