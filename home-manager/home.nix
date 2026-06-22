@@ -26,6 +26,7 @@
       ".config/mako/config" = { source = ./dotfiles/mako/config; };
       ".config/kanshi/config" = { source = ./dotfiles/kanshi/config; };
       ".config/ghostty/config" = { source = ./dotfiles/ghostty/config; };
+      ".config/ghostty/themes/catppuccin-mocha" = { source = ./dotfiles/ghostty/themes/catppuccin-mocha; };
     };
     sessionVariables = {
       EDITOR = "nvim";
