@@ -13,10 +13,10 @@
     ../../modules/desktop/sway
     ./hardware-configuration.nix
     ./packages.nix
+    ./disko.nix
+    inputs.disko.nixosModules.disko
     inputs.hardware.nixosModules.framework-13-7040-amd
     inputs.hardware.nixosModules.common-pc-ssd
-    # ./disko.nix                    # TODO: uncomment after migration — importing before disk is reformatted will conflict
-    # inputs.disko.nixosModules.disko  # TODO: uncomment after migration
   ];
   nixpkgs = {
     overlays = [
