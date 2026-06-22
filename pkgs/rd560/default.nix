@@ -25,10 +25,14 @@ in
         description = "Labelrange RD560 Label Printer";
 
         # For USB connection:
-        deviceUri = "usb://Labelrange/RD560?serial=YOUR_SERIAL";
+        # Uncomment and set the actual serial by running: lsusb -v | grep -A5 Labelrange
+        # deviceUri = "usb://Labelrange/RD560?serial=YOUR_SERIAL";
 
         # For Bluetooth (after pairing):
         # deviceUri = "bluetooth://XX:XX:XX:XX:XX:XX";
+
+        # Placeholder until actual serial is set — use a disabled URI
+        deviceUri = "usb://Labelrange/RD560";
 
         # Model should match the PPD filename (run `lpinfo -m` after rebuild to find it)
         model = "labelrange/RD560.ppd";  # Adjust based on actual PPD name

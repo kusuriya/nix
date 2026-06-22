@@ -24,9 +24,7 @@
     extraModprobeConfig = ''
       options kvm-amd nested=1
     '';
-    kernelParams = [
-      "quiet"
-    ];
+    # kernelParams are managed in default.nix
   };
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware = {

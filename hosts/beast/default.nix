@@ -17,9 +17,7 @@
     ../../modules/desktop/sway
     ../../pkgs/rd560
     inputs.disko.nixosModules.disko
-    inputs.hardware.nixosModules.common-cpu-amd
-    inputs.hardware.nixosModules.common-gpu-nvidia
-    inputs.hardware.nixosModules.common-pc-ssd
+    # Hardware modules are imported via flake.nix extraModules — no duplicate here
   ];
 
   nixpkgs = {
@@ -79,9 +77,9 @@
     };
     initrd = {
       compressor = "zstd";
-      systemd.enable = true;
+      # systemd in initrd not needed — no LUKS2/TPM2 unlock on this host
     };
-    kernelParams = [ "quiet" "audit=1" ];
+    kernelParams = [ "quiet" "audit=1" "nvidia-drm.modeset=1" ];
     plymouth.enable = true;
     # --- Kernel sysctls (adapted from framey) ---
     kernel.sysctl = {
@@ -331,12 +329,22 @@
     # Samba — minimal share config for file sharing
     samba = {
       enable = true;
+      openFirewall = true;
       settings = {
+        "global" = {
+          "workgroup" = "CORRUPTED";
+          "server string" = "BEAST";
+          "netbios name" = "BEAST";
+          "security" = "user";
+          "guest account" = "nobody";
+        };
         "beast-share" = {
           path = "/home/kusuriya/shared";
           browseable = "yes";
           "read only" = "no";
           "guest ok" = "no";
+          "create mask" = "0644";
+          "directory mask" = "0755";
         };
       };
     };

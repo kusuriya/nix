@@ -138,7 +138,7 @@ After first boot, add NVMe 2 to the btrfs pool and create the swapfile:
 sudo btrfs device add /dev/disk/by-id/nvme-DRIVE_2_ID /
 
 # Balance to spread data across both devices
-sudo btrfs balance start -dusage=0 /
+sudo btrfs balance start -dusage=100 /
 
 # Create 16 GB swapfile (kernel 6.1+ handles NODATACOW automatically)
 sudo btrfs filesystem mkswapfile --size 16G /.swapvol/swapfile
