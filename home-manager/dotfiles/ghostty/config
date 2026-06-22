@@ -14,6 +14,12 @@ cursor-style-blink = false
 
 shell-integration = detect
 
+# ─── TERM ───────────────────────────────────────────────────────
+# Ghostty defaults to xterm-ghostty but NixOS ncurses doesn't ship
+# that terminfo entry, causing "missing or unsuitable terminal" errors.
+# xterm-256color is universally available and works fine.
+term = xterm-256color
+
 # ─── Theme ─────────────────────────────────────────────────────
 # catppuccin-mocha: dark base #1e1e2e, ANSI black #45475a (readable)
 theme = catppuccin-mocha
