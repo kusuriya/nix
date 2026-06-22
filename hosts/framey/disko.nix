@@ -76,7 +76,8 @@
                   # enrollment causes the initrd to try TPM2 unlock, find no key,
                   # and drop to emergency mode instead of falling back to passphrase.
                   # Post-install: uncomment the line below, rebuild, then reboot
-                  # crypttabExtraOpts = [ "tpm2-device=auto" "tpm2-with-pin=yes" ];
+                  # NOTE: use "tpm2-with-pin" not "tpm2-with-pin=yes" — it's a boolean flag
+                  # crypttabExtraOpts = [ "tpm2-device=auto" "tpm2-with-pin" ];
                 };
                 # disko prompts for the passphrase interactively at format time.
                 content = {
