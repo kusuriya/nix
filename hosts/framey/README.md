@@ -302,15 +302,20 @@ Once you've rebooted into the new system and logged in as root:
 # 1. Set user password
 passwd kusuriya
 
-# 2. Copy the age-encrypted passphrase to the new system
+# 2. Clone the nix config repo onto the new system
+nix-shell -p git --run "git clone https://github.com/kusuriya/nix.git /etc/nixos"
+cd /etc/nixos
+
+# 3. Copy the age-encrypted passphrase to the new system
 cp /data/backup/framey-post-install-$(date +%Y-%m-%d)/luks-passphrase.age /root/
 chmod 600 /root/luks-passphrase.age
 
-# 3. Restore SSH host keys (if backed up)
-cp /data/backup/framey-post-install-$(date +%Y-%m-%d)/ssh-keys/ssh_host_ed25519_key* /etc/ssh/
+# 4. Restore SSH host keys (if backed up)
+mkdir -p /data/backup/framey-post-install-$(date +%Y-%m-%d)/ssh-keys/ 2>/dev/null
+cp /data/backup/framey-post-install-$(date +%Y-%m-%d)/ssh-keys/ssh_host_ed25519_key* /etc/ssh/ 2>/dev/null || echo "No SSH key backup found — new host keys generated"
 systemctl restart sshd
 
-# 4. Restore Tailscale (optional — or re-login with 'sudo tailscale up')
+# 5. Restore Tailscale (optional — or re-login with 'sudo tailscale up')
 # cp -r /data/backup/framey-post-install-$(date +%Y-%m-%d)/tailscale/* /var/lib/tailscale/
 ```
 
