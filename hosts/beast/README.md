@@ -109,24 +109,32 @@ Weekly `nixos-rebuild switch` via `system.autoUpgrade`. No automatic reboots.
 
 ## Fresh Install
 
+**Quick start** — boot NixOS install media, then:
+
 ```bash
-# 1. Boot NixOS install media
-# 2. Clone the flake
+# Find your NVMe by-id paths
+ls -l /dev/disk/by-id/ | grep nvme
+
+# Clone and run the install script (interactive — will ask for confirmation)
+sudo bash <(curl -sL https://raw.githubusercontent.com/kusuriya/nix/main/hosts/beast/install.sh) \
+  /dev/disk/by-id/nvme-DRIVE_1_ID /dev/disk/by-id/nvme-DRIVE_2_ID
+```
+
+Or clone manually and run:
+
+```bash
 sudo nix-shell -p git --run 'git clone https://github.com/kusuriya/nix /tmp/nix && cd /tmp/nix'
+cd /tmp/nix
+sudo bash hosts/beast/install.sh /dev/disk/by-id/nvme-DRIVE_1_ID /dev/disk/by-id/nvme-DRIVE_2_ID
+```
 
-# 3. Verify disk by-id paths
-ls -l /dev/disk/by-id/
+The script does everything: clones the flake, patches `disko.nix` with your real
+device paths, runs disko, installs NixOS, and reboots. See `install.sh` for details.
 
-# 4. Edit hosts/beast/disko.nix — replace PLACEHOLDER device path with actual by-id for NVMe 1
-# 5. Run disko (DESTRUCTIVE — wipes NVMe 1 only)
-sudo nix run github:nix-community/disko -- --mode destroy,format,mount --flake .#beast
+**Dry run** (no changes, just validates):
 
-# 6. Install NixOS
-sudo nixos-generate-config --no-roots --root /mnt
-sudo nixos-install --flake .#beast --root /mnt
-
-# 7. Reboot
-sudo reboot
+```bash
+sudo bash hosts/beast/install.sh --dry-run /dev/disk/by-id/nvme-DRIVE_1_ID /dev/disk/by-id/nvme-DRIVE_2_ID
 ```
 
 ## Post-Install: Add Second NVMe
@@ -147,6 +155,12 @@ sudo btrfs filesystem mkswapfile --size 16G /.swapvol/swapfile
 # Verify
 sudo btrfs filesystem show /
 swapon --show
+```
+
+Or run the post-install script:
+
+```bash
+sudo bash hosts/beast/post-install.sh /dev/disk/by-id/nvme-DRIVE_2_ID
 ```
 
 Update `disko.nix` with the actual device paths for future reproducibility.
