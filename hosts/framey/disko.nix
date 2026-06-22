@@ -69,12 +69,14 @@
                   allowDiscards = true;
                   # Try the TPM2 first, fall back to passphrase. Requires
                   # systemd in stage 1 (boot.initrd.systemd.enable = true,
-                  # already set in framey). The TPM is NOT enrolled at format
-                  # time — enroll it after first boot (see header above).
-                  # tpm2-device=auto: TPM2 auto-unlock via systemd-cryptenroll (post-install)
-                  # tpm2-with-pin=yes: require a PIN in addition to TPM2 PCR check
-                  #   (prevents silent unlock if laptop is stolen with matching PCR state)
-                  crypttabExtraOpts = [ "tpm2-device=auto" "tpm2-with-pin=yes" ];
+                  # already set in framey). The TPM is NOT enrolled at
+                  # format time — enroll it after first boot (see header above).
+                  # IMPORTANT: tpm2-device and tpm2-with-pin options must be
+                  # added AFTER systemd-cryptenroll is run. Adding them before
+                  # enrollment causes the initrd to try TPM2 unlock, find no key,
+                  # and drop to emergency mode instead of falling back to passphrase.
+                  # Post-install: uncomment the line below, rebuild, then reboot
+                  # crypttabExtraOpts = [ "tpm2-device=auto" "tpm2-with-pin=yes" ];
                 };
                 # disko prompts for the passphrase interactively at format time.
                 content = {
