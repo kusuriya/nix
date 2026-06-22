@@ -341,23 +341,11 @@
       fileSystems = [ "/" "/home" ];
     };
 
-    # --- USBGuard: USB device authorization policy ---
-    # Enforces a default-deny policy for USB devices. Known-safe device
-    # classes (mass storage, HID, Bluetooth) are allowed automatically;
-    # everything else is blocked until explicitly authorized via usbguard CLI.
-    # Members of the 'wheel' group can manage the daemon via IPC.
-    usbguard = {
-      enable = true;
-      IPCAllowedGroups = [ "wheel" ];
-      rules = ''
-        # Allow existing devices at boot
-        allow with-interface equals { 08:*:* }  # mass storage
-        allow with-interface equals { 03:*:* }  # HID (keyboard, mouse)
-        allow with-interface equals { e0:*:* }  # Bluetooth
-        # Block everything else by default
-        block
-      '';
-    };
+    # USBGuard removed — broke Caldigit dock (Thunderbolt USB hub).
+    # Can revisit with per-device-ID rules later, but class-based rules
+    # don't cover dock passthrough devices properly.
+    # See: https://usbguard.github.io/documentation/rule-language
+
     gvfs.enable = true;
     hardware.bolt.enable = true;
     power-profiles-daemon = {

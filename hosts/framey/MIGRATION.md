@@ -223,19 +223,6 @@ When re-enrolling, you can reuse the same PIN or set a new one.
 
 ---
 
-## USBGuard Policy Generation (one-time)
-
-```bash
-sudo usbguard generate-policy > /tmp/rules.conf
-sudo cp /tmp/rules.conf /etc/usbguard/rules.conf
-sudo systemctl restart usbguard
-sudo usbguard list-devices
-```
-
-> **Note:** The Framework 13 built-in keyboard/trackpad are **not** USB devices — they work before and independent of policy generation.
-
----
-
 ## Verification
 
 ```bash
@@ -243,7 +230,6 @@ bootctl status | grep -i secure        # Secure Boot active
 sudo cryptsetup luksDump \
   /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2 \
   | grep -i tpm                         # TPM2 enrolled
-sudo systemctl status usbguard          # USBGuard running
 sudo systemctl status btrbk.timer       # btrbk scheduled
 sudo systemctl status btrfs-autoScrub   # autoScrub scheduled
 sudo iptables -L -n | head              # firewall active

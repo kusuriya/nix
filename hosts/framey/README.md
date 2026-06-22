@@ -114,7 +114,7 @@ This runs in the background and does not impact normal I/O significantly. Check 
 ### Access Control
 
 - **AppArmor:** enabled, `killUnconfinedConfinables = true` (processes without a profile are killed)
-- **USBGuard:** class-based allowlist — allows mass storage, HID, and Bluetooth classes; blocks everything else by default
+- **USBGuard:** removed — broke Caldigit dock. Can revisit with per-device-ID rules later.
 - **TPM2:** PKCS11 + TCTI environment enabled (used for LUKS unlock and potential future smart card use)
 - **1Password:** GUI + CLI + polkit integration
 - **sudo:** requires password (`wheelNeedsPassword = true`)
@@ -123,7 +123,7 @@ This runs in the background and does not impact normal I/O significantly. Check 
 ### Physical Security
 
 - **Thunderbolt:** `services.hardware.bolt.enable = true` with `security = "user"` — Thunderbolt devices require explicit user authorization via `boltctl` before DMA access is granted
-- **USBGuard:** blocks unauthorized USB devices (see Access Control above)
+- **USBGuard:** removed (broke Caldigit dock — see Caveats)
 - **TPM2:** used for LUKS auto-unlock and potential future smart card use
 - **Secure Boot:** protects against evil-maid / boot-level attacks (see Secure Boot section)
 
@@ -291,7 +291,7 @@ echo "Next steps:"
 echo "1. Type 'reboot' and boot into the new system"
 echo "2. Enter your 12-word recovery key at the prompt"
 echo "3. Log in as root, run: passwd kusuriya"
-echo "4. Follow MIGRATION.md for Secure Boot + TPM2 + USBGuard setup"
+echo "4. Follow MIGRATION.md for Secure Boot + TPM2 setup"
 echo ""
 echo "Your encrypted passphrase backup is on dozer at:"
 echo "  /data/backup/framey-post-install-$(date +%Y-%m-%d)/luks-passphrase.age"
@@ -394,24 +394,11 @@ sudo cryptsetup luksDump /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_4879786980087
 reboot
 ```
 
-### USBGuard policy generation (one-time)
-
-```bash
-# Generate policy from currently-connected devices
-sudo usbguard generate-policy > /tmp/rules.conf
-sudo cp /tmp/rules.conf /etc/usbguard/rules.conf
-sudo systemctl restart usbguard
-
-# Verify
-sudo usbguard list-devices
-```
-
 ### Final verification
 
 ```bash
 echo "=== Secure Boot ===" && bootctl status | grep -i secure
 echo "=== TPM2 ===" && sudo cryptsetup luksDump /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2 | grep -i tpm
-echo "=== USBGuard ===" && sudo systemctl status usbguard | head -3
 echo "=== btrbk ===" && sudo systemctl status btrbk.timer | head -3
 echo "=== autoScrub ===" && sudo systemctl status btrfs-autoScrub | head -3
 echo "=== Firewall ===" && sudo iptables -L -n | head -5
@@ -466,20 +453,6 @@ ls /.snapshots/
 
 # Clean up old snapshots manually (if needed)
 sudo btrbk clean
-```
-
-### USBGuard — Adding New Devices
-
-```bash
-# See what's connected
-sudo usbguard list-devices
-
-# Temporarily allow a device
-sudo usbguard allow-device <id>
-
-# Permanently allow a device (add to rules)
-sudo usbguard generate-policy >> /etc/usbguard/rules.conf
-# Edit to merge with existing rules
 ```
 
 ---
@@ -539,9 +512,9 @@ If you prefer power-profiles-daemon (simpler, GNOME-integrated), disable TLP and
 - Accessing `/data` will hang until the NFS timeout (can be 60+ seconds)
 - This does NOT affect boot — the automount is lazy
 
-### USBGuard First Boot
+### USBGuard — Removed
 
-On the first boot after install, USBGuard's default policy blocks all USB devices except those in the allowlist. **Before generating the policy** (Step 10), USBGuard may block your keyboard/mouse if they're USB-connected. The Framework 13's built-in keyboard and trackpad are not USB devices (they're internal), so they should work. External USB keyboards/mice/docks will be blocked until the policy is generated.
+USBGuard was removed because class-based rules broke the Caldigit dock (Thunderbolt USB hub). The dock presents multiple interface classes that the class-based allowlist didn't cover properly. Can revisit with per-device-ID rules later when there's time to enumerate all dock devices.
 
 ### Kernel Module: amd-pstate
 
