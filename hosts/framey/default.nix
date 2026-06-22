@@ -351,9 +351,9 @@
       IPCAllowedGroups = [ "wheel" ];
       rules = ''
         # Allow existing devices at boot
-        allow with-interface == "{ 08* * }"  # mass storage
-        allow with-interface == "{ 03* * }"  # HID
-        allow with-interface == "{ e0* * }"  # Bluetooth
+        allow with-interface equals { 08:*:* }  # mass storage
+        allow with-interface equals { 03:*:* }  # HID (keyboard, mouse)
+        allow with-interface equals { e0:*:* }  # Bluetooth
         # Block everything else by default
         block
       '';
