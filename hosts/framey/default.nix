@@ -40,26 +40,9 @@
     in
     {
       settings = {
-        experimental-features = [ "nix-command" "flakes" ];
-        auto-optimise-store = true;
-        allowed-users = [
-          "kusuriya"
-          "root"
-        ];
-        trusted-users = [
-          "kusuriya"
-          "root"
-        ];
+        allowed-users = [ "kusuriya" "root" ];
+        trusted-users = [ "kusuriya" "root" ];
         nix-path = config.nix.nixPath;
-        max-jobs = "auto";
-        substituters = [
-          "https://cache.nixos.org"
-          "https://nix-community.cachix.org"
-        ];
-        trusted-public-keys = [
-          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        ];
       };
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
@@ -258,7 +241,6 @@
   };
   security = {
     rtkit.enable = true;
-    polkit.enable = true;
     sudo.wheelNeedsPassword = true;
     audit.enable = true;
     auditd.enable = true;
@@ -504,13 +486,7 @@
 
   };
   virtualisation = {
-    containers.enable = true;
     spiceUSBRedirection.enable = true;
-    podman = {
-      enable = true;
-      dockerCompat = true;
-      defaultNetwork.settings.dns_enabled = true;
-    };
     libvirtd = {
       enable = true;
       qemu = {

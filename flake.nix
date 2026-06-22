@@ -11,7 +11,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/master";
-    nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -30,7 +29,6 @@
       url = "github:nix-community/lanzaboote/"; #v0.4.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-utils.url = "github:numtide/flake-utils";
     sops-nix = {
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -48,7 +46,6 @@
     , hyprland
     , lanzaboote
     , firefox
-    , nixos-cosmic
     , nixpkgs-stable
     , nixpkgs-unstable
     , disko
@@ -70,7 +67,6 @@
           specialArgs = {
             inherit inputs self;
             pkgs-stable = nixpkgs-stable.legacyPackages.${system};
-
           };
           modules = [
             {
@@ -85,7 +81,6 @@
             }
             # Base configuration
             ./hosts/${hostname}
-            nixos-cosmic.nixosModules.default
             # Conditional home-manager setup
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {
@@ -93,12 +88,6 @@
                 users.kusuriya = { imports = [ ./home-manager/home.nix ./modules/home-manager ]; };
               };
             })
-            {
-              nix.settings = {
-                substituters = [ "https://cosmic.cachix.org/" ];
-                trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
-              };
-            }
           ] ++ extraModules;
         };
     in
@@ -125,21 +114,13 @@
         # Laptop configuration
         # Framework 13
         # AMD Ryzen 7 7040
-        # 32
+        # 96 GB RAM
         framey = mkSystem {
           hostname = "framey";
           extraModules = [
             inputs.hardware.nixosModules.framework-13-7040-amd
             inputs.hardware.nixosModules.common-pc-ssd
             inputs.lanzaboote.nixosModules.lanzaboote
-
-          ];
-        };
-        work = mkSystem {
-          hostname = "wusc063016";
-          extraModules = [
-            inputs.hardware.nixosModules.common-pc-ssd
-            inputs.hardware.nixosModules.lenovo-thinkpad-t14
           ];
         };
         pve = nixpkgs.lib.nixosSystem {

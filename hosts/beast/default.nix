@@ -20,6 +20,7 @@
       allowUnfree = true;
       permittedInsecurePackages = [
         "electron-27.3.11"
+        "electron-39.8.10"
       ];
     };
     overlays = [
@@ -37,20 +38,10 @@
     in
     {
       settings = {
-        experimental-features = "nix-command flakes";
-        auto-optimise-store = true;
+        experimental-features = [ "nix-command" "flakes" ];
         allowed-users = [ "kusuriya" "root" ];
         trusted-users = [ "kusuriya" "root" ];
         nix-path = config.nix.nixPath;
-        max-jobs = "auto";
-        substituters = [
-          "https://cache.nixos.org"
-          "https://nix-community.cachix.org"
-        ];
-        trusted-public-keys = [
-          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        ];
       };
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
@@ -130,13 +121,6 @@
   xdg.portal = {
     enable = true;
   };
-  zramSwap = {
-    enable = true;
-    priority = 100;
-    memoryPercent = 1;
-    swapDevices = 1;
-    algorithm = "zstd";
-  };
   hardware = {
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
@@ -148,7 +132,7 @@
   #sound.enable = true;
   security = {
     rtkit.enable = true;
-    sudo.wheelNeedsPassword = false;
+    sudo.wheelNeedsPassword = true;
     audit.enable = true;
     auditd.enable = true;
     apparmor = {
@@ -169,10 +153,8 @@
           enableGnomeKeyring = true;
           fprintAuth = false;
         };
-        hyprlock.fprintAuth = false;
       };
     };
-
   };
   services = {
     keyd = {
@@ -207,29 +189,23 @@
       openFirewall = true;
       ipv6 = true;
       ipv4 = true;
-      browseDomains = [
-        "lan.corrupted.io"
-        "corrupted.io"
-        "local"
-        "sneaky.dev"
-      ];
+      browseDomains = [ "local" ];
     };
     fwupd.enable = true;
     fstrim = {
       enable = true;
       interval = "weekly";
     };
-    thermald.enable = true;
     gvfs.enable = true;
     udev =
       {
         packages = [ pkgs.via ];
         extraRules = ''
-                    # Set scheduler for NVMe
-                    ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/scheduler}="none"
-                    # Set scheduler for SSD
-                    ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
-          	  SUBSYSTEM=="kvmfr", OWNER="kusuriya", GROUP="kvm", MODE="0660"
+          # Set scheduler for NVMe
+          ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/scheduler}="none"
+          # Set scheduler for SSD
+          ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+          SUBSYSTEM=="kvmfr", OWNER="kusuriya", GROUP="kvm", MODE="0660"
         '';
       };
     printing = {
@@ -264,11 +240,11 @@
       enable = true;
     };
     steam = {
-            enable = true;
-            extraCompatPackages = [ pkgs.proton-ge-bin ];
-            remotePlay.openFirewall = true;
-            localNetworkGameTransfers.openFirewall = true;
-        };
+      enable = true;
+      extraCompatPackages = [ pkgs.proton-ge-bin ];
+      remotePlay.openFirewall = true;
+      localNetworkGameTransfers.openFirewall = true;
+    };
   };
 
   environment = {
@@ -284,10 +260,10 @@
       };
       "1password/custom_allowed_browsers" = {
         text = ''
-                    	  vivaldi-bin
-          		  firefox-nightly
-                    	'';
-        mode = "0755";
+          vivaldi-bin
+          firefox-nightly
+        '';
+        mode = "0644";
       };
       "modules-load.d/kvmfr.conf".text = ''
         kvmfr
@@ -298,37 +274,30 @@
     };
   };
   virtualisation = {
-    containers.enable = true;
-    podman = {
-      enable = true;
-      dockerCompat = true;
-      defaultNetwork.settings.dns_enabled = true;
-    };
     libvirtd = {
       enable = true;
       qemu = {
         verbatimConfig = ''
-                    cgroup_device_acl = [
-                    "/dev/kvmfr0",
-          	    "/dev/kvm0",
-          	    "/dev/null",
-                    "/dev/full",
-                    "/dev/zero",
-                    "/dev/random",
-                    "/dev/urandom",
-                    "/dev/ptmx",
-                    "/dev/kvm",
-                    "/dev/kqemu",
-                    "/dev/rtc",
-                    "/dev/hpet",
-                    ]
+          cgroup_device_acl = [
+          "/dev/kvmfr0",
+          "/dev/kvm0",
+          "/dev/null",
+          "/dev/full",
+          "/dev/zero",
+          "/dev/random",
+          "/dev/urandom",
+          "/dev/ptmx",
+          "/dev/kvm",
+          "/dev/kqemu",
+          "/dev/rtc",
+          "/dev/hpet",
+          ]
         '';
         runAsRoot = true;
         swtpm.enable = true;
       };
     };
   };
-
 
   system.stateVersion = "23.05"; # Did you read the comment
   vfio.enable = true;
@@ -340,4 +309,3 @@
     capabilities = "cap_net_admin+ep";
   };
 }
-

@@ -5,17 +5,15 @@
 {
   nix = {
     settings = {
-      allowed-users = [ "kusuriya" ];
-      trusted-users = [ "kusuriya" ];
-      auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
+      auto-optimise-store = true;
+      max-jobs = "auto";
     };
     optimise.automatic = true;
     gc = {
       automatic = true;
       dates = "weekly";
       options = "--delete-older-than 7d";
-
     };
   };
 }

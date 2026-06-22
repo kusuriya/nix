@@ -238,14 +238,6 @@
       blueman                 # Bluetooth manager — GUI for BlueZ
 
       # ============================================================================
-      # FONTS & ICONS (desktop only)
-      # ============================================================================
-
-      cascadia-code           # Microsoft Cascadia Code — monospace, ligatures, dev-friendly
-      gnome-icon-theme        # GNOME icon theme — app icons
-      adwaita-icon-theme      # Adwaita icon theme — GNOME default, clean
-
-      # ============================================================================
       # SPELL CHECKING (desktop only)
       # ============================================================================
 

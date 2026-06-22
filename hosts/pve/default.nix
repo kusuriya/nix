@@ -20,7 +20,7 @@
     in
     {
       settings = {
-        experimental-features = "nix-command flakes";
+        experimental-features = [ "nix-command" "flakes" ];
         auto-optimise-store = true;
         allowed-users = [ "kusuriya" "root" ];
         trusted-users = [ "kusuriya" "root" ];
@@ -75,6 +75,9 @@
       enable = true;
       allowedTCPPorts = [ 80 443 81 82 8080 3000 ];
       allowedUDPPorts = [ 19132 ]; # minecraft bedrock (dakland)
+      interfaces.tailscale0 = {
+        allowedTCPPorts = [ 22 ];
+      };
     };
     nat = {
       enable = true;
@@ -109,9 +112,11 @@
     netdata = {
       enable = true;
     };
-    openssh = {
+    openssh.enable = true;
+    tailscale = {
       enable = true;
-      openFirewall = true;
+      useRoutingFeatures = "client";
+      interfaceName = "tailscale0";
     };
     zfs.autoScrub.enable = true;
   };
