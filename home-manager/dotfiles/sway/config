@@ -6,22 +6,8 @@ set $right l
 set $term ghostty
 set $menu wofi --show run
 
-exec dbus-update-activation-environment --systemd --all
-
-
-### Screen layout for desk
+# Default wallpaper (kanshi may override display config, but wallpaper persists)
 output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#output DP-3 resolution 2560x2880 position 0,0 scale 1.25
-#output DP-6 resolution 3440x1440 scale 1 position 2048,0
-#output DP-5 resolution 2560x2880 scale 1.25 position 5488,0
-output "Sceptre Tech Inc Sceptre O34 Unknown" mode 3440x1440@120Hz scale 1 position 2048,0
-output "LG Electronics LG SDQHD 409NTLE8K432" mode 2560x2880 scale 1.25 position 5488,0
-output "LG Electronics LG SDQHD 302NTCZF0715" mode 2560x2880 scale 1.25 position 0,0
-output "BOE NE135A1M-NY1 Unknown" disable
-workspace 1 output DP-3
-workspace 2 output DP-6
-workspace 3 output DP-5
-
 
 input * xkb_options compose:ralt
 
@@ -78,12 +64,10 @@ input * xkb_options compose:ralt
     bindsym $mod+Control+Shift+Left move workspace to output left
     bindsym $mod+Control+Shift+Down move workspace to output down
     bindsym $mod+Control+Shift+Up move workspace to output up
-    # Note: workspaces can have any name you want, not just numbers.
-    # We just use 1-10 as the default.
 #
 # Layout stuff:
 #
-    # You can "split" the current object of your focus with
+    # You can "split" the current object of focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
     bindsym $mod+h splith
@@ -149,6 +133,7 @@ bindsym $mod+r mode "resize"
     bindsym $mod+F2 exec grimshot copy active
     bindsym $mod+F3 exec grimshot copy output
 
+    # --- Window rules for common apps ---
     for_window [window_role="pop-up"] floating enable
     for_window [window_role="bubble"] floating enable
     for_window [window_role="task_dialog"] floating enable
@@ -158,7 +143,12 @@ bindsym $mod+r mode "resize"
     for_window [window_role="About"] floating enable
     for_window [class="xdg-desktop-portal-kde"] floating enable
 
+    # App-specific floating rules
+    for_window [app_id="1password"] floating enable, resize set 900 600
+    for_window [app_id="pavucontrol"] floating enable, move position center
+    for_window [app_id="nm-connection-editor"] floating enable, move position center
+    for_window [app_id="blueman-manager"] floating enable, move position center
+    for_window [class="Zoom"] floating enable
+    for_window [class="steam"] floating enable
 
-
-include /etc/sway/config.d/*
 include /home/kusuriya/.config/sway/config.d/*

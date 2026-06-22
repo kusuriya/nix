@@ -1,1 +1,33 @@
+# Notifications — catppuccin-mocha themed
+font=JetBrainsMono Nerd Font 10
+anchor=top-right
+max-visible=5
 default-timeout=10000
+
+# Margins and padding
+margin=10
+padding=8
+border-size=2
+border-radius=6
+
+# Catppuccin Mocha palette
+# base=#1e1e2e, surface0=#313244, text=#cdd6f4
+# red=#f38ba8, maroon=#eba0ac, peach=#fab387, green=#a6e3a1
+
+# Normal urgency (default)
+border-color=#313244
+background-color=#1e1e2e
+text-color=#cdd6f4
+
+# Low urgency
+[urgency=low]
+border-color=#45475a
+background-color=#1e1e2e
+text-color=#a6adc8
+
+# Critical urgency
+[urgency=critical]
+border-color=#f38ba8
+background-color=#1e1e2e
+text-color=#f38ba8
+default-timeout=0
