@@ -44,18 +44,13 @@
     in
     {
       settings = {
-        experimental-features = [ "nix-command" "flakes" ];
         allowed-users = [ "kusuriya" "root" ];
         trusted-users = [ "kusuriya" "root" ];
         nix-path = config.nix.nixPath;
       };
+      # gc and experimental-features are handled by modules/core/nix.nix
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
-      gc = {
-        automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 7d";
-      };
     };
 
   system = {
