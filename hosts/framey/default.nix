@@ -313,7 +313,6 @@
     # Snapshots are stored in /.snapshots (a hidden subvolume at the root).
     # Uses mbuffer for faster data transfer during snapshot send/receive.
     btrbk = {
-      enable = true;
       extraPackages = [ pkgs.mbuffer ];
       instances = {
         "framey-snapshots" = {
