@@ -82,6 +82,41 @@
       systemd.enable = true;
     };
     kernelParams = [ "quiet" "audit=1" ];
+    plymouth.enable = true;
+    # --- Kernel sysctls (adapted from framey) ---
+    kernel.sysctl = {
+      # TCP tuning
+      "net.ipv4.tcp_mtu_probing" = 1;
+      "net.core.default_qdisc" = "fq";
+      "net.ipv4.tcp_congestion_control" = "bbr";
+      "net.ipv4.tcp_fastopen" = 3;
+      "net.ipv4.tcp_slow_start_after_idle" = 0;
+      # Memory / swap
+      "vm.swappiness" = 10;
+      "vm.vfs_cache_pressure" = 50;
+      "vm.dirty_ratio" = 10;
+      "vm.dirty_background_ratio" = 5;
+      # Kernel hardening
+      "kernel.kptr_restrict" = 2;
+      "kernel.dmesg_restrict" = 1;
+      "kernel.perf_event_paranoid" = 3;
+      "kernel.yama.ptrace_scope" = 2;
+      # Network hardening
+      "net.ipv4.conf.all.rp_filter" = 1;
+      "net.ipv4.conf.default.rp_filter" = 1;
+      "net.ipv4.conf.all.accept_redirects" = 0;
+      "net.ipv4.conf.default.accept_redirects" = 0;
+      "net.ipv4.conf.all.send_redirects" = 0;
+      "net.ipv4.conf.default.send_redirects" = 0;
+      "net.ipv4.conf.all.accept_source_route" = 0;
+      "net.ipv4.conf.default.accept_source_route" = 0;
+      "net.ipv6.conf.all.accept_redirects" = 0;
+      "net.ipv6.conf.default.accept_redirects" = 0;
+      "net.ipv6.conf.all.accept_source_route" = 0;
+      "net.ipv6.conf.default.accept_source_route" = 0;
+      "net.ipv4.icmp_echo_ignore_broadcasts" = 1;
+      "net.ipv4.tcp_syncookies" = 1;
+    };
     binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
       interpreter = "${pkgs.appimage-run}/bin/appimage-run";
@@ -99,19 +134,19 @@
       open = true;
       # Use the production driver package (not beta)
       package = config.boot.kernelPackages.nvidiaPackages.stable;
-      # RTX 3060 is not a Maxwell-era card, so no modesetting issues
+      # Required for Wayland
       modesetting.enable = true;
-      # Power management — important for display stability
+      # Power management — display stability
       powerManagement.enable = true;
       # Fine-grained power management (turns off GPU when not in use)
-      # Only works on Turing+ — RTX 3060 is Ampere, so this is fine
+      # Disabled: desktop doesn't need aggressive GPU power-down
       powerManagement.finegrained = false;
+      # nvidia-settings GUI
+      nvidiaSettings = true;
     };
 
     # Intel iGPU — present but not used for display (NVIDIA is primary)
-    # Keep iGPU enabled for compute/quick-sync if needed, but don't load
-    # intel media driver as primary
-    intel-gpu-tools.enable = true; # optional, for diagnostics
+    intel-gpu-tools.enable = true;
 
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
@@ -138,10 +173,22 @@
     };
   };
 
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg = {
+    portal = {
+      enable = true;
+      wlr.enable = true;
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    };
+    mime = {
+      enable = true;
+      defaultApplications = {
+        "text/html" = "vivaldi-stable.desktop";
+        "x-scheme-handler/http" = "vivaldi-stable.desktop";
+        "x-scheme-handler/https" = "vivaldi-stable.desktop";
+        "x-scheme-handler/about" = "vivaldi-stable.desktop";
+        "x-scheme-handler/unknown" = "vivaldi-stable.desktop";
+      };
+    };
   };
 
   security = {
@@ -157,6 +204,14 @@
       enable = true;
       pkcs11.enable = true;
       tctiEnvironment.enable = true;
+    };
+    # QEMU security wrapper — cap_net_admin for bridged VM networking
+    wrappers.qemu-system-x86_64 = {
+      source = "${pkgs.qemu_full}/bin/qemu-system-x86_64";
+      owner = "root";
+      group = "kvm";
+      permissions = "0755";
+      capabilities = "cap_net_admin+ep";
     };
     pam = {
       services = {
@@ -175,7 +230,6 @@
     keyd.enable = true;
 
     # --- btrbk: automated btrfs snapshot management ---
-    # Matches framey's config — hourly snapshots with tiered retention.
     btrbk = {
       extraPackages = [ pkgs.mbuffer ];
       instances = {
@@ -306,6 +360,15 @@
 
   environment = {
     etc = {
+      # OVMF firmware paths for libvirtd/virt-manager VMs
+      "ovmf/edk2-x86_64-secure-code.fd" = {
+        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
+      };
+      "ovmf/edk2-i386-vars.fd" = {
+        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-i386-vars.fd";
+        mode = "0644";
+        user = "libvirtd";
+      };
       "1password/custom_allowed_browsers" = {
         text = ''
           vivaldi-bin
@@ -337,7 +400,6 @@
   };
 
   # --- NFS mounts from dozer (NAS) ---
-  # Same automount pattern as framey
   fileSystems."/data" = {
     device = "dozer:/mnt/dozer-files/hermes-data";
     fsType = "nfs";

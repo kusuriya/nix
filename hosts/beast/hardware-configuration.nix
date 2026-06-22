@@ -1,8 +1,12 @@
 # Hardware configuration for beast — manually maintained.
 # Disk mounts are managed by disko (see ./disko.nix).
-{ lib, ... }:
+{ lib, modulesPath, ... }:
 
 {
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+  ];
+
   boot = {
     initrd = {
       availableKernelModules = [
