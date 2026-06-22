@@ -196,7 +196,7 @@ sudo systemd-cryptenroll \
   --wipe-slot=tpm2 \
   --tpm2-device=auto \
   --tpm2-pcrs=0+2+7 \
-  --tpm2-with-pin \
+  --tpm2-with-pin=yes \
   /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2
 ```
 

@@ -15,9 +15,14 @@
 #   └─ LUKS2 container               → btrfs with subvolumes
 #
 # TPM2 enrollment is NOT done at format time. After the first boot, enroll
-# the TPM2 so the LUKS container unlocks automatically:
+# the TPM2 so the LUKS container unlocks automatically with a PIN:
 #
-#   systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto /dev/disk/by-id/...
+#   systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto \
+#     --tpm2-pcrs=0+2+7 --tpm2-with-pin=yes \
+#     /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2
+#
+# The crypttabExtraOpts below enable TPM2 unlock with PIN at boot.
+# Both must be present: tpm2-device=auto (try TPM) + tpm2-with-pin=yes (require PIN).
 #
 # The swapfile inside @swap is created with `btrfs filesystem mkswapfile`
 # (kernel 6.1+), which handles NODATACOW and the sparse swapfile automatically.
