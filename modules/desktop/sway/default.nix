@@ -43,4 +43,4 @@
     };
   };
   security.polkit.enable = true;
-};
+}
