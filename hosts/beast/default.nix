@@ -64,6 +64,9 @@
     };
   };
 
+  # Hardware watchdog — auto-reboot if system hangs
+  systemd.settings.Manager.RuntimeWatchdogSec = "30s";
+
   # Bootloader — plain systemd-boot, no Secure Boot
   boot = {
     loader = {
@@ -113,6 +116,8 @@
       "net.ipv6.conf.default.accept_source_route" = 0;
       "net.ipv4.icmp_echo_ignore_broadcasts" = 1;
       "net.ipv4.tcp_syncookies" = 1;
+      # Auto-reboot on kernel panic after 60s
+      "kernel.panic" = 60;
     };
     binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
