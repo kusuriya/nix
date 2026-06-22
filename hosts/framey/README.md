@@ -303,8 +303,13 @@ Once you've rebooted into the new system and logged in as root:
 passwd kusuriya
 
 # 2. Clone the nix config repo onto the new system
-nix-shell -p git --run "git clone https://github.com/kusuriya/nix.git /etc/nixos"
-cd /etc/nixos
+#    (clone to ~/nix, not /etc/nixos — avoids git "dubious ownership" errors)
+nix-shell -p git --run "git clone https://github.com/kusuriya/nix.git /home/kusuriya/nix"
+chown -R kusuriya:users /home/kusuriya/nix
+# If you want /etc/nixos to point to the repo:
+# ln -s /home/kusuriya/nix /etc/nixos
+# Or just use the flake directly: nixos-rebuild --flake /home/kusuriya/nix#framey switch
+cd /home/kusuriya/nix
 
 # 3. Copy the age-encrypted passphrase to the new system
 cp /data/backup/framey-post-install-$(date +%Y-%m-%d)/luks-passphrase.age /root/
