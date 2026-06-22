@@ -1,0 +1,20 @@
+# Ghostty config — drop into ~/.config/ghostty/config
+# Hot-reloads on save. Linux-tuned.
+
+# ─── Font ──────────────────────────────────────────────────────
+font-family = "JetBrainsMono Nerd Font"
+font-family-bold = "JetBrainsMono Nerd Font Bold"
+font-style = Regular
+font-size = 12
+font-feature = -calt,-liga             # kill ligatures
+
+# ─── Cursor ────────────────────────────────────────────────────
+cursor-style = bar
+cursor-style-blink = false
+
+shell-integration = detect
+
+# ─── Linux rendering ───────────────────────────────────────────
+# Pick one:
+#   freetype-load-flags = hinting             # crisper on X11
+#   freetype-load-flags = no-autofit,light    # cleaner on Wayland

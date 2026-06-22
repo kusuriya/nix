@@ -16,10 +16,14 @@
     kanshi
     swayidle
     pavucontrol
-
+    brightnessctl
+    swaylock
+    ghostty
+    playerctl
   ];
   services = {
     gnome.gnome-keyring.enable = true;
+    blueman.enable = true;
     greetd = {
       enable = true;
       settings = rec {

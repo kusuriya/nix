@@ -19,8 +19,14 @@
     homeDirectory = "/home/kusuriya";
     stateVersion = "24.11";
     file = {
-      # ".screenrc".source = dotfiles/screenrc;
-     };
+      ".config/sway/config" = { source = ./dotfiles/sway/config; };
+      ".config/sway/config.d/exec.conf" = { source = ./dotfiles/sway/config.d/exec.conf; };
+      ".config/waybar/config.jsonc" = { source = ./dotfiles/waybar/config.jsonc; };
+      ".config/waybar/power_menu.xml" = { source = ./dotfiles/waybar/power_menu.xml; };
+      ".config/mako/config" = { source = ./dotfiles/mako/config; };
+      ".config/kanshi/config" = { source = ./dotfiles/kanshi/config; };
+      ".config/ghostty/config" = { source = ./dotfiles/ghostty/config; };
+    };
     sessionVariables = {
       EDITOR = "nvim";
       TERMINAL = "alacritty";
