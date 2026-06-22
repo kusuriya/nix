@@ -228,16 +228,16 @@ set -e
 nix-shell -p git --run "git clone https://github.com/kusuriya/nix.git /tmp/nix"
 cd /tmp/nix
 
-# 2. Generate a 12-word LUKS passphrase using EFF wordlist
+# 2. Generate a 12-word recovery key using EFF wordlist
 #    (no python needed — uses nix-shell to pull python3 + curl)
-echo "Generating 12-word LUKS passphrase..."
+echo "Generating 12-word recovery key..."
 nix-shell -p python3 curl --run "python3 -c \"
 import secrets, urllib.request
 words = [l.split('\t')[1] for l in urllib.request.urlopen('https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt').read().decode().strip().split('\n') if '\t' in l]
 print('-'.join(secrets.choice(words) for _ in range(12)))
 \"" > /tmp/luks-passphrase.txt
 
-echo "=== YOUR LUKS PASSPHRASE (save this — you'll need it) ==="
+echo "=== YOUR RECOVERY KEY (save this — you'll need it) ==="
 cat /tmp/luks-passphrase.txt
 echo "========================================================="
 echo ""
@@ -248,7 +248,7 @@ read -r
 # 3. Encrypt and back up the passphrase to dozer
 #    (uses nix-shell to pull age — not on the live USB by default)
 nix-shell -p age --run "age -p -o /tmp/luks-passphrase.age < /tmp/luks-passphrase.txt"
-#    (you'll be prompted for an age passphrase — memorize it, it's separate from the LUKS passphrase)
+#    (you'll be prompted for an age passphrase — memorize it, it's separate from the recovery key)
 
 # Back up the age file to dozer (survives the disk wipe)
 mkdir -p /data/backup/framey-post-install-$(date +%Y-%m-%d)
@@ -264,7 +264,7 @@ echo "Press Enter to continue with disko (DESTRUCTIVE — wipes disk)..."
 read -r
 
 # 5. Apply disko (DESTRUCTIVE — wipes the entire disk)
-#    You will be prompted for the LUKS passphrase — paste the 12-word passphrase
+#    You will be prompted for the recovery key — paste the 12-word recovery key
 nix --extra-experimental-features 'nix-command flakes' run github:nix-community/disko -- --mode destroy,format,mount --flake .#framey
 
 # 6. Verify mounts are correct (not the USB stick)
@@ -289,7 +289,7 @@ echo "INSTALL COMPLETE"
 echo "============================================"
 echo "Next steps:"
 echo "1. Type 'reboot' and boot into the new system"
-echo "2. Enter your 12-word LUKS passphrase at the prompt"
+echo "2. Enter your 12-word recovery key at the prompt"
 echo "3. Log in as root, run: passwd kusuriya"
 echo "4. Follow MIGRATION.md for Secure Boot + TPM2 + USBGuard setup"
 echo ""
@@ -333,7 +333,7 @@ Boot the NixOS live USB and chroot in:
 ```bash
 # Unlock the LUKS container
 cryptsetup luksOpen /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2 cryptroot
-# Enter your 12-word LUKS passphrase
+# Enter your 12-word recovery key
 
 # Mount the root subvolume
 mount -o subvol=@root,compress=zstd,noatime /dev/mapper/cryptroot /mnt
@@ -390,7 +390,7 @@ sudo systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7 -
 # Verify enrollment
 sudo cryptsetup luksDump /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2 | grep -i tpm
 
-# Reboot — should prompt for PIN (not the full LUKS passphrase)
+# Reboot — should prompt for PIN (not the full recovery key)
 reboot
 ```
 
@@ -438,7 +438,7 @@ sudo systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7 -
 - Secure Boot key changes (PCR 7 changes)
 - Kernel update — depends on whether the kernel is measured into a PCR you use (it's not with PCR 0+2+7, so kernel updates should NOT require re-enrollment)
 
-**If TPM2 unlock fails:** You'll see a passphrase prompt at boot. Enter your LUKS passphrase, boot normally, then re-enroll TPM2.
+**If TPM2 unlock fails:** You'll see a recovery key prompt at boot. Enter your recovery key, boot normally, then re-enroll TPM2.
 
 ### Re-enroll Secure Boot After lanzaboote Updates
 
@@ -514,7 +514,7 @@ Auto-upgrade is enabled (weekly, Sunday 1AM, 45min random delay) pulling from `n
 - **Breaking changes are possible** — unstable channel can introduce breaking changes
 - **Reboots are NOT automatic** (`allowReboot = false`) — you control when to reboot after an upgrade
 - **The next boot could fail** if a breaking change landed — keep the previous generation (systemd-boot keeps 5)
-- **LUKS passphrase needed on manual reboot** — TPM2 should handle this if PCR values haven't changed
+- **Recovery key needed on manual reboot** — TPM2 should handle this if PCR values haven't changed
 
 Consider switching to `nixos-24.11` or `nixos-25.05` stable if stability is more important than bleeding-edge packages.
 

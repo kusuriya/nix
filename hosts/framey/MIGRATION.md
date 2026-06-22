@@ -53,7 +53,7 @@ This runbook migrates framey from its current state (unencrypted, Secure Boot of
 
 ## Generate LUKS Passphrase (before disko)
 
-Generate a 12-word XKCD-style passphrase using the EFF wordlist (~156 bits entropy, actually memorable):
+Generate a 12-word XKCD-style recovery key using the EFF wordlist (~156 bits entropy, actually memorable):
 
 ```bash
 python3 -c "
@@ -74,14 +74,14 @@ cp /tmp/luks-passphrase.age /data/backup/framey-post-install-$(date +%Y-%m-%d)/l
 # Copy to the installed system after migration
 # (done post-install: cp /data/backup/framey-post-install-.../luks-passphrase.age /root/)
 
-# Write down the 12-word passphrase on paper and store in a physical safe
+# Write down the 12-word recovery key on paper and store in a physical safe
 # This is your ultimate recovery method — no tools needed, just the paper
 ```
 
 To decrypt later:
 ```bash
 age -d /root/luks-passphrase.age
-# Prompts for the age passphrase → outputs the LUKS passphrase
+# Prompts for the age passphrase → outputs the recovery key
 ```
 
 See `1-Daily/2026-06-21-framey-luks-passphrase.md` in Obsidian for full details.
@@ -90,7 +90,7 @@ See `1-Daily/2026-06-21-framey-luks-passphrase.md` in Obsidian for full details.
 
 > **Warning:** This destroys all data on the NVMe. Ensure backups are complete before proceeding.
 >
-> When disko prompts for the LUKS passphrase, type (or paste) the 12-word passphrase generated above.
+> When disko prompts for the recovery key, type (or paste) the 12-word recovery key generated above.
 
 ```bash
 nix --extra-experimental-features 'nix-command flakes' run github:nix-community/disko -- --mode destroy,format,mount --flake .#framey
@@ -121,8 +121,8 @@ nixos-install --flake .#framey --no-root-password
 After install completes, **reboot into the new system**:
 ```bash
 reboot
-# You will be prompted for the LUKS passphrase (TPM2 not enrolled yet — that's the next step)
-# Enter your 12-word passphrase to unlock the disk
+# You will be prompted for the recovery key (TPM2 not enrolled yet — that's the next step)
+# Enter your 12-word recovery key to unlock the disk
 ```
 
 All remaining steps run **on the installed system** (not the live USB).
@@ -204,15 +204,15 @@ You will be prompted to set a PIN during enrollment. Choose a strong numeric PIN
 
 **How this works:**
 - Normal boot: TPM2 checks PCRs (0+2+7) **and** prompts for the PIN → both must pass to unlock
-- If PCR values don't match (firmware update, Secure Boot change): falls back to LUKS passphrase
+- If PCR values don't match (firmware update, Secure Boot change): falls back to recovery key
 - If laptop is stolen: attacker needs the PIN even if PCR values match — prevents silent unlock
-- The LUKS passphrase is always available as a secondary recovery method
+- The recovery key is always available as a secondary recovery method
 
 **Verify:**
 ```bash
 sudo cryptsetup luksDump /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2
 ```
-Should show a TPM2 slot. Reboot — the system should prompt for a PIN at boot (not the full LUKS passphrase).
+Should show a TPM2 slot. Reboot — the system should prompt for a PIN at boot (not the full recovery key).
 
 **Re-enrollment triggers** (re-run the `systemd-cryptenroll` command above when any of these change):
 - Firmware updates → PCR 0
