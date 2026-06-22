@@ -29,10 +29,6 @@
       url = "github:nix-community/lanzaboote/"; #v0.4.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sops-nix = {
-      url = "github:mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     firefox = {
       url = "github:nix-community/flake-firefox-nightly";
     };
@@ -85,7 +81,7 @@
             (nixpkgs.lib.mkIf homeManagerConfig {
               home-manager = {
                 extraSpecialArgs = { inherit inputs self; };
-                users.kusuriya = { imports = [ ./home-manager/home.nix ./modules/home-manager ]; };
+                users.kusuriya = { imports = [ ./home-manager/home.nix ]; };
               };
             })
           ] ++ extraModules;
@@ -96,8 +92,6 @@
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
       overlays = import ./overlays { inherit inputs; };
-      nixosModules = import ./modules/nixos;
-      homeManagerModules = import ./modules/home-manager;
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake https://github.com/kusuriya/nix/#hostname'
       nixosConfigurations = {

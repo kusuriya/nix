@@ -1,4 +1,5 @@
 { pkgs
+, lib
 , ...
 }:
 {
@@ -27,6 +28,14 @@
       ".config/kanshi/config" = { source = ./dotfiles/kanshi/config; };
       ".config/ghostty/config" = { source = ./dotfiles/ghostty/config; };
       ".config/ghostty/themes/catppuccin-mocha" = { source = ./dotfiles/ghostty/themes/catppuccin-mocha; };
+      ".config/nvim" = {
+        source = lib.cleanSourceWith {
+          src = ./dotfiles/nvim;
+          filter = path: _type:
+            !lib.hasPrefix "${toString ./dotfiles/nvim}/undo" (toString path);
+        };
+        recursive = true;
+      };
     };
     sessionVariables = {
       EDITOR = "nvim";

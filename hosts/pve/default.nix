@@ -42,9 +42,6 @@
       enable = true;
       flake = inputs.self.outPath;
       flags = [
-        "--cores 30"
-        "--update-input"
-        "nixpkgs"
         "-L"
       ];
       allowReboot = false;
