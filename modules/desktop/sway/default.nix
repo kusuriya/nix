@@ -20,6 +20,7 @@
     swaylock
     ghostty
     playerctl
+    xarchiver
   ];
   services = {
     gnome.gnome-keyring.enable = true;
@@ -41,5 +42,15 @@
       wrapperFeatures.gtk = true;
       xwayland.enable = true;
     };
+    thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [
+        thunar-archive-plugin
+        thunar-media-tags-plugin
+        thunar-volman
+      ];
+    };
   };
+  # GVFS for Thunar volume management, trash, and MTP device support
+  services.gvfs.enable = true;
 }

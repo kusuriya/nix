@@ -94,6 +94,17 @@
       enable = true;
       enableFishIntegration = true;
     };
+    yazi = {
+      enable = true;
+      enableFishIntegration = true;
+      settings = {
+        mgr = {
+          show_hidden = false;
+          sort_by = "natural";
+          sort_dir_first = true;
+        };
+      };
+    };
     atuin = {
       enable = true;
       enableFishIntegration = true;
