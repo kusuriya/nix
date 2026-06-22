@@ -97,6 +97,7 @@
         # LUKS2 via TPM2 sealed credentials during early boot.
         kernelModules = [ "tpm_crb" "tpm_tis" ];
       };
+      kernelParams = [ "audit=1" ];
       plymouth.enable = true;
       kernel.sysctl = {
         "net.ipv4.tcp_mtu_probing" = 1;
