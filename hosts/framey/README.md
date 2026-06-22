@@ -279,6 +279,10 @@ read -r
 # 7. Install NixOS
 nix --extra-experimental-features 'nix-command flakes' run nixpkgs#nixos-install -- --flake .#framey --no-root-password
 
+# 8. Set the user password BEFORE rebooting (avoids being locked out)
+nixos-enter --root /mnt -- passwd kusuriya
+#    Enter your user password when prompted
+
 echo ""
 echo "============================================"
 echo "INSTALL COMPLETE"
@@ -296,13 +300,10 @@ echo ""
 
 ### After reboot — post-install steps
 
-Once you've rebooted into the new system and logged in as root:
+Once you've rebooted into the new system and logged in (password was set in step 8 above):
 
 ```bash
-# 1. Set user password
-passwd kusuriya
-
-# 2. Clone the nix config repo onto the new system
+# 1. Clone the nix config repo onto the new system
 #    (clone to ~/nix, not /etc/nixos — avoids git "dubious ownership" errors)
 nix-shell -p git --run "git clone https://github.com/kusuriya/nix.git /home/kusuriya/nix"
 chown -R kusuriya:users /home/kusuriya/nix
@@ -322,6 +323,35 @@ systemctl restart sshd
 
 # 5. Restore Tailscale (optional — or re-login with 'sudo tailscale up')
 # cp -r /data/backup/framey-post-install-$(date +%Y-%m-%d)/tailscale/* /var/lib/tailscale/
+```
+
+### If you get locked out (password not set before reboot)
+
+If you rebooted without setting the user password, you can't log in and root has no password.
+Boot the NixOS live USB and chroot in:
+
+```bash
+# Unlock the LUKS container
+cryptsetup luksOpen /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part2 cryptroot
+# Enter your 12-word LUKS passphrase
+
+# Mount the root subvolume
+mount -o subvol=@root,compress=zstd,noatime /dev/mapper/cryptroot /mnt
+mount -o subvol=@nix,compress=zstd,noatime /dev/mapper/cryptroot /mnt/nix
+mount -o subvol=@home,compress=zstd,noatime /dev/mapper/cryptroot /mnt/home
+mount -o subvol=@log,compress=zstd,noatime /dev/mapper/cryptroot /mnt/var/log
+mount /dev/disk/by-id/nvme-Sabrent_SB-RKT4P-2TB_48797869800873-part1 /mnt/boot
+
+# Enter the installed system as root
+nixos-enter --root /mnt
+
+# Set the user password
+passwd kusuriya
+
+# Exit and reboot
+exit
+reboot
+# Pull the USB before it boots back
 ```
 
 ### Secure Boot setup (one-time, requires BIOS interaction)
