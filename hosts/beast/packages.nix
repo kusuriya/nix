@@ -42,6 +42,7 @@
       # ====================================================================
       vscode               # VS Code editor
       vivaldi              # Browser (primary — matches framey's default)
+      nemo                 # File manager (Cinnamon's — lightweight GTK)
       unzip                # Archive extraction (common desktop need)
       dig                  # DNS lookup tool
       whois                # WHOIS client
