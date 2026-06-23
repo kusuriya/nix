@@ -438,6 +438,7 @@
       iotop
       networkmanager-openconnect
       vscode
+      nemo
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
