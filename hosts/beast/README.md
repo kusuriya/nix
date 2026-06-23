@@ -109,33 +109,70 @@ Weekly `nixos-rebuild switch` via `system.autoUpgrade`. No automatic reboots.
 
 ## Fresh Install
 
-**Quick start** — boot NixOS install media, then:
+### Option 1: NixOS Anywhere (recommended — one-shot)
+
+NixOS Anywhere handles disko partitioning + nixos-install in a single command.
+Boot the NixOS install media, then:
 
 ```bash
 # Find your NVMe by-id paths
 ls -l /dev/disk/by-id/ | grep nvme
 
-# Clone and run the install script (interactive — will ask for confirmation)
-sudo bash <(curl -sL https://raw.githubusercontent.com/kusuriya/nix/main/hosts/beast/install.sh) \
-  /dev/disk/by-id/nvme-DRIVE_1_ID /dev/disk/by-id/nvme-DRIVE_2_ID
+# Clone the flake
+sudo nix-shell -p git --run 'git clone https://github.com/kusuriya/nix /tmp/nix'
+cd /tmp/nix
+
+# Patch disko.nix with real device path (replace placeholder)
+sed -i 's|nvme-REPLACE_WITH_DRIVE_1_ID|YOUR_DRIVE_1_ID|' hosts/beast/disko.nix
+
+# Run nixos-anywhere (disko + install in one shot, auto-reboots)
+nix run github:nix-community/nixos-anywhere -- \
+  --flake .#beast \
+  --generate-hardware-config nixos-generate-config hosts/beast/hardware-configuration.nix
 ```
 
-Or clone manually and run:
+Or use the install script with `--anywhere`:
 
 ```bash
+sudo bash hosts/beast/install.sh --anywhere /dev/disk/by-id/nvme-DRIVE_1_ID /dev/disk/by-id/nvme-DRIVE_2_ID
+```
+
+### Option 2: Manual disko + nixos-install (classic)
+
+```bash
+# Find your NVMe by-id paths
+ls -l /dev/disk/by-id/ | grep nvme
+
+# Clone and run the install script
 sudo nix-shell -p git --run 'git clone https://github.com/kusuriya/nix /tmp/nix && cd /tmp/nix'
 cd /tmp/nix
 sudo bash hosts/beast/install.sh /dev/disk/by-id/nvme-DRIVE_1_ID /dev/disk/by-id/nvme-DRIVE_2_ID
 ```
 
 The script does everything: clones the flake, patches `disko.nix` with your real
-device paths, runs disko, installs NixOS, and reboots. See `install.sh` for details.
+device paths, runs disko, installs NixOS, and reboots.
 
-**Dry run** (no changes, just validates):
+### Dry run (no changes, just validates)
 
 ```bash
 sudo bash hosts/beast/install.sh --dry-run /dev/disk/by-id/nvme-DRIVE_1_ID /dev/disk/by-id/nvme-DRIVE_2_ID
 ```
+
+### Install over SSH (remote target)
+
+If beast is already running something (e.g. an old OS) and is reachable via SSH:
+
+```bash
+# From your local machine (must have nix + flakes enabled)
+nix run github:nix-community/nixos-anywhere -- \
+  --flake github:kusuriya/nix#beast \
+  --target-host root@beast.lan.corrupted.io \
+  --generate-hardware-config nixos-generate-config hosts/beast/hardware-configuration.nix
+```
+
+Note: This requires the disko.nix placeholder to already be replaced with the real
+device path. Fork the repo or clone + patch locally, then point `--flake` at your
+local path.
 
 ## Post-Install: Add Second NVMe
 
