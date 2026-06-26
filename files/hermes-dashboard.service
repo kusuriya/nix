@@ -1,0 +1,43 @@
+# Hermes Dashboard — backend for the Hermes Desktop app
+#
+# This service runs `hermes dashboard` on this machine so that the
+# Hermes Desktop app on framey (or other clients) can connect to it.
+#
+# Setup:
+#   1. Enable and start:
+#        systemctl --user enable --now hermes-dashboard
+#
+#   2. Set credentials in ~/.hermes/.env (mode 0600):
+#        HERMES_DASHBOARD_BASIC_AUTH_USERNAME=admin
+#        HERMES_DASHBOARD_BASIC_AUTH_PASSWORD=<strong-password>
+#        HERMES_DASHBOARD_BASIC_AUTH_SECRET=$(openssl rand -base64 32)
+#
+#   3. The dashboard binds to 0.0.0.0:9119 by default.
+#      Access via Tailscale: http://100.81.114.90:9119
+#      Access via LAN:      http://192.168.2.131:9119
+#
+#   4. Check status: systemctl --user status hermes-dashboard
+#   5. View logs:    journalctl --user -u hermes-dashboard -f
+#
+[Unit]
+Description=Hermes Agent Dashboard (backend for Desktop app)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/home/kusuriya/.local/bin/hermes dashboard --no-open --host 0.0.0.0 --port 9119
+Restart=on-failure
+RestartSec=5
+EnvironmentFile=%h/.hermes/.env
+WorkingDirectory=%h
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/.hermes
+PrivateTmp=true
+
+[Install]
+WantedBy=default.target

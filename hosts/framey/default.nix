@@ -28,6 +28,7 @@
       permittedInsecurePackages = [
         "electron-27.3.11"
         "electron-39.8.10"
+        "electron-40.10.2"
       ];
 
     };
@@ -439,6 +440,7 @@
       networkmanager-openconnect
       vscode
       nemo
+      hermes-desktop
     ];
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
