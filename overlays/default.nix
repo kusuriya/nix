@@ -1,8 +1,6 @@
 # This file defines overlays
 { inputs, ... }: {
-  additions = final: _prev: {
-    hermes-desktop-rs = final.callPackage ../pkgs/hermes-desktop-rs.nix { };
-  };
+  additions = final: _prev: { };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.unstable'

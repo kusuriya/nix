@@ -256,10 +256,6 @@
       appimage-run            # Run AppImage bundles — pre-built portable Linux apps
       nfs-utils               # NFS client/server — network filesystem mounts
 
-      # ============================================================================
-      # HERMES DESKTOP — Rust GUI client for Hermes Agent
-      # ============================================================================
-      hermes-desktop-rs       # GUI client — connects to hermes:9119 via WS JSON-RPC
     ];
   };
 }
