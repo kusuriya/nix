@@ -1,7 +1,9 @@
 # This file defines overlays
 { inputs, ... }: {
   # Brings custom packages from the 'pkgs' directory
-  additions = final: _prev: import ../pkgs { pkgs = final; };
+  additions = final: _prev: {
+    hermes-desktop = final.callPackage ../pkgs/hermes-desktop.nix { };
+  };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.unstable'

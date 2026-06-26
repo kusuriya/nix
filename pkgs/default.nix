@@ -1,5 +1,2 @@
-# Custom packages, that can be defined similarly to ones from nixpkgs
-# You can build them using 'nix build .#example'
-pkgs: {
-  hermes-desktop = pkgs.callPackage ./hermes-desktop.nix { };
-}
+# Kept for backwards compatibility — packages are defined directly in overlays/default.nix
+{ pkgs, ... }: { }
