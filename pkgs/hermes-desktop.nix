@@ -40,6 +40,9 @@ in stdenv.mkDerivation {
     electron
   ];
 
+  # The src is an absolute path to ~/.hermes — pure eval rejects this.
+  # Marking the derivation impure allows it to reference the host filesystem.
+  __impure = true;
   __noChroot = true;
 
   buildPhase = ''
