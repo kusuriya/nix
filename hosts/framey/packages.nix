@@ -60,7 +60,7 @@
       # DEVELOPMENT — CONVENIENCE (desktop only)
       # ============================================================================
 
-      just # Modern makefile — justfile, simpler syntax, no tab requirements
+      # just is now in modules/core/packages.nix — universal
       watchexec # File watcher — `watchexec -e py -- pytest` reruns on save
       entr # Lightweight file watcher — `ls *.py | entr pytest`. Simpler than watchexec
       mdcat # Markdown renderer (alternate) — different style than glow
@@ -98,7 +98,7 @@
 
       xh # Friendly HTTP client — `xh POST api.example.com/json key=value`
       httpie # Classic friendly HTTP client — more plugins/eco than xh but slower
-      doggo # Better dig — colorful DNS, multiple record types, JSON output (replaces removed dogdns)
+      # doggo is now in modules/core/packages.nix — universal
       mtr # traceroute + ping combined, real-time — network diagnostics
       gping # Ping with live graph — `gping 8.8.8.8 1.1.1.1` side by side
       socat # Network swiss army knife — port forwards, unix sockets, relays

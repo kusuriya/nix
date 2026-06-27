@@ -103,6 +103,14 @@
     zfs
     git
     btop
+    bat # Better cat — syntax highlighting, line numbers
+    jq # JSON processor — parse APIs, configs
+    ripgrep # Fast regex search — log grepping
+    eza # Better ls — git status, icons, tree mode
+    ncdu # Interactive disk usage — TUI, fast
+    hexyl # Hex viewer — binary data inspection
+    doggo # DNS lookup — colorful, JSON output
+    just # Modern make — justfile runner
   ];
   services = {
     # Configure to use your GPU

@@ -103,6 +103,8 @@
       sd # Better sed — `sd 'old' 'new' file.txt`, regex-based, no delimiter mess
       ripgrep # Fast regex search — rg, essential. Already had it but making it explicit
       distrobox # Container-based dev environments (podman/docker integration)
+      hexyl # Hex viewer — colorized, Rust, pipe-friendly. Better than xxd
+      just # Modern make — justfile, simpler syntax, no tab requirements
 
       # ============================================================================
       # DEVELOPMENT — CONVENIENCE (CLI, universal)
@@ -117,6 +119,7 @@
 
       curl # HTTP client — baseline (already in core but explicit)
       wget # HTTP download — baseline
+      doggo # Better dig — colorful DNS, multiple record types, JSON output
 
       # ============================================================================
       # PROCESS & SYSTEM MONITORING (lightweight, universal)

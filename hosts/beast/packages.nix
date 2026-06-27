@@ -50,6 +50,9 @@
       lm_sensors # Hardware sensors (temperatures, fan speeds)
       python3 # Python 3 with pip
       uv # Fast Python package manager (Rust)
+      lazygit # TUI for git — staging hunks, cherry-pick, interactive rebase
+      entr # Lightweight file watcher — `ls *.py | entr pytest`
+      watchexec # File watcher — `watchexec -e py -- pytest`
     ];
   };
 }
