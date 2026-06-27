@@ -12,4 +12,4 @@ jobs:
           nix develop --command treefmt --fail-on-change
           nix develop --command deadnix .
       - name: Build framey
-        run: nix build .#nixosConfigurations.framey.config.system.build.toplevel --no-link
+        run: nix build .#nixosConfigurations.framey.config.system.build.toplevel --no-link --accept-flake-config
