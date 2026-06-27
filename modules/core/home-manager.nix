@@ -1,4 +1,4 @@
-{ inputs, outputs, ... }:
+{ inputs, ... }:
 {
   imports = [
     # Import home-manager's NixOS module
@@ -7,7 +7,7 @@
 
   home-manager = {
     extraSpecialArgs = {
-      inherit inputs outputs;
+      inherit inputs;
     };
     backupFileExtension = "backup";
   };

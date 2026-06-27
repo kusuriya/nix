@@ -1,9 +1,4 @@
-{ self
-, lib
-, config
-, pkg
-, ...
-}:
+{ ... }:
 {
   virtualisation = {
     oci-containers.containers = {

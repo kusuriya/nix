@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ pkgs, ... }:
 {
   programs.fish.enable = true;
   users.users.kusuriya = {
@@ -11,7 +11,6 @@
       "dialout"
       "audio"
       "video"
-      "system"
       "libvirtd"
       "kvm"
       "render"

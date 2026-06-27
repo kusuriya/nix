@@ -1,23 +1,14 @@
-
-{ lib
-, stdenv
-, fetchurl
-, cups
-, dpkg  # if driver comes as .deb
-, autoPatchelfHook
-, makeWrapper
-, ghostscript  # common dependency for thermal printers
-}:
+{ lib, stdenv, cups, autoPatchelfHook, makeWrapper, ghostscript }:
 
 stdenv.mkDerivation rec {
   pname = "labelrange-rd560";
-  version = "1.0";  # Update based on actual driver version
+  version = "1.0"; # Update based on actual driver version
 
   # Option 1: If you have the driver file locally
-  src = ./rd560.tar.gz;  # Adjust filename
+  src = ./rd560.tar.gz; # Adjust filename
 
   nativeBuildInputs = [
-    autoPatchelfHook  # Automatically patches ELF binaries
+    autoPatchelfHook # Automatically patches ELF binaries
     makeWrapper
     # dpkg  # Uncomment if driver is a .deb file
   ];

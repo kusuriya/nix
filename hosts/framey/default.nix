@@ -2,7 +2,6 @@
 , lib
 , config
 , pkgs
-, modulesPath
 , self
 , ...
 }:
@@ -11,6 +10,10 @@
     ../../modules/core
     ../../modules/kernel/latest
     ../../modules/desktop/sway
+    ../../modules/desktop/sysctl
+    ../../modules/desktop/btrfs-snapshots
+    ../../modules/desktop/dozer-mounts
+    ../../modules/desktop/virtualization
     ./hardware-configuration.nix
     ./packages.nix
     ./disko.nix
@@ -20,7 +23,6 @@
   ];
   nixpkgs = {
     overlays = [
-      self.overlays.additions
       self.overlays.unstable-packages
     ];
     config = {
@@ -96,49 +98,6 @@
       };
       kernelParams = [ "audit=1" ];
       plymouth.enable = true;
-      kernel.sysctl = {
-        "net.ipv4.tcp_mtu_probing" = 1;
-        "kernel.panic" = 60;
-        "net.core.default_qdisc" = "fq";
-        "net.ipv4.tcp_congestion_control" = "bbr";
-        "vm.swappiness" = 10;
-        "vm.vfs_cache_pressure" = 50;
-        "vm.dirty_ratio" = 10;
-        "vm.dirty_background_ratio" = 5;
-        "net.ipv4.tcp_fastopen" = 3;
-        "net.ipv4.tcp_slow_start_after_idle" = 0;
-        # --- Kernel hardening sysctls ---
-        # Restrict access to kernel pointers (prevents info leaks via /proc)
-        "kernel.kptr_restrict" = 2;
-        # Restrict dmesg access to root only
-        "kernel.dmesg_restrict" = 1;
-        # Restrict perf events to root (prevents side-channel attacks)
-        "kernel.perf_event_paranoid" = 3;
-        # Restrict ptrace to parent processes only
-        "kernel.yama.ptrace_scope" = 2;
-        # --- Network hardening ---
-        # Enable reverse path filtering (anti-spoofing)
-        "net.ipv4.conf.all.rp_filter" = 1;
-        "net.ipv4.conf.default.rp_filter" = 1;
-        # Disable ICMP redirect acceptance (prevents route hijacking)
-        "net.ipv4.conf.all.accept_redirects" = 0;
-        "net.ipv4.conf.default.accept_redirects" = 0;
-        # Disable ICMP redirect sending
-        "net.ipv4.conf.all.send_redirects" = 0;
-        "net.ipv4.conf.default.send_redirects" = 0;
-        # Disable source-routed packet acceptance
-        "net.ipv4.conf.all.accept_source_route" = 0;
-        "net.ipv4.conf.default.accept_source_route" = 0;
-        # IPv6: disable redirects and source routing
-        "net.ipv6.conf.all.accept_redirects" = 0;
-        "net.ipv6.conf.default.accept_redirects" = 0;
-        "net.ipv6.conf.all.accept_source_route" = 0;
-        "net.ipv6.conf.default.accept_source_route" = 0;
-        # Ignore broadcast ICMP (Smurf attack prevention)
-        "net.ipv4.icmp_echo_ignore_broadcasts" = 1;
-        # Enable TCP SYN cookies (SYN flood mitigation)
-        "net.ipv4.tcp_syncookies" = 1;
-      };
       binfmt.registrations.appimage = {
         wrapInterpreterInShell = false;
         interpreter = "${pkgs.appimage-run}/bin/appimage-run";
@@ -266,41 +225,6 @@
       interval = "weekly";
     };
 
-    # --- btrbk: automated btrfs snapshot management ---
-    # Takes hourly snapshots of / and /home, retained on a sliding schedule:
-    #   - minimum: 2 days of all snapshots
-    #   - 48 hourly, 14 daily, 8 weekly, 6 monthly
-    # Snapshots are stored in /.snapshots (a hidden subvolume at the root).
-    # Uses mbuffer for faster data transfer during snapshot send/receive.
-    btrbk = {
-      extraPackages = [ pkgs.mbuffer ];
-      instances = {
-        "framey-snapshots" = {
-          onCalendar = "hourly";
-          settings = {
-            timestamp_format = "long";
-            snapshot_preserve_min = "2d";
-            snapshot_preserve = "48h 14d 8w 6m";
-            snapshot_dir = "/.snapshots";
-            subvolume = {
-              "/" = {};
-              "/home" = {};
-            };
-          };
-        };
-      };
-    };
-
-    # --- btrfs autoScrub: periodic data-integrity scrubbing ---
-    # Runs monthly across / and /home to detect and repair silent corruption
-    # (bit rot). Btrfs checksums every block; scrub verifies and self-heals
-    # using redundant copies or parity.
-    btrfs.autoScrub = {
-      enable = true;
-      interval = "monthly";
-      fileSystems = [ "/" "/home" ];
-    };
-
     # USBGuard removed — broke Caldigit dock (Thunderbolt USB hub).
     # Can revisit with per-device-ID rules later, but class-based rules
     # don't cover dock passthrough devices properly.
@@ -342,7 +266,7 @@
       # scheduler jitter from libvirtd-launched QEMU processes.
       extraConfig.pipewire."92-qemu-quantum" = {
         "context.properties" = {
-          "default.clock.quantum"     = 2048;
+          "default.clock.quantum" = 2048;
           "default.clock.min-quantum" = 1024;
           "default.clock.max-quantum" = 4096;
         };
@@ -352,20 +276,20 @@
       # libvirtd-launched QEMU bypasses normal RTKit session negotiation,
       # so we explicitly match on the binary name and set rt.prio.
       wireplumber.extraConfig."92-qemu-rt" = {
-        "monitor.alsa.rules" = [];
-        "wireplumber.settings" = {};
+        "monitor.alsa.rules" = [ ];
+        "wireplumber.settings" = { };
         "wireplumber.profiles" = {
           main."monitor.libcamera" = "disabled";
         };
         "node.rules" = [
           {
-            matches = [ { "application.process.binary" = ".qemu-system-x86_64-wrapped"; } ];
+            matches = [{ "application.process.binary" = ".qemu-system-x86_64-wrapped"; }];
             actions = {
               update-props = {
-                "node.latency"  = "2048/48000";
-                "rt.prio"       = 88;
-                "rt.time.soft"  = 200000;
-                "rt.time.hard"  = 200000;
+                "node.latency" = "2048/48000";
+                "rt.prio" = 88;
+                "rt.time.soft" = 200000;
+                "rt.time.hard" = 200000;
               };
             };
           }
@@ -446,15 +370,6 @@
       BROWSER = "vivaldi";
     };
     etc = {
-      "ovmf/edk2-x86_64-secure-code.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
-      };
-
-      "ovmf/edk2-i386-vars.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-i386-vars.fd";
-        mode = "0644";
-        user = "libvirtd";
-      };
       "1password/custom_allowed_browsers" = {
         text = ''
           vivaldi-bin
@@ -464,34 +379,7 @@
     };
 
   };
-  virtualisation = {
-    spiceUSBRedirection.enable = true;
-    libvirtd = {
-      enable = true;
-      qemu = {
-        package = pkgs.qemu_full;
-        runAsRoot = true;
-        swtpm.enable = true;
-      };
-    };
-  };
   system.stateVersion = "23.05";
-
-  # --- NFS mounts from dozer (NAS) ---
-  # Uses systemd automount (noauto) so the mount is only established on first
-  # access, and unmounted after 5 minutes of idle to save bandwidth.
-  # 'timeo=14' and 'retrans=2' tune timeout/retry for unreliable links.
-  fileSystems."/data" = {
-    device = "dozer:/mnt/dozer-files/hermes-data";
-    fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" "async" "x-systemd.idle-timeout=5min" "timeo=14" "retrans=2" ];
-  };
-
-  fileSystems."/dozer/files" = {
-    device = "dozer:/mnt/dozer-files/files";
-    fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=5min" "timeo=14" "retrans=2" ];
-  };
 
   # fscrypt: Consider as future option for per-directory encryption in /home.
   # LUKS2 already provides full-disk encryption — fscrypt would add defense-in-depth.

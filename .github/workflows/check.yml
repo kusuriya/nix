@@ -1,0 +1,16 @@
+name: check
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v16
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+      - name: Format and lint
+        run: |
+          nix develop --command treefmt --fail-on-change
+          nix develop --command deadnix .
+      - name: Build framey
+        run: nix build .#nixosConfigurations.framey.config.system.build.toplevel --no-link

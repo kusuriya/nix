@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 
 let
   # Import the driver package
@@ -35,10 +35,10 @@ in
         deviceUri = "usb://Labelrange/RD560";
 
         # Model should match the PPD filename (run `lpinfo -m` after rebuild to find it)
-        model = "labelrange/RD560.ppd";  # Adjust based on actual PPD name
+        model = "labelrange/RD560.ppd"; # Adjust based on actual PPD name
 
         ppdOptions = {
-          PageSize = "w72h100";  # Common label size, adjust as needed
+          PageSize = "w72h100"; # Common label size, adjust as needed
         };
       }
     ];

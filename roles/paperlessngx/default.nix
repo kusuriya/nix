@@ -1,9 +1,4 @@
-{ self
-, lib
-, config
-, pkg
-, ...
-}:
+{ ... }:
 {
   services.paperless = {
     enable = true;

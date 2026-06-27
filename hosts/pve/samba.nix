@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ ... }:
 {
   services.samba = {
     enable = true;

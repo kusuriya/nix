@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Pre-commit hook — format and lint staged Nix files
+# Install: git config core.hooksPath .githooks
+# Gracefully degrades: if tools aren't installed, commits proceed unformatted.
+set -euo pipefail
+
+staged=$(git diff --cached --name-only --diff-filter=ACM | grep '\.nix$' || true)
+if [ -z "$staged" ]; then
+    exit 0
+fi
+
+echo ":: Checking staged Nix files..."
+
+fmt_ok=false
+lint_ok=false
+
+if command -v nixpkgs-fmt &>/dev/null; then
+    for f in $staged; do
+        [ -f "$f" ] && nixpkgs-fmt "$f" && git add "$f"
+    done
+    fmt_ok=true
+else
+    echo "   nixpkgs-fmt not found — skipping format"
+fi
+
+if command -v deadnix &>/dev/null; then
+    for f in $staged; do
+        [ -f "$f" ] && deadnix "$f" 2>/dev/null || true
+    done
+    lint_ok=true
+else
+    echo "   deadnix not found — skipping lint"
+fi
+
+if $fmt_ok; then echo "   formatted"; fi
+if $lint_ok; then echo "   linted"; fi
+echo ":: Done"

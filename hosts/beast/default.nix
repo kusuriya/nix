@@ -14,6 +14,10 @@
     ../../modules/core
     ../../modules/kernel/latest
     ../../modules/desktop/sway
+    ../../modules/desktop/sysctl
+    ../../modules/desktop/btrfs-snapshots
+    ../../modules/desktop/dozer-mounts
+    ../../modules/desktop/virtualization
     ../../pkgs/rd560
     inputs.disko.nixosModules.disko
     # Hardware modules are imported via flake.nix extraModules — no duplicate here
@@ -28,7 +32,6 @@
       ];
     };
     overlays = [
-      self.overlays.additions
       self.overlays.unstable-packages
     ];
   };
@@ -83,42 +86,6 @@
     };
     kernelParams = [ "quiet" "audit=1" "nvidia-drm.modeset=1" ];
     plymouth.enable = true;
-    # --- Kernel sysctls (adapted from framey) ---
-    kernel.sysctl = {
-      # TCP tuning
-      "net.ipv4.tcp_mtu_probing" = 1;
-      "net.core.default_qdisc" = "fq";
-      "net.ipv4.tcp_congestion_control" = "bbr";
-      "net.ipv4.tcp_fastopen" = 3;
-      "net.ipv4.tcp_slow_start_after_idle" = 0;
-      # Memory / swap
-      "vm.swappiness" = 10;
-      "vm.vfs_cache_pressure" = 50;
-      "vm.dirty_ratio" = 10;
-      "vm.dirty_background_ratio" = 5;
-      # Kernel hardening
-      "kernel.kptr_restrict" = 2;
-      "kernel.dmesg_restrict" = 1;
-      "kernel.perf_event_paranoid" = 3;
-      "kernel.yama.ptrace_scope" = 2;
-      # Network hardening
-      "net.ipv4.conf.all.rp_filter" = 1;
-      "net.ipv4.conf.default.rp_filter" = 1;
-      "net.ipv4.conf.all.accept_redirects" = 0;
-      "net.ipv4.conf.default.accept_redirects" = 0;
-      "net.ipv4.conf.all.send_redirects" = 0;
-      "net.ipv4.conf.default.send_redirects" = 0;
-      "net.ipv4.conf.all.accept_source_route" = 0;
-      "net.ipv4.conf.default.accept_source_route" = 0;
-      "net.ipv6.conf.all.accept_redirects" = 0;
-      "net.ipv6.conf.default.accept_redirects" = 0;
-      "net.ipv6.conf.all.accept_source_route" = 0;
-      "net.ipv6.conf.default.accept_source_route" = 0;
-      "net.ipv4.icmp_echo_ignore_broadcasts" = 1;
-      "net.ipv4.tcp_syncookies" = 1;
-      # Auto-reboot on kernel panic after 60s
-      "kernel.panic" = 60;
-    };
     binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
       interpreter = "${pkgs.appimage-run}/bin/appimage-run";
@@ -148,7 +115,10 @@
     };
 
     # Intel iGPU — present but not used for display (NVIDIA is primary)
-    intel-gpu-tools.enable = true;
+    amdgpu = {
+      opencl.enable = true;
+      initrd.enable = true;
+    };
 
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
@@ -230,33 +200,6 @@
 
   services = {
     keyd.enable = true;
-
-    # --- btrbk: automated btrfs snapshot management ---
-    btrbk = {
-      extraPackages = [ pkgs.mbuffer ];
-      instances = {
-        "beast-snapshots" = {
-          onCalendar = "hourly";
-          settings = {
-            timestamp_format = "long";
-            snapshot_preserve_min = "2d";
-            snapshot_preserve = "48h 14d 8w 6m";
-            snapshot_dir = "/.snapshots";
-            subvolume = {
-              "/" = {};
-              "/home" = {};
-            };
-          };
-        };
-      };
-    };
-
-    # --- btrfs autoScrub ---
-    btrfs.autoScrub = {
-      enable = true;
-      interval = "weekly";
-      fileSystems = [ "/" "/home" ];
-    };
 
     flatpak.enable = true;
     libinput = {
@@ -355,12 +298,10 @@
   };
 
   # Create the Samba share directory at boot
-  systemd.tmpfiles.settings."/home/kusuriya/shared" = {
-    d = {
-      user = "kusuriya";
-      group = "users";
-      mode = "0755";
-    };
+  systemd.tmpfiles.settings."10-beast-shared"."/home/kusuriya/shared".d = {
+    user = "kusuriya";
+    group = "users";
+    mode = "0755";
   };
 
   programs = {
@@ -381,15 +322,6 @@
 
   environment = {
     etc = {
-      # OVMF firmware paths for libvirtd/virt-manager VMs
-      "ovmf/edk2-x86_64-secure-code.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-x86_64-secure-code.fd";
-      };
-      "ovmf/edk2-i386-vars.fd" = {
-        source = "${config.virtualisation.libvirtd.qemu.package}/share/qemu/edk2-i386-vars.fd";
-        mode = "0644";
-        user = "libvirtd";
-      };
       "1password/custom_allowed_browsers" = {
         text = ''
           vivaldi-bin
@@ -403,34 +335,6 @@
       EDITOR = "nvim";
       BROWSER = "vivaldi";
     };
-  };
-
-  # --- libvirtd (non-passthrough VMs) ---
-  # Retained for headless Linux VMs and a future Windows VM.
-  # No VFIO, no Looking Glass, no kvmfr — just basic QEMU/KVM.
-  virtualisation = {
-    libvirtd = {
-      enable = true;
-      qemu = {
-        package = pkgs.qemu_full;
-        runAsRoot = true;
-        swtpm.enable = true;
-      };
-    };
-    spiceUSBRedirection.enable = true;
-  };
-
-  # --- NFS mounts from dozer (NAS) ---
-  fileSystems."/data" = {
-    device = "dozer:/mnt/dozer-files/hermes-data";
-    fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" "async" "x-systemd.idle-timeout=5min" "timeo=14" "retrans=2" ];
-  };
-
-  fileSystems."/dozer/files" = {
-    device = "dozer:/mnt/dozer-files/files";
-    fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=5min" "timeo=14" "retrans=2" ];
   };
 
   system.stateVersion = "23.05"; # Do not change on a rebuild

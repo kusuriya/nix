@@ -1,9 +1,4 @@
-{ self
-, config
-, lib
-, pkgs
-, ...
-}:
+{ pkgs, ... }:
 {
   nixpkgs.config.allowUnfree = true;
   services = {

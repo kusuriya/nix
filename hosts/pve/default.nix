@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, inputs, outputs, self, ... }:
+{ config, lib, pkgs, modulesPath, inputs, ... }:
 
 {
   imports =
@@ -79,7 +79,7 @@
     nat = {
       enable = true;
       internalInterfaces = [ "ve-+" ];
-      externalInterface = "eno2";
+      externalInterface = "br0";
       enableIPv6 = true;
     };
     bridges = {

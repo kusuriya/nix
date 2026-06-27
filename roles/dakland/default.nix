@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ ... }:
 {
   virtualisation.oci-containers.containers."dakland" = {
     image = "itzg/minecraft-bedrock-server";

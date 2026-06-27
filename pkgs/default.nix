@@ -1,2 +1,4 @@
-# Kept for backwards compatibility — packages are defined directly in overlays/default.nix
-{ pkgs, ... }: { }
+{ pkgs, ... }: {
+  glowing-bear-electron = pkgs.callPackage ./glowing-bear-electron.nix { };
+  labelrange-rd560 = pkgs.callPackage ./rd560/labelrange-rd560.nix { };
+}

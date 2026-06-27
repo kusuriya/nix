@@ -1,6 +1,6 @@
 # Common locale, timezone, and resolvconf settings shared by all hosts.
 # Hosts that need different values can override with lib.mkForce.
-{ lib, ... }:
+{ ... }:
 {
   time.timeZone = "America/Los_Angeles";
   i18n = {

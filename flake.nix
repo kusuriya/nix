@@ -11,46 +11,36 @@
     max-jobs = "auto";
   };
   inputs = {
-    # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/master";
-    disko.url = "github:nix-community/disko";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # Default channel — daily rebuilds, accessed via `pkgs`
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11"; # Pinned stable — libvirt/qemu live here, accessed via `pkgs-stable`
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/master"; # Bleeding edge — accessed via `pkgs.unstable` overlay
+    disko.url = "github:nix-community/disko"; # Declarative disk partitioning (btrfs)
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Home manager
     home-manager = {
-      url = "github:nix-community/home-manager/master";
+      url = "github:nix-community/home-manager/master"; # User-level dotfiles and configs
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hardware.url = "github:nixos/nixos-hardware";
+    hardware.url = "github:nixos/nixos-hardware"; # Hardware-specific profiles (Framework, common-*)
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/"; #v0.4.1";
+      url = "github:nix-community/lanzaboote/"; # Secure Boot (framey only)
       inputs.nixpkgs.follows = "nixpkgs";
     };
     firefox = {
-      url = "github:nix-community/flake-firefox-nightly";
+      url = "github:nix-community/flake-firefox-nightly"; # Firefox Nightly (desktop hosts)
     };
   };
 
   outputs =
     { self
     , nixpkgs
-    , home-manager
-    , hardware
-    , lanzaboote
-    , firefox
     , nixpkgs-stable
-    , nixpkgs-unstable
-    , disko
     , ...
     }@inputs:
     let
       # Supported systems for your flake packages, shell, etc.
       systems = [
         "x86_64-linux"
-        "aarch64-linux"
-        "aarch64-darwin"
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
       # Helper function to create system configurations
@@ -64,7 +54,7 @@
           modules = [
             {
               nixpkgs.overlays = [
-                (final: prev: {
+                (final: _: {
                   libvirt = nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.libvirt;
                   qemu = nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.qemu;
                   qemu_kvm = nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system}.qemu_kvm;
@@ -88,11 +78,22 @@
       packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
+      devShells = forAllSystems (system: {
+        default = nixpkgs.legacyPackages.${system}.mkShellNoCC {
+          packages = with nixpkgs.legacyPackages.${system}; [
+            nixpkgs-fmt
+            deadnix
+            treefmt
+            nix-output-monitor
+          ];
+        };
+      });
+
       overlays = import ./overlays { inherit inputs; };
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake https://github.com/kusuriya/nix/#hostname'
       nixosConfigurations = {
-        # Desktop configuration (VFIO passthrough rig, Plasma6 + Sway)
+        # Desktop configuration (VFIO passthrough rig, Sway + gaming)
         beast = mkSystem {
           hostname = "beast";
           extraModules = [

@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchFromGitHub, makeWrapper, nodejs, electron, bower, gnumake, nodePackages }:
+{ lib, stdenv, fetchFromGitHub, makeWrapper, nodejs, electron, gnumake, nodePackages }:
 
 stdenv.mkDerivation rec {
   pname = "glowing-bear-electron";
