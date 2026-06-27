@@ -11,6 +11,8 @@
 {
   environment = {
     systemPackages = with pkgs; [
+      hermes-desktop # Hermes Desktop — nixpkgs electron wrapper, CLI via curl install
+
       # ============================================================================
       # SECRETS & PASSWORD MANAGEMENT (GUI/advanced — host-specific)
       # ============================================================================
