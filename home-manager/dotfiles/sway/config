@@ -133,6 +133,10 @@ bindsym $mod+r mode "resize"
     bindsym $mod+F2 exec grimshot copy active
     bindsym $mod+F3 exec grimshot copy output
 
+    # Screenshot — save to ~/Pictures/Screenshots/
+    bindsym $mod+Print exec grimshot save area ~/Pictures/Screenshots/$(date '+%Y-%m-%d_%H%M%S').png
+    bindsym --locked Print exec grimshot save output ~/Pictures/Screenshots/$(date '+%Y-%m-%d_%H%M%S').png
+
     # Notification center toggle (swaync)
     bindsym $mod+n exec swaync-client -t
 

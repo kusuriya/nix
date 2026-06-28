@@ -34,7 +34,14 @@
       enable = true;
       settings = rec {
         initial_session = {
-          command = "${pkgs.sway}/bin/sway";
+          command = ''
+            ${pkgs.bash}/bin/bash -c '
+              while true; do
+                ${pkgs.sway}/bin/sway
+                sleep 1
+              done
+            ''
+          '';
           user = "kusuriya";
         };
         default_session = initial_session;

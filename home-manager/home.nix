@@ -22,6 +22,7 @@
     file = {
       ".config/sway/config" = { source = ./dotfiles/sway/config; };
       ".config/sway/config.d/exec.conf" = { source = ./dotfiles/sway/config.d/exec.conf; };
+      ".config/sway/config.d/touchpad.conf" = { source = ./dotfiles/sway/config.d/touchpad.conf; };
       ".config/sway/config.d/idle.conf" = { source = ./dotfiles/sway/config.d/idle.conf; };
       ".config/sway/idle-guard.sh" = { source = ./dotfiles/sway/idle-guard.sh; executable = true; };
       ".config/sway/wallpaper.png" = { source = ./dotfiles/sway/wallpaper.png; };
@@ -168,7 +169,14 @@
   };
   qt = {
     enable = true;
-    platformTheme.name = "gnome";  # inherit GTK theme colors/fonts
+    platformTheme.name = "gnome";
+  };
+  home.pointerCursor = {
+    name = "Adwaita";
+    package = pkgs.adwaita-cursor-theme;
+    size = 24;
+    gtk.enable = true;
+    x11.enable = true;
   };
   gtk = {
     enable = true;
@@ -176,6 +184,7 @@
     font.size = 10;
     theme.name = "Adwaita-dark";
     theme.package = pkgs.gnome-themes-extra;
+    color-scheme = "prefer-dark";
     iconTheme.name = "Adwaita";
     iconTheme.package = pkgs.adwaita-icon-theme;
     gtk4.theme.name = "Adwaita-dark";

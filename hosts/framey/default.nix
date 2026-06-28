@@ -374,6 +374,8 @@
       NIXOS_OZONE_WL = "1";
       EDITOR = "nvim";
       BROWSER = "vivaldi";
+      XCURSOR_THEME = "Adwaita";
+      XCURSOR_SIZE = "24";
     };
     etc = {
       "1password/custom_allowed_browsers" = {
