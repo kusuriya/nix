@@ -130,6 +130,7 @@
       # ============================================================================
 
       burpsuite # Web proxy — interception, scanning, replay (primary sec tool)
+      remmina # RDP/VNC/SPICE/SSH client — tabbed sessions, credential manager
       nmap # Network scanner — port discovery, service detection, NSE scripts
       nuclei # Template-based web scanner — pairs with httpx for recon→scan
       subfinder # Passive subdomain enumeration — recon pipeline with httpx
