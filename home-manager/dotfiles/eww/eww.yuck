@@ -1,39 +1,20 @@
 ;; Corrupted Systems Eww Bar
 ;; Replaces swaybar + i3status-rust
 
-;; --- Data sources ---
+;; --- Polled data ---
 
-;; Track focused workspace via sway subscription
-(deflisten focused_ws :initial "1"
-  "swaymsg -t subscribe -m '[\"workspace\"]' 2>/dev/null | while read line; do
-    swaymsg -t get_workspaces | python3 -c \"import json,sys; ws=json.load(sys.stdin); focused=[w for w in ws if w['focused']][0]['name']; print(focused)\" 2>/dev/null
-  done")
+(defpoll focused_ws :interval "0.5s" :initial "1"
+  "swaymsg -t get_workspaces | grep -o '\"focused\":true,\"name\":\"[0-9]*\"' | grep -o '[0-9]*' || echo 1")
 
-;; Window title
-(defpoll window_title :interval "1s"
-  "swaymsg -t get_tree | python3 -c \"import json,sys; tree=json.load(sys.stdin);
-def find_focused(node):
-  if node.get('focused'): return node.get('name','')
-  if 'nodes' in node:
-    for n in node['nodes']:
-      r=find_focused(n)
-      if r: return r
-  return ''
-print(find_focused(tree) or '')\" 2>/dev/null || echo ''")
+(defpoll window_title :interval "1s" :initial ""
+  "swaymsg -t get_tree | grep -oP '\"focused\":true.*?\"name\":\"[^\"]*\"' | grep -oP '\"name\":\"[^\"]*\"' | head -1 | cut -d'\"' -f4 || echo ''")
 
-;; Battery
 (defpoll battery_str :interval "30s" :initial ""
   "upower -i $(upower -e | grep BAT) 2>/dev/null | grep percentage | awk '{print $2}' || echo ''")
 
-;; Network IP (wlp1s0)
 (defpoll net_str :interval "10s" :initial ""
   "ip -4 -o addr show wlp1s0 2>/dev/null | awk '{print $4}' | cut -d/ -f1 || echo 'down'")
 
-;; Sound volume
-(defpoll sound_str :interval "2s" :initial ""
-  "pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null | head -1 | awk '{print $5}' || echo ''")
-
-;; Time
 (defpoll time_str :interval "5s" :initial ""
   "date '+%H:%M'")
 
@@ -47,7 +28,6 @@ print(find_focused(tree) or '')\" 2>/dev/null || echo ''")
 (defwidget bar []
   (centerbox :orientation "h"
     :class "bar-container"
-    ;; left: workspaces + scratchpad hint
     (box :class "left" :orientation "h" :space-evenly false :halign "start"
       (ws-btn 1)
       (ws-btn 2)
@@ -59,16 +39,13 @@ print(find_focused(tree) or '')\" 2>/dev/null || echo ''")
       (ws-btn 8)
       (ws-btn 9)
       (ws-btn 0))
-    ;; center: window title
     (label :text "{window_title}" :class "window-title")
-    ;; right: system info
     (box :class "right" :orientation "h" :space-evenly false :halign "end"
       (label :text "{battery_str}" :class "battery")
       (label :text "{net_str}" :class "net")
-      (label :text "{sound_str}" :class "sound")
       (label :text "{time_str}" :class "time"))))
 
-;; --- Window definition ---
+;; --- Window ---
 (defwindow bar
   :monitor 0
   :windowtype "dock"
