@@ -110,6 +110,9 @@
     atuin = {
       enable = true;
       enableFishIntegration = true;
+      settings = {
+        enter_accept = false;
+      };
     };
     git = {
       enable = true;
