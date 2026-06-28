@@ -12,8 +12,6 @@
       fira-mono
       fira-sans
       cascadia-code
-      gnome-icon-theme
-      adwaita-icon-theme
       nerd-fonts.caskaydia-cove
       nerd-fonts.caskaydia-mono
       nerd-fonts.fira-code

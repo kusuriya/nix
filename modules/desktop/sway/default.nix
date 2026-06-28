@@ -4,6 +4,9 @@
 }:
 {
   environment.systemPackages = with pkgs; [
+    hicolor-icon-theme
+    gnome-icon-theme
+    adwaita-icon-theme
     waybar
     grim
     sway-contrib.grimshot
