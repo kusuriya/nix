@@ -1,0 +1,69 @@
+* {
+  all: unset;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 12px;
+}
+
+/** Bar container */
+.bar-container {
+  background-color: #0d0221;
+  color: #e0e0e0;
+  padding: 0 12px;
+  min-height: 32px;
+}
+
+/** Left section */
+.left {
+  padding: 0;
+}
+
+/** Workspace buttons */
+.ws-btn {
+  background-color: #050510;
+  color: #666666;
+  border: 1px solid #1a0a30;
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin: 2px 2px;
+  min-width: 24px;
+}
+
+.ws-btn.focused {
+  background-color: #0d0221;
+  color: #ffffff;
+  border: 1px solid #ff2d95;
+}
+
+.ws-btn:hover {
+  border-color: #00f0ff;
+  color: #00f0ff;
+}
+
+/** Window title */
+.window-title {
+  color: #b0b0b0;
+  font-size: 12px;
+  padding: 0 16px;
+}
+
+/** Right section */
+.right {
+  padding: 0;
+  spacing: 12px;
+}
+
+.battery {
+  color: #a6e3a1;
+}
+
+.net {
+  color: #00f0ff;
+}
+
+.sound {
+  color: #b388ff;
+}
+
+.time {
+  color: #e0e0e0;
+}

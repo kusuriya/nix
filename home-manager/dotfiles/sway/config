@@ -168,22 +168,6 @@ client.urgent #ff2d95 #0d0221 #ffffff #ff2d95
 client.placeholder #00f0ff #0d0221 #00f0ff #00f0ff
 client.background #0d0221
 
-# Sway bar with i3status-rust — Corrupted Systems theme
-bar {
-    position top
-    status_command i3status-rs
-    height 28
-    font pango:JetBrainsMono Nerd Font 10
-    colors {
-        background #0d0221
-        statusline #00f0ff
-        separator #1a0a30
-        focused_workspace #ff2d95 #0d0221 #ffffff
-        active_workspace #b388ff #1a0a30 #e0e0e0
-        inactive_workspace #1a0a30 #050510 #666666
-        urgent_workspace #ff2d95 #0d0221 #ffffff
-        binding_mode #0d0221 #ff2d95 #ffffff
-    }
-}
+
 
 include /home/kusuriya/.config/sway/config.d/*

@@ -4,7 +4,7 @@
 }:
 {
   environment.systemPackages = with pkgs; [
-    i3status-rust
+    eww
     grim
     sway-contrib.grimshot
     slurp
