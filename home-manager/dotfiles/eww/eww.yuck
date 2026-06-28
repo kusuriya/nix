@@ -52,6 +52,6 @@
                       :y "0%"
                       :width "100%"
                       :height "32px"
-                      :anchor "top")
+                      :anchor "top center")
   :reserve (struts :side "top" :distance "32px")
   (bar))
