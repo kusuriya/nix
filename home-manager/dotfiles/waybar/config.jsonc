@@ -16,6 +16,7 @@
         "network",
         "power-profiles-daemon",
         "battery",
+        "custom/notification",
         "clock",
         "tray",
         "custom/power"
@@ -92,6 +93,22 @@
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
+    },
+    "custom/notification": {
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "",
+            "none": "",
+            "dnd-notification": "",
+            "dnd-none": ""
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true,
+        "tooltip": false
     },
     "custom/power": {
         "format": " ⏻ ",
