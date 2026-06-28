@@ -173,6 +173,8 @@
     theme.package = pkgs.gnome-themes-extra;
     iconTheme.name = "Adwaita";
     iconTheme.package = pkgs.adwaita-icon-theme;
+    gtk4.theme.name = "Adwaita-dark";
+    gtk4.theme.package = pkgs.gnome-themes-extra;
   };
   manual = {
     html.enable = false;
