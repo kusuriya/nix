@@ -7,7 +7,7 @@
   "swaymsg -t get_workspaces | grep -o '\"focused\":true,\"name\":\"[0-9]*\"' | grep -o '[0-9]*' || echo 1")
 
 (defpoll window_title :interval "1s" :initial ""
-  "swaymsg -t get_tree | grep -oP '\"focused\":true.*?\"name\":\"[^\"]*\"' | grep -oP '\"name\":\"[^\"]*\"' | head -1 | cut -d'\"' -f4 || echo ''")
+  "swaymsg -t get_tree | grep -oP '\"focused\":true.*?\"name\":\"[^\"]*\"' | grep -oP '\"name\":\"[^\"]*\"' | head -1 | cut -d'\"' -f4 || echo \"\"")
 
 (defpoll battery_str :interval "30s" :initial ""
   "upower -i $(upower -e | grep BAT) 2>/dev/null | grep percentage | awk '{print $2}' || echo ''")
@@ -29,16 +29,16 @@
   (centerbox :orientation "h"
     :class "bar-container"
     (box :class "left" :orientation "h" :space-evenly false :halign "start"
-      (ws-btn 1)
-      (ws-btn 2)
-      (ws-btn 3)
-      (ws-btn 4)
-      (ws-btn 5)
-      (ws-btn 6)
-      (ws-btn 7)
-      (ws-btn 8)
-      (ws-btn 9)
-      (ws-btn 0))
+      (ws-btn :n 1)
+      (ws-btn :n 2)
+      (ws-btn :n 3)
+      (ws-btn :n 4)
+      (ws-btn :n 5)
+      (ws-btn :n 6)
+      (ws-btn :n 7)
+      (ws-btn :n 8)
+      (ws-btn :n 9)
+      (ws-btn :n 0))
     (label :text "{window_title}" :class "window-title")
     (box :class "right" :orientation "h" :space-evenly false :halign "end"
       (label :text "{battery_str}" :class "battery")
