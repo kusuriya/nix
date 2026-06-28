@@ -25,6 +25,7 @@
     swaylock
     ghostty
     playerctl
+    polkit_gnome
     xarchiver
   ];
   services = {

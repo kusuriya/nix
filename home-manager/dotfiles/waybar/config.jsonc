@@ -19,6 +19,7 @@
     ],
 
     "modules-right": [
+        "tray",
         "battery",
         "network",
         "pulseaudio",
@@ -114,6 +115,11 @@
         "format": "{:%H:%M}",
         "format-alt": "{:%a %b %d}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+
+    "tray": {
+        "spacing": 8,
+        "icon-size": 18
     },
 
     "custom/power": {
