@@ -1,4 +1,5 @@
 { pkgs
+, lib
 , ...
 }:
 {
@@ -53,4 +54,29 @@
   };
   # GVFS for Thunar volume management, trash, and MTP device support
   services.gvfs.enable = true;
+
+  # Daily flake update check — sends a swaync notification when updates exist
+  systemd.user.services.nixos-update-check = {
+    description = "Check for NixOS flake updates";
+    serviceConfig = {
+      Type = "oneshot";
+    };
+    script = ''
+      cd /home/kusuriya/nix
+      OUTPUT=$(${lib.getExe pkgs.nix} flake update --dry-run 2>&1)
+      if echo "$OUTPUT" | ${pkgs.gnugrep}/bin/grep -q "updating"; then
+        COUNT=$(echo "$OUTPUT" | ${pkgs.gnugrep}/bin/grep "updating" | ${pkgs.coreutils}/bin/wc -l)
+        ${pkgs.libnotify}/bin/notify-send "NixOS: $COUNT flake updates available" "Run 'just update && just switch' to apply"
+      fi
+    '';
+  };
+
+  systemd.user.timers.nixos-update-check = {
+    description = "Daily NixOS flake update check";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = true;
+    };
+  };
 }
