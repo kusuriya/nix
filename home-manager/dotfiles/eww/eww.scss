@@ -1,23 +1,20 @@
 * {
   all: unset;
   font-family: "JetBrainsMono Nerd Font";
-  font-size: 12px;
+  font-size: 13px;
 }
 
-/** Bar container */
-.bar-container {
+.bar-box {
   background-color: #0d0221;
   color: #e0e0e0;
   padding: 0 12px;
   min-height: 32px;
 }
 
-/** Left section */
 .left {
   padding: 0;
 }
 
-/** Workspace buttons */
 .ws-btn {
   background-color: #050510;
   color: #666666;
@@ -39,17 +36,14 @@
   color: #00f0ff;
 }
 
-/** Window title */
 .window-title {
   color: #b0b0b0;
-  font-size: 12px;
+  font-size: 13px;
   padding: 0 16px;
 }
 
-/** Right section */
 .right {
   padding: 0;
-  spacing: 12px;
 }
 
 .battery {
@@ -58,10 +52,6 @@
 
 .net {
   color: #00f0ff;
-}
-
-.sound {
-  color: #b388ff;
 }
 
 .time {
