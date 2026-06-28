@@ -1,4 +1,4 @@
-/* Catppuccin Mocha theme for SwayNotificationCenter */
+/* Corrupted Systems theme for SwayNotificationCenter */
 * {
   font-family: "JetBrainsMono Nerd Font";
   font-size: 13px;
@@ -6,8 +6,8 @@
 
 /* Control center background */
 .control-center {
-  background: #1e1e2e;
-  border: 2px solid #313244;
+  background: #0d0221;
+  border: 2px solid #1a0a30;
   border-radius: 10px;
   padding: 12px;
 }
@@ -18,8 +18,8 @@
 }
 
 .notification {
-  background: #181825;
-  border: 1px solid #313244;
+  background: #050510;
+  border: 1px solid #1a0a30;
   border-radius: 8px;
   padding: 10px;
 }
@@ -32,33 +32,33 @@
 
 /* Title text */
 .title {
-  color: #cdd6f4;
+  color: #e0e0e0;
   font-weight: bold;
   font-size: 14px;
 }
 
 /* Body text */
 .body {
-  color: #bac2de;
+  color: #b0b0b0;
   font-size: 13px;
 }
 
 /* App name label */
 .app-name {
-  color: #6c7086;
+  color: #666666;
   font-size: 11px;
 }
 
 /* Timestamp */
 .time {
-  color: #585b70;
+  color: #555555;
   font-size: 11px;
 }
 
 /* Close button */
 .close-button {
-  background: #313244;
-  color: #cdd6f4;
+  background: #1a0a30;
+  color: #e0e0e0;
   border-radius: 16px;
   padding: 2px 6px;
   margin: 4px;
@@ -66,31 +66,32 @@
 
 /* Action buttons (e.g. Reply, Open) */
 .notification-action {
-  background: #313244;
-  color: #cdd6f4;
-  border: 1px solid #45475a;
+  background: #1a0a30;
+  color: #e0e0e0;
+  border: 1px solid #b388ff;
   border-radius: 6px;
   padding: 4px 12px;
   margin: 4px;
 }
 
 .notification-action:hover {
-  background: #45475a;
+  background: #b388ff;
+  color: #050510;
 }
 
-/* Critical urgency */
+/* Critical urgency — hot pink */
 .notification.critical {
-  border: 2px solid #f38ba8;
+  border: 2px solid #ff2d95;
 }
 
 .notification.critical .title {
-  color: #f38ba8;
+  color: #ff2d95;
 }
 
 /* Low urgency */
 .notification.low {
-  border-color: #45475a;
-  opacity: 0.8;
+  border-color: #1a0a30;
+  opacity: 0.6;
 }
 
 /* Inhibitors / DND buttons */
@@ -100,35 +101,36 @@
 
 /* DND toggle */
 .dnd-button {
-  background: #313244;
-  color: #cdd6f4;
-  border: 1px solid #45475a;
+  background: #1a0a30;
+  color: #e0e0e0;
+  border: 1px solid #b388ff;
   border-radius: 6px;
   padding: 4px 12px;
 }
 
 .dnd-button.checked {
-  background: #f38ba8;
-  color: #1e1e2e;
-  border-color: #f38ba8;
+  background: #ff2d95;
+  color: #0d0221;
+  border-color: #ff2d95;
 }
 
 /* Clear all button */
 .clear-all-button {
-  background: #313244;
-  color: #cdd6f4;
-  border: 1px solid #45475a;
+  background: #1a0a30;
+  color: #e0e0e0;
+  border: 1px solid #00f0ff;
   border-radius: 6px;
   padding: 4px 12px;
 }
 
 .clear-all-button:hover {
-  background: #45475a;
+  background: #00f0ff;
+  color: #050510;
 }
 
 /* Widget headers (title, DND, MPRIS) */
 .widget-title {
-  color: #cdd6f4;
+  color: #00f0ff;
   font-weight: bold;
   font-size: 14px;
   margin: 6px 0;
@@ -136,15 +138,15 @@
 
 /* MPRIS widget */
 .widget-mpris {
-  background: #181825;
-  border: 1px solid #313244;
+  background: #050510;
+  border: 1px solid #1a0a30;
   border-radius: 8px;
   padding: 10px;
   margin: 6px 0;
 }
 
 .widget-mpris-player {
-  color: #cdd6f4;
+  color: #e0e0e0;
   font-size: 13px;
 }
 
@@ -153,7 +155,7 @@
 }
 
 .widget-mpris-subtitle {
-  color: #a6adc8;
+  color: #b0b0b0;
 }
 
 /* Notification icons */
