@@ -1,99 +1,96 @@
 // -*- mode: jsonc -*-
+// Corrupted Systems Waybar config
 {
+    "layer": "top",
+    "position": "top",
     "height": 30,
     "spacing": 4,
+    "margin": "0 0 0 0",
+
     "modules-left": [
         "sway/workspaces",
-        "sway/mode",
         "sway/scratchpad"
     ],
+
     "modules-center": [
         "sway/window"
     ],
+
     "modules-right": [
-        "idle_inhibitor",
-        "pulseaudio",
-        "network",
-        "power-profiles-daemon",
         "battery",
+        "network",
+        "pulseaudio",
         "custom/notification",
         "clock",
-        "tray",
         "custom/power"
     ],
-    "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
+
+    // === Module configs ===
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{name}",
+        "format-icons": {
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "6": "",
+            "7": "",
+            "8": "",
+            "9": "",
+            "0": ""
+        }
     },
+
     "sway/scratchpad": {
-        "format": "{icon} {count}",
+        "format": " {icon} {count}",
         "show-empty": false,
-        "format-icons": ["", ""],
+        "format-icons": [""],
         "tooltip": true,
         "tooltip-format": "{app}: {title}"
     },
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "",
-            "deactivated": ""
-        }
+
+    "sway/window": {
+        "format": "{}",
+        "max-length": 60
     },
-    "tray": {
-        "spacing": 10
-    },
-    "clock": {
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
-    },
+
     "battery": {
         "states": {
             "warning": 30,
             "critical": 15
         },
         "format": "{capacity}% {icon}",
-        "format-full": "{capacity}% {icon}",
         "format-charging": "{capacity}% ",
         "format-plugged": "{capacity}% ",
         "format-alt": "{time} {icon}",
         "format-icons": ["", "", "", "", ""]
     },
-    "power-profiles-daemon": {
-        "format": "{icon}",
-        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-        "tooltip": true,
-        "format-icons": {
-            "default": "",
-            "performance": "",
-            "balanced": "",
-            "power-saver": ""
-        }
-    },
+
     "network": {
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
+        "format-wifi": "{essid} ({signalStrength}%)",
+        "format-ethernet": "{ipaddr}/{cidr}",
+        "format-disconnected": "Disconnected",
+        "tooltip-format": "{ifname} via {gwaddr}",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
+
     "pulseaudio": {
         "format": "{volume}% {icon}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-muted": "",
         "format-source": "{volume}% ",
         "format-source-muted": "",
         "format-icons": {
             "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
     },
+
     "custom/notification": {
         "format": "{icon}",
         "format-icons": {
@@ -110,6 +107,13 @@
         "escape": true,
         "tooltip": false
     },
+
+    "clock": {
+        "format": "{:%H:%M}",
+        "format-alt": "{:%a %b %d}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+
     "custom/power": {
         "format": " ⏻ ",
         "tooltip": false,

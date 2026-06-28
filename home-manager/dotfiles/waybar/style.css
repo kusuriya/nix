@@ -1,0 +1,117 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: #0d0221;
+    color: #e0e0e0;
+    border-bottom: 1px solid #1a0a30;
+}
+
+/* === Workspaces === */
+#workspaces button {
+    padding: 0 6px;
+    background: #050510;
+    color: #666666;
+    border: 1px solid #1a0a30;
+    border-radius: 4px;
+    margin: 2px 2px;
+    min-width: 24px;
+}
+
+#workspaces button.focused {
+    background: #0d0221;
+    color: #ffffff;
+    border-color: #ff2d95;
+}
+
+#workspaces button.urgent {
+    border-color: #ff2d95;
+    color: #ff2d95;
+}
+
+#workspaces button:hover {
+    border-color: #00f0ff;
+    color: #00f0ff;
+}
+
+/* === Scratchpad === */
+#scratchpad {
+    color: #b388ff;
+    margin: 0 8px;
+}
+
+/* === Window title === */
+#window {
+    color: #b0b0b0;
+    font-size: 12px;
+    padding: 0 12px;
+}
+
+/* === Battery === */
+#battery {
+    color: #a6e3a1;
+    padding: 0 8px;
+}
+
+#battery.warning {
+    color: #fab387;
+}
+
+#battery.critical {
+    color: #ff2d95;
+}
+
+/* === Network === */
+#network {
+    color: #00f0ff;
+    padding: 0 8px;
+}
+
+#network.disconnected {
+    color: #666666;
+}
+
+/* === PulseAudio === */
+#pulseaudio {
+    color: #b388ff;
+    padding: 0 8px;
+}
+
+#pulseaudio.muted {
+    color: #666666;
+}
+
+/* === Notification === */
+#custom-notification {
+    padding: 0 4px;
+}
+
+/* === Clock === */
+#clock {
+    color: #e0e0e0;
+    padding: 0 8px;
+    font-weight: bold;
+}
+
+/* === Power === */
+#custom-power {
+    color: #00f0ff;
+    padding: 0 8px;
+    font-size: 15px;
+}
+
+/* === Tooltips === */
+tooltip {
+    background: #0d0221;
+    border: 1px solid #1a0a30;
+    border-radius: 6px;
+}
+
+tooltip label {
+    color: #e0e0e0;
+}

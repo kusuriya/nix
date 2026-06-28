@@ -4,7 +4,7 @@
 }:
 {
   environment.systemPackages = with pkgs; [
-    eww
+    waybar
     grim
     sway-contrib.grimshot
     slurp

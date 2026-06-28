@@ -27,8 +27,8 @@
       ".config/mako/config" = { source = ./dotfiles/mako/config; };
       ".config/swaync/config.json" = { source = ./dotfiles/swaync/config.json; };
       ".config/swaync/style.css" = { source = ./dotfiles/swaync/style.css; };
-      ".config/eww/eww.yuck" = { source = ./dotfiles/eww/eww.yuck; };
-      ".config/eww/eww.scss" = { source = ./dotfiles/eww/eww.scss; };
+      ".config/waybar/config.jsonc" = { source = ./dotfiles/waybar/config.jsonc; };
+      ".config/waybar/style.css" = { source = ./dotfiles/waybar/style.css; };
       ".config/kanshi/config" = { source = ./dotfiles/kanshi/config; };
       ".config/ghostty/config" = { source = ./dotfiles/ghostty/config; };
       ".config/ghostty/themes/catppuccin-mocha" = { source = ./dotfiles/ghostty/themes/catppuccin-mocha; };
