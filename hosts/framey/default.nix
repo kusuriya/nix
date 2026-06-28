@@ -160,6 +160,24 @@
       "image/svg+xml" = "imv.desktop";
       "image/bmp" = "imv.desktop";
       "image/tiff" = "imv.desktop";
+
+      # Terminal
+      "application/x-terminal-emulator" = "ghostty.desktop";
+
+      # Video / Audio — mpv
+      "video/mp4" = "mpv.desktop";
+      "video/webm" = "mpv.desktop";
+      "video/x-matroska" = "mpv.desktop";
+      "audio/mpeg" = "mpv.desktop";
+      "audio/ogg" = "mpv.desktop";
+      "audio/flac" = "mpv.desktop";
+
+      # PDF — zathura (lightweight, keyboard-driven)
+      "application/pdf" = "zathura.desktop";
+
+      # Text — nvim
+      "text/plain" = "nvim.desktop";
+      "text/markdown" = "nvim.desktop";
     };
   };
 
