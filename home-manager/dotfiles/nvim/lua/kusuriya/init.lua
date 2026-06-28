@@ -32,3 +32,6 @@ vim.opt.colorcolumn = "80"
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.autoread = true
+
+-- Dark theme
+vim.cmd.colorscheme("rose-pine")
