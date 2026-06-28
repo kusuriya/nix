@@ -3,9 +3,9 @@
 
 host := "framey"
 
-# Build and switch the system
+# Build and switch the system, then reload Sway config
 switch h=host:
-    sudo nixos-rebuild switch --flake ~/nix#{{h}}
+    sudo nixos-rebuild switch --flake ~/nix#{{h}} && { swaymsg reload 2>/dev/null || true; }
 
 # Build without switching (dry run)
 build h=host:
