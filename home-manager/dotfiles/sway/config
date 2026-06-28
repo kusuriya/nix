@@ -172,14 +172,31 @@ client.urgent #ff2d95 #0d0221 #ffffff #ff2d95
 client.placeholder #00f0ff #0d0221 #00f0ff #00f0ff
 client.background #0d0221
 
-# Pin workspaces to specific outputs (stable monitor descriptions)
-# DP-5 (Sceptre O34 ultrawide, main): 1, 4
-# DP-6 (LG DualUp left): 2
-# DP-3 (LG DualUp right): 3, 5
+# ─── Workspace layout: pins + app assignments ──────────────
+#
+# Workspace 1 (Sceptre main):  Vivaldi + Obsidian (splith)
+# Workspace 2 (Sceptre main):  Hermes desktop (splitv)
+# Workspace 3 (Sceptre main):  Chrome top, chat tab group bottom (splitv)
+# Workspace 4-5 (LG right):    Terminals / other
+
 workspace 1 output "Sceptre Tech Inc Sceptre O34 Unknown"
-workspace 4 output "Sceptre Tech Inc Sceptre O34 Unknown"
-workspace 2 output "LG Electronics LG SDQHD 409NTLE8K432"
-workspace 3 output "LG Electronics LG SDQHD 302NTCZF0715"
+workspace 2 output "Sceptre Tech Inc Sceptre O34 Unknown"
+workspace 3 output "Sceptre Tech Inc Sceptre O34 Unknown"
+workspace 4 output "LG Electronics LG SDQHD 302NTCZF0715"
 workspace 5 output "LG Electronics LG SDQHD 302NTCZF0715"
+
+# App → workspace routing (new windows)
+assign [app_id="vivaldi-stable"]     workspace 1
+assign [app_id="obsidian"]            workspace 1
+assign [app_id="electron"]            workspace 2
+assign [app_id="chromium-browser"]    workspace 3
+assign [app_id="discord"]             workspace 3
+assign [app_id="element"]             workspace 3
+assign [app_id="signal"]              workspace 3
+
+# Default layouts per workspace
+workspace_layout splith     # ws1: Vivaldi left, Obsidian right
+# ws2: hermes fills the workspace (single app splitv)
+# ws3: users opens Chrome, then chat apps split below
 
 include /home/kusuriya/.config/sway/config.d/*
