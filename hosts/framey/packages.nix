@@ -173,6 +173,7 @@
 
       chromium # Chromium — daily driver, dev tools
       vivaldi # Vivaldi — power-user browser, tabs/panels
+      zathura # PDF viewer — lightweight, keyboard-driven, Wayland-native
 
       # ============================================================================
       # COMMUNICATION (desktop only)
