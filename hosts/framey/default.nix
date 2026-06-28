@@ -151,6 +151,15 @@
       "x-scheme-handler/https" = "vivaldi-stable.desktop";
       "x-scheme-handler/about" = "vivaldi-stable.desktop";
       "x-scheme-handler/unknown" = "vivaldi-stable.desktop";
+
+      # Images — imv (lightweight Wayland image viewer)
+      "image/jpeg" = "imv.desktop";
+      "image/png" = "imv.desktop";
+      "image/webp" = "imv.desktop";
+      "image/gif" = "imv.desktop";
+      "image/svg+xml" = "imv.desktop";
+      "image/bmp" = "imv.desktop";
+      "image/tiff" = "imv.desktop";
     };
   };
 
