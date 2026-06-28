@@ -1,24 +1,3 @@
-# i3status-rust config — Corrupted Systems theme
-# Sway bar renders the frame; this generates the status blocks.
-
-[[block]]
-block = "battery"
-interval = 30
-format = "$percentage $icon"
-format_alt = "$time_remaining"
-
-[[block]]
-block = "net"
-device = "wlan0"
-format = "$signal_strength $ip"
-format_alt = "$ip $ssid"
-format_alt_down = "down"
-
-[[block]]
-block = "sound"
-step = 5
-
+# i3status-rust config — minimal test
 [[block]]
 block = "time"
-interval = 15
-format = "%a %b %d %H:%M"
