@@ -14,17 +14,26 @@
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
         "https://hyprland.cachix.org"
+        "https://home-manager.cachix.org"
+        "https://disko.cachix.org"
+        "https://lanzaboote.cachix.org"
       ];
       trusted-substituters = [
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
         "https://hyprland.cachix.org"
+        "https://home-manager.cachix.org"
+        "https://disko.cachix.org"
+        "https://lanzaboote.cachix.org"
       ];
 
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "home-manager.cachix.org-1:2FvFoQTAMCk3jMkU3LRIMpQfs6h3eC27nZ5c5FiooXE="
+        "disko.cachix.org-1:gM/PbZ+sp2rUZx2pDh7p5LrV0V58mdaUNb7X2hRq7XI="
+        "lanzaboote.cachix.org-1:XZ+6CHbs6GbbF1ff6Bn95vEqgpXFNPCpRdTGr/+fIlA="
       ];
     };
   };

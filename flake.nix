@@ -13,7 +13,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # Default channel — daily rebuilds, accessed via `pkgs`
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11"; # Pinned stable — libvirt/qemu live here, accessed via `pkgs-stable`
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/master"; # Bleeding edge — accessed via `pkgs.unstable` overlay
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable"; # Bleeding edge (tracks unstable, better cache) — accessed via `pkgs.unstable` overlay
     disko.url = "github:nix-community/disko"; # Declarative disk partitioning (btrfs)
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -26,9 +26,7 @@
       url = "github:nix-community/lanzaboote/"; # Secure Boot (framey only)
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    firefox = {
-      url = "github:nix-community/flake-firefox-nightly"; # Firefox Nightly (desktop hosts)
-    };
+
   };
 
   outputs =

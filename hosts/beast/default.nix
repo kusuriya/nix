@@ -331,7 +331,6 @@
       "1password/custom_allowed_browsers" = {
         text = ''
           vivaldi-bin
-          firefox-nightly
         '';
         mode = "0644";
       };

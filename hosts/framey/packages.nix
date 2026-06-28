@@ -173,8 +173,6 @@
 
       chromium # Chromium — daily driver, dev tools
       vivaldi # Vivaldi — power-user browser, tabs/panels
-      inputs.firefox.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
-      # Firefox Nightly — bleeding-edge, alt rendering engine testing
 
       # ============================================================================
       # COMMUNICATION (desktop only)
