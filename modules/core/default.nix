@@ -7,6 +7,7 @@
     ./packages.nix
     ./nix.nix
     ./locale.nix
+    ./mime.nix
   ];
   nix = {
     settings = {

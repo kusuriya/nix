@@ -166,6 +166,10 @@
       '';
     };
   };
+  qt = {
+    enable = true;
+    platformTheme.name = "gnome";  # inherit GTK theme colors/fonts
+  };
   gtk = {
     enable = true;
     font.name = "JetBrainsMono Nerd Font";

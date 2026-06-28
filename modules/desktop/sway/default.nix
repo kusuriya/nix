@@ -7,6 +7,7 @@
     hicolor-icon-theme
     gnome-icon-theme
     adwaita-icon-theme
+    adwaita-qt
     waybar
     grim
     sway-contrib.grimshot
