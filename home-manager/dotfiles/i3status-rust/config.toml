@@ -2,6 +2,11 @@
 
 # Left side blocks (before workspace switcher)
 [[block]]
+block = "privacy"
+[[block.driver]]
+name = "pipewire"
+
+[[block]]
 block = "scratchpad"
 format = "$icon $count"
 
