@@ -17,21 +17,14 @@ format = "$percentage $icon"
 
 [[block]]
 block = "net"
+format = "$ip"
 
 [[block]]
 block = "sound"
 step = 5
 
 [[block]]
-block = "calendar"
-
-[[block]]
 block = "pomodoro"
 
 [[block]]
-block = "notify"
-
-[[block]]
 block = "time"
-interval = 15
-format = "%a %b %d %H:%M"
