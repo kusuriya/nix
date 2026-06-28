@@ -176,6 +176,22 @@
     gtk4.theme.name = "Adwaita-dark";
     gtk4.theme.package = pkgs.gnome-themes-extra;
   };
+  xdg.desktopEntries."imv" = {
+    name = "imv";
+    comment = "Simple image viewer for Wayland";
+    exec = "imv %F";
+    mimeType = [
+      "image/jpeg"
+      "image/png"
+      "image/webp"
+      "image/gif"
+      "image/svg+xml"
+      "image/bmp"
+      "image/tiff"
+    ];
+    categories = [ "Graphics" "Viewer" ];
+    terminal = false;
+  };
   manual = {
     html.enable = false;
     json.enable = false;
