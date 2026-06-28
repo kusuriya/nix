@@ -170,6 +170,7 @@
   qt = {
     enable = true;
     platformTheme.name = "gnome";
+    style.name = "adwaita-dark";
   };
   home.pointerCursor = {
     name = "Adwaita";
