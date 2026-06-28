@@ -166,7 +166,12 @@
 
   security = {
     rtkit.enable = true;
-    sudo.wheelNeedsPassword = true;
+    sudo = {
+      wheelNeedsPassword = true;
+      extraConfig = ''
+        Defaults timestamp_timeout=240
+      '';
+    };
     audit.enable = true;
     auditd.enable = true;
     apparmor = {
