@@ -184,7 +184,7 @@
     font.size = 10;
     theme.name = "Adwaita-dark";
     theme.package = pkgs.gnome-themes-extra;
-    colorScheme = "prefer-dark";
+    colorScheme = "dark";
     iconTheme.name = "Adwaita";
     iconTheme.package = pkgs.adwaita-icon-theme;
     gtk4.theme.name = "Adwaita-dark";
