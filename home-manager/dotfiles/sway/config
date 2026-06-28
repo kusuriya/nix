@@ -168,6 +168,14 @@ client.urgent #ff2d95 #0d0221 #ffffff #ff2d95
 client.placeholder #00f0ff #0d0221 #00f0ff #00f0ff
 client.background #0d0221
 
-
+# Pin workspaces to specific outputs
+# DP-5 (Sceptre ultrawide, main): 1, 4
+# DP-6 (LG left): 2
+# DP-3 (LG right): 3, 5
+workspace 1 output DP-5
+workspace 4 output DP-5
+workspace 2 output DP-6
+workspace 3 output DP-3
+workspace 5 output DP-3
 
 include /home/kusuriya/.config/sway/config.d/*
