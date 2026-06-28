@@ -191,6 +191,18 @@
     gtk4.theme.name = "Adwaita-dark";
     gtk4.theme.package = pkgs.gnome-themes-extra;
   };
+  xdg.desktopEntries."url-dispatcher" = {
+    name = "URL Dispatcher";
+    comment = "Routes video links to Chromium, other links to Vivaldi";
+    exec = "url-dispatcher %u";
+    mimeType = [
+      "x-scheme-handler/http"
+      "x-scheme-handler/https"
+    ];
+    categories = [ "Network" "WebBrowser" ];
+    terminal = false;
+    noDisplay = true;
+  };
   xdg.desktopEntries."imv" = {
     name = "imv";
     comment = "Simple image viewer for Wayland";
