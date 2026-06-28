@@ -8,4 +8,7 @@
       config.allowUnfree = true;
     };
   };
+
+  # Custom packages defined in ./pkgs (hermes-desktop, glowing-bear-electron, etc.)
+  custom-packages = final: _prev: import ../pkgs { pkgs = final; };
 }

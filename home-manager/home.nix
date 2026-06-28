@@ -97,6 +97,7 @@
     yazi = {
       enable = true;
       enableFishIntegration = true;
+      shellWrapperName = "y"; # silence legacy-default warning (default changed from "yy" in 26.05)
       settings = {
         mgr = {
           show_hidden = false;
