@@ -6,6 +6,8 @@
     "height": 30,
     "spacing": 4,
     "margin": "0 0 0 0",
+    "font-family": "JetBrainsMono Nerd Font, sans-serif",
+    "font-size": "13px",
 
     "modules-left": [
         "sway/workspaces",
