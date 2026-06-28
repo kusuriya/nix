@@ -19,9 +19,6 @@ block = "sound"
 step = 5
 
 [[block]]
-block = "power_profiles"
-
-[[block]]
 block = "idle_inhibitor"
 format = "$icon"
 
