@@ -46,7 +46,7 @@
       # Helper function to create system configurations
       mkSystem = { hostname, system ? "x86_64-linux", extraModules ? [ ], homeManagerConfig ? true }:
         nixpkgs.lib.nixosSystem {
-          inherit system;
+          nixpkgs.hostPlatform.system = system;
           specialArgs = {
             inherit inputs self;
             pkgs-stable = nixpkgs-stable.legacyPackages.${system};
