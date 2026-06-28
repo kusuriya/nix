@@ -75,15 +75,6 @@
       enable = true;
       enableFishIntegration = true;
     };
-    gtk = {
-      enable = true;
-      font.name = "JetBrainsMono Nerd Font";
-      font.size = 10;
-      theme.name = "Adwaita-dark";
-      theme.package = pkgs.gnome-themes-extra;
-      iconTheme.name = "Adwaita";
-      iconTheme.package = pkgs.adwaita-icon-theme;
-    };
     direnv = {
       enable = true;
       nix-direnv.enable = true;
@@ -173,6 +164,15 @@
         setw -g mouse on
       '';
     };
+  };
+  gtk = {
+    enable = true;
+    font.name = "JetBrainsMono Nerd Font";
+    font.size = 10;
+    theme.name = "Adwaita-dark";
+    theme.package = pkgs.gnome-themes-extra;
+    iconTheme.name = "Adwaita";
+    iconTheme.package = pkgs.adwaita-icon-theme;
   };
   manual = {
     html.enable = false;
