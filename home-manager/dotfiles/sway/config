@@ -7,7 +7,7 @@ set $term ghostty
 set $menu wofi --show run
 
 # Default wallpaper (kanshi may override display config, but wallpaper persists)
-output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg /home/kusuriya/.config/sway/wallpaper.png fill
 
 input * xkb_options compose:ralt
 
