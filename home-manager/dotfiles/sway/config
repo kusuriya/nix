@@ -133,6 +133,9 @@ bindsym $mod+r mode "resize"
     bindsym $mod+F2 exec grimshot copy active
     bindsym $mod+F3 exec grimshot copy output
 
+    # Notification center toggle (swaync)
+    bindsym $mod+n exec swaync-client -t
+
     # --- Window rules for common apps ---
     for_window [window_role="pop-up"] floating enable
     for_window [window_role="bubble"] floating enable
@@ -155,5 +158,23 @@ for_window [class="obsidian"] focus_on_window_activation focus
     for_window [app_id="blueman-manager"] floating enable, move position center
     for_window [class="Zoom"] floating enable
     for_window [class="steam"] floating enable
+
+# Sway bar with i3status-rust
+bar {
+    position top
+    status_command i3status-rs
+    height 28
+    font pango:JetBrainsMono Nerd Font 10
+    colors {
+        background #1e1e2e
+        statusline #cdd6f4
+        separator #313244
+        focused_workspace #cba6f7 #313244 #cdd6f4
+        active_workspace #313244 #313244 #cdd6f4
+        inactive_workspace #1e1e2e #1e1e2e #6c7086
+        urgent_workspace #f38ba8 #1e1e2e #cdd6f4
+        binding_mode #1e1e2e #f38ba8 #cdd6f4
+    }
+}
 
 include /home/kusuriya/.config/sway/config.d/*

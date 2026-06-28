@@ -24,11 +24,10 @@
       ".config/sway/config.d/exec.conf" = { source = ./dotfiles/sway/config.d/exec.conf; };
       ".config/sway/config.d/idle.conf" = { source = ./dotfiles/sway/config.d/idle.conf; };
       ".config/sway/idle-guard.sh" = { source = ./dotfiles/sway/idle-guard.sh; executable = true; };
-      ".config/waybar/config.jsonc" = { source = ./dotfiles/waybar/config.jsonc; };
-      ".config/waybar/power_menu.xml" = { source = ./dotfiles/waybar/power_menu.xml; };
       ".config/mako/config" = { source = ./dotfiles/mako/config; };
       ".config/swaync/config.json" = { source = ./dotfiles/swaync/config.json; };
       ".config/swaync/style.css" = { source = ./dotfiles/swaync/style.css; };
+      ".config/i3status-rust/config.toml" = { source = ./dotfiles/i3status-rust/config.toml; };
       ".config/kanshi/config" = { source = ./dotfiles/kanshi/config; };
       ".config/ghostty/config" = { source = ./dotfiles/ghostty/config; };
       ".config/ghostty/themes/catppuccin-mocha" = { source = ./dotfiles/ghostty/themes/catppuccin-mocha; };
