@@ -1,3 +1,37 @@
-# i3status-rust config — minimal test
+# i3status-rust config — Corrupted Systems theme
+
+# Left side blocks (before workspace switcher)
+[[block]]
+block = "privacy"
+format = "$icon"
+
+[[block]]
+block = "scratchpad"
+format = "$icon $count"
+
+# Right side blocks (after workspace switcher)
+[[block]]
+block = "battery"
+interval = 30
+format = "$percentage $icon"
+
+[[block]]
+block = "net"
+
+[[block]]
+block = "sound"
+step = 5
+
+[[block]]
+block = "calendar"
+
+[[block]]
+block = "pomodoro"
+
+[[block]]
+block = "notify"
+
 [[block]]
 block = "time"
+interval = 15
+format = "%a %b %d %H:%M"
