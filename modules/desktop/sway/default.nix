@@ -8,7 +8,7 @@
     sway-contrib.grimshot
     slurp
     wl-clipboard
-    mako
+    swaynotificationcenter
     sway
     networkmanagerapplet
     wofi

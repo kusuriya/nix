@@ -1,0 +1,162 @@
+/* Catppuccin Mocha theme for SwayNotificationCenter */
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 13px;
+}
+
+/* Control center background */
+.control-center {
+  background: #1e1e2e;
+  border: 2px solid #313244;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* Individual notification box */
+.notification-row {
+  margin: 6px 0;
+}
+
+.notification {
+  background: #181825;
+  border: 1px solid #313244;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* Notification content */
+.notification-content {
+  background: transparent;
+  padding: 4px;
+}
+
+/* Title text */
+.title {
+  color: #cdd6f4;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Body text */
+.body {
+  color: #bac2de;
+  font-size: 13px;
+}
+
+/* App name label */
+.app-name {
+  color: #6c7086;
+  font-size: 11px;
+}
+
+/* Timestamp */
+.time {
+  color: #585b70;
+  font-size: 11px;
+}
+
+/* Close button */
+.close-button {
+  background: #313244;
+  color: #cdd6f4;
+  border-radius: 16px;
+  padding: 2px 6px;
+  margin: 4px;
+}
+
+/* Action buttons (e.g. Reply, Open) */
+.notification-action {
+  background: #313244;
+  color: #cdd6f4;
+  border: 1px solid #45475a;
+  border-radius: 6px;
+  padding: 4px 12px;
+  margin: 4px;
+}
+
+.notification-action:hover {
+  background: #45475a;
+}
+
+/* Critical urgency */
+.notification.critical {
+  border: 2px solid #f38ba8;
+}
+
+.notification.critical .title {
+  color: #f38ba8;
+}
+
+/* Low urgency */
+.notification.low {
+  border-color: #45475a;
+  opacity: 0.8;
+}
+
+/* Inhibitors / DND buttons */
+.inhibitors {
+  margin: 6px 0;
+}
+
+/* DND toggle */
+.dnd-button {
+  background: #313244;
+  color: #cdd6f4;
+  border: 1px solid #45475a;
+  border-radius: 6px;
+  padding: 4px 12px;
+}
+
+.dnd-button.checked {
+  background: #f38ba8;
+  color: #1e1e2e;
+  border-color: #f38ba8;
+}
+
+/* Clear all button */
+.clear-all-button {
+  background: #313244;
+  color: #cdd6f4;
+  border: 1px solid #45475a;
+  border-radius: 6px;
+  padding: 4px 12px;
+}
+
+.clear-all-button:hover {
+  background: #45475a;
+}
+
+/* Widget headers (title, DND, MPRIS) */
+.widget-title {
+  color: #cdd6f4;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 6px 0;
+}
+
+/* MPRIS widget */
+.widget-mpris {
+  background: #181825;
+  border: 1px solid #313244;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 6px 0;
+}
+
+.widget-mpris-player {
+  color: #cdd6f4;
+  font-size: 13px;
+}
+
+.widget-mpris-title {
+  font-weight: bold;
+}
+
+.widget-mpris-subtitle {
+  color: #a6adc8;
+}
+
+/* Notification icons */
+.notification-icon {
+  margin-right: 8px;
+}
