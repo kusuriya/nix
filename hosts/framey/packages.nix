@@ -200,7 +200,6 @@
       # GUI APPLICATIONS — MEDIA & 3D (desktop only)
       # ============================================================================
 
-      orca-slicer # 3D printer slicer — Bambu/Orca fork
       freecad # 3D CAD — parametric mechanical design
       makemkv # DVD/Blu-ray ripper — decrypt and remux discs
       handbrake # Video transcoder — compress/convert video files
