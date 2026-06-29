@@ -171,8 +171,12 @@
       # BROWSERS (desktop only)
       # ============================================================================
 
-      chromium # Chromium — daily driver, dev tools
-      vivaldi # Vivaldi — power-user browser, tabs/panels
+      (vivaldi.override {
+        commandLineArgs = [
+          "--enable-features=VaapiVideoDecoder,VaapiVideoEncoder,VaapiIgnoreDriverChecks"
+          "--enable-accelerated-video-decode"
+        ];
+      }) # Vivaldi — power-user browser, tabs/panels
       zathura # PDF viewer — lightweight, keyboard-driven, Wayland-native
 
       # ============================================================================

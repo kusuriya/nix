@@ -219,6 +219,8 @@
     categories = [ "Graphics" "Viewer" ];
     terminal = false;
   };
+  xdg.mimeApps.enable = true;
+
   manual = {
     html.enable = false;
     json.enable = false;
