@@ -107,7 +107,8 @@
         mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
         magicOrExtension = ''\x7fELF....AI\x02'';
       };
-
+      tmp.useTmpfs = true;
+      tmp.tmpfsSize = "8G";
     };
 
   networking = {
@@ -215,6 +216,7 @@
   services.logind.settings.Login.HandlePowerKey = "suspend";
 
   services = {
+    thermald.enable = true;
     libinput = {
       enable = true;
       touchpad = {
@@ -404,7 +406,7 @@
     '';
   };
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "25.11";
 
   # fscrypt: Consider as future option for per-directory encryption in /home.
   # See: https://nixos.org/manual/nixos/stable/#sec-fscrypt
