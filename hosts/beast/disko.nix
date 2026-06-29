@@ -41,8 +41,7 @@
     disk = {
       nvme1 = {
         type = "disk";
-        # PLACEHOLDER — replace with actual by-id path for drive 1
-        device = "/dev/disk/by-id/nvme-REPLACE_WITH_DRIVE_1_ID";
+        device = "/dev/nvme0n1";
         content = {
           type = "gpt";
           partitions = {
