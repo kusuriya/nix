@@ -4,13 +4,13 @@ profile undocked {
 
 profile desk {
     output "BOE NE135A1M-NY1 Unknown" disable
-    output "Sceptre Tech Inc Sceptre O34 Unknown" mode 3440x1440@120Hz scale 1 position 2048,0
+    output "Sceptre Tech Inc Sceptre O34 Unknown" mode 3440x1440@60Hz scale 1 position 2048,0
     output "LG Electronics LG SDQHD 409NTLE8K432" mode 2560x2880 scale 1.25 position 5488,0
     output "LG Electronics LG SDQHD 302NTCZF0715" mode 2560x2880 scale 1.25 position 0,0
 }
 
 profile dual {
     output "BOE NE135A1M-NY1 Unknown" disable
-    output "Sceptre Tech Inc Sceptre O34 Unknown" mode 3440x1440@120Hz scale 1 position 0,0
+    output "Sceptre Tech Inc Sceptre O34 Unknown" mode 3440x1440@60Hz scale 1 position 0,0
     output "LG Electronics LG SDQHD 409NTLE8K432" mode 2560x2880 scale 1.25 position 3440,0
 }

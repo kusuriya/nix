@@ -599,3 +599,9 @@ Framey uses Sway (not Hyprland). The PAM config only references `greetd` and `lo
 ## Migration Guide
 
 See [MIGRATION.md](./MIGRATION.md) for the step-by-step migration plan covering disk layout changes, package swaps, security hardening additions, and verification procedures.
+
+---
+
+## Known Gotchas
+
+- **Powertop USB autosuspend** — `powerManagement.powertop.enable` runs `powertop --auto-tune` which enables USB autosuspend on everything, including input devices. Disabled in config because it kills the mouse/keyboard until replug. If re-enabling, set a udev rule to exclude HID devices.
