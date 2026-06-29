@@ -49,7 +49,7 @@
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
     };
-  powerManagement.powertop.enable = true;
+  # powerManagement.powertop.enable = true; # Disabled — USB autosuspend kills the mouse
   systemd = {
     settings.Manager.RuntimeWatchdogSec = "30s";
   };
