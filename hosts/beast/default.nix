@@ -83,6 +83,9 @@
     initrd = {
       compressor = "zstd";
       # systemd in initrd not needed — no LUKS2/TPM2 unlock on this host
+      systemd = {
+        enable = false;
+      };
     };
     kernelParams = [ "quiet" "audit=1" ];
     plymouth.enable = true;
