@@ -425,7 +425,8 @@
       ${pkgs.ryzenadj}/bin/ryzenadj \
         --stapm-limit=25000 \
         --fast-limit=30000 \
-        --slow-limit=25000
+        --slow-limit=25000 \
+        --power-saving
     '';
   };
 
