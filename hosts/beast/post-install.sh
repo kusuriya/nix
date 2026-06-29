@@ -60,13 +60,8 @@ echo ""
 
 # --- Step 3: Create swap ---
 echo "[3/6] Creating 16GB swapfile..."
-if [[ -f /.swapvol/swapfile ]]; then
-  echo "  Swapfile already exists — skipping."
-else
-  btrfs subvolume create /.swapvol
-  btrfs filesystem mkswapfile --size 16G /.swapvol/swapfile
-fi
-echo "  Swap: NixOS auto-creates at /swapfile (generation 9+)"
+echo "  NixOS auto-creates swap at /swapfile (generation 9+)
+echo "  Verify with: swapon --show"
 echo "  Done."
 echo ""
 
