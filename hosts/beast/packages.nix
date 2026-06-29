@@ -63,6 +63,7 @@
       lazygit # TUI for git — staging hunks, cherry-pick, interactive rebase
       entr # Lightweight file watcher — `ls *.py | entr pytest`
       watchexec # File watcher — `watchexec -e py -- pytest`
+      remmina # Remote desktop client — RDP, VNC, SSH, SPICE
     ];
   };
 }
