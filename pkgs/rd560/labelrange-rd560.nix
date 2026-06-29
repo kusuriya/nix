@@ -51,7 +51,7 @@ stdenv.mkDerivation rec {
     PPD_SRC="$TMPDIR/unpacked"
     for ppd in "$PPD_SRC"/*.ppd; do
       if [ -f "$ppd" ]; then
-        cp -v "$ppd" "$out/share/cups/model/labelrange/"
+        cp -v "$ppd" "$out/share/cups/model/labelrange/RD560.ppd"
       fi
     done
 

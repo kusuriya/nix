@@ -71,6 +71,12 @@
   # Hardware watchdog — auto-reboot if system hangs
   systemd.settings.Manager.RuntimeWatchdogSec = "30s";
 
+  # Swap — 16GB swapfile, auto-created by NixOS
+  swapDevices = [{
+    device = "/.swapvol/swapfile";
+    size = 16384;
+  }];
+
   # Bootloader — plain systemd-boot, no Secure Boot
   boot = {
     loader = {
@@ -82,10 +88,7 @@
     };
     initrd = {
       compressor = "zstd";
-      # systemd in initrd not needed — no LUKS2/TPM2 unlock on this host
-      systemd = {
-        enable = false;
-      };
+      systemd.enable = true;
       luks.devices = { };
     };
     kernelParams = [ "quiet" "audit=1" ];
@@ -195,8 +198,6 @@
   };
 
   services = {
-    keyd.enable = true;
-
     flatpak.enable = true;
     libinput = {
       enable = true;
@@ -235,12 +236,6 @@
     };
 
     fwupd.enable = true;
-    fstrim = {
-      enable = true;
-      interval = "weekly";
-    };
-    gvfs.enable = true;
-
     udev = {
       packages = [ pkgs.via ];
       extraRules = ''
@@ -345,5 +340,5 @@
     };
   };
 
-  system.stateVersion = "23.05"; # Do not change on a rebuild
+  system.stateVersion = "24.05";
 }

@@ -7,7 +7,7 @@
 #   2. Balance data across both devices
 #   3. Create the 16GB swapfile
 #   4. Set up Tailscale
-#   5. Verify NVIDIA driver
+#   5. Verify AMD GPU
 #   6. Verify NFS mounts
 #
 # Usage:
@@ -81,15 +81,18 @@ fi
 echo "  Done."
 echo ""
 
-# --- Step 5: Verify NVIDIA ---
-echo "[5/6] Verifying NVIDIA driver..."
-if command -v nvidia-smi &>/dev/null; then
-  nvidia-smi
+# --- Step 5: Verify AMD GPU ---
+echo "[5/6] Verifying AMD GPU..."
+if lsmod | grep -q amdgpu; then
+  echo "  amdgpu kernel module: loaded"
+  echo "  GPU devices:"
+  lspci | grep -i amd | grep -i vga
   echo ""
-  echo "  NVIDIA driver: OK"
+  echo "  Verify with: glxinfo | grep 'OpenGL renderer'"
+  echo "  ROCm/OpenCL: clinfo | grep -i 'Device Name'"
 else
-  echo "  WARNING: nvidia-smi not found. Driver may not be loaded."
-  echo "  Check: lsmod | grep nvidia"
+  echo "  WARNING: amdgpu module not loaded"
+  echo "  Check: lspci | grep VGA"
   echo "  Rebuild: sudo nixos-rebuild switch --flake .#beast"
 fi
 echo ""

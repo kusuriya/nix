@@ -191,7 +191,7 @@
     gtk4.theme.name = "Adwaita-dark";
     gtk4.theme.package = pkgs.gnome-themes-extra;
   };
-xdg.desktopEntries."imv" = {
+  xdg.desktopEntries."imv" = {
     name = "imv";
     comment = "Simple image viewer for Wayland";
     exec = "imv %F";
@@ -208,6 +208,11 @@ xdg.desktopEntries."imv" = {
     terminal = false;
   };
   xdg.mimeApps.enable = true;
+
+  xdg.mimeApps.defaultApplications = {
+    "x-scheme-handler/http" = "vivaldi.desktop";
+    "x-scheme-handler/https" = "vivaldi.desktop";
+  };
 
   manual = {
     html.enable = false;

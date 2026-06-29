@@ -8,7 +8,7 @@ Gaming and workhorse desktop. Rebuilt from scratch with disko-managed btrfs stor
 |-----------|---------|
 | CPU | AMD (with KVM support) |
 | RAM | 32 GB |
-| GPU | NVIDIA RTX 3060 (Ampere GA106) — primary display + gaming |
+| GPU | AMD Radeon RX 9070 XT (RDNA 4) — primary display + gaming |
 | iGPU | Intel (present, not used for display) |
 | Storage | 3× 1 TB NVMe |
 | Boot | Plain systemd-boot (no Secure Boot) |
@@ -42,11 +42,13 @@ Swap is a 16 GB swapfile, created post-install after the second NVMe is added.
 
 ## GPU Configuration
 
-- **NVIDIA RTX 3060** — primary GPU for all displays and gaming
-- Driver: `nvidia-open` kernel modules (`hardware.nvidia.open = true`)
-- `hardware.nvidia.modesetting.enable = true` — required for Wayland
-- `hardware.nvidia.powerManagement.enable = true` — display stability
-- `hardware.nvidia.nvidiaSettings = true` — nvidia-settings GUI
+- **AMD Radeon RX 9070 XT (RDNA 4)** — primary GPU for all displays and gaming
+- Driver: `amdgpu` kernel driver (built-in, no separate driver package)
+- `hardware.amdgpu.opencl.enable = true` — ROCm OpenCL compute support
+- `hardware.amdgpu.initrd.enable = true` — early KMS for Plymouth
+- `hardware.graphics.enable = true` — VA-API hardware video acceleration
+- Monitoring: `amdgpu_top`, `radeontop`, `vulkaninfo`
+- CoreCtrl installed for GPU tuning and fan curves
 
 ## Desktop
 
@@ -208,12 +210,13 @@ Update `disko.nix` with the actual device paths for future reproducibility.
 sudo tailscale up
 ```
 
-## Post-Install: Verify NVIDIA
+## Post-Install: Verify GPU
 
 ```bash
-nvidia-smi
+sudo lspci -nn | grep -i amd
 vulkaninfo | head -20
 glxinfo | grep "OpenGL renderer"
+amdgpu_top --version
 ```
 
 ## Post-Install: Minecraft Bedrock
@@ -233,11 +236,11 @@ ls /dozer/files
 
 ## Troubleshooting
 
-### NVIDIA Driver Not Loading
+### GPU Driver Not Loading
 
 ```bash
-lsmod | grep nvidia
-dmesg | grep -i nvidia
+lsmod | grep amdgpu
+dmesg | grep -i amdgpu
 sudo nixos-rebuild switch --flake .#beast
 ```
 
