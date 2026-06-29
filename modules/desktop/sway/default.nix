@@ -8,7 +8,6 @@
     gnome-icon-theme
     adwaita-icon-theme
     adwaita-qt
-    url-dispatcher
     waybar
     grim
     sway-contrib.grimshot

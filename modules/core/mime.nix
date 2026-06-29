@@ -2,9 +2,9 @@
   xdg.mime = {
     enable = true;
     defaultApplications = {
-      # Web — URL dispatcher (routes video to Chromium, other to Vivaldi)
-      "x-scheme-handler/http" = "url-dispatcher.desktop";
-      "x-scheme-handler/https" = "url-dispatcher.desktop";
+      # Web
+      "x-scheme-handler/http" = "vivaldi.desktop";
+      "x-scheme-handler/https" = "vivaldi.desktop";
 
       # Terminal
       "application/x-terminal-emulator" = "ghostty.desktop";

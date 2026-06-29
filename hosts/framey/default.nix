@@ -401,7 +401,7 @@
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
       EDITOR = "nvim";
-      BROWSER = "url-dispatcher";
+      BROWSER = "vivaldi";
       XCURSOR_THEME = "Adwaita";
       XCURSOR_SIZE = "24";
     };
