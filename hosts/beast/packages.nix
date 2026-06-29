@@ -24,7 +24,8 @@
       # ====================================================================
       # GPU / MONITORING
       # ====================================================================
-      nvtop # GPU process monitor (NVIDIA)
+      amdgpu_top # GPU process monitor (AMD)
+      radeontop # AMD GPU utilization (terminal)
       glxinfo # OpenGL info (glxinfo -B for GPU info)
       vulkan-tools # Vulkan diagnostics (vulkaninfo)
       mesa-demos # OpenGL demos (glxgears, glxinfo)

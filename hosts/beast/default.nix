@@ -85,7 +85,7 @@
       compressor = "zstd";
       # systemd in initrd not needed — no LUKS2/TPM2 unlock on this host
     };
-    kernelParams = [ "quiet" "audit=1" "nvidia-drm.modeset=1" ];
+    kernelParams = [ "quiet" "audit=1" ];
     plymouth.enable = true;
     binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
@@ -97,36 +97,23 @@
     };
   };
 
-  # --- NVIDIA RTX 3060 (Ampere) — primary GPU, open kernel modules ---
+  # --- AMD Radeon RX 9070 XT (RDNA 4) — primary GPU ---
   hardware = {
-    nvidia = {
-      # Open kernel modules (nvidia-open) — supported on Ampere+ (driver 555+)
-      open = true;
-      # Use the production driver package (not beta)
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-      # Required for Wayland
-      modesetting.enable = true;
-      # Power management — display stability
-      powerManagement.enable = true;
-      # Fine-grained power management (turns off GPU when not in use)
-      # Disabled: desktop doesn't need aggressive GPU power-down
-      powerManagement.finegrained = false;
-      # nvidia-settings GUI
-      nvidiaSettings = true;
-    };
-
-    # Intel iGPU — present but not used for display (NVIDIA is primary)
     amdgpu = {
       opencl.enable = true;
       initrd.enable = true;
     };
-
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
     enableRedistributableFirmware = true;
     graphics = {
       enable = true;
       enable32Bit = true;
+      extraPackages = with pkgs; [
+        libva
+        libva-vdpau-driver
+        libvdpau-va-gl
+      ];
     };
   };
 
