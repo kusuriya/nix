@@ -14,7 +14,8 @@
       # ====================================================================
       # GAMING
       # ====================================================================
-      proton-ge-bin # Custom Proton build for Steam Play (better compatibility)
+      # proton-ge-bin is in programs.steam.extraCompatPackages instead
+      # (installing it globally causes buildEnv man-paths merge to fail)
       lutris # Game launcher — GOG, Epic, Origin, standalone games
       heroic # Epic Games + GOG launcher (native Linux)
       bottles # Wine prefix manager — run Windows games/apps
