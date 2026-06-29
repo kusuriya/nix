@@ -342,19 +342,6 @@
       };
     };
 
-    # ryzenadj power-limit service — caps CPU power limits to reduce heat/noise
-    systemd.services.ryzenadj-power-limit = {
-      description = "RyzenAdj power limit caps for quiet fans";
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig.Type = "oneshot";
-      script = ''
-        ${pkgs.ryzenadj}/bin/ryzenadj \
-          --stapm-limit=25000 \
-          --fast-limit=30000 \
-          --slow-limit=25000
-      '';
-    };
-
   };
   programs = {
     nix-ld = {
@@ -402,9 +389,22 @@
     };
 
   };
+
+  # ryzenadj power-limit service — caps CPU power limits to reduce heat/noise
+  systemd.services.ryzenadj-power-limit = {
+    description = "RyzenAdj power limit caps for quiet fans";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      ${pkgs.ryzenadj}/bin/ryzenadj \
+        --stapm-limit=25000 \
+        --fast-limit=30000 \
+        --slow-limit=25000
+    '';
+  };
+
   system.stateVersion = "23.05";
 
   # fscrypt: Consider as future option for per-directory encryption in /home.
-  # LUKS2 already provides full-disk encryption — fscrypt would add defense-in-depth.
   # See: https://nixos.org/manual/nixos/stable/#sec-fscrypt
 }
