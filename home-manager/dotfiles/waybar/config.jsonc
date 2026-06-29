@@ -19,11 +19,11 @@
     ],
 
     "modules-right": [
-        "tray",
         "battery",
         "network",
         "pulseaudio",
         "custom/notification",
+        "tray",
         "clock",
         "custom/power"
     ],
