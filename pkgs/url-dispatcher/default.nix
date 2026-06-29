@@ -7,14 +7,14 @@ pkgs.writeShellScriptBin "url-dispatcher" ''
   #   Rebuild with `just switch`.
   #
   # Example patterns:
-  #   youtube.com/watch    — specific YouTube video pages
+  #   youtube.com          — all YouTube links (videos, shorts, live, etc.)
   #   youtu.be             — YouTube short links
   #   twitch.tv            — Twitch streams
   #   vimeo.com            — Vimeo videos
   #   netflix.com          — Netflix
   #   nebula.tv            — Nebula
 
-  SITES="youtube.com/watch|youtu.be|twitch.tv|vimeo.com|netflix.com|nebula.tv"
+  SITES="youtube.com|youtu.be|twitch.tv|vimeo.com|netflix.com|nebula.tv"
 
   url="$1"
   if echo "$url" | grep -qE "$SITES"; then
