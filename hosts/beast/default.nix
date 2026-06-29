@@ -86,6 +86,7 @@
       systemd = {
         enable = false;
       };
+      luks.devices = { };
     };
     kernelParams = [ "quiet" "audit=1" ];
     plymouth.enable = true;
