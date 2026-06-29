@@ -37,11 +37,11 @@ stdenv.mkDerivation {
     # The electron process reads package.json → electron/main.cjs which
     # resolves dist/, build/native-deps/, etc. relative to its own location.
     makeWrapper ${lib.getExe electron} $out/bin/hermes-desktop \
-      --add-flags "$HOME/.hermes/hermes-agent/apps/desktop" \
-      --set HERMES_DESKTOP_HERMES "$HOME/.local/bin/hermes" \
+      --add-flags '$HOME/.hermes/hermes-agent/apps/desktop' \
       --set ELECTRON_IS_DEV 0 \
       --set XCURSOR_SIZE 24 \
-      --run 'if [ ! -d "$HOME/.hermes/hermes-agent/apps/desktop/dist" ]; then
+      --run 'export HERMES_DESKTOP_HERMES="$HOME/.local/bin/hermes"
+if [ ! -d "$HOME/.hermes/hermes-agent/apps/desktop/dist" ]; then
         echo "Hermes desktop source not found or not built."
         echo "Run: curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --include-desktop"
         exit 1
