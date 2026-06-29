@@ -64,6 +64,11 @@
       entr # Lightweight file watcher — `ls *.py | entr pytest`
       watchexec # File watcher — `watchexec -e py -- pytest`
       remmina # Remote desktop client — RDP, VNC, SSH, SPICE
+
+      # ====================================================================
+      # AUDIO / VOICE RECORDING
+      # ====================================================================
+      tenacity # Multi-track audio editor/recorder — voiceovers, podcasting
     ];
   };
 }
