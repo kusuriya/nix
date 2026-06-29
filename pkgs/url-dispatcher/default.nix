@@ -20,6 +20,6 @@ pkgs.writeShellScriptBin "url-dispatcher" ''
   if echo "$url" | grep -qE "$SITES"; then
     exec chromium "$url"
   else
-    exec vivaldi-stable "$url"
+    exec vivaldi "$url"
   fi
 ''
