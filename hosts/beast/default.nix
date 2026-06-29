@@ -89,6 +89,11 @@
       luks.devices = { };
     };
     kernelParams = [ "quiet" "audit=1" ];
+    # TPM enabled in UEFI but unused — prevent kernel from probing
+    extraModprobeConfig = ''
+      blacklist tpm_crb
+      blacklist tpm_tis
+    '';
     plymouth.enable = true;
     binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
