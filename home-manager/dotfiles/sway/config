@@ -176,12 +176,12 @@ client.background #0d0221
 #
 # Workspace 1 (Sceptre main):  Vivaldi + Obsidian (splith)
 # Workspace 2 (Sceptre main):  Hermes desktop (splitv)
-# Workspace 3 (Sceptre main):  Chrome top, chat tab group bottom (splitv)
-# Workspace 4-5 (LG right):    Terminals / other
+# Workspace 3 (LG right):  Chrome top, chat tab group bottom (splitv)
+# Workspace 4-5 (LG left):  Terminals / other
 
 workspace 1 output "Sceptre Tech Inc Sceptre O34 Unknown"
 workspace 2 output "Sceptre Tech Inc Sceptre O34 Unknown"
-workspace 3 output "Sceptre Tech Inc Sceptre O34 Unknown"
+workspace 3 output "LG Electronics LG SDQHD 409NTLE8K432"
 workspace 4 output "LG Electronics LG SDQHD 302NTCZF0715"
 workspace 5 output "LG Electronics LG SDQHD 302NTCZF0715"
 
