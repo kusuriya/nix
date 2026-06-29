@@ -89,7 +89,8 @@
       luks.devices = { };
     };
     kernelParams = [ "quiet" "audit=1" ];
-    # TPM enabled in UEFI but unused — prevent kernel from probing
+    # TPM disabled in UEFI firmware — fixing boot issues
+    # Kernel modules blacklisted as belt-and-suspenders
     extraModprobeConfig = ''
       blacklist tpm_crb
       blacklist tpm_tis
@@ -171,11 +172,7 @@
       enable = true;
       killUnconfinedConfinables = true;
     };
-    tpm2 = {
-      enable = false;
-      pkcs11.enable = true;
-      tctiEnvironment.enable = true;
-    };
+    tpm2.enable = false;
     # QEMU security wrapper — cap_net_admin for bridged VM networking
     wrappers.qemu-system-x86_64 = {
       source = "${pkgs.qemu_full}/bin/qemu-system-x86_64";
