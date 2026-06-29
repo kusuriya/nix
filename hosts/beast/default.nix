@@ -167,7 +167,7 @@
       killUnconfinedConfinables = true;
     };
     tpm2 = {
-      enable = true;
+      enable = false;
       pkcs11.enable = true;
       tctiEnvironment.enable = true;
     };
