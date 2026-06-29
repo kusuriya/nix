@@ -171,7 +171,9 @@
       # BROWSERS (desktop only)
       # ============================================================================
 
-      chromium # Chromium — daily driver, dev tools
+      (chromium.override {
+        enableWideVine = true;
+      }) # Chromium — daily driver, dev tools (Widevine DRM enabled)
       vivaldi # Vivaldi — power-user browser, tabs/panels
       zathura # PDF viewer — lightweight, keyboard-driven, Wayland-native
 
