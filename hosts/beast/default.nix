@@ -141,9 +141,9 @@
     mime = {
       enable = true;
       defaultApplications = {
-        "text/html" = "vivaldi-stable.desktop";
-        "x-scheme-handler/about" = "vivaldi-stable.desktop";
-        "x-scheme-handler/unknown" = "vivaldi-stable.desktop";
+        "text/html" = "vivaldi.desktop";
+        "x-scheme-handler/about" = "vivaldi.desktop";
+        "x-scheme-handler/unknown" = "vivaldi.desktop";
       };
     };
   };
