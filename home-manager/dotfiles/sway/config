@@ -199,4 +199,10 @@ assign [app_id="signal"]              workspace 3
 # ws2: hermes fills the workspace
 # ws3: Chrome first, then chat apps split below
 
+# ─── Display shortcuts ────────────────────────────────────
+# Quiet mode: drop Sceptre to 60Hz (less GPU load = less heat)
+bindsym $mod+Ctrl+o exec swaymsg output DP-5 mode 3440x1440@60000
+# Performance mode: restore 120Hz
+bindsym $mod+Ctrl+p exec swaymsg output DP-5 mode 3440x1440@120000
+
 include /home/kusuriya/.config/sway/config.d/*
