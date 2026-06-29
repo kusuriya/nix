@@ -46,6 +46,7 @@
         enableWideVine = true;
       }) # Chromium — daily driver, dev tools (Widevine DRM enabled)
       vivaldi # Browser (primary — matches framey's default)
+      hermes-desktop # Hermes Desktop — nixpkgs electron wrapper
       obsidian # Note-taking / knowledge base
       discord # Communities, dev servers
       element-desktop # Matrix client — encrypted messaging
