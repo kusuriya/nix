@@ -40,31 +40,20 @@ stdenv.mkDerivation rec {
     mkdir -p $out/lib/cups/filter
     mkdir -p $out/share/cups/model/labelrange
 
-    # Copy filter binary (adjust path based on actual driver contents)
-    # Common locations in Linux printer drivers:
-    # - usr/lib/cups/filter/
-    # - opt/<vendor>/bin/
-    # - usr/local/lib/cups/filter/
-
-    # Example - adjust these paths after examining the driver:
-    if [ -f $TMPDIR/unpacked/usr/lib/cups/filter/rastertord560 ]; then
-      cp -v $TMPDIR/unpacked/usr/lib/cups/filter/rastertord560 $out/lib/cups/filter/
+    # Copy filter binary from tarball root
+    FILTER_SRC="$TMPDIR/unpacked/labelrange_printer_filter"
+    FILTER_DST="$out/lib/cups/filter/rastertord560"
+    if [ -f "$FILTER_SRC" ]; then
+      cp -v "$FILTER_SRC" "$FILTER_DST"
+      chmod +x "$FILTER_DST"
     fi
-
-    # If filter is in a different location:
-    # cp -v $TMPDIR/unpacked/opt/labelrange/bin/filter_binary $out/lib/cups/filter/rastertord560
-
-    chmod +x $out/lib/cups/filter/*
-
-    # Copy PPD file (adjust path based on actual driver contents)
-    # Common locations:
-    # - usr/share/cups/model/
-    # - usr/share/ppd/
-    # - opt/<vendor>/ppd/
-
-    cp -v $TMPDIR/unpacked/usr/share/cups/model/*.ppd $out/share/cups/model/labelrange/ \
-      || cp -v $TMPDIR/unpacked/usr/share/ppd/*.ppd $out/share/cups/model/labelrange/ \
-      || true
+    
+    PPD_SRC="$TMPDIR/unpacked"
+    for ppd in "$PPD_SRC"/*.ppd; do
+      if [ -f "$ppd" ]; then
+        cp -v "$ppd" "$out/share/cups/model/labelrange/"
+      fi
+    done
 
     # Patch PPD file to use correct filter path
     for ppd in $out/share/cups/model/labelrange/*.ppd; do
