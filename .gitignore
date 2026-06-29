@@ -1,2 +1,3 @@
 flake.lock
+.hermes/
 home-manager/dotfiles/nvim/undo/

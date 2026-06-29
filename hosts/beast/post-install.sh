@@ -66,7 +66,7 @@ else
   btrfs subvolume create /.swapvol
   btrfs filesystem mkswapfile --size 16G /.swapvol/swapfile
 fi
-swapon --show
+echo "  Swap: NixOS auto-creates at /swapfile (generation 9+)"
 echo "  Done."
 echo ""
 

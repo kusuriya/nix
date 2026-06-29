@@ -38,7 +38,7 @@ without merge). Drive 2 is added to the pool manually after first boot. See
 | `@persist` | `/persist` | Placeholder for future impermanence |
 
 **No encryption.** No redundancy (single profile — if either NVMe fails, the pool is lost).
-Swap is a 16 GB swapfile, created post-install after the second NVMe is added.
+Swap is a 16 GB swapfile, auto-created by NixOS at `/swapfile`.
 
 ## GPU Configuration
 

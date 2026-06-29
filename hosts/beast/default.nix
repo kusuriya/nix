@@ -71,9 +71,9 @@
   # Hardware watchdog — auto-reboot if system hangs
   systemd.settings.Manager.RuntimeWatchdogSec = "30s";
 
-  # Swap — 16GB swapfile, auto-created by NixOS
+  # Swap — 16GB swapfile on root btrfs, auto-created by NixOS
   swapDevices = [{
-    device = "/.swapvol/swapfile";
+    device = "/swapfile";
     size = 16384;
   }];
 
