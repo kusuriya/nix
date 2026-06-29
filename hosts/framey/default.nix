@@ -49,7 +49,7 @@
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
     };
-  #powerManagement.enable = true;
+  powerManagement.powertop.enable = true;
   systemd = {
     settings.Manager.RuntimeWatchdogSec = "30s";
   };
@@ -97,7 +97,7 @@
         # LUKS2 via TPM2 sealed credentials during early boot.
         kernelModules = [ "tpm_crb" "tpm_tis" ];
       };
-      kernelParams = [ "audit=1" ];
+      kernelParams = [ "audit=1" "amdgpu.runpm=1" ];
       plymouth.enable = true;
       binfmt.registrations.appimage = {
         wrapInterpreterInShell = false;
