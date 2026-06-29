@@ -195,9 +195,8 @@ assign [app_id="element"]             workspace 3
 assign [app_id="signal"]              workspace 3
 
 # Default layouts per workspace
-# ws1: Vivaldi left, Obsidian right
-workspace_layout splith
-# ws2: hermes fills the workspace (single app splitv)
+# ws1: Vivaldi left, Obsidian right (default splith)
+# ws2: hermes fills the workspace
 # ws3: Chrome first, then chat apps split below
 
 include /home/kusuriya/.config/sway/config.d/*
