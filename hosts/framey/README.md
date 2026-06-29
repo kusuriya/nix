@@ -499,6 +499,27 @@ TLP is enabled and power-profiles-daemon is disabled. They conflict if both are 
 
 If you prefer power-profiles-daemon (simpler, GNOME-integrated), disable TLP and enable PPD.
 
+### Fan Noise / Power Limiting (2026-06-28)
+
+**Why:** The Framework 13 7840U's fan curve is aggressive even during light tasks like YouTube, especially when plugged in.
+
+**What was done:**
+- **TLP AC governor** changed from `performance` → `schedutil` — lets CPU idle instead of staying turbo'd
+- **TLP CPU_MAX_PERF_ON_AC** reduced from 100% → 70% — caps max frequency, directly reduces heat
+- **`ryzenadj` power-limit service** caps CPU power limits:
+
+| Limit | Default | Capped | Effect |
+|-------|---------|--------|--------|
+| STAPM (sustained) | ~28-35W | 25W | Lower sustained heat |
+| Fast (burst) | ~40-50W | 30W | Throttles turbo boost |
+| Slow (ramp) | ~28-35W | 25W | Slower heat buildup |
+
+**If framey feels slow:** This is why. The CPU is capped at 70% max perf and 25W sustained power. To revert:
+1. Set `CPU_MAX_PERF_ON_AC = 100` and `CPU_SCALING_GOVERNOR_ON_AC = "performance"` in the TLP section
+2. Remove or raise the `ryzenadj` limits in the systemd service
+3. Rebuild
+
+
 ### AppArmor Strictness
 
 `killUnconfinedConfinables = true` means any process without an AppArmor profile is killed. This is very strict and may break some applications that don't have AppArmor profiles. If you encounter issues:
