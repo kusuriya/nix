@@ -310,6 +310,19 @@
     };
   };
 
+  # sched-ext CPU scheduler — loads scx_lavd BPF scheduler at boot
+  systemd.services.scx = {
+    description = "sched-ext CPU Scheduler (scx_lavd)";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "sysinit.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.scx}/bin/scx_lavd";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+  };
+
   environment = {
     etc = {
       "1password/custom_allowed_browsers" = {

@@ -16,6 +16,7 @@
       # ====================================================================
       # proton-ge-bin is in programs.steam.extraCompatPackages instead
       # (installing it globally causes buildEnv man-paths merge to fail)
+      scx.full # sched-ext CPU scheduler — scx_lavd as default (runtime-switchable)
       lutris # Game launcher — GOG, Epic, Origin, standalone games
       heroic # Epic Games + GOG launcher (native Linux)
       bottles # Wine prefix manager — run Windows games/apps
