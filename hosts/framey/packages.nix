@@ -171,6 +171,12 @@
       # BROWSERS (desktop only)
       # ============================================================================
 
+      (chromium.override {
+        commandLineArgs = [
+          "--enable-features=VaapiVideoDecoder,VaapiVideoEncoder,VaapiIgnoreDriverChecks"
+          "--enable-accelerated-video-decode"
+        ];
+      }) # Chromium — daily driver, dev tools
       (vivaldi.override {
         commandLineArgs = [
           "--enable-features=VaapiVideoDecoder,VaapiVideoEncoder,VaapiIgnoreDriverChecks"

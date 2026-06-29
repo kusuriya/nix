@@ -356,16 +356,6 @@
       enable = true;
       polkitPolicyOwners = [ "kusuriya" ];
     };
-    chromium = {
-      enable = true;
-      extraOpts = {
-        "EnableFeatures" = "VaapiVideoDecoder,VaapiVideoEncoder";
-      };
-      commandLineArgs = [
-        "--enable-features=VaapiVideoDecoder,VaapiVideoEncoder,VaapiIgnoreDriverChecks"
-        "--enable-accelerated-video-decode"
-      ];
-    };
     dconf.enable = true;
     streamdeck-ui.enable = true;
   };
