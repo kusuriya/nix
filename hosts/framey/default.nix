@@ -362,6 +362,9 @@
 
         START_CHARGE_THRESH_BAT0 = 25;
         STOP_CHARGE_THRESH_BAT0 = 90;
+
+        # Prevent Kinesis Adv360 Pro keyboard from being autosuspended
+        USB_BLACKLIST = "29ea:0362";
       };
     };
 
