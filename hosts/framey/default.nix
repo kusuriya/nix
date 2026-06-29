@@ -161,6 +161,25 @@
     };
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
+    fw-fanctrl = {
+      enable = true;
+      config = {
+        defaultStrategy = "quiet";
+        strategies = {
+          quiet = {
+            fanSpeedUpdateFrequency = 5;
+            movingAverageInterval = 20;
+            speedCurve = [
+              { temp = 50; speed = 0; }
+              { temp = 60; speed = 10; }
+              { temp = 70; speed = 25; }
+              { temp = 80; speed = 50; }
+              { temp = 90; speed = 100; }
+            ];
+          };
+        };
+      };
+    };
     amdgpu = {
       opencl.enable = true;
       initrd.enable = true;
