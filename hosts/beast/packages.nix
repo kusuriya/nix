@@ -41,7 +41,14 @@
       # DESKTOP / GUI
       # ====================================================================
       vscode # VS Code editor
+      (chromium.override {
+        enableWideVine = true;
+      }) # Chromium — daily driver, dev tools (Widevine DRM enabled)
       vivaldi # Browser (primary — matches framey's default)
+      obsidian # Note-taking / knowledge base
+      discord # Communities, dev servers
+      element-desktop # Matrix client — encrypted messaging
+      signal-desktop # Secure messaging
       nemo # File manager (Cinnamon's — lightweight GTK)
       unzip # Archive extraction (common desktop need)
       dig # DNS lookup tool
