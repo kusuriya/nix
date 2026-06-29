@@ -160,7 +160,7 @@
     };
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
-    ryzen-smu.enable = true;
+    cpu.amd.ryzen-smu.enable = true;
     amdgpu = {
       opencl.enable = true;
       initrd.enable = true;
