@@ -80,7 +80,6 @@
       };
       efi.canTouchEfiVariables = true;
     };
-    timeout = 0;
     initrd = {
       compressor = "zstd";
       # systemd in initrd not needed — no LUKS2/TPM2 unlock on this host
