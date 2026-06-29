@@ -171,20 +171,8 @@
       # BROWSERS (desktop only)
       # ============================================================================
 
-      (chromium.override {
-        commandLineArgs = [
-          "--enable-features=VaapiVideoDecoder,VaapiVideoEncoder,VaapiIgnoreDriverChecks"
-          "--enable-accelerated-video-decode"
-          "--ozone-platform-hint=auto"
-        ];
-      }) # Chromium — daily driver, dev tools
-      (vivaldi.override {
-        commandLineArgs = [
-          "--enable-features=VaapiVideoDecoder,VaapiVideoEncoder,VaapiIgnoreDriverChecks"
-          "--enable-accelerated-video-decode"
-          "--ozone-platform-hint=auto"
-        ];
-      }) # Vivaldi — power-user browser, tabs/panels
+      chromium # Chromium — daily driver, dev tools
+      vivaldi # Vivaldi — power-user browser, tabs/panels
       zathura # PDF viewer — lightweight, keyboard-driven, Wayland-native
 
       # ============================================================================
