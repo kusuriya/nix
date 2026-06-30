@@ -44,7 +44,6 @@ Swap is a 16 GB swapfile, auto-created by NixOS at `/swapfile`.
 
 - **AMD Radeon RX 9070 XT (RDNA 4)** — primary GPU for all displays and gaming
 - Driver: `amdgpu` kernel driver (built-in, no separate driver package)
-- `hardware.amdgpu.opencl.enable = true` — ROCm OpenCL compute support
 - `hardware.amdgpu.initrd.enable = true` — early KMS for Plymouth
 - `hardware.graphics.enable = true` — VA-API hardware video acceleration
 - Monitoring: `amdgpu_top`, `radeontop`, `vulkaninfo`
