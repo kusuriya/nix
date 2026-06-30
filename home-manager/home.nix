@@ -210,8 +210,8 @@
   xdg.mimeApps.enable = true;
 
   xdg.mimeApps.defaultApplications = {
-    "x-scheme-handler/http" = "vivaldi.desktop";
-    "x-scheme-handler/https" = "vivaldi.desktop";
+    "x-scheme-handler/http" = "vivaldi-stable.desktop";
+    "x-scheme-handler/https" = "vivaldi-stable.desktop";
   };
 
   manual = {

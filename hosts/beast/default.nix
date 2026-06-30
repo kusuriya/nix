@@ -114,6 +114,7 @@
     amdgpu = {
       opencl.enable = true;
       initrd.enable = true;
+      rocm.enable = true;
     };
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
@@ -154,9 +155,9 @@
     mime = {
       enable = true;
       defaultApplications = {
-        "text/html" = "vivaldi.desktop";
-        "x-scheme-handler/about" = "vivaldi.desktop";
-        "x-scheme-handler/unknown" = "vivaldi.desktop";
+        "text/html" = "vivaldi-stable.desktop";
+        "x-scheme-handler/about" = "vivaldi-stable.desktop";
+        "x-scheme-handler/unknown" = "vivaldi-stable.desktop";
       };
     };
   };

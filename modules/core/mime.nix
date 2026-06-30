@@ -3,8 +3,8 @@
     enable = true;
     defaultApplications = {
       # Web
-      "x-scheme-handler/http" = "vivaldi.desktop";
-      "x-scheme-handler/https" = "vivaldi.desktop";
+      "x-scheme-handler/http" = "vivaldi-stable.desktop";
+      "x-scheme-handler/https" = "vivaldi-stable.desktop";
 
       # Terminal
       "application/x-terminal-emulator" = "ghostty.desktop";
