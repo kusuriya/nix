@@ -163,11 +163,17 @@ for_window [class="obsidian"] focus_on_window_activation focus
     for_window [class="Zoom"] floating enable
     for_window [class="steam"] floating enable
 
+# Title bar font — 15pt makes bars 50% bigger than default 10pt
+font pango:JetBrainsMono Nerd Font 15
+
+# Default border: 3px gives better visual separation in stacked/tabbed layouts
+default_border normal 3
+
 # Corrupted Systems theme — window focus colors
 # focused: hot pink border, urgent: hot pink, inactive: dim, placeholder: purple
 client.focused #ff2d95 #0d0221 #ffffff #ff2d95
 client.focused_inactive #b388ff #1a0a30 #e0e0e0 #b388ff
-client.unfocused #1a0a30 #050510 #666666 #1a0a30
+client.unfocused #b388ff #050510 #666666 #b388ff
 client.urgent #ff2d95 #0d0221 #ffffff #ff2d95
 client.placeholder #00f0ff #0d0221 #00f0ff #00f0ff
 client.background #0d0221
