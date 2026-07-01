@@ -22,6 +22,7 @@
       bottles # Wine prefix manager — run Windows games/apps
       mcpelauncher-ui-qt # Minecraft Bedrock Edition (unofficial Android launcher)
       gamescope # Steam session compositor — micro-compositor for gaming
+      moonlight-qt # Moonlight game/client stream client — low-latency remote desktop
 
       # ====================================================================
       # GPU / MONITORING
