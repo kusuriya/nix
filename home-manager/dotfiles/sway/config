@@ -91,6 +91,10 @@ input * xkb_options compose:ralt
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
+
+# Jump between sibling containers (e.g. tabbed/stacked groups)
+bindsym $mod+bracketright focus next
+bindsym $mod+bracketleft  focus prev
 #
 # Scratchpad:
 #
