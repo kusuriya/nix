@@ -266,11 +266,17 @@
     };
 
     # Auto-load PulseAudio TCP module at startup (Ubuntu audio → beast speakers)
-    environment.etc."pipewire/pipewire-pulse.conf.d/network.conf".text = ''
-      pulse.cmd = [
-        { cmd = "load-module" args = "module-native-protocol-tcp listen=0.0.0.0" }
-      ]
-    '';
+    systemd.user.services.pipewire-pulse-tcp = {
+      description = "PulseAudio TCP tunnel listener for remote audio";
+      after = [ "pipewire-pulse.service" ];
+      wantedBy = [ "default.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.pulseaudio}/bin/pactl load-module module-native-protocol-tcp listen=0.0.0.0";
+        ExecStop = "${pkgs.pulseaudio}/bin/pactl unload-module module-native-protocol-tcp";
+      };
+    };
 
     # Samba — minimal share config for file sharing
     samba = {
