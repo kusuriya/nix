@@ -265,6 +265,13 @@
       wireplumber.enable = true;
     };
 
+    # Auto-load PulseAudio TCP module at startup (Ubuntu audio → beast speakers)
+    environment.etc."pipewire/pipewire-pulse.conf.d/network.conf".text = ''
+      pulse.cmd = [
+        { cmd = "load-module" args = "module-native-protocol-tcp listen=0.0.0.0" }
+      ]
+    '';
+
     # Samba — minimal share config for file sharing
     samba = {
       enable = true;
