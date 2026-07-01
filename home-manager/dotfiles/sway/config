@@ -164,7 +164,7 @@ for_window [class="obsidian"] focus_on_window_activation focus
     for_window [class="steam"] floating enable
 
 # Title bar font — 15pt makes bars 50% bigger than default 10pt
-font pango:JetBrainsMono Nerd Font 14
+font pango:JetBrainsMono Nerd Font 12
 
 # Default border: 3px gives better visual separation in stacked/tabbed layouts
 default_border normal 3
