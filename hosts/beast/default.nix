@@ -134,6 +134,8 @@
     firewall = {
       enable = true;
       allowPing = true;
+      # PulseAudio TCP tunnel (Ubuntu audio → beast speakers)
+      allowedTCPPorts = [ 4713 ];
       # KDE Connect
       allowedTCPPortRanges = [{ from = 1714; to = 1764; }];
       allowedUDPPortRanges = [{ from = 1714; to = 1764; }];

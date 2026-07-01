@@ -61,6 +61,7 @@
       python3 # Python 3 with pip
       uv # Fast Python package manager (Rust)
       lazygit # TUI for git — staging hunks, cherry-pick, interactive rebase
+      codex # OpenAI Codex CLI — AI coding agent in the terminal
       entr # Lightweight file watcher — `ls *.py | entr pytest`
       watchexec # File watcher — `watchexec -e py -- pytest`
       remmina # Remote desktop client — RDP, VNC, SSH, SPICE
