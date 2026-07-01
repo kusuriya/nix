@@ -1,6 +1,6 @@
 # AGENTS.md — kusuriya/nix
 
-Multi-host NixOS flake. Three machines: **framey** (daily driver laptop), **beast** (desktop/gaming), **pve** (home server).
+Multi-host NixOS flake.Three machines: * * framey * * (daily driver laptop), **beast** (desktop/gaming), **pve** (home server).
 
 ## Quick navigation
 
@@ -26,12 +26,12 @@ Use `mkSystem` in `flake.nix`:
 
 ```nix
 myhost = mkSystem {
-  hostname = "myhost";
-  extraModules = [
-    # Framey: inputs.hardware.nixosModules.framework-13-7040-amd + common-pc-ssd + lanzaboote
-    # Beast:  inputs.hardware.nixosModules.common-cpu-amd + common-gpu-nvidia + common-pc-ssd
-    # Add hardware modules matching the machine's hardware here
-  ];
+hostname = "myhost";
+extraModules = [
+# Framey: inputs.hardware.nixosModules.framework-13-7040-amd + common-pc-ssd + lanzaboote
+# Beast:  inputs.hardware.nixosModules.common-cpu-amd + common-gpu-nvidia + common-pc-ssd
+# Add hardware modules matching the machine's hardware here
+];
 };
 ```
 
@@ -71,9 +71,9 @@ nix flake update
 - **Comment the WHY, not the WHAT.** If you're adding something that might surprise someone, write the reasoning inline. If removing something, say why. Look at existing comments for tone — they explain trade-offs, failed experiments, and decisions.
 - **Section headers** in long files use `# ========` bordered blocks (packages.nix) or `# --- ---` (shorter sections). Match whichever is nearby.
 - **Multi-line function args** each on their own line, indented. Example from flake.nix:
-  ```nix
-  mkSystem = { hostname, system ? "x86_64-linux", extraModules ? [ ], homeManagerConfig ? true }:
-  ```
+```nix
+mkSystem = { hostname, system ? "x86_64-linux", extraModules ? [ ], homeManagerConfig ? true }:
+```
 - **Formatting**: `nixpkgs-fmt` is the formatter. `deadnix` is the linter. Both run via `treefmt`. Run `treefmt` before committing Nix files.
 
 ### Architecture rules
@@ -84,12 +84,12 @@ nix flake update
 - **Host-specific overlays**: each host imports `self.overlays.unstable-packages` directly. Don't add new overlays globally unless they're really universal.
 - **Don't add host modules to `modules/core/default.nix`** — that's the shared import, not a dump.
 - **nixpkgs channels**:
-  | Name | Channel | Access |
-  |------|---------|--------|
-  | `pkgs` | `nixos-unstable` | default |
-  | `pkgs-stable` | `nixos-24.11` | via `specialArgs` in `flake.nix` |
-  | `pkgs.unstable` | `nixpkgs/master` | via `unstable-packages` overlay |
-  Use `pkgs-stable` for tools that break often on unstable (libvirt, qemu, virt-manager are already pinned). Use `pkgs.unstable` for packages you need the absolute latest of.
+| Name | Channel | Access |
+|------|---------|--------|
+| `pkgs` | `nixos-unstable` | default |
+| `pkgs-stable` | `nixos-24.11` | via `specialArgs` in `flake.nix` |
+| `pkgs.unstable` | `nixpkgs/master` | via `unstable-packages` overlay |
+Use `pkgs-stable` for tools that break often on unstable (libvirt, qemu, virt-manager are already pinned). Use `pkgs.unstable` for packages you need the absolute latest of.
 - **Kernel**: `modules/kernel/latest` pins `linuxPackages_latest` (latest stable).
 
 ### Security patterns to preserve
@@ -104,10 +104,10 @@ nix flake update
 ### Filesystem patterns
 
 - **btrfs everywhere** for / and /home (except pve which uses ZFS). Snapshot config is consistent across framey and beast:
-  - hourly snapshots via btrbk
-  - retention: 48h 14d 8w 6m
-  - snapshots in `/.snapshots`
-  - auto-scrub monthly
+- hourly snapshots via btrbk
+- retention: 48h 14d 8w 6m
+- snapshots in `/.snapshots`
+- auto-scrub monthly
 - **disko subvolume layout** (framey + beast): `@root` → `/`, `@home` → `/home`, `@nix` → `/nix`, `@log` → `/var/log`, `@snapshots` → `/.snapshots`, `@persist` → `/persist`. All mounted with `compress=zstd,noatime`. New btrfs hosts should copy this layout.
 - **Multi-device btrfs caveat**: disko does not support multi-device btrfs natively. Beast has 3 NVMe drives but disko only manages drive 1. Remaining drives are added to the pool post-install via `btrfs device add`. Don't try to make disko manage all drives.
 - **NFS mounts from dozer** use `x-systemd.automount` + `noauto` + `x-systemd.idle-timeout=5min` pattern.

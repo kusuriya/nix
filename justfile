@@ -1,7 +1,8 @@
 # Nix flake — common operations
 # `just <recipe>` instead of remembering nixos-rebuild flags
 
-host := "framey"
+# Auto-detect host — `just switch` builds whichever machine you're on
+host := `hostname -s`
 
 # Build and switch the system, then reload Sway config
 switch h=host:

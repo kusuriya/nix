@@ -1,12 +1,15 @@
 # nix
 
-Multi-host NixOS flake configuration.
+Multi-host NixOS flake
+  configuration.## Hosts
 
-## Hosts
-
-| Host | Hardware | Role | Desktop | Encryption |
-|------|----------|------|---------|------------|
-| **framey** | Framework 13 AMD (Ryzen 7 7840U, 96 GB) | Laptop / daily driver | Sway | LUKS2 + Secure Boot (lanzaboote) + TPM2 |
+  | Host |
+  Hardware |
+  Role |
+  Desktop |
+  Encryption |
+  | - -----|----------|------|---------|------------|
+| * * framey * * | Framework 13 AMD (Ryzen 7 7840 U, 96 GB) | Laptop / daily driver | Sway | LUKS2 + Secure Boot (lanzaboote) + TPM2 |
 | **beast** | Custom desktop (AMD, NVIDIA RTX 3060) | Desktop / gaming / VM host | Sway | None |
 | **pve** | Home server (Intel, ZFS) | Server (Proxmox host) | None | None |
 
@@ -46,13 +49,13 @@ nix flake update
 ```
 flake.nix              # Entry point — mkSystem helper, inputs, outputs
 hosts/                 # Per-host configuration
-  framey/              #   Laptop (disko, LUKS2, packages)
-  beast/               #   Desktop (disko, NVIDIA, packages)
-  pve/                 #   Server (Samba, roles)
+framey/              #   Laptop (disko, LUKS2, packages)
+beast/               #   Desktop (disko, NVIDIA, packages)
+pve/                 #   Server (Samba, roles)
 modules/
-  core/                # Shared config (nix, packages, fonts, locale, etc.)
-  desktop/sway/        # Sway + greetd + Waybar + wayland stack
-  kernel/latest/       # Latest kernel pin
+core/                # Shared config (nix, packages, fonts, locale, etc.)
+desktop/sway/        # Sway + greetd + Waybar + wayland stack
+kernel/latest/       # Latest kernel pin
 overlays/              # Custom overlays (additions, unstable-packages)
 pkgs/                  # Custom packages (labelrange-rd560, glowing-bear)
 home-manager/          # Home-manager config + dotfiles
