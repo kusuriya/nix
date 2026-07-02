@@ -66,7 +66,9 @@
       entr # Lightweight file watcher — `ls *.py | entr pytest`
       watchexec # File watcher — `watchexec -e py -- pytest`
       remmina # Remote desktop client — RDP, VNC, SSH, SPICE
-      freerdp # xfreerdp CLI RDP client — lightweight, GRD-compatible
+      (freerdp.overrideAttrs (old: {
+        cmakeFlags = old.cmakeFlags ++ [ (pkgs.lib.cmakeBool "CHANNEL_RDPECAM_CLIENT" true) ];
+      })) # xfreerdp with camera redirection (MS-RDPECAM) — RDP, GRD-compatible
 
       # ====================================================================
       # AUDIO / VOICE RECORDING
