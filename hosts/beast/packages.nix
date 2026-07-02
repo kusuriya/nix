@@ -32,6 +32,10 @@
       vulkan-tools # Vulkan diagnostics (vulkaninfo)
       mesa-demos # OpenGL info (glxinfo) + demos (glxgears)
       v4l-utils # Video4Linux tools — v4l2-ctl for camera detection
+      gst_all_1.gstreamer # GStreamer framework
+      gst_all_1.gst-plugins-base # GStreamer base plugins
+      gst_all_1.gst-plugins-good # GStreamer good plugins
+      gst_all_1.gst-plugins-bad # GStreamer bad plugins — vp8enc, rtpvp8pay
 
       # ====================================================================
       # VIRTUALIZATION (non-passthrough)
