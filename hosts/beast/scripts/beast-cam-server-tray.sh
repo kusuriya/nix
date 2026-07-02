@@ -9,6 +9,7 @@ SCRIPT="/data/work/beast-cam-server-tray.py"
 DEPS=(
     python3Packages.pygobject3
     libayatana-appindicator
+    gtk3                          # Gtk-3.0 typelib — needed by gi.repository.Gtk
     gst_all_1.gstreamer
     gst_all_1.gst-plugins-base
     gst_all_1.gst-plugins-good
