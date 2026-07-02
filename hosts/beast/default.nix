@@ -135,7 +135,8 @@
       enable = true;
       allowPing = true;
       # PulseAudio TCP tunnel (Ubuntu audio → beast speakers)
-      allowedTCPPorts = [ 4713 ];
+      # GStreamer TCP camera stream (beast cam → Ubuntu)
+      allowedTCPPorts = [ 4713 5000 ];
       # KDE Connect
       allowedTCPPortRanges = [{ from = 1714; to = 1764; }];
       allowedUDPPortRanges = [{ from = 1714; to = 1764; }];
