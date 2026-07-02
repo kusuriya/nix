@@ -401,6 +401,7 @@
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
       EDITOR = "nvim";
+      VISUAL = "code"; # GUI sessions use code; nvim for TTY/SSH
       BROWSER = "vivaldi";
       XCURSOR_THEME = "Adwaita";
       XCURSOR_SIZE = "24";

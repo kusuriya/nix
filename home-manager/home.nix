@@ -45,6 +45,7 @@
     };
     sessionVariables = {
       EDITOR = "nvim";
+      VISUAL = "code"; # GUI sessions use code; nvim for TTY/SSH
       TERMINAL = "alacritty";
       MOZ_ENABLE_WAYLAND = "1";
       MOZ_USE_XINPUT2 = "1";
@@ -211,6 +212,11 @@
 
   xdg.mimeApps.defaultApplications = {
     "text/html" = "vivaldi-stable.desktop";
+    "text/plain" = "code.desktop"; # GUI default: VS Code opens .txt etc.
+    "text/markdown" = "code.desktop";
+    "application/json" = "code.desktop";
+    "text/x-shellscript" = "code.desktop";
+    "text/x-python" = "code.desktop";
     "x-scheme-handler/http" = "vivaldi-stable.desktop";
     "x-scheme-handler/https" = "vivaldi-stable.desktop";
   };

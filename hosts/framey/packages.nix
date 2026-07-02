@@ -26,7 +26,7 @@
       # SHELL & TERMINAL (desktop/laptop only)
       # ============================================================================
 
-      neovim # Primary editor (with Neovim config)
+      neovim # TTY/CLI editor (VS Code is the GUI default; see VISUAL + xdg.mimeApps)
       zellij # Terminal multiplexer (Rust, sane defaults, layouts)
       ghostty # GPU-accelerated terminal emulator (Mitchell Hashimoto)
       alacritty # GPU-accelerated terminal emulator (Rust, minimal)
