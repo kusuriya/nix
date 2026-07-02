@@ -31,6 +31,7 @@
       radeontop # AMD GPU utilization (terminal)
       vulkan-tools # Vulkan diagnostics (vulkaninfo)
       mesa-demos # OpenGL info (glxinfo) + demos (glxgears)
+      v4l-utils # Video4Linux tools — v4l2-ctl for camera detection
 
       # ====================================================================
       # VIRTUALIZATION (non-passthrough)
