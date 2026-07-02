@@ -66,7 +66,7 @@
       lm_sensors # Hardware sensors (temperatures, fan speeds)
       python3 # Python 3 with pip
       python3Packages.pygobject3 # Python GTK bindings — for tray apps
-      ayatana-appindicator # AppIndicator support — tray icons in Sway+Waybar
+      libayatana-appindicator # AppIndicator library — tray icons in Sway+Waybar
       uv # Fast Python package manager (Rust)
       lazygit # TUI for git — staging hunks, cherry-pick, interactive rebase
       codex # OpenAI Codex CLI — AI coding agent in the terminal
