@@ -371,6 +371,22 @@
 
   };
 
+  # KDE Connect — phone pairing, clipboard sync, file share, notification mirror.
+  # The NixOS module:
+  #   * enables kdeconnectd as a system service (auto-starts on boot)
+  #   * opens TCP+UDP ports 1714-1764 for LAN discovery + transport
+  #   * adds `package` (kdePackages.kdeconnect-kde by default) to
+  #     environment.systemPackages so kdeconnect-cli is on PATH
+  # Note: this is `programs.kdeconnect`, NOT `services.kdeconnect` — the
+  # option moved from services to programs in 25.11. The legacy path is
+  # gone. See nixpkgs/nixos/modules/programs/kdeconnect.nix.
+  programs.kdeconnect = {
+    enable = true;
+    # Optional: swap to GSConnect in Vivaldi/Firefox instead of the KDE
+    # full stack. Not used here; default is kdePackages.kdeconnect-kde.
+    # package = pkgs.gnomeExtensions.gsconnect;
+  };
+
   # Auto-load PulseAudio TCP module at startup (remote audio → framey speakers).
   # Top-level (sibling of `services`) on purpose — nesting inside `services`
   # would be parsed as `services.systemd.user.services.*`, which isn't a
@@ -414,6 +430,12 @@
       networkmanager-openconnect
       vscode
       nemo
+      # KDE Connect indicator (SNI tray icon). The daemon and the
+      # kdeconnect-kde package itself are pulled in by programs.kdeconnect
+      # above; the indicator is a separate package and not auto-added.
+      # Without this line, exec_always kdeconnect-indicator would fail
+      # with "command not found" because the binary isn't on PATH.
+      kdePackages.kdeconnect-indicator
     ];
     sessionVariables = {
       # mkForce: home-manager's neovim module auto-sets VISUAL/EDITOR to nvim.
