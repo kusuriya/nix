@@ -11,12 +11,11 @@
 #
 # This clones ~/.hermes/hermes-agent/, builds the desktop renderer, and
 # installs the `hermes` CLI to ~/.local/bin/hermes.
-{
-  lib,
-  stdenv,
-  makeWrapper,
-  electron,
-  ...
+{ lib
+, stdenv
+, makeWrapper
+, electron
+, ...
 }:
 
 stdenv.mkDerivation {
@@ -29,25 +28,25 @@ stdenv.mkDerivation {
   nativeBuildInputs = [ makeWrapper ];
 
   installPhase = ''
-    runHook preInstall
+        runHook preInstall
 
-    mkdir -p $out/bin
+        mkdir -p $out/bin
 
-    # Wrap nixpkgs' Electron pointed at the curl-installed desktop source.
-    # The electron process reads package.json → electron/main.cjs which
-    # resolves dist/, build/native-deps/, etc. relative to its own location.
-    makeWrapper ${lib.getExe electron} $out/bin/hermes-desktop \
-      --add-flags '$HOME/.hermes/hermes-agent/apps/desktop' \
-      --set ELECTRON_IS_DEV 0 \
-      --set XCURSOR_SIZE 24 \
-      --run 'export HERMES_DESKTOP_HERMES="$HOME/.local/bin/hermes"
-if [ ! -d "$HOME/.hermes/hermes-agent/apps/desktop/dist" ]; then
-        echo "Hermes desktop source not found or not built."
-        echo "Run: curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --include-desktop"
-        exit 1
-      fi'
+        # Wrap nixpkgs' Electron pointed at the curl-installed desktop source.
+        # The electron process reads package.json → electron/main.cjs which
+        # resolves dist/, build/native-deps/, etc. relative to its own location.
+        makeWrapper ${lib.getExe electron} $out/bin/hermes-desktop \
+          --add-flags '$HOME/.hermes/hermes-agent/apps/desktop' \
+          --set ELECTRON_IS_DEV 0 \
+          --set XCURSOR_SIZE 24 \
+          --run 'export HERMES_DESKTOP_HERMES="$HOME/.local/bin/hermes"
+    if [ ! -d "$HOME/.hermes/hermes-agent/apps/desktop/dist" ]; then
+            echo "Hermes desktop source not found or not built."
+            echo "Run: curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --include-desktop"
+            exit 1
+          fi'
 
-    runHook postInstall
+        runHook postInstall
   '';
 
   meta = with lib; {

@@ -78,6 +78,9 @@
     fzf = {
       enable = true;
       enableFishIntegration = true;
+      # Atuin owns Ctrl-R for fish history (see programs.atuin below).
+      # Disable fzf's history widget so the two don't fight for the binding.
+      historyWidget.fish.command = "";
     };
     direnv = {
       enable = true;
