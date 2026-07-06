@@ -44,14 +44,15 @@
       };
     };
     sessionVariables = {
-      EDITOR = "nvim";
-      VISUAL = "code"; # GUI sessions use code; nvim for TTY/SSH
+      # mkForce: home-manager's neovim module auto-sets VISUAL/EDITOR to nvim.
+      # We override: nvim is the TTY/SSH editor, code is the GUI editor.
+      EDITOR = lib.mkForce "nvim";
+      VISUAL = lib.mkForce "code";
       TERMINAL = "alacritty";
       MOZ_ENABLE_WAYLAND = "1";
       MOZ_USE_XINPUT2 = "1";
       XDG_BIN_HOME = "\${HOME}/.local/bin";
       NIXOS_OZONE_WL = "1";
-
     };
   };
   programs = {

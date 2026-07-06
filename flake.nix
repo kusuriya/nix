@@ -27,6 +27,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Pi coding agent (Mario Zechner). Not in upstream nixpkgs yet (see
+    # earendil-works/pi#2310); lukasl-dev/pi.nix provides overlay + modules.
+    pi = {
+      url = "github:lukasl-dev/pi.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

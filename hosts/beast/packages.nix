@@ -81,6 +81,29 @@
       # AUDIO / VOICE RECORDING
       # ====================================================================
       tenacity # Multi-track audio editor/recorder — voiceovers, podcasting
+
+      # ====================================================================
+      # AGENTIC ENGINEERING / DEV TOOLCHAIN
+      # ====================================================================
+      # The agent is only as reliable as the tools it can reach. This block
+      # gives AI coding agents (codex, claude-code, opencode) the surface
+      # they need to (1) operate the full dev loop — PRs, builds, tests —
+      # and (2) self-verify output before handing it back to a human.
+      #
+      # python3 + uv are already in DESKTOP / GUI above; direnv is wired
+      # through home-manager. Not duplicating any of them.
+      gh # GitHub CLI — agents open/list/merge PRs without a human handoff
+      claude-code # Anthropic's agentic CLI — third AI lane alongside codex + the VS Code ext
+      opencode # OpenCode — Go-based, MCP-native agentic CLI; lightweight alt to claude-code
+      nodejs_22 # Node 22 LTS — JS/TS runtime; web tasks, MCP servers, npm tooling
+      go # Go toolchain — Go projects + Go-based CLIs (opencode, tfsec, etc.)
+      rustup # Rust toolchain manager — preferred over rustc/cargo for multi-version projects
+      pipx # Isolated Python CLI installer — keeps global pip clean; safe one-off CLIs for agents
+      actionlint # GitHub Actions workflow linter — catches YAML/syntax bugs before CI does
+      tflint # Terraform linter — catches provider/version issues in HCL
+      devenv # Per-project dev shells — gives agents a reproducible env per repo (direnv-driven)
+      hadolint # Dockerfile linter — agents WILL write Dockerfiles; catches issues at write-time
+      pi-coding-agent # Mario Zechner's pi — minimal, AGENTS.md-aware, skills/extensions-driven CLI
     ];
   };
 }

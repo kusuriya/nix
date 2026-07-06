@@ -399,9 +399,11 @@
       nemo
     ];
     sessionVariables = {
+      # mkForce: home-manager's neovim module auto-sets VISUAL/EDITOR to nvim.
+      # We override: nvim is the TTY/SSH editor, code is the GUI editor.
       NIXOS_OZONE_WL = "1";
-      EDITOR = "nvim";
-      VISUAL = "code"; # GUI sessions use code; nvim for TTY/SSH
+      EDITOR = lib.mkForce "nvim";
+      VISUAL = lib.mkForce "code";
       BROWSER = "vivaldi";
       XCURSOR_THEME = "Adwaita";
       XCURSOR_SIZE = "24";
