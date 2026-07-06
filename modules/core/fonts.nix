@@ -16,6 +16,7 @@
       nerd-fonts.caskaydia-mono
       nerd-fonts.fira-code
       nerd-fonts.fira-mono
+      nerd-fonts.hack
       nerd-fonts.jetbrains-mono
     ];
     fontconfig.defaultFonts = {

@@ -2,8 +2,11 @@
 # Hot-reloads on save. Linux-tuned.
 
 # ─── Font ──────────────────────────────────────────────────────
-font-family = "JetBrainsMono Nerd Font"
-font-family-bold = "JetBrainsMono Nerd Font Bold"
+# Hack Nerd Font (Mono) is installed via modules/core/fonts.nix
+# (nerd-fonts.hack) so the font survives nixos-rebuild and isn't
+# pinned to ~/.local/share/fonts like it was before 2026-07-05.
+font-family = "Hack Nerd Font Mono"
+font-family-bold = "Hack Nerd Font Mono Bold"
 font-style = Regular
 font-size = 14
 font-feature = -calt,-liga             # kill ligatures
