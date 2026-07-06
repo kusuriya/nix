@@ -430,12 +430,6 @@
       networkmanager-openconnect
       vscode
       nemo
-      # KDE Connect indicator (SNI tray icon). The daemon and the
-      # kdeconnect-kde package itself are pulled in by programs.kdeconnect
-      # above; the indicator is a separate package and not auto-added.
-      # Without this line, exec_always kdeconnect-indicator would fail
-      # with "command not found" because the binary isn't on PATH.
-      kdePackages.kdeconnect-indicator
     ];
     sessionVariables = {
       # mkForce: home-manager's neovim module auto-sets VISUAL/EDITOR to nvim.
