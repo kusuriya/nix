@@ -261,4 +261,33 @@
 
     ];
   };
+
+  # ----------------------------------------------------------------------------
+  # Steam (game launcher)
+  # ----------------------------------------------------------------------------
+  # Declarative config via the upstream `programs.steam` module
+  # (nixpkgs/nixos/modules/programs/steam.nix in pinned 25.11). The module:
+  #   * adds pkgs.steam + its `run` script to environment.systemPackages
+  #   * sets hardware.steam-hardware.enable (Steam Controller / Deck udev rules)
+  #   * forces hardware.graphics.enable32Bit for 32-bit Proton games
+  # iGPU target: AMD 780M (RDNA3, Vulkan 1.3). Fine for indie/older
+  # games; AAA goes to beast via Moonlight.
+  #
+  # extest.enable = true: required for Steam Input to work on Wayland
+  # (translates X11 input events to uinput). Without it, Steam Input
+  # falls back to "basic desktop" on Sway and controllers / hotkeys
+  # / gyro-to-mouse don't work.
+  #
+  # Firewall ports (remotePlay, localNetworkGameTransfers,
+  # dedicatedServer) left CLOSED: framey is a laptop on untrusted
+  # networks per AGENTS.md. Open per-port if you need Steam Remote
+  # Play from a phone or in-home streaming later.
+  #
+  # protontricks not enabled. gamescopeSession not enabled (no display
+  # manager on Sway; for Big Picture mode, launch `steam -tenfoot`
+  # manually).
+  programs.steam = {
+    enable = true;
+    extest.enable = true;
+  };
 }
