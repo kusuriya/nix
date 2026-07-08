@@ -187,6 +187,7 @@
       telegram-desktop # Telegram — personal/messaging
       zoom-us # Zoom — work video calls
       weechat # IRC client — terminal, scriptable, extensible
+      quassel # IRC client (Qt) — connects to the locally-running quasselcore service
       element-desktop # Matrix client — Element desktop
 
       # ============================================================================

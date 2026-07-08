@@ -131,7 +131,11 @@
       enable = true;
       allowPing = false;
       # PulseAudio TCP tunnel (remote audio → framey speakers)
-      allowedTCPPorts = [ 4713 ];
+      # Quassel IRC core (127.0.0.1-only by default — see services.quassel)
+      allowedTCPPorts = [
+        4713
+        4242
+      ];
       allowedUDPPorts = [ ];
       interfaces.tailscale0 = {
         allowedTCPPorts = [ 22 ];
@@ -337,6 +341,26 @@
       ipv6 = true;
       ipv4 = true;
       browseDomains = [ "local" ];
+    };
+    # Quassel IRC — split client/core. The NixOS module only provides
+    # quasselDaemon (the core binary). The Qt CLIENT is a separate
+    # package — `pkgs.quassel` — and must be added to systemPackages
+    # explicitly (see packages.nix). Classic service-module-enables-
+    # daemon-but-not-user-tooling pitfall.
+    #
+    # Running as the desktop user (`user = "kusuriya"`) keeps the
+    # SQLite DB in $HOME where the client also looks for it. Default
+    # `interfaces = [ "127.0.0.1" ]` is correct for framey: this is a
+    # laptop on untrusted networks, so the core only accepts loopback
+    # connections. To connect from another host, SSH-tunnel:
+    #   ssh -L 4242:127.0.0.1:4242 framey
+    # then point a remote Quassel client at localhost:4242. Bump to
+    # `interfaces = [ "0.0.0.0" ]` + remove the SSH-tunnel dance if
+    # you ever want to expose it directly (and add to tailscale0
+    # firewall only — never to the physical NIC).
+    quassel = {
+      enable = true;
+      user = "kusuriya";
     };
     flatpak.enable = true;
     dbus.enable = true;
