@@ -130,10 +130,8 @@
     firewall = {
       enable = true;
       allowPing = false;
-      # PulseAudio TCP tunnel (remote audio → framey speakers)
       # Quassel IRC core (127.0.0.1-only by default — see services.quassel)
       allowedTCPPorts = [
-        4713
         4242
       ];
       allowedUDPPorts = [ ];
@@ -411,21 +409,6 @@
     # package = pkgs.gnomeExtensions.gsconnect;
   };
 
-  # Auto-load PulseAudio TCP module at startup (remote audio → framey speakers).
-  # Top-level (sibling of `services`) on purpose — nesting inside `services`
-  # would be parsed as `services.systemd.user.services.*`, which isn't a
-  # valid NixOS option. Mirrors beast (2c71dff).
-  systemd.user.services.pipewire-pulse-tcp = {
-    description = "PulseAudio TCP tunnel listener for remote audio";
-    after = [ "pipewire-pulse.service" ];
-    wantedBy = [ "default.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = "${pkgs.pulseaudio}/bin/pactl load-module module-native-protocol-tcp listen=0.0.0.0";
-      ExecStop = "${pkgs.pulseaudio}/bin/pactl unload-module module-native-protocol-tcp";
-    };
-  };
   programs = {
     nix-ld = {
       enable = true;

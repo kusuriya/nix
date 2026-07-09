@@ -31,6 +31,7 @@
       ".config/swaync/style.css" = { source = ./dotfiles/swaync/style.css; };
       ".config/waybar/config.jsonc" = { source = ./dotfiles/waybar/config.jsonc; };
       ".config/waybar/style.css" = { source = ./dotfiles/waybar/style.css; };
+      ".config/waybar/power_menu.xml" = { source = ./dotfiles/waybar/power_menu.xml; };
       ".config/kanshi/config" = { source = ./dotfiles/kanshi/config; };
       ".config/ghostty/config" = { source = ./dotfiles/ghostty/config; };
       ".config/ghostty/themes/catppuccin-mocha" = { source = ./dotfiles/ghostty/themes/catppuccin-mocha; };
@@ -42,6 +43,7 @@
         };
         recursive = true;
       };
+      "Pictures/Screenshots/.keep".text = "";
     };
     sessionVariables = {
       # mkForce: home-manager's neovim module auto-sets VISUAL/EDITOR to nvim.
