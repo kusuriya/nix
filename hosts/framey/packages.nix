@@ -54,6 +54,7 @@
       claude-code # Anthropic Claude Code CLI — AI coding assistant
       claude-agent-acp # Claude Agent ACP transport — for Hermes delegation (renamed from claude-code-acp)
       claude-mergetool # Claude-powered merge conflict resolver
+      codex # OpenAI Codex CLI — AI coding assistant
       fnm # Fast Node version manager — Rust, instant switching. Better than nvm
       python3 # Python 3 with pip
       uv # Fast Python package manager (Rust)
