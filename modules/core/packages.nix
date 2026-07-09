@@ -105,6 +105,16 @@
       distrobox # Container-based dev environments (podman/docker integration)
       hexyl # Hex viewer — colorized, Rust, pipe-friendly. Better than xxd
       just # Modern make — justfile, simpler syntax, no tab requirements
+      pre-commit # Repo-defined staged-file quality gates; supports agent commit workflows
+      actionlint # Static checker for GitHub Actions workflow syntax and semantics
+
+      # ============================================================================
+      # DEVELOPMENT — SECURITY & SUPPLY-CHAIN CHECKS (CLI, universal)
+      # ============================================================================
+
+      gitleaks # Secret detection for staged changes, history, and CI
+      semgrep # Static analysis for application-code correctness and security rules
+      osv-scanner # Dependency vulnerability scanner for lockfiles and SBOMs
 
       # ============================================================================
       # DEVELOPMENT — CONVENIENCE (CLI, universal)
