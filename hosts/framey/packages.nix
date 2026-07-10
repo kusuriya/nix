@@ -217,6 +217,7 @@
       parsec-bin # Remote desktop — low-latency game streaming
       moonlight-qt # Sunshine/Moonlight client — self-hosted remote desktop
       rustdesk # Direct remote-control client for the headless Mac over Tailscale
+      nomachine-client # NoMachine NX remote-desktop client
       unstable.looking-glass-client
       # Looking Glass — VM framebuffer passthrough (near-native display)
       catt # Chromecast CLI — cast media to Chromecast devices
