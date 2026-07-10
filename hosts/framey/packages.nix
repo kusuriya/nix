@@ -206,7 +206,6 @@
 
       freecad # 3D CAD — parametric mechanical design
       makemkv # DVD/Blu-ray ripper — decrypt and remux discs
-      handbrake # Video transcoder — compress/convert video files
       imagemagick # Image manipulation — convert, resize, batch ops
       yt-dlp # Video/audio downloader — YouTube and 1000+ sites
       chafa # Terminal image viewer — `chafa image.png` shows images in terminal
