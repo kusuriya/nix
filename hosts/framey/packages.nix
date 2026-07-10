@@ -165,7 +165,6 @@
       libva # Video Acceleration API — hardware video decode/encode
       libva-utils # vainfo — check VA-API support
       vulkan-tools # vulkaninfo, vkcube — Vulkan diagnostics
-      vulkan-validation-layers # Vulkan debug validation — GPU driver/correctness checks
       virglrenderer # VirtIO GPU renderer — 3D accel for QEMU VMs
 
       # ============================================================================
