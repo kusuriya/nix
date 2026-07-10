@@ -219,6 +219,7 @@
       transmission_4-qt # BitTorrent client — Transmission 4.x Qt UI
       parsec-bin # Remote desktop — low-latency game streaming
       moonlight-qt # Sunshine/Moonlight client — self-hosted remote desktop
+      rustdesk # Direct remote-control client for the headless Mac over Tailscale
       unstable.looking-glass-client
       # Looking Glass — VM framebuffer passthrough (near-native display)
       catt # Chromecast CLI — cast media to Chromecast devices
