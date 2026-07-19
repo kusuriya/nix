@@ -7,7 +7,7 @@
 # Imported by hosts/beast/default.nix via:
 #   imports = [ ... ./packages.nix ... ];
 # ============================================================================
-{ pkgs, ... }:
+{ pkgs, pkgs-stable, ... }:
 {
   environment = {
     systemPackages = with pkgs; [
@@ -19,7 +19,7 @@
       scx.full # sched-ext CPU scheduler — scx_lavd as default (runtime-switchable)
       lutris # Game launcher — GOG, Epic, Origin, standalone games
       heroic # Epic Games + GOG launcher (native Linux)
-      bottles # Wine prefix manager — run Windows games/apps
+      pkgs-stable.bottles # 51.15: unstable 64.1 currently fails via Python 3.14 patool tests
       mcpelauncher-ui-qt # Minecraft Bedrock Edition (unofficial Android launcher)
       gamescope # Steam session compositor — micro-compositor for gaming
       moonlight-qt # Moonlight game/client stream client — low-latency remote desktop
