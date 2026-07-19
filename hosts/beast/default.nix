@@ -38,21 +38,6 @@
     ];
   };
 
-  nix = {
-    # pi.cachix.org + nix-community.cachix.org host the pi-coding-agent binary
-    # and its Bun toolchain. Without these, the first build pulls 200MB+ of
-    # node_modules from source. See inputs.pi.nix `nixConfig` for the public
-    # keys (trusted via --accept-flake-config or the lines below).
-    settings.extra-substituters = [
-      "https://pi.cachix.org"
-      "https://nix-community.cachix.org"
-    ];
-    settings.extra-trusted-public-keys = [
-      "pi.cachix.org-1:lGeoGJaZ5ZDabuRzkcD5EBTNnDM4HJ1vqeOxlWk1Flk="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    ];
-  };
-
   nix =
     let
       flakeInputs = lib.filterAttrs
@@ -64,6 +49,19 @@
         allowed-users = [ "kusuriya" "root" ];
         trusted-users = [ "kusuriya" "root" ];
         nix-path = config.nix.nixPath;
+
+        # pi.cachix.org + nix-community.cachix.org host the pi-coding-agent binary
+        # and its Bun toolchain. Without these, the first build pulls 200MB+ of
+        # node_modules from source. See inputs.pi.nix `nixConfig` for the public
+        # keys (trusted via --accept-flake-config or the lines below).
+        extra-substituters = [
+          "https://pi.cachix.org"
+          "https://nix-community.cachix.org"
+        ];
+        extra-trusted-public-keys = [
+          "pi.cachix.org-1:lGeoGJaZ5ZDabuRzkcD5EBTNnDM4HJ1vqeOxlWk1Flk="
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        ];
       };
       # gc and experimental-features are handled by modules/core/nix.nix
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
