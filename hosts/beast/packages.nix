@@ -100,7 +100,7 @@
       nodejs_22 # Node 22 LTS — JS/TS runtime; web tasks, MCP servers, npm tooling
       go # Go toolchain — Go projects + Go-based CLIs (opencode, tfsec, etc.)
       rustup # Rust toolchain manager — preferred over rustc/cargo for multi-version projects
-      pipx # Isolated Python CLI installer — keeps global pip clean; safe one-off CLIs for agents
+      pkgs-stable.pipx # 1.7.1: unstable 1.14.0 tests are incompatible with pytest 9
       actionlint # GitHub Actions workflow linter — catches YAML/syntax bugs before CI does
       tflint # Terraform linter — catches provider/version issues in HCL
       devenv # Per-project dev shells — gives agents a reproducible env per repo (direnv-driven)
