@@ -205,7 +205,6 @@
       # ============================================================================
 
       orca-slicer-appimage # AppImage runtime avoids Bambu network plug-in ABI crashes on NixOS
-      makemkv # DVD/Blu-ray ripper — decrypt and remux discs
       imagemagick # Image manipulation — convert, resize, batch ops
       yt-dlp # Video/audio downloader — YouTube and 1000+ sites
       chafa # Terminal image viewer — `chafa image.png` shows images in terminal
