@@ -198,6 +198,7 @@
       libreoffice # Office suite — docs, spreadsheets, presentations
       drawio # Diagramming — architecture, flowcharts, network diagrams
       inkscape # Vector graphics editor — SVG, logos, diagrams
+      gimp # Raster graphics editor — image editing and photo manipulation
 
       # ============================================================================
       # GUI APPLICATIONS — MEDIA & 3D (desktop only)
