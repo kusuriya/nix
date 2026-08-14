@@ -8,6 +8,45 @@
 #   imports = [ ... ./packages.nix ... ];
 # ============================================================================
 { pkgs, inputs, ... }:
+let
+  fwogPython = pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
+    pyserial
+    pillow
+    numpy
+    sounddevice
+  ]);
+
+  # The upstream target preset currently names the Windows Pico installer
+  # layout even on Linux. Recreate that layout from immutable Nix packages so
+  # the BSP's canonical `tools/fw.py` runner works without patching a checkout.
+  fwogPicoHome = pkgs.runCommand "freewili-og-pico-home" { } ''
+    mkdir -p "$out/.pico-sdk/sdk" "$out/.pico-sdk/toolchain" "$out/.pico-sdk/ninja/v1.13.2"
+    ln -s ${inputs.pico-sdk-2_3_0} "$out/.pico-sdk/sdk/2.3.0"
+    ln -s ${pkgs.gcc-arm-embedded} "$out/.pico-sdk/toolchain/15_2_Rel1"
+    ln -s ${pkgs.ninja}/bin/ninja "$out/.pico-sdk/ninja/v1.13.2/ninja.exe"
+  '';
+
+  fwog = pkgs.writeShellApplication {
+    name = "fwog";
+    runtimeInputs = with pkgs; [
+      cmake
+      ninja
+      gcc
+      gcc-arm-embedded
+      git
+      fwogPython
+    ];
+    text = ''
+      if [[ ! -f tools/fw.py ]]; then
+        echo "fwog: run this command from a wiliOGbsp checkout" >&2
+        exit 2
+      fi
+
+      export USERPROFILE=${fwogPicoHome}
+      exec python3 tools/fw.py "$@"
+    '';
+  };
+in
 {
   environment = {
     systemPackages = with pkgs; [
@@ -58,6 +97,15 @@
       fnm # Fast Node version manager — Rust, instant switching. Better than nvm
       python3 # Python 3 with pip
       uv # Fast Python package manager (Rust)
+
+      # FreeWili OG firmware development. The BSP uses an exact Pico SDK
+      # release supplied through PICO_SDK_PATH below rather than nixpkgs' SDK.
+      cmake
+      ninja
+      gcc-arm-embedded
+      picotool
+      fwogPython
+      fwog
 
       # ============================================================================
       # DEVELOPMENT — CONVENIENCE (desktop only)
@@ -261,6 +309,8 @@
       nfs-utils # NFS client/server — network filesystem mounts
 
     ];
+
+    variables.PICO_SDK_PATH = inputs.pico-sdk-2_3_0.outPath;
   };
 
   # ----------------------------------------------------------------------------

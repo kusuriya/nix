@@ -33,6 +33,12 @@
       url = "github:lukasl-dev/pi.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # FreeWili OG's BSP is developed against this exact Pico SDK release.
+    pico-sdk-2_3_0 = {
+      url = "git+https://github.com/raspberrypi/pico-sdk?rev=98a542c1a62fb549ffb5d66a3e5892b06276b670&submodules=1";
+      flake = false;
+    };
   };
 
   outputs =
