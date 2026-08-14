@@ -7,7 +7,7 @@
 # This file is imported by /data/nix/hosts/framey/default.nix via:
 #   imports = [ ... ./packages.nix ... ];
 # ============================================================================
-{ pkgs, inputs, ... }:
+{ pkgs, pkgs-stable, inputs, ... }:
 let
   fwogPython = pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
     pyserial
@@ -264,7 +264,8 @@ in
 
       transmission_4-qt # BitTorrent client — Transmission 4.x Qt UI
       parsec-bin # Remote desktop — low-latency game streaming
-      moonlight-qt # Sunshine/Moonlight client — self-hosted remote desktop
+      # Current nixpkgs fails against FFmpeg 9 after AVCodec.pix_fmts removal.
+      pkgs-stable.moonlight-qt # Sunshine/Moonlight client — self-hosted remote desktop
       rustdesk # Direct remote-control client for the headless Mac over Tailscale
       unstable.looking-glass-client
       # Looking Glass — VM framebuffer passthrough (near-native display)

@@ -1,10 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-stable, ... }:
 {
   fonts = {
     packages = with pkgs; [
       dejavu_fonts
       emacs-all-the-icons-fonts
-      jetbrains-mono
+      # Current nixpkgs rebuilds this through a broken nanoemoji source hash.
+      pkgs-stable.jetbrains-mono
       font-awesome
       noto-fonts
       noto-fonts-cjk-sans
