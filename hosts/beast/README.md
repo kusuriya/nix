@@ -108,100 +108,97 @@ TCP BBR, swappiness=10, dirty ratios.
 
 Weekly `nixos-rebuild switch` via `system.autoUpgrade`. No automatic reboots.
 
-## Fresh Install
+## Fresh Install (at beast's local NixOS installer console)
 
-### Option 1: NixOS Anywhere (recommended — one-shot)
+Use disko to partition, format, and mount the target disk, then `nixos-install`
+with this flake. **This destroys the selected disk, including all existing
+partitions and data.** It does not install to the other NVMe drives unless you
+select one of them as the disko target. Back up anything you need first.
 
-NixOS Anywhere handles disko partitioning + nixos-install in a single command.
-Boot the NixOS install media, then:
+`nixos-anywhere` is for installing **over SSH from another machine**. It requires
+an SSH target; do not run it at this local console. Do not use `install.sh` as
+currently written: it tries to replace an old placeholder, but `disko.nix`
+currently contains the concrete path `/dev/nvme0n1`. Passing a different drive
+to the script will *not* change the disko target. Its `--dry-run` is not a disk
+safety check either.
 
-```bash
-# Find your NVMe by-id paths
-ls -l /dev/disk/by-id/ | grep nvme
+1. Boot the NixOS installer in UEFI mode and obtain a checkout. If `/tmp/nix`
+   already exists, use that checkout; otherwise clone it (install Git with
+   `nix-shell -p git` first if needed):
 
-# Clone the flake
-sudo nix-shell -p git --run 'git clone https://github.com/kusuriya/nix /tmp/nix'
-cd /tmp/nix
+   ```bash
+   git clone https://github.com/kusuriya/nix /tmp/nix
+   cd /tmp/nix
+   ```
 
-# Patch disko.nix with real device path (replace placeholder)
-sed -i 's|nvme-REPLACE_WITH_DRIVE_1_ID|YOUR_DRIVE_1_ID|' hosts/beast/disko.nix
+2. Identify the **whole disk** intended for NixOS by model, size, and serial.
+   Do not use a `-partN` partition path; NVMe numbers like `/dev/nvme0n1` can
+   change between boots. Match the by-id symlink to the physical disk:
 
-# Run nixos-anywhere (disko + install in one shot, auto-reboots)
-nix run github:nix-community/nixos-anywhere -- \
-  --flake .#beast \
-  --generate-hardware-config nixos-generate-config hosts/beast/hardware-configuration.nix
-```
+   ```bash
+   lsblk -o NAME,SIZE,MODEL,SERIAL,TYPE,MOUNTPOINTS
+   ls -l /dev/disk/by-id/
+   readlink -f /dev/disk/by-id/nvme-YOUR_WHOLE_DISK_ID
+   ```
 
-Or use the install script with `--anywhere`:
+3. Edit `hosts/beast/disko.nix`: replace its `device = "/dev/nvme0n1";`
+   with `device = "/dev/disk/by-id/<NIXOS_WHOLE_DISK_ID>";` using the **actual**
+   whole-disk ID from step 2. The comments in that file still call the path a
+   placeholder, but the value is real and potentially dangerous. Confirm what
+   the flake will hand to disko, then independently compare it to `lsblk`:
 
-```bash
-sudo bash hosts/beast/install.sh --anywhere /dev/disk/by-id/nvme-DRIVE_1_ID /dev/disk/by-id/nvme-DRIVE_2_ID
-```
+   ```bash
+   nix --extra-experimental-features 'nix-command flakes' \
+     eval --raw .#nixosConfigurations.beast.config.disko.devices.disk.nvme1.device
+   ```
 
-### Option 2: Manual disko + nixos-install (classic)
+   Evaluation checks the config value, **not** whether it is the disk you mean
+   to erase. Stop if there is any doubt about the serial or target. Only the
+   first drive is managed by disko; leave the second and reserved third drive
+   alone during installation.
 
-```bash
-# Find your NVMe by-id paths
-ls -l /dev/disk/by-id/ | grep nvme
+4. **Destructive step:** partition, format, and mount the selected disk at
+   `/mnt`, then verify that root and boot (and the other declared subvolumes)
+   are actually mounted before installing:
 
-# Clone and run the install script
-sudo nix-shell -p git --run 'git clone https://github.com/kusuriya/nix /tmp/nix && cd /tmp/nix'
-cd /tmp/nix
-sudo bash hosts/beast/install.sh /dev/disk/by-id/nvme-DRIVE_1_ID /dev/disk/by-id/nvme-DRIVE_2_ID
-```
+   ```bash
+   sudo nix --extra-experimental-features 'nix-command flakes' \
+     run github:nix-community/disko -- \
+     --mode destroy,format,mount --flake .#beast
+   findmnt -R /mnt
+   ```
 
-The script does everything: clones the flake, patches `disko.nix` with your real
-device paths, runs disko, installs NixOS, and reboots.
+5. This flake already imports `hosts/beast/disko.nix` and its manually
+   maintained `hosts/beast/hardware-configuration.nix`. Disko supplies the
+   filesystem mounts; **do not regenerate hardware-configuration.nix with
+   `nixos-generate-config`**, which can add conflicting filesystem definitions.
+   With `/mnt` mounted, install from this edited checkout:
 
-### Dry run (no changes, just validates)
+   ```bash
+   sudo nixos-install --flake /tmp/nix#beast --root /mnt
+   ```
 
-```bash
-sudo bash hosts/beast/install.sh --dry-run /dev/disk/by-id/nvme-DRIVE_1_ID /dev/disk/by-id/nvme-DRIVE_2_ID
-```
+   Follow the installer prompts. If the build or install fails, fix the error
+   before rebooting; a successful disko run is not a successful OS install.
+   Keep a copy of your corrected `disko.nix` for future rebuilds: `/tmp/nix`
+   is temporary, and editing it does not update GitHub.
 
-### Install over SSH (remote target)
+## Post-Install: Second NVMe and swap
 
-If beast is already running something (e.g. an old OS) and is reachable via SSH:
+The installed config declares a 16 GiB `/swapfile` via `swapDevices` in
+`default.nix`. Check `swapon --show` after first boot. **Do not follow the old
+post-install instructions or run `post-install.sh` to add the second NVMe as-is.**
+That script adds a device and starts a balance while a Btrfs swapfile may be
+active, and it does not actually create the swapfile it claims to create.
+Btrfs documents restrictions on active swapfiles, multi-device filesystems,
+balance, and scrub: <https://btrfs.readthedocs.io/en/latest/Swapfile.html>.
+Choose and configure a compatible swap strategy before changing the pool; this
+is a separate, data-affecting migration, not a required part of the fresh
+install. Keep the third NVMe untouched.
 
-```bash
-# From your local machine (must have nix + flakes enabled)
-nix run github:nix-community/nixos-anywhere -- \
-  --flake github:kusuriya/nix#beast \
-  --target-host root@beast.lan.corrupted.io \
-  --generate-hardware-config nixos-generate-config hosts/beast/hardware-configuration.nix
-```
-
-Note: This requires the disko.nix placeholder to already be replaced with the real
-device path. Fork the repo or clone + patch locally, then point `--flake` at your
-local path.
-
-## Post-Install: Add Second NVMe
-
-After first boot, add NVMe 2 to the btrfs pool and create the swapfile:
-
-```bash
-# Add NVMe 2 to the btrfs pool (replace with actual by-id path)
-sudo btrfs device add /dev/disk/by-id/nvme-DRIVE_2_ID /
-
-# Balance to spread data across both devices
-sudo btrfs balance start -dusage=100 /
-
-# Create the swap subvolume and swapfile (kernel 6.1+ handles NODATACOW automatically)
-sudo btrfs subvolume create /.swapvol
-sudo btrfs filesystem mkswapfile --size 16G /.swapvol/swapfile
-
-# Verify
-sudo btrfs filesystem show /
-swapon --show
-```
-
-Or run the post-install script:
-
-```bash
-sudo bash hosts/beast/post-install.sh /dev/disk/by-id/nvme-DRIVE_2_ID
-```
-
-Update `disko.nix` with the actual device paths for future reproducibility.
+After the installed system boots, copy or clone the repo to a persistent
+location, carry over the verified disk ID change, and commit it intentionally.
+Never replace a by-id path with a guessed `/dev/nvmeXnY` name.
 
 ## Post-Install: Tailscale
 
@@ -252,8 +249,21 @@ sudo btrfs device scan
 
 ### Boot Failure
 
-1. Boot from NixOS install media
-2. `sudo mount /dev/disk/by-id/nvme-DRIVE_1_ID-part2 /mnt`
-3. `sudo nixos-enter --root /mnt`
-4. `journalctl -b -p err`
-5. `nixos-rebuild switch --flake .#beast`
+Boot the NixOS install media again. The root filesystem is the Btrfs `@root`
+subvolume, not a plain mount of partition 2; the EFI partition must also be
+mounted at `/mnt/boot` for bootloader repair. Use the **same** checkout with the
+verified by-id disk path from the installation, and mount the existing layout
+without formatting:
+
+```bash
+cd /tmp/nix
+sudo nix --extra-experimental-features 'nix-command flakes' \
+  run github:nix-community/disko -- --mode mount --flake .#beast
+findmnt -R /mnt
+```
+
+**Use `--mode mount`, never `destroy,format,mount`, for recovery.** Check the
+mounts and error before attempting a repair; a failed boot alone does not say
+whether the problem is the bootloader, kernel, filesystem, or system config.
+The `/tmp/nix` checkout will be gone after reboot, so clone it again and apply
+the correct disk ID before the mount command if necessary.
