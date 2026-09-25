@@ -56,6 +56,7 @@ in
       # SECRETS & PASSWORD MANAGEMENT (GUI/advanced — host-specific)
       # ============================================================================
 
+      bitwarden-desktop # Bitwarden vault desktop app
       rage # Rust age implementation — drop-in compatible, faster
       gopass # Go password manager — pass-compatible, better UX + search
       pass # Unix password store — GPG-based, CLI-native, git-syncable
