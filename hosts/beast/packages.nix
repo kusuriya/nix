@@ -56,6 +56,7 @@
       vivaldi # Browser (primary — matches framey's default)
       hermes-desktop # Hermes Desktop — nixpkgs electron wrapper
       bitwarden-desktop # Bitwarden vault desktop app
+      bitwarden-cli # bw command-line vault client
       orca-slicer-appimage # AppImage runtime avoids Bambu network plug-in ABI crashes on NixOS
       obsidian # Note-taking / knowledge base
       discord # Communities, dev servers

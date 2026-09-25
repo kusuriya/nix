@@ -57,6 +57,7 @@ in
       # ============================================================================
 
       bitwarden-desktop # Bitwarden vault desktop app
+      bitwarden-cli # bw command-line vault client
       rage # Rust age implementation — drop-in compatible, faster
       gopass # Go password manager — pass-compatible, better UX + search
       pass # Unix password store — GPG-based, CLI-native, git-syncable
