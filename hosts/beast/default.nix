@@ -267,7 +267,7 @@
       drivers = [
         pkgs.gutenprint
         pkgs.gutenprintBin
-        pkgs.hplipWithPlugin
+        pkgs.hplip # Avoid plugin fetch: beast received an empty file despite a valid upstream archive
         pkgs.canon-cups-ufr2
       ];
     };
