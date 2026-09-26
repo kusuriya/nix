@@ -137,6 +137,7 @@
 
       hyperfine # Benchmark commands — `hyperfine --warmup 3 'cmd1' 'cmd2'`
       tokei # Fast LOC counter — `tokei .` gives language breakdown instantly
+      umu-launcher
     ];
   };
 }
