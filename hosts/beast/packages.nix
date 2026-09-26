@@ -20,6 +20,7 @@
       lutris # Game launcher — GOG, Epic, Origin, standalone games
       heroic # Epic Games + GOG launcher (native Linux)
       pkgs-stable.bottles # 51.15: unstable 64.1 currently fails via Python 3.14 patool tests
+      azeron-software-appimage # Azeron keypad configuration (upstream AppImage)
       mcpelauncher-ui-qt # Minecraft Bedrock Edition (unofficial Android launcher)
       gamescope # Steam session compositor — micro-compositor for gaming
       moonlight-qt # Moonlight game/client stream client — low-latency remote desktop

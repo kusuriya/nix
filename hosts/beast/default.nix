@@ -256,7 +256,8 @@
 
     fwupd.enable = true;
     udev = {
-      packages = [ pkgs.via ];
+      # Active-seat access for the keypad and its firmware-update bootloader.
+      packages = [ pkgs.via pkgs.azeron-software-appimage ];
       extraRules = ''
         # Set scheduler for NVMe
         ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/scheduler}="none"
