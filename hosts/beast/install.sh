@@ -232,7 +232,7 @@ else
   echo "Next steps after reboot:"
   echo "  1. Add second NVMe:  sudo btrfs device add $DRIVE_2 /"
   echo "  2. Balance:           sudo btrfs balance start -dusage=100 /"
-  echo "  3. Create swap:       sudo btrfs subvolume create /.swapvol && sudo btrfs filesystem mkswapfile --size 16G /.swapvol/swapfile"
+  echo "  3. Verify zram:       swapon --show && zramctl"
   echo "  4. Tailscale:         sudo tailscale up"
   echo "  5. Verify NVIDIA:    nvidia-smi"
   echo "  6. Minecraft:         mcpelauncher-ui-qt"

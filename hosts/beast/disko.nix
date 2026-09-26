@@ -24,9 +24,8 @@
 #   @snapshots  → /.snapshots  (btrbk target — separate from @root)
 #   @persist    → /persist     (placeholder for future impermanence)
 #
-# Swap: 16GB swapfile is created manually post-install AFTER btrfs device add,
-# because btrfs swapfiles on multi-device pools need special handling
-# (NODATACOW via `btrfs filesystem mkswapfile`). See README.md.
+# Swap: zram is configured in default.nix; do not create a swapfile in the
+# multi-device btrfs pool. See README.md.
 #
 # No LUKS2 — beast is a desktop, encryption not needed.
 # No Secure Boot / lanzaboote — plain systemd-boot.

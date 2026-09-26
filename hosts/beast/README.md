@@ -38,7 +38,8 @@ without merge). Drive 2 is added to the pool manually after first boot. See
 | `@persist` | `/persist` | Placeholder for future impermanence |
 
 **No encryption.** No redundancy (single profile — if either NVMe fails, the pool is lost).
-Swap is a 16 GB swapfile, auto-created by NixOS at `/swapfile`.
+Swap uses zram (zstd, maximum uncompressed size 50% of RAM); there is no
+disk-backed swap or hibernation.
 
 ## GPU Configuration
 
@@ -185,16 +186,14 @@ safety check either.
 
 ## Post-Install: Second NVMe and swap
 
-The installed config declares a 16 GiB `/swapfile` via `swapDevices` in
-`default.nix`. Check `swapon --show` after first boot. **Do not follow the old
-post-install instructions or run `post-install.sh` to add the second NVMe as-is.**
-That script adds a device and starts a balance while a Btrfs swapfile may be
-active, and it does not actually create the swapfile it claims to create.
-Btrfs documents restrictions on active swapfiles, multi-device filesystems,
-balance, and scrub: <https://btrfs.readthedocs.io/en/latest/Swapfile.html>.
-Choose and configure a compatible swap strategy before changing the pool; this
-is a separate, data-affecting migration, not a required part of the fresh
-install. Keep the third NVMe untouched.
+The installed config enables zram instead of a disk swapfile. Check
+`swapon --show` and `zramctl` after first boot. **Do not run the old
+`post-install.sh` to add the second NVMe as-is**: it starts a balance and does
+not create the swapfile it claims to create. Do not recreate `/swapfile` on
+the multi-device Btrfs pool: the previous file spanned devices and failed to
+activate. Btrfs documents swapfile placement and maintenance restrictions:
+<https://btrfs.readthedocs.io/en/latest/Swapfile.html>. Keep the third NVMe
+untouched during a fresh install unless explicitly changing the disk plan.
 
 After the installed system boots, copy or clone the repo to a persistent
 location, carry over the verified disk ID change, and commit it intentionally.

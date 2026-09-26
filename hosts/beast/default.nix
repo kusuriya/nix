@@ -85,11 +85,14 @@
   # Hardware watchdog — auto-reboot if system hangs
   systemd.settings.Manager.RuntimeWatchdogSec = "30s";
 
-  # Swap — 16GB swapfile on root btrfs, auto-created by NixOS
-  swapDevices = [{
-    device = "/swapfile";
-    size = 16384;
-  }];
+  # The multi-device btrfs pool placed /swapfile across devices, so swapon
+  # failed. Use compressed RAM swap instead; no disk-backed swap or hibernation.
+  swapDevices = [ ];
+  zramSwap = {
+    enable = true;
+    memoryPercent = 50;
+    algorithm = "zstd";
+  };
 
   # Bootloader — plain systemd-boot, no Secure Boot
   boot = {

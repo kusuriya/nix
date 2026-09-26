@@ -5,7 +5,7 @@
 # Run this after first boot to:
 #   1. Add the second NVMe to the btrfs pool
 #   2. Balance data across both devices
-#   3. Create the 16GB swapfile
+#   3. Verify zram swap
 #   4. Set up Tailscale
 #   5. Verify AMD GPU
 #   6. Verify NFS mounts
@@ -58,11 +58,10 @@ btrfs balance start -dusage=100 /
 echo "  Done."
 echo ""
 
-# --- Step 3: Create swap ---
-echo "[3/6] Creating 16GB swapfile..."
-echo "  NixOS auto-creates swap at /swapfile (generation 9+)
-echo "  Verify with: swapon --show"
-echo "  Done."
+# --- Step 3: Verify zram swap ---
+echo "[3/6] Verifying zram swap..."
+swapon --show
+zramctl
 echo ""
 
 # --- Step 4: Tailscale ---
