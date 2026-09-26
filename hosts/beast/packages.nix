@@ -23,6 +23,7 @@
       azeron-software-appimage # Azeron keypad configuration (upstream AppImage)
       mcpelauncher-ui-qt # Minecraft Bedrock Edition (unofficial Android launcher)
       gamescope # Steam session compositor — micro-compositor for gaming
+      mangohud # Vulkan/OpenGL performance overlay for games
       moonlight-qt # Moonlight game/client stream client — low-latency remote desktop
 
       # ====================================================================

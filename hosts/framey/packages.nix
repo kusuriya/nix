@@ -216,6 +216,7 @@ in
       libva-utils # vainfo — check VA-API support
       vulkan-tools # vulkaninfo, vkcube — Vulkan diagnostics
       virglrenderer # VirtIO GPU renderer — 3D accel for QEMU VMs
+      mangohud # Vulkan/OpenGL performance overlay for games
 
       # ============================================================================
       # BROWSERS (desktop only)
