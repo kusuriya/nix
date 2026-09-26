@@ -41,6 +41,7 @@
       # ====================================================================
       # VIRTUALIZATION (non-passthrough)
       # ====================================================================
+      podman-compose # Provider for `podman compose` (Podman itself is enabled in modules/core)
       virt-manager # libvirt GUI — manage VMs (QEMU/KVM)
       virt-viewer # SPICE/VNC viewer — connect to VM displays
       winboat # Windows apps via a containerized VM; use beast's existing Podman setup
