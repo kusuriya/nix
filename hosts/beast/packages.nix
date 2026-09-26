@@ -61,6 +61,7 @@
       obsidian # Note-taking / knowledge base
       discord # Communities, dev servers
       element-desktop # Matrix client — encrypted messaging
+      fractal # GNOME Matrix client
       signal-desktop # Secure messaging
       nemo # File manager (Cinnamon's — lightweight GTK)
       unzip # Archive extraction (common desktop need)
