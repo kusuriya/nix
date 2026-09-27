@@ -8,6 +8,13 @@
 #   imports = [ ... ./packages.nix ... ];
 # ============================================================================
 { pkgs, pkgs-stable, ... }:
+let
+  # virt-manager's native Wayland viewer fails to resize win11 under Sway;
+  # the same SPICE display works through virt-viewer on XWayland.
+  windowsVm = pkgs.writeShellScriptBin "windows-vm" ''
+    exec ${pkgs.coreutils}/bin/env GDK_BACKEND=x11 ${pkgs.virt-viewer}/bin/virt-viewer --connect qemu:///session win11 "$@"
+  '';
+in
 {
   environment = {
     systemPackages = with pkgs; [
@@ -45,6 +52,16 @@
       podman-compose # Provider for `podman compose` (Podman itself is enabled in modules/core)
       virt-manager # libvirt GUI — manage VMs (QEMU/KVM)
       virt-viewer # SPICE/VNC viewer — connect to VM displays
+      windowsVm # "windows-vm" command for Wofi's run mode
+      (makeDesktopItem {
+        name = "windows-vm";
+        desktopName = "Windows VM";
+        comment = "Open win11 with working SPICE auto-resize under Sway";
+        exec = "${windowsVm}/bin/windows-vm";
+        icon = "computer";
+        categories = [ "System" ];
+        terminal = false;
+      })
       winboat # Windows apps via a containerized VM; use beast's existing Podman setup
       swtpm # Software TPM — for Windows 11 VMs
       OVMF # UEFI firmware for VMs
