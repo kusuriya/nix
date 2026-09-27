@@ -17,7 +17,7 @@
       # proton-ge-bin is in programs.steam.extraCompatPackages instead
       # (installing it globally causes buildEnv man-paths merge to fail)
       scx.full # sched-ext CPU scheduler — scx_lavd as default (runtime-switchable)
-      lutris # Game launcher — GOG, Epic, Origin, standalone games
+      (lutris.override { extraPkgs = p: [ p.mangohud ]; }) # Expose MangoHud inside Lutris's FHS environment
       heroic # Epic Games + GOG launcher (native Linux)
       pkgs-stable.bottles # 51.15: unstable 64.1 currently fails via Python 3.14 patool tests
       azeron-software-appimage # Azeron keypad configuration (upstream AppImage)
