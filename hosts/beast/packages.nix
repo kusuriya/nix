@@ -62,6 +62,7 @@
       bitwarden-desktop # Bitwarden vault desktop app
       bitwarden-cli # bw command-line vault client
       orca-slicer-appimage # AppImage runtime avoids Bambu network plug-in ABI crashes on NixOS
+      inkscape # Vector graphics editor — SVG, logos, diagrams
       obsidian # Note-taking / knowledge base
       discord # Communities, dev servers
       element-desktop # Matrix client — encrypted messaging
