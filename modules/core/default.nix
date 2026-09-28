@@ -52,9 +52,9 @@
   boot.tmp.cleanOnBoot = true;
 
   # Rate-limit journald — auditd generates significant log volume
-  services.journald = {
-    rateLimitBurst = 10000;
-    rateLimitInterval = "30s";
+  services.journald.settings.Journal = {
+    RateLimitBurst = 10000;
+    RateLimitIntervalSec = "30s";
   };
 
   # OOM configuration:

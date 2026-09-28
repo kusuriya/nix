@@ -1,6 +1,5 @@
 { inputs
 , lib
-, config
 , pkgs
 , self
 , ...
@@ -48,7 +47,7 @@
       settings = {
         allowed-users = [ "kusuriya" "root" ];
         trusted-users = [ "kusuriya" "root" ];
-        nix-path = config.nix.nixPath;
+        nix-path = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
 
         # pi.cachix.org + nix-community.cachix.org host the pi-coding-agent binary
         # and its Bun toolchain. Without these, the first build pulls 200MB+ of
@@ -65,7 +64,6 @@
       };
       # gc and experimental-features are handled by modules/core/nix.nix
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
-      nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
     };
 
   system = {
