@@ -1,6 +1,5 @@
 { inputs
 , lib
-, config
 , pkgs
 , self
 , ...
@@ -44,10 +43,9 @@
       settings = {
         allowed-users = [ "kusuriya" "root" ];
         trusted-users = [ "kusuriya" "root" ];
-        nix-path = config.nix.nixPath;
+        nix-path = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
       };
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
-      nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
     };
   # powerManagement.powertop.enable = true; # Disabled — USB autosuspend kills the mouse
   systemd = {
