@@ -2,6 +2,15 @@
 , lib
 , ...
 }:
+let
+  # nixpkgs' OBS Composite Blur 1.5.2 fails with GCC's const warning promoted
+  # to an error; the upstream code only reads this filename.
+  obsCompositeBlur = pkgs.obs-studio-plugins.obs-composite-blur.overrideAttrs (old: {
+    postPatch = (old.postPatch or "") + ''
+      sed -i 's/char \*pos/const char *pos/' src/obs-utils.c
+    '';
+  });
+in
 {
   imports = [
   ];
@@ -73,7 +82,7 @@
         input-overlay
         obs-pipewire-audio-capture
         obs-backgroundremoval
-        obs-composite-blur
+        obsCompositeBlur
       ];
     };
     home-manager.enable = true;
