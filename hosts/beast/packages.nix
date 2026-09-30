@@ -79,6 +79,7 @@ in
       bitwarden-desktop # Bitwarden vault desktop app
       bitwarden-cli # bw command-line vault client
       orca-slicer-appimage # AppImage runtime avoids Bambu network plug-in ABI crashes on NixOS
+      curseforge-appimage # CurseForge standalone Linux AppImage
       inkscape # Vector graphics editor — SVG, logos, diagrams
       obsidian # Note-taking / knowledge base
       discord # Communities, dev servers
