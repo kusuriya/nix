@@ -8,7 +8,7 @@
 # in each host's own packages.nix file, imported via that host's default.nix.
 #   e.g. /data/nix/hosts/framey/packages.nix
 # ============================================================================
-{ pkgs, ... }:
+{ pkgs, pkgs-stable, ... }:
 {
   environment = {
     systemPackages = with pkgs; [
@@ -113,7 +113,7 @@
       # ============================================================================
 
       gitleaks # Secret detection for staged changes, history, and CI
-      semgrep # Static analysis for application-code correctness and security rules
+      pkgs-stable.semgrep # Stable pin: current unstable package rejects its pinned PyJWT 2.14 dependency
       osv-scanner # Dependency vulnerability scanner for lockfiles and SBOMs
 
       # ============================================================================
