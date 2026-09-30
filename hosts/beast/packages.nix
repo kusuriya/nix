@@ -100,6 +100,7 @@ in
       entr # Lightweight file watcher — `ls *.py | entr pytest`
       watchexec # File watcher — `watchexec -e py -- pytest`
       remmina # Remote desktop client — RDP, VNC, SSH, SPICE
+      tigervnc # Dedicated VNC viewer — connect to macOS Screen Sharing and VNC servers
       # NoMachine 9.5.7 source URL redirects to HTML, not the tarball; defer until upstream fixes it.
       (freerdp.overrideAttrs (old: {
         cmakeFlags = old.cmakeFlags ++ [ (pkgs.lib.cmakeBool "CHANNEL_RDPECAM_CLIENT" true) ];
