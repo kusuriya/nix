@@ -75,6 +75,7 @@ in
       }) # Chromium — daily driver, dev tools (Widevine DRM enabled)
       vivaldi # Browser (primary — matches framey's default)
       firefox # Firefox browser
+      floorp-bin # Floorp browser — upstream binary package (Floorp 12+)
       hermes-desktop # Hermes Desktop — nixpkgs electron wrapper
       bitwarden-desktop # Bitwarden vault desktop app
       bitwarden-cli # bw command-line vault client
