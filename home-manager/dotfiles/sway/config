@@ -4,7 +4,7 @@ set $down j
 set $up k
 set $right l
 set $term ghostty
-set $menu wofi --show run
+set $menu wofi --show dmenu,drun,run
 
 # Default wallpaper (kanshi may override display config, but wallpaper persists)
 output * bg /home/kusuriya/.config/sway/wallpaper.png fill
