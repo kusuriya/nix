@@ -191,8 +191,7 @@ client.background #0d0221
 workspace 1 output "Sceptre Tech Inc Sceptre O34 Unknown"
 workspace 2 output "LG Electronics LG SDQHD 302NTCZF0715"
 workspace 3 output "LG Electronics LG SDQHD 409NTLE8K432"
-workspace 4 output "LG Electronics LG SDQHD 302NTCZF0715"
-workspace 5 output "LG Electronics LG SDQHD 302NTCZF0715"
+
 
 # App → workspace routing (new windows)
 assign [app_id="vivaldi-stable"]     workspace 1
