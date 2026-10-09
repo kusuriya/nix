@@ -258,6 +258,7 @@ in
       # ============================================================================
 
       orca-slicer-appimage # AppImage runtime avoids Bambu network plug-in ABI crashes on NixOS
+      veilamp-appimage # Upstream P2P audio player with a NixOS AppImage runtime
       imagemagick # Image manipulation — convert, resize, batch ops
       yt-dlp # Video/audio downloader — YouTube and 1000+ sites
       chafa # Terminal image viewer — `chafa image.png` shows images in terminal

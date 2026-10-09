@@ -5,5 +5,6 @@
   azeron-software-appimage = pkgs.callPackage ./azeron-software-appimage { };
   curseforge-appimage = pkgs.callPackage ./curseforge-appimage { };
   orca-slicer-appimage = pkgs.callPackage ./orca-slicer-appimage { };
+  veilamp-appimage = pkgs.callPackage ./veilamp-appimage { };
   sway-session = pkgs.callPackage ./sway-session { };
 }
