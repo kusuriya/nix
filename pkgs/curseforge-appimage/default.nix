@@ -1,11 +1,11 @@
 { pkgs, ... }:
 let
   pname = "curseforge-appimage";
-  version = "1.321.1-39714";
+  version = "1.324.0-41180.41180";
 
   src = pkgs.fetchurl {
     url = "https://curseforge.overwolf.com/downloads/curseforge-latest-linux.AppImage";
-    hash = "sha256-4DQZNlrJGY1gGAyqB74+vhhI9lCDPAEQrayhSX5G0Uc=";
+    hash = "sha256-co4Exw7Nm57m9m1oyFQ9hypnulZVFHfO6iopp3pWPD8=";
   };
 
   desktopItem = pkgs.makeDesktopItem {
