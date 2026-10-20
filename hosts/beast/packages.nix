@@ -82,6 +82,7 @@ in
       orca-slicer-appimage # AppImage runtime avoids Bambu network plug-in ABI crashes on NixOS
       veilamp-appimage # Upstream P2P audio player with a NixOS AppImage runtime
       curseforge-appimage # CurseForge standalone Linux AppImage
+      tmog-appimage # TMOG task manager (upstream AppImage)
       inkscape # Vector graphics editor — SVG, logos, diagrams
       obsidian # Note-taking / knowledge base
       discord # Communities, dev servers
