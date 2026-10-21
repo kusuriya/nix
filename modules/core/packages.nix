@@ -33,6 +33,7 @@
       usbutils # lsusb, usb-devices — USB diagnostics
       pciutils # lspci, setpci — PCI diagnostics
       brightnessctl # Backlight/brightness control for laptops/monitors
+      solaar
 
       # ============================================================================
       # NIX TOOLING
