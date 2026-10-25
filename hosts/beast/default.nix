@@ -103,7 +103,6 @@
     };
     initrd = {
       compressor = "zstd";
-      systemd.enable = true;
       luks.devices = { };
     };
     kernelParams = [ "quiet" "audit=1" ];
