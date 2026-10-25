@@ -263,6 +263,7 @@
     printing = {
       enable = true;
       drivers = [
+        pkgs.epson-escpr # EcoTank ET-2803 uses the ET-2800 Series ESC/P-R driver
         pkgs.gutenprint
         pkgs.gutenprintBin
         pkgs.hplipWithPlugin
