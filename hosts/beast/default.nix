@@ -126,9 +126,6 @@
 
   # --- AMD Radeon RX 9070 XT (RDNA 4) — primary GPU ---
   hardware = {
-    amdgpu = {
-      initrd.enable = true;
-    };
     bluetooth.enable = true;
     keyboard.qmk.enable = true;
     enableRedistributableFirmware = true;
