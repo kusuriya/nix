@@ -34,6 +34,7 @@
       pciutils # lspci, setpci — PCI diagnostics
       brightnessctl # Backlight/brightness control for laptops/monitors
       solaar
+      easyeffects
 
       # ============================================================================
       # NIX TOOLING
