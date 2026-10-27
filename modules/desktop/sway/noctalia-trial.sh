@@ -18,7 +18,11 @@ restore() {
   systemctl --user stop noctalia-trial.service 2>/dev/null || true
   if [[ -f "$trial/previous-units" ]]; then
     while IFS= read -r unit; do
-      [[ -z "$unit" ]] || systemctl --user start "$unit"
+      [[ -z "$unit" ]] && continue
+      # A system switch during the trial may intentionally mask old applets.
+      # Do not resurrect them or abort the rest of rollback in that case.
+      [[ $(systemctl --user is-enabled "$unit" 2>/dev/null || true) == masked ]] && continue
+      systemctl --user start "$unit"
     done < "$trial/previous-units"
   fi
   # Remove trial-only shortcuts by reloading the still-managed Sway config.
