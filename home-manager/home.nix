@@ -29,6 +29,7 @@ in
     homeDirectory = "/home/kusuriya";
     stateVersion = "24.11";
     file = {
+      ".config/fuzzel/fuzzel.ini" = { source = ./dotfiles/fuzzel/fuzzel.ini; };
       ".config/sway/config" = { source = ./dotfiles/sway/config; };
       ".config/sway/config.d/exec.conf" = { source = ./dotfiles/sway/config.d/exec.conf; };
       ".config/sway/config.d/touchpad.conf" = { source = ./dotfiles/sway/config.d/touchpad.conf; };

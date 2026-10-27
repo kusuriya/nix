@@ -3,7 +3,7 @@
 , ...
 }:
 {
-  imports = [ ../gaming ];
+  imports = [ ../gaming ./clipboard.nix ];
 
   environment.systemPackages = with pkgs; [
     hicolor-icon-theme
@@ -17,7 +17,7 @@
     swaynotificationcenter
     sway
     networkmanagerapplet
-    wofi
+    fuzzel
     swaybg
     kanshi
     swayidle

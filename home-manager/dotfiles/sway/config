@@ -4,7 +4,7 @@ set $down j
 set $up k
 set $right l
 set $term ghostty
-set $menu wofi --show "drun,run,dmenu"
+set $menu fuzzel
 
 # Default wallpaper (kanshi may override display config, but wallpaper persists)
 output * bg /home/kusuriya/.config/sway/wallpaper.png fill
@@ -67,11 +67,13 @@ input * xkb_options compose:ralt
 #
 # Layout stuff:
 #
-    # You can "split" the current object of focus with
-    # $mod+b or $mod+v, for horizontal and vertical splits
-    # respectively.
+    # Mod+E swaps horizontal/vertical layout; Mod+V opens clipboard history.
+    # Selecting history restores the clipboard; paste with the app's shortcut.
     bindsym $mod+h splith
-    bindsym $mod+v splitv
+    bindsym $mod+v exec sway-clipboard pick
+    bindsym $mod+Ctrl+v exec sway-clipboard pause
+    bindsym $mod+Shift+v exec sway-clipboard delete
+    bindsym $mod+Ctrl+Shift+v exec sway-clipboard clear
     bindsym $mod+c splitt
 
     # Switch the current container between different layout styles

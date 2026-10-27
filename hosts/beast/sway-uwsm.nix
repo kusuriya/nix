@@ -7,6 +7,7 @@ let
   uwsm = lib.getExe pkgs.uwsm;
   sessionServices = [
     "sway-kanshi"
+    "sway-clipboard"
     "sway-waybar"
     "sway-notifications"
     "sway-polkit"
@@ -16,21 +17,16 @@ let
   ];
   launcher = pkgs.writeShellScriptBin "sway-uwsm-launcher" ''
     if [ "''${1:-drun}" = run ]; then
-      selection=$(${pkgs.wofi}/bin/wofi --show run --define=run-print_command=true) || exit 0
+      selection=$(${pkgs.fuzzel}/bin/fuzzel --dmenu --prompt-only='Run: ') || exit 0
       [ -n "$selection" ] || exit 0
       exec ${uwsm} app -- ${pkgs.runtimeShell} -c "$selection"
     fi
-    selection=$(${pkgs.wofi}/bin/wofi --show drun --define=drun-print_desktop_file=true) || exit 0
-    [ -n "$selection" ] || exit 0
-    case "$selection" in
-      *'.desktop '*) selection="''${selection%.desktop *}.desktop:''${selection#*.desktop }" ;;
-    esac
-    exec ${uwsm} app -- "$selection"
+    exec ${pkgs.fuzzel}/bin/fuzzel --launch-prefix='${uwsm} app --'
   '';
   swayConfig = builtins.replaceStrings
     [
       "set $term ghostty"
-      "set $menu wofi --show \"drun,run,dmenu\""
+      "set $menu fuzzel"
       "'swaymsg exit'"
     ]
     [
