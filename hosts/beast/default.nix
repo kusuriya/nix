@@ -14,6 +14,7 @@
     ../../modules/kernel/latest
     ../../modules/desktop/sway
     ./sway-uwsm.nix
+    ./noctalia.nix
     ../../modules/desktop/sysctl
     ../../modules/desktop/btrfs-snapshots
     ../../modules/desktop/dozer-mounts

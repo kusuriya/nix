@@ -11,6 +11,8 @@
     max-jobs = "auto";
   };
   inputs = {
+    # Pin the cached Noctalia v5 build independently of host nixpkgs.
+    noctalia.url = "github:noctalia-dev/noctalia/9b7cc6fb3b3d98a0208205da851616fb9a5f055d";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # Default channel — daily rebuilds, accessed via `pkgs`
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11"; # Pinned stable — libvirt/qemu live here, accessed via `pkgs-stable`
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable"; # Bleeding edge (tracks unstable, better cache) — accessed via `pkgs.unstable` overlay
