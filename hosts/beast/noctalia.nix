@@ -84,6 +84,11 @@ in
           external_ip_enabled = false;
           setup_wizard_enabled = false;
           launch_apps_as_systemd_services = true;
+          panel = {
+            control_center_placement = "attached";
+            control_center_position = "top_right";
+            open_near_click_control_center = false;
+          };
         };
         theme = {
           mode = "dark";
