@@ -191,6 +191,17 @@ client.background #0d0221
 workspace 1 output "Sceptre Tech Inc Sceptre O34 Unknown"
 workspace 2 output "LG Electronics LG SDQHD 302NTCZF0715"
 workspace 3 output "LG Electronics LG SDQHD 409NTLE8K432"
+# Reserve workspace 10 for games without moving existing work windows.
+workspace 10 output "Sceptre Tech Inc Sceptre O34 Unknown"
+assign [class="^steam_app_[0-9]+$"] workspace number 10
+assign [app_id="^steam_app_[0-9]+$"] workspace number 10
+assign [class="^gamescope$"] workspace number 10
+assign [app_id="^gamescope$"] workspace number 10
+# Steam/Lutris launchers remain ordinary windows. Other games can be moved
+# with Mod+Shift+0; Mod+0 opens the game workspace.
+# Recover compositor shortcuts if a game/remote desktop inhibits them.
+bindsym --inhibited $mod+Ctrl+Escape shortcuts_inhibitor disable
+bindsym $mod+Ctrl+Shift+Escape shortcuts_inhibitor enable
 
 
 # App → workspace routing (new windows)
