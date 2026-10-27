@@ -244,9 +244,11 @@
       nssmdns4 = true;
       nssmdns6 = true;
       openFirewall = true;
-      ipv6 = true;
-      ipv4 = true;
-      browseDomains = [ "local" ];
+      settings.server = {
+        use-ipv6 = true;
+        use-ipv4 = true;
+        browse-domains = [ "local" ];
+      };
     };
 
     fwupd.enable = true;
