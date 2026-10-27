@@ -3,6 +3,8 @@
 , ...
 }:
 {
+  imports = [ ../gaming ];
+
   environment.systemPackages = with pkgs; [
     hicolor-icon-theme
     adwaita-icon-theme
