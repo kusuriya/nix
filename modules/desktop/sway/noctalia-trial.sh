@@ -60,7 +60,8 @@ systemctl --user stop "${units[@]}"
 systemd-run --user --collect --unit=noctalia-trial \
   --property=PartOf=graphical-session.target --property=Restart=on-failure \
   --setenv="NOCTALIA_CONFIG_HOME=$NOCTALIA_CONFIG_HOME" \
-  --setenv="NOCTALIA_STATE_HOME=$NOCTALIA_STATE_HOME" "$bundle/bin/noctalia"
+  --setenv="NOCTALIA_STATE_HOME=$NOCTALIA_STATE_HOME" \
+  --setenv="PATH=$bundle/tools:$PATH" "$bundle/bin/noctalia"
 ready=false
 for ((i=0; i<30; i++)); do
   if "$bundle/bin/noctalia" msg config-get bar.main.enabled >/dev/null 2>&1; then

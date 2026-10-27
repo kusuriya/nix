@@ -80,6 +80,20 @@ To undo persistently, revert the shared migration in the source checkout,
 push, pull on the target and rebuild. Do not edit target Git checkouts over
 SSH. Build/evaluation and source synchronization are not system activation.
 
+## External monitor brightness (DDC/CI)
+
+The shared module enables `brightness.enable_ddcutil`, installs `ddcutil`,
+loads `i2c-dev`, and uses NixOS's active-seat I²C uaccess rules. No extra
+brightness daemon or global i2c group membership is required. Noctalia's
+supervised service and trial both have an explicit path to `ddcutil`.
+
+The hardware/udev prerequisites require a system switch, unlike the
+unprivileged shell trial. Enable DDC/CI in each monitor's own on-screen menu
+if necessary. As the logged-in desktop user, check `ddcutil detect` and
+`ddcutil --display N getvcp 10` for a detected display number before trying
+the brightness slider. Docks/adapters and some monitors may not pass DDC.
+The laptop's internal backlight continues using the normal backlight API.
+
 ## Regression evaluation
 
 From the repository root:

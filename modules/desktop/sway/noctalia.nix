@@ -30,6 +30,7 @@ in
   # notifications and lock/idle policy keep their existing owners.
   system.build.noctalia-trial = pkgs.linkFarm "noctalia-trial" [
     { name = "bin"; path = "${package}/bin"; }
+    { name = "tools"; path = "${pkgs.ddcutil}/bin"; }
     { name = "config.toml"; path = config.home-manager.users.kusuriya.xdg.configFile."noctalia/config.toml".source; }
     { name = "clipboard-status"; path = clipboardStatus; }
     { name = "clipboard"; path = "${clipboard}/bin/sway-clipboard"; }
@@ -38,7 +39,10 @@ in
     extra-substituters = [ "https://noctalia.cachix.org" ];
     extra-trusted-public-keys = [ "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4=" ];
   };
-  environment.systemPackages = [ package ];
+  # NixOS grants active local seats access through uaccess rules. No broad
+  # i2c group membership or competing brightness daemon is needed.
+  hardware.i2c.enable = true;
+  environment.systemPackages = [ package pkgs.ddcutil ];
   systemd.user.services.sway-waybar.enable = lib.mkForce false;
   systemd.user.services.sway-network-applet.enable = lib.mkForce false;
   systemd.user.services.sway-bluetooth-applet.enable = lib.mkForce false;
@@ -48,7 +52,7 @@ in
     partOf = [ "graphical-session.target" ];
     after = [ "graphical-session.target" ];
     unitConfig.ConditionEnvironment = "SWAYSOCK";
-    environment.PATH = lib.mkForce "/run/wrappers/bin:/etc/profiles/per-user/%u/bin:%h/.nix-profile/bin:/run/current-system/sw/bin";
+    environment.PATH = lib.mkForce "${lib.makeBinPath [ pkgs.ddcutil ]}:/run/wrappers/bin:/etc/profiles/per-user/%u/bin:%h/.nix-profile/bin:/run/current-system/sw/bin";
     restartTriggers = [ config.home-manager.users.kusuriya.xdg.configFile."noctalia/config.toml".source ];
     serviceConfig = {
       ExecStart = noctalia;
@@ -112,6 +116,7 @@ in
           suspend.enabled = false;
         };
         notification.enable_daemon = false; # Retain swaync and Mod+N.
+        brightness.enable_ddcutil = true;
         weather.enabled = false;
         dock.enabled = false;
         bar.main = {

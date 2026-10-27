@@ -10,6 +10,10 @@ let
       n = hm.programs.noctalia.settings;
       supervised = [ "sway-kanshi" "sway-clipboard" "sway-notifications" "sway-polkit" "sway-kdeconnect" "noctalia" "noctalia-clipboard-status" ];
       checks = {
+        ddc = n.brightness.enable_ddcutil && c.hardware.i2c.enable
+          && builtins.elem "i2c-dev" c.boot.kernelModules
+          && builtins.any (p: lib.getName p == "ddcutil") c.environment.systemPackages
+          && lib.hasPrefix "${flake.nixosConfigurations.${host}.pkgs.ddcutil}/bin:" c.systemd.user.services.noctalia.environment.PATH;
         uwsm = c.programs.uwsm.enable && !c.programs.sway.wrapperFeatures.base;
         greetd = lib.hasInfix "uwsm start" c.services.greetd.settings.initial_session.command
           && c.services.greetd.settings.initial_session.command == c.services.greetd.settings.default_session.command;
