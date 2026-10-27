@@ -3,10 +3,19 @@
 set -euo pipefail
 root=$(git -C "$(dirname "$0")" rev-parse --show-toplevel)
 trial="${XDG_STATE_HOME:-$HOME/.local/state}/noctalia-trial"
+# SSH shells do not inherit the graphical session's socket/display. Read only
+# the required keys from its manager; never eval the full environment.
+while IFS= read -r entry; do
+  case "$entry" in
+    SWAYSOCK=*|WAYLAND_DISPLAY=*|XDG_RUNTIME_DIR=*|DBUS_SESSION_BUS_ADDRESS=*) export "$entry" ;;
+  esac
+done < <(systemctl --user show-environment)
+: "${SWAYSOCK:?No active Sway session}" "${WAYLAND_DISPLAY:?No Wayland display}"
 units=(sway-waybar.service sway-network-applet.service sway-bluetooth-applet.service)
 mkdir -p "$trial"
 restore() {
-  systemctl --user stop noctalia-clipboard-status-trial.service noctalia-trial.service 2>/dev/null || true
+  systemctl --user stop noctalia-clipboard-status-trial.service 2>/dev/null || true
+  systemctl --user stop noctalia-trial.service 2>/dev/null || true
   if [[ -f "$trial/previous-units" ]]; then
     while IFS= read -r unit; do
       [[ -z "$unit" ]] || systemctl --user start "$unit"
