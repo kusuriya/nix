@@ -131,6 +131,12 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86AudioLowerVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%-
     bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+
     bindsym --locked XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+    # Control one MPRIS player, preferring Spotify/mpv over browsers.
+    bindsym --locked XF86AudioPlay exec playerctl --player=spotify,mpv,%any play-pause
+    bindsym --locked XF86AudioPause exec playerctl --player=spotify,mpv,%any pause
+    bindsym --locked XF86AudioNext exec playerctl --player=spotify,mpv,%any next
+    bindsym --locked XF86AudioPrev exec playerctl --player=spotify,mpv,%any previous
+    bindsym --locked XF86AudioStop exec playerctl --player=spotify,mpv,%any stop
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
@@ -139,6 +145,8 @@ bindsym $mod+r mode "resize"
     bindsym $mod+F2 exec grimshot copy active
     bindsym $mod+F3 exec grimshot copy output
 
+    # Region selection with slurp, followed by Satty annotation.
+    bindsym $mod+Shift+Print exec sway-annotate
     # Screenshot — save to ~/Pictures/Screenshots/
     bindsym $mod+Print exec grimshot save area ~/Pictures/Screenshots/$(date '+%Y-%m-%d_%H%M%S').png
     bindsym --locked Print exec grimshot save output ~/Pictures/Screenshots/$(date '+%Y-%m-%d_%H%M%S').png

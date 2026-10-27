@@ -38,8 +38,19 @@ let
         hist wipe
         ${pkgs.wl-clipboard}/bin/wl-copy --clear
         ;;
-      status)
-        if [ -f "$dir/paused" ]; then printf 'paused\n'; else printf 'recording\n'; fi
+      status|waybar)
+        if ! ${pkgs.systemd}/bin/systemctl --user is-active --quiet sway-clipboard.service; then
+          state=off
+        elif [ -f "$dir/paused" ]; then
+          state=paused
+        else
+          state=recording
+        fi
+        if [ "$1" = waybar ]; then
+          printf '{"text":"Clip: %s","class":"%s","tooltip":"Clipboard history: %s. Left: history; right: pause/resume; middle: delete entry."}\n' "$state" "$state" "$state"
+        else
+          printf '%s\n' "$state"
+        fi
         ;;
       *) exit 2 ;;
     esac

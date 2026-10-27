@@ -22,6 +22,7 @@
         "battery",
         "network",
         "pulseaudio",
+        "custom/clipboard",
         "custom/notification",
         "tray",
         "clock",
@@ -92,6 +93,16 @@
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
+    },
+
+    "custom/clipboard": {
+        "return-type": "json",
+        "exec": "sway-clipboard waybar",
+        "interval": 2,
+        "on-click": "sway-clipboard pick",
+        "on-click-right": "sway-clipboard pause",
+        "on-click-middle": "sway-clipboard delete",
+        "escape": true
     },
 
     "custom/notification": {

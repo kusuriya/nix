@@ -91,6 +91,18 @@ window#waybar {
     padding: 0 4px;
 }
 
+/* === Clipboard capture state === */
+#custom-clipboard {
+    padding: 0 8px;
+    color: #00f0ff;
+}
+#custom-clipboard.paused {
+    color: #ff2d95;
+}
+#custom-clipboard.off {
+    color: #b0b0b0;
+}
+
 /* === Clock === */
 #clock {
     color: #e0e0e0;

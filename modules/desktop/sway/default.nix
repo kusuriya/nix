@@ -3,7 +3,7 @@
 , ...
 }:
 {
-  imports = [ ../gaming ./clipboard.nix ];
+  imports = [ ../gaming ./clipboard.nix ./screenshots.nix ];
 
   environment.systemPackages = with pkgs; [
     hicolor-icon-theme
