@@ -13,6 +13,7 @@
     ../../modules/core
     ../../modules/kernel/latest
     ../../modules/desktop/sway
+    ./sway-uwsm.nix
     ../../modules/desktop/sysctl
     ../../modules/desktop/btrfs-snapshots
     ../../modules/desktop/dozer-mounts
