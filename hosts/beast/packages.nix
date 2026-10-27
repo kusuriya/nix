@@ -103,6 +103,7 @@ in
       codex # OpenAI Codex CLI — AI coding agent in the terminal
       entr # Lightweight file watcher — `ls *.py | entr pytest`
       watchexec # File watcher — `watchexec -e py -- pytest`
+      gnome-connections # GNOME remote desktop client — RDP and VNC
       remmina # Remote desktop client — RDP, VNC, SSH, SPICE
       tigervnc # Dedicated VNC viewer — connect to macOS Screen Sharing and VNC servers
       # NoMachine 9.5.7 source URL redirects to HTML, not the tarball; defer until upstream fixes it.
