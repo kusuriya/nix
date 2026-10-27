@@ -60,6 +60,7 @@
   };
   # GVFS for Thunar volume management, trash, and MTP device support
   services.gvfs.enable = true;
+  environment.systemPackages = [ pkgs.kdePackages.kdeconnect-kde ];
 
   # Daily flake update check — sends a swaync notification when updates exist
   systemd.user.services.nixos-update-check = {
