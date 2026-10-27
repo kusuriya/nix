@@ -26,7 +26,7 @@ let
   '';
 in
 {
-  # Beast-only trial: the compositor, launcher, clipboard privacy, wallpaper,
+  # Shared bar/control center: the compositor, launcher, clipboard privacy, wallpaper,
   # notifications and lock/idle policy keep their existing owners.
   system.build.noctalia-trial = pkgs.linkFarm "noctalia-trial" [
     { name = "bin"; path = "${package}/bin"; }

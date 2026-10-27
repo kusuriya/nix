@@ -3,7 +3,7 @@
 , ...
 }:
 {
-  imports = [ ../gaming ./clipboard.nix ./screenshots.nix ];
+  imports = [ ../gaming ./clipboard.nix ./screenshots.nix ./uwsm.nix ./noctalia.nix ];
 
   environment.systemPackages = with pkgs; [
     hicolor-icon-theme
@@ -62,7 +62,8 @@
   # GVFS for Thunar volume management, trash, and MTP device support
   services.gvfs.enable = true;
   # Explicit services own these processes; Sway reloads must not spawn copies.
-  # NixOS starts sway-session.target after importing the compositor environment.
+  # UWSM finalizes the compositor environment before graphical-session.target;
+  # uwsm.nix wires these services to that shared session owner on both hosts.
   systemd.user.services = (lib.mapAttrs
     (name: command: {
       description = "Sway session: ${name}";

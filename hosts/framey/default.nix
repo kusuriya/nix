@@ -90,7 +90,8 @@
       };
       initrd = {
         compressor = "zstd";
-        systemd.enable = true;
+        # systemd initrd is mandatory in the pinned nixpkgs; the old explicit
+        # boot.initrd.systemd.enable option is rejected even when set to true.
         # TPM kernel modules needed in initrd so the system can unlock
         # LUKS2 via TPM2 sealed credentials during early boot.
         kernelModules = [ "tpm_crb" "tpm_tis" ];

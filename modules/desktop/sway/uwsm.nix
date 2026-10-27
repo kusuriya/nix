@@ -34,14 +34,14 @@ let
       "set $menu ${launcher}/bin/sway-uwsm-launcher\nbindsym $mod+Ctrl+space exec ${launcher}/bin/sway-uwsm-launcher run"
       "'${uwsm} stop'"
     ]
-    (builtins.readFile ../../home-manager/dotfiles/sway/config);
+    (builtins.readFile ../../../home-manager/dotfiles/sway/config);
   startupConfig = builtins.replaceStrings
     [ "exec " ]
     [ "exec ${uwsm} app -- " ]
-    (builtins.readFile ../../home-manager/dotfiles/sway/config.d/exec.conf);
+    (builtins.readFile ../../../home-manager/dotfiles/sway/config.d/exec.conf);
 in
 {
-  # Beast-only migration. Framey retains the existing Sway session owner.
+  # One session owner for every host importing the shared Sway desktop.
   programs.uwsm = {
     enable = true;
     waylandCompositors.sway = {
@@ -91,6 +91,6 @@ in
 
   assertions = [{
     assertion = config.programs.sway.enable && !config.programs.sway.wrapperFeatures.base;
-    message = "Beast UWSM requires Sway without the nested base session wrapper.";
+    message = "Shared Sway UWSM requires Sway without the nested base session wrapper.";
   }];
 }
