@@ -168,9 +168,11 @@
     mime = {
       enable = true;
       defaultApplications = {
-        "text/html" = "vivaldi-stable.desktop";
-        "x-scheme-handler/about" = "vivaldi-stable.desktop";
-        "x-scheme-handler/unknown" = "vivaldi-stable.desktop";
+        "text/html" = lib.mkForce "firefox.desktop";
+        "x-scheme-handler/http" = lib.mkForce "firefox.desktop";
+        "x-scheme-handler/https" = lib.mkForce "firefox.desktop";
+        "x-scheme-handler/about" = "firefox.desktop";
+        "x-scheme-handler/unknown" = "firefox.desktop";
       };
     };
   };
@@ -355,6 +357,18 @@
     };
   };
 
+  # Keep browser defaults host-scoped; shared Home Manager defaults serve framey too.
+  home-manager.users.kusuriya = {
+    home.sessionVariables.BROWSER = "firefox";
+    xdg.mimeApps.defaultApplications = {
+      "text/html" = lib.mkForce [ "firefox.desktop" ];
+      "x-scheme-handler/http" = lib.mkForce [ "firefox.desktop" ];
+      "x-scheme-handler/https" = lib.mkForce [ "firefox.desktop" ];
+      "x-scheme-handler/about" = [ "firefox.desktop" ];
+      "x-scheme-handler/unknown" = [ "firefox.desktop" ];
+    };
+  };
+
   environment = {
     etc = {
       "1password/custom_allowed_browsers" = {
@@ -370,7 +384,7 @@
       NIXOS_OZONE_WL = "1";
       EDITOR = lib.mkForce "nvim";
       VISUAL = lib.mkForce "code";
-      BROWSER = "vivaldi";
+      BROWSER = "firefox";
     };
   };
 
