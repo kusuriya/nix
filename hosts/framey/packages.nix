@@ -304,8 +304,8 @@ in
       (aspellWithDicts (
         dicts: with dicts; [
           en # English dictionary
-          en-computers # English computer/tech terms
-          en-science # English scientific terms
+          # en-computers and en-science were removed from nixpkgs after
+          # their upstream sources became unavailable or unsafe.
         ]
       ))
 
