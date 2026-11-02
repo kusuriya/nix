@@ -85,6 +85,7 @@ in
       tmog-appimage # TMOG task manager (upstream AppImage)
       inkscape # Vector graphics editor — SVG, logos, diagrams
       obsidian # Note-taking / knowledge base
+      trilium-desktop # Trilium Notes — hierarchical note-taking desktop app
       discord # Communities, dev servers
       element-desktop # Matrix client — encrypted messaging
       fractal # GNOME Matrix client

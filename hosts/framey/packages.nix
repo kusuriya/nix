@@ -248,6 +248,7 @@ in
       # ============================================================================
 
       obsidian # Knowledge base — personal vault, Hermes docs, daily notes
+      trilium-desktop # Trilium Notes — hierarchical note-taking desktop app
       libreoffice # Office suite — docs, spreadsheets, presentations
       drawio # Diagramming — architecture, flowcharts, network diagrams
       inkscape # Vector graphics editor — SVG, logos, diagrams
