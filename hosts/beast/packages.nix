@@ -86,6 +86,7 @@ in
       inkscape # Vector graphics editor — SVG, logos, diagrams
       obsidian # Note-taking / knowledge base
       trilium-desktop # Trilium Notes — hierarchical note-taking desktop app
+      libreoffice # Office suite — docs, spreadsheets, presentations
       discord # Communities, dev servers
       element-desktop # Matrix client — encrypted messaging
       fractal # GNOME Matrix client
