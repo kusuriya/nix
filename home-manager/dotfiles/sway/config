@@ -205,9 +205,15 @@ workspace 3 output "LG Electronics LG SDQHD 409NTLE8K432"
 workspace 10 output "Sceptre Tech Inc Sceptre O34 Unknown"
 assign [class="^steam_app_[0-9]+$"] workspace number 10
 assign [app_id="^steam_app_[0-9]+$"] workspace number 10
-assign [class="^gamescope$"] workspace number 10
-assign [app_id="^gamescope$"] workspace number 10
-# Steam/Lutris launchers remain ordinary windows. Other games can be moved
+assign [class="(?i)^gamescope$"] workspace number 10
+assign [app_id="(?i)^gamescope$"] workspace number 10
+assign [app_id="(?i)^(net\.lutris\.Lutris|lutris)$"] workspace number 10
+assign [class="(?i)^lutris$"] workspace number 10
+assign [class="(?i)^battle\.net(\.exe)?$"] workspace number 10
+assign [instance="(?i)^battle\.net(\.exe)?$"] workspace number 10
+assign [app_id="(?i)^battle\.net(\.exe)?$"] workspace number 10
+# Lutris, Battle.net and Gamescope open on the game workspace.
+# Steam's launcher remains an ordinary window. Other games can be moved
 # with Mod+Shift+0; Mod+0 opens the game workspace.
 # Recover compositor shortcuts if a game/remote desktop inhibits them.
 bindsym --inhibited $mod+Ctrl+Escape shortcuts_inhibitor disable
