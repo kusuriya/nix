@@ -84,6 +84,7 @@ in
       curseforge-appimage # CurseForge standalone Linux AppImage
       tmog-appimage # TMOG task manager (upstream AppImage)
       inkscape # Vector graphics editor — SVG, logos, diagrams
+      gimp # Raster graphics editor — image editing and photo manipulation
       obsidian # Note-taking / knowledge base
       trilium-desktop # Trilium Notes — hierarchical note-taking desktop app
       libreoffice # Office suite — docs, spreadsheets, presentations
