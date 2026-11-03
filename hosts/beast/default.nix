@@ -26,6 +26,9 @@
   nixpkgs = {
     config = {
       allowUnfree = true;
+      # Lutris's FHS environment still needs GTK 2 for legacy games/runners.
+      # Keep the deprecation visible without allowing unrelated broken packages.
+      problems.handlers."gtk+".broken = "warn";
       permittedInsecurePackages = [
         "electron-27.3.11"
         "electron-39.8.10"
