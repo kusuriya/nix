@@ -38,6 +38,12 @@
       self.overlays.unstable-packages
       self.overlays.custom-packages
       self.overlays.pi-packages
+      (final: prev: {
+        # Codex 0.167.0 probes system zstd, but the pinned recipe omits it.
+        codex = prev.codex.overrideAttrs (old: {
+          buildInputs = (old.buildInputs or [ ]) ++ [ final.zstd ];
+        });
+      })
     ];
   };
 
@@ -283,7 +289,7 @@
       enable = true;
       alsa.enable = true;
       pulse.enable = true;
-      jack.enable = true;
+      # JACK clients use `pw-jack <command>` instead of a global LD_LIBRARY_PATH.
       wireplumber.enable = true;
     };
 
