@@ -89,6 +89,9 @@ in
       trilium-desktop # Trilium Notes — hierarchical note-taking desktop app
       libreoffice # Office suite — docs, spreadsheets, presentations
       gnucash # Personal and small-business double-entry accounting
+      homebank # Household spending, budgets, and financial reports
+      actual-client # Actual Budget desktop app; sync server configured separately
+      kmymoney # KDE personal finance manager with double-entry accounting
       discord # Communities, dev servers
       element-desktop # Matrix client — encrypted messaging
       fractal # GNOME Matrix client
