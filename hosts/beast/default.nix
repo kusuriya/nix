@@ -39,6 +39,18 @@
       self.overlays.custom-packages
       self.overlays.pi-packages
       (final: prev: {
+        # Backport nixpkgs#585282: GNOME Desktop 51 removed RRScreen.
+        # Remove once the pinned nixpkgs includes the upstream Lutris fix.
+        lutris-unwrapped = prev.lutris-unwrapped.overrideAttrs (old: {
+          patches = (old.patches or [ ]) ++ [
+            (final.fetchpatch {
+              name = "fix-GnomeDesktop-AttributeError.patch";
+              url = "https://github.com/lutris/lutris/commit/fd91646fbae9b0f7ce90fb5d7dda34e8f13856fe.patch";
+              hash = "sha256-FCIEawp58JR9ImsFod2TMvWdXo2PmBi+4eoJz7rgcMo=";
+            })
+          ];
+        });
+
         # The Rust hook requires system libraries omitted by Codex 0.167.0's recipe.
         codex = prev.codex.overrideAttrs (old: {
           buildInputs = (old.buildInputs or [ ]) ++ [
