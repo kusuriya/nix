@@ -41,7 +41,12 @@
       (final: prev: {
         # The Rust hook requires system libraries omitted by Codex 0.167.0's recipe.
         codex = prev.codex.overrideAttrs (old: {
-          buildInputs = (old.buildInputs or [ ]) ++ [ final.zstd final.aws-lc ];
+          buildInputs = (old.buildInputs or [ ]) ++ [
+            final.zstd
+            final.aws-lc
+            final.oniguruma
+            final.sqlite
+          ];
         });
       })
     ];
