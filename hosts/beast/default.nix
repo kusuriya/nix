@@ -39,9 +39,9 @@
       self.overlays.custom-packages
       self.overlays.pi-packages
       (final: prev: {
-        # Codex 0.167.0 probes system zstd, but the pinned recipe omits it.
+        # The Rust hook requires system libraries omitted by Codex 0.167.0's recipe.
         codex = prev.codex.overrideAttrs (old: {
-          buildInputs = (old.buildInputs or [ ]) ++ [ final.zstd ];
+          buildInputs = (old.buildInputs or [ ]) ++ [ final.zstd final.aws-lc ];
         });
       })
     ];
