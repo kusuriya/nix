@@ -107,8 +107,12 @@
     };
   };
 
-  # Hardware watchdog — auto-reboot if system hangs
-  systemd.settings.Manager.RuntimeWatchdogSec = "30s";
+  systemd.settings.Manager = {
+    # Wine esync needs a higher file-descriptor limit; see the NixOS Lutris wiki.
+    DefaultLimitNOFILE = 524288;
+    # Hardware watchdog — auto-reboot if system hangs
+    RuntimeWatchdogSec = "30s";
+  };
 
   # The multi-device btrfs pool placed /swapfile across devices, so swapon
   # failed. Use compressed RAM swap instead; no disk-backed swap or hibernation.
@@ -227,6 +231,13 @@
       capabilities = "cap_net_admin+ep";
     };
     pam = {
+      # Match the manager limit for kusuriya's login sessions (Wine esync).
+      loginLimits = [{
+        domain = "kusuriya";
+        type = "hard";
+        item = "nofile";
+        value = "524288";
+      }];
       services = {
         greetd = {
           enableGnomeKeyring = true;
