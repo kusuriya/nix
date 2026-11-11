@@ -26,7 +26,19 @@ in
       scx.full # sched-ext CPU scheduler — scx_lavd as default (runtime-switchable)
       (lutris.override { extraPkgs = p: [ p.mangohud ]; }) # Expose MangoHud inside Lutris's FHS environment
       heroic # Epic Games + GOG launcher (native Linux)
-      pkgs-stable.bottles # 51.15: unstable 64.1 currently fails via Python 3.14 patool tests
+      # 51.15 avoids unstable 64.1's Python 3.14 patool test failure.
+      # Its old connectivity endpoint returns 522, blocking first-run downloads.
+      # Remove this override when the selected Bottles uses a working check.
+      (pkgs-stable.bottles.override {
+        bottles-unwrapped = pkgs-stable.bottles-unwrapped.overrideAttrs (old: {
+          postPatch = (old.postPatch or "") + ''
+            substituteInPlace bottles/backend/utils/connection.py \
+              --replace-fail \
+              'https://ping.usebottles.com' \
+              'https://proxy.usebottles.com/repo/components/'
+          '';
+        });
+      })
       azeron-software-appimage # Azeron keypad configuration (upstream AppImage)
       mcpelauncher-ui-qt # Minecraft Bedrock Edition (unofficial Android launcher)
       gamescope # Steam session compositor — micro-compositor for gaming
